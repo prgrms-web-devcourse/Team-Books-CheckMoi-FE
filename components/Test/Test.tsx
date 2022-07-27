@@ -1,7 +1,9 @@
 import * as S from "./style";
 
-interface TestProps {}
+interface TestProps {
+  string: string;
+}
 
-export const Test = ({}: TestProps) => {
-  return <S.StyledTest />;
+export const Test = ({ string }: TestProps) => {
+  return <S.StyledTest string={string} />;
 };

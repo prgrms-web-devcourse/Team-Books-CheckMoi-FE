@@ -1,3 +1,9 @@
 import styled from "@emotion/styled";
 
-export const StyledTest = styled.div``;
+interface StyledTestProps {
+  string: string;
+}
+
+export const StyledTest = styled.div<StyledTestProps>`
+  background-color: ${({ string }) => (string ? "black" : "yellow")};
+`;
