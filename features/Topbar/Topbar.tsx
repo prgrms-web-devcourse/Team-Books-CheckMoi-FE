@@ -8,7 +8,7 @@ export const Topbar = () => {
   return (
     <AppBar position="fixed" sx={{ backgroundColor: "green" }}>
       <Toolbar>
-        <AutoStoriesIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+        <AutoStoriesIcon />
         <S.LogoText variant="h6" noWrap>
           책모이
         </S.LogoText>

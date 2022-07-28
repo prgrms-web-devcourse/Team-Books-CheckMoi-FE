@@ -2,7 +2,8 @@ import { styled } from "@mui/material/styles";
 import { Typography } from "@mui/material";
 
 export const LogoText = styled(Typography)`
-  margin-right: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   display: flex;
   font-family: monospace;
   font-weight: 700;
