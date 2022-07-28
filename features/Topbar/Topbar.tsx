@@ -1,10 +1,32 @@
-import * as React from "react";
+import { useState } from "react";
+import type { MouseEvent } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import * as S from "./style";
 
 export const Topbar = () => {
+  const [isLogin, setIsLogin] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleLogin = () => {
+    setIsLogin(true);
+  };
+
+  const handleLogout = () => {
+    setIsLogin(false);
+  };
+
+  const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <S.StyledAppbar position="fixed">
       <Toolbar>
@@ -23,7 +45,29 @@ export const Topbar = () => {
             />
           </S.Search>
         </S.SearchWrapper>
-        <Button variant="contained">로그인</Button>
+        {isLogin ? (
+          <>
+            <Button variant="contained" onClick={handleOpen}>
+              프로필
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={!!anchorEl}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </>
+        ) : (
+          <Button variant="contained" onClick={handleLogin}>
+            로그인
+          </Button>
+        )}
       </Toolbar>
     </S.StyledAppbar>
   );
