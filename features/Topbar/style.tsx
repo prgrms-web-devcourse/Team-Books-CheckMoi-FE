@@ -2,6 +2,11 @@ import { styled, alpha } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import AppBar from "@mui/material/AppBar";
+
+export const StyledAppbar = styled(AppBar)(() => ({
+  backgroundColor: "green",
+}));
 
 export const LogoIcon = styled(AutoStoriesIcon)(() => ({
   marginRight: "0.5rem",

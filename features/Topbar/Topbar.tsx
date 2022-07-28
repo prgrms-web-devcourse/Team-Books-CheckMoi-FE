@@ -1,5 +1,4 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
@@ -7,7 +6,7 @@ import * as S from "./style";
 
 export const Topbar = () => {
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: "green" }}>
+    <S.StyledAppbar position="fixed">
       <Toolbar>
         <S.LogoIcon />
         <S.LogoText variant="h6" noWrap>
@@ -26,6 +25,6 @@ export const Topbar = () => {
         </S.SearchWrapper>
         <Button variant="contained">로그인</Button>
       </Toolbar>
-    </AppBar>
+    </S.StyledAppbar>
   );
 };
