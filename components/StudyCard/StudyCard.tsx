@@ -37,7 +37,9 @@ export const StudyCard = ({
         />
       </S.ImageWrapper>
       <S.StudyInfoConatiner>
-        <S.ResponsiveText>스터디 제목 : {title}</S.ResponsiveText>
+        <S.ResponsiveTextWrapper>
+          <S.ResponsiveText>{title}</S.ResponsiveText>
+        </S.ResponsiveTextWrapper>
         <S.ResponsiveText>
           모집 기간 : {gatherStartDate} - {gatherEndDate}
         </S.ResponsiveText>
