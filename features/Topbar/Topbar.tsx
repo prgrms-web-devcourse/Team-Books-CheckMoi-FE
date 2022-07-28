@@ -30,6 +30,7 @@ export const Topbar = () => {
   return (
     <S.StyledAppbar position="fixed">
       <Toolbar>
+        {/* TODO 로고가 정해지면 로고 바꾸기 */}
         <S.LogoIcon />
         <S.LogoText variant="h6" noWrap>
           책모이
@@ -47,6 +48,7 @@ export const Topbar = () => {
         </S.SearchWrapper>
         {isLogin ? (
           <>
+            {/* FIXME 로그아웃하고 로그인하면 에러 발생 */}
             <Button variant="contained" onClick={handleOpen}>
               프로필
             </Button>
