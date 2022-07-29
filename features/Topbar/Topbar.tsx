@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { MouseEvent } from "react";
+import type { MouseEvent, FormEvent } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
@@ -7,6 +7,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import FolderIcon from "@mui/icons-material/Folder";
 import Typography from "@mui/material/Typography";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import * as S from "./style";
 
 // TODO 사용자 정보 불러오기
@@ -19,6 +21,8 @@ const FAKE_STUDY_LIST = [
 ];
 
 export const Topbar = () => {
+  const router = useRouter();
+
   const [isLogin, setIsLogin] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -39,24 +43,39 @@ export const Topbar = () => {
     setAnchorEl(null);
   };
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const target = e.target as Element;
+    const word = target.querySelector("input")?.value;
+
+    router.push({
+      pathname: `/layoutTest`,
+      query: { word },
+    });
+  };
+
   return (
     <S.StyledAppbar position="fixed">
       <Toolbar>
         {/* TODO 로고가 정해지면 로고 바꾸기 */}
         <S.LogoIcon />
         <S.LogoText variant="h6" noWrap>
-          책모이
+          <Link href="/">
+            <a href="{() => false}">책모이</a>
+          </Link>
         </S.LogoText>
         <S.SearchInputContainer className="SearchWrapper">
-          <S.SearchInput className="Search">
-            <S.SearchIconWrapper>
-              <SearchIcon />
-            </S.SearchIconWrapper>
-            <S.StyledInputBase
-              placeholder="책을 검색해주세요"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </S.SearchInput>
+          <form onSubmit={handleSubmit}>
+            <S.SearchInput className="Search">
+              <S.SearchIconWrapper>
+                <SearchIcon />
+              </S.SearchIconWrapper>
+              <S.StyledInputBase
+                placeholder="책을 검색해주세요"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </S.SearchInput>
+          </form>
         </S.SearchInputContainer>
         {/* TODO 로그인, 로그아웃 처리 필요 */}
         {isLogin ? (
