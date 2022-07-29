@@ -26,14 +26,12 @@ export const StudyCard = ({
   currentParticipant = 0,
 }: StudyCardProps) => {
   return (
-    <S.StudyCard sx={{ textOverflow: "ellipsis", overflow: "hidden" }}>
+    <S.StudyCard>
       <S.ImageWrapper>
         <Image
-          layout="fixed"
           width={size}
           height={size * 1.5}
           src={src}
-          style={{ flexShrink: 0 }}
         />
       </S.ImageWrapper>
       <S.StudyInfoConatiner>
