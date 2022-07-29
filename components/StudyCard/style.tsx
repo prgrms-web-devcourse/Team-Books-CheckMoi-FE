@@ -19,13 +19,16 @@ export const StudyInfoConatiner = styled.div`
   overflow: hidden;
 `;
 
-export const ResponsiveTextWrapper = styled.div`
-  font-size: 1.3rem;
-`;
-export const ResponsiveText = styled.div`
+interface ResponsiveTextProps {
+  fontSize?: number;
+}
+
+export const ResponsiveText = styled.div<ResponsiveTextProps>`
   padding: 0.5rem;
 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  font-size: ${({ fontSize }) => `${fontSize}rem`};
 `;
