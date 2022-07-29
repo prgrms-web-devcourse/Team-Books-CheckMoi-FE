@@ -1,16 +1,35 @@
 import styled from "@emotion/styled";
 import { Card } from "@mui/material";
+import Button from "@mui/material/Button";
 
-export const StudyCard = styled(Card)`
+export const BookDetailCard = styled(Card)`
   display: flex;
   padding: 1rem;
+
+  flex-direction: row;
+  position: relative;
+
+  @media (max-width: 512px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const ImageWrapper = styled.div`
   flex-shrink: 0;
+  & span {
+    margin: 0;
+    padding: 0;
+    display: inline !important;
+  }
+  @media (max-width: 512px) {
+    box-shadow: -12px 17px 16px 3px rgba(0, 0, 0, 0.1),
+      13px 0px 15px 4px rgba(0, 0, 0, 0.1);
+  }
 `;
 
-export const StudyInfoConatiner = styled.div`
+export const BookInfoConatiner = styled.div`
   width: 100%;
   padding: 1rem;
   overflow: hidden;
@@ -25,8 +44,35 @@ export const ResponsiveText = styled.div<ResponsiveTextProps>`
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   padding: 0.5rem;
- 
+
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: ${({ fontSize }) => `${fontSize}rem`};
+`;
+
+export const BookDescription = styled.div<ResponsiveTextProps>`
+  padding: 0.5rem;
+  height: 8rem;
+
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  overflow: auto;
+
+  font-size: ${({ fontSize }) => `${fontSize}rem`};
+`;
+
+export const StyleButton = styled(Button)`
+  min-width: 9rem;
+  max-height: 2rem;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+
+  @media (max-width: 512px) {
+    position: relative;
+    margin-bottom: 1rem;
+  }
 `;
