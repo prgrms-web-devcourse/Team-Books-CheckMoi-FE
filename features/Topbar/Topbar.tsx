@@ -3,9 +3,20 @@ import type { MouseEvent } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
+import FolderIcon from "@mui/icons-material/Folder";
+import Typography from "@mui/material/Typography";
 import * as S from "./style";
+
+// TODO 사용자 정보 불러오기
+const FAKE_USER_NAME = "고광필";
+const FAKE_STUDY_LIST = [
+  { id: 1, title: "이름이 매우매우 매우 매우 매우 매우 긴 스터디" },
+  // { id: 1, title: "일이삼사오육칠팔구" },
+  { id: 2, title: "스터디 2" },
+  { id: 3, title: "스터디 3" },
+];
 
 export const Topbar = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -53,7 +64,7 @@ export const Topbar = () => {
             <Button variant="contained" onClick={handleOpen}>
               프로필
             </Button>
-            <Menu
+            <S.StyledMenu
               anchorEl={anchorEl}
               open={!!anchorEl}
               onClose={handleClose}
@@ -61,10 +72,24 @@ export const Topbar = () => {
                 "aria-labelledby": "basic-button",
               }}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
-            </Menu>
+              <S.AvatarWrapper>
+                <Avatar>
+                  <FolderIcon />
+                </Avatar>
+                {FAKE_USER_NAME}
+              </S.AvatarWrapper>
+              <S.StyledDivider />
+              {FAKE_STUDY_LIST.map(({ id, title }) => (
+                <MenuItem onClick={handleClose} key={id}>
+                  <Typography noWrap>{title}</Typography>
+                </MenuItem>
+              ))}
+              <S.LogoutButtonWrapper>
+                <Button variant="contained" size="small" onClick={handleLogout}>
+                  로그아웃
+                </Button>
+              </S.LogoutButtonWrapper>
+            </S.StyledMenu>
           </>
         ) : (
           <Button variant="contained" onClick={handleLogin}>
