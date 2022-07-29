@@ -10,15 +10,15 @@ export const StudyState = ({ studyState }: StudyStateProps) => {
   }
 
   const studyStateColor: studyStateTypes = {
-    gathering: "green",
+    recruiting: "green",
     inProgress: "orange",
-    gatherFinished: "red",
+    finished: "red",
   };
 
   const studyStateText: studyStateTypes = {
-    gathering: "모집중",
+    recruiting: "모집중",
     inProgress: "진행중",
-    gatherFinished: "모집완료",
+    finished: "모집완료",
   };
   return (
     <S.StudyState color={studyStateColor[studyState]}>
