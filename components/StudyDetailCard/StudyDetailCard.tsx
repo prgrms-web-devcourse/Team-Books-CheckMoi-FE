@@ -1,8 +1,9 @@
 import Image from "next/image";
-import { useState } from "react";
-import { AvatarGroup, Avatar } from '@mui/material';
+import { MouseEvent, useState } from "react";
+import { AvatarGroup, Avatar, Menu, MenuItem } from "@mui/material";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
+import type { User } from "../../types/userType";
 
 interface StudyDetailProps {
   size: number;
@@ -14,6 +15,7 @@ interface StudyDetailProps {
   studyEndDate: Date;
   maxParticipant: number;
   currentParticipant: number;
+  member: User[];
 }
 
 // TODO Image => future Image로 수정해야 함
@@ -27,6 +29,7 @@ export const StudyDetailCard = ({
   studyEndDate = new Date(2022, 8, 30),
   maxParticipant = 16,
   currentParticipant = 0,
+  member = [],
 }: StudyDetailProps) => {
   const getYYYYMMDD = (date: Date) => {
     const yyyy = date.getFullYear();
@@ -37,6 +40,20 @@ export const StudyDetailCard = ({
   };
 
   const [isGathering, setIsGathering] = useState(true);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+    console.log(event.currentTarget);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const userOnClick = (userId: string) => {
+    // console.log(userId);
+  };
 
   return (
     <S.StudyDetailCard>
@@ -55,17 +72,41 @@ export const StudyDetailCard = ({
           {getYYYYMMDD(gatherEndDate)}
         </S.ResponsiveText>
         <S.ResponsiveText>
-          {" "}
           진행 기간 : {getYYYYMMDD(studyStartDate)} -{" "}
           {getYYYYMMDD(studyEndDate)}
         </S.ResponsiveText>
       </S.StudyInfoContainer>
-      <AvatarGroup max={2}>
-        <Avatar src="https://picsum.photos/200"/>
-        <Avatar src="https://picsum.photos/200"/>
-        <Avatar src="https://picsum.photos/200"/>
+
+      <AvatarGroup max={2} onClick={handleClick} style={{ height: "100%" }}>
+        {member.map((user) => (
+          <Avatar key={user.userId} src={user.img} />
+        ))}
       </AvatarGroup>
-      <StudyState studyState="gathering"/>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={!!anchorEl}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        {member.map((user) => {
+          return (
+            <MenuItem
+              onClick={() => {
+                userOnClick(user.userId);
+              }}
+            >
+              <S.userItem>
+                <Avatar key={user.userId} src={user.img} />
+                <span>test</span>
+              </S.userItem>
+            </MenuItem>
+          );
+        })}
+      </Menu>
+      <StudyState studyState="recruiting" />
     </S.StudyDetailCard>
   );
 };

@@ -33,6 +33,10 @@ export const StudyInfoContainer = styled.div`
   overflow: hidden;
 `;
 
+export const userItem = styled.div`
+  display: flex;
+`;
+
 interface ResponsiveTextProps {
   fontSize?: number;
 }
