@@ -5,21 +5,16 @@ import * as S from "./style";
 interface BookCardProps {
   src: string;
   title: string;
-  width: number;
-  height: number;
+  size: number;
   onClick: React.MouseEventHandler<HTMLElement>;
 }
 
-export const BookCard = ({
-  src,
-  title,
-  width,
-  height,
-  onClick,
-}: BookCardProps) => {
+export const BookCard = ({ src, title, size, onClick }: BookCardProps) => {
   return (
-    <S.BookCard onClick={onClick} width={width} height={height}>
-      <Image src={src} width={width} height={height} layout="responsive" />
+    <S.BookCard onClick={onClick} size={size}>
+      <S.ImageWrapper size={size}>
+        <Image src={src} layout="fill" />
+      </S.ImageWrapper>
       <S.BookTitle>{title}</S.BookTitle>
     </S.BookCard>
   );
