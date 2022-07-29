@@ -1,6 +1,5 @@
-import Image from "next/image";
 import { MouseEvent, useState } from "react";
-import { AvatarGroup, Avatar, Menu, MenuItem } from "@mui/material";
+import { AvatarGroup, Avatar, Menu } from "@mui/material";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { User } from "../../types/userType";
@@ -52,7 +51,7 @@ export const StudyDetailCard = ({
   };
 
   const userOnClick = (userId: string) => {
-    // console.log(userId);
+    // TODO 유저 상세 정보 페이지로 리다이렉션 필요
   };
 
   return (
@@ -87,22 +86,17 @@ export const StudyDetailCard = ({
         anchorEl={anchorEl}
         open={!!anchorEl}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
       >
         {member.map((user) => {
           return (
-            <MenuItem
+            <S.StyledMenuItem
               onClick={() => {
                 userOnClick(user.userId);
               }}
             >
-              <S.userItem>
-                <Avatar key={user.userId} src={user.img} />
-                <span>test</span>
-              </S.userItem>
-            </MenuItem>
+              <Avatar key={user.userId} src={user.img} />
+              <span>{user.name}</span>
+            </S.StyledMenuItem>
           );
         })}
       </Menu>

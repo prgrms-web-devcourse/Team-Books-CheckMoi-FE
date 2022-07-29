@@ -11,6 +11,8 @@ export const StudyState = styled.div`
   max-height: 2rem;
   background-color: ${({ color }) => color};
 
+  padding: 0 0.5rem;
+
   color: white;
   border-radius: 0.25rem;
   position: absolute;

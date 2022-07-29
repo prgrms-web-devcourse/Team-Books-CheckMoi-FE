@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import { Card } from "@mui/material";
-import Button from "@mui/material/Button";
+import { Card, MenuItem } from "@mui/material";
 
 export const StudyDetailCard = styled(Card)`
   display: flex;
@@ -33,8 +32,12 @@ export const StudyInfoContainer = styled.div`
   overflow: hidden;
 `;
 
-export const userItem = styled.div`
-  display: flex;
+export const StyledAvatarGroup = styled.div``;
+
+export const StyledMenuItem = styled(MenuItem)`
+  & span {
+    margin-left: 1rem;
+  }
 `;
 
 interface ResponsiveTextProps {
