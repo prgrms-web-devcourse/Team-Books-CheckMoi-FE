@@ -28,13 +28,13 @@ export const LogoText = styled(Typography)(({ theme }) => ({
   },
 }));
 
-export const SearchWrapper = styled("div")(() => ({
+export const SearchInputContainer = styled("div")(() => ({
   flexGrow: 1,
   display: "flex",
   justifyContent: "center",
 }));
 
-export const Search = styled("div")(({ theme }) => ({
+export const SearchInput = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),

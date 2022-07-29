@@ -47,8 +47,8 @@ export const Topbar = () => {
         <S.LogoText variant="h6" noWrap>
           책모이
         </S.LogoText>
-        <S.SearchWrapper>
-          <S.Search>
+        <S.SearchInputContainer className="SearchWrapper">
+          <S.SearchInput className="Search">
             <S.SearchIconWrapper>
               <SearchIcon />
             </S.SearchIconWrapper>
@@ -56,8 +56,8 @@ export const Topbar = () => {
               placeholder="책을 검색해주세요"
               inputProps={{ "aria-label": "search" }}
             />
-          </S.Search>
-        </S.SearchWrapper>
+          </S.SearchInput>
+        </S.SearchInputContainer>
         {/* TODO 로그인, 로그아웃 처리 필요 */}
         {isLogin ? (
           <>
