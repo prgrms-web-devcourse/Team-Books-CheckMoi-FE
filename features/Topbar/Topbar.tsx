@@ -17,6 +17,7 @@ export const Topbar = () => {
 
   const handleLogout = () => {
     setIsLogin(false);
+    setAnchorEl(null);
   };
 
   const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
@@ -46,9 +47,9 @@ export const Topbar = () => {
             />
           </S.Search>
         </S.SearchWrapper>
+        {/* TODO 로그인, 로그아웃 처리 필요 */}
         {isLogin ? (
           <>
-            {/* FIXME 로그아웃하고 로그인하면 에러 발생 */}
             <Button variant="contained" onClick={handleOpen}>
               프로필
             </Button>
