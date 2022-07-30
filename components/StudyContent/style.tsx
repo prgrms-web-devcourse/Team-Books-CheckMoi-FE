@@ -19,8 +19,5 @@ export const StudyContent = styled.pre`
 export const StyleButton = styled(Button)`
   height: 2rem;
   float: right;
-
-  @media (max-width: 512px) {
-    margin-bottom: 1rem;
-  }
+  margin-bottom: 1rem;
 `;
