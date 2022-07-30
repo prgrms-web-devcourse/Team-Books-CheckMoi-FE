@@ -68,7 +68,7 @@ export const StyleButton = styled(Button)`
   min-width: 9rem;
   max-height: 2rem;
   position: absolute;
-  right: 1rem;
+  right: 2rem;
   top: 1rem;
 
   @media (max-width: 512px) {

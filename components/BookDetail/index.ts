@@ -1,1 +1,0 @@
-export { BookDetail } from "./BookDetail";
