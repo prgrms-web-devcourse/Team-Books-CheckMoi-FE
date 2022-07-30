@@ -12,5 +12,5 @@ const Template: ComponentStory<typeof StudyState> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  studyState: "gathering",
+  studyState: "recruiting",
 };

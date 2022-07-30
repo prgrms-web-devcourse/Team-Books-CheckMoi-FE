@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Card, MenuItem } from "@mui/material";
+import { Card, Menu, MenuItem, AvatarGroup } from "@mui/material";
 
 export const StudyDetailCard = styled(Card)`
   display: flex;
@@ -32,7 +32,14 @@ export const StudyInfoContainer = styled.div`
   overflow: hidden;
 `;
 
-export const StyledAvatarGroup = styled.div``;
+export const StyledAvatarGroup = styled(AvatarGroup)`
+  height: 100%;
+
+  @media (max-width: 512px) {
+    width: 100%;
+    justify-content: flex-end;
+  }
+`;
 
 export const StyledMenuItem = styled(MenuItem)`
   & span {

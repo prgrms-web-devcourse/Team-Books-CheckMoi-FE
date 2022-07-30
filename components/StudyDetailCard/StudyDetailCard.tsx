@@ -76,11 +76,11 @@ export const StudyDetailCard = ({
         </S.ResponsiveText>
       </S.StudyInfoContainer>
 
-      <AvatarGroup max={2} onClick={handleClick} style={{ height: "100%" }}>
+      <S.StyledAvatarGroup max={2} onClick={handleClick}>
         {member.map((user) => (
           <Avatar key={user.userId} src={user.img} />
         ))}
-      </AvatarGroup>
+      </S.StyledAvatarGroup>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
