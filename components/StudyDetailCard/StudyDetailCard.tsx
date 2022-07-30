@@ -1,5 +1,5 @@
 import { MouseEvent, useState } from "react";
-import { AvatarGroup, Avatar, Menu } from "@mui/material";
+import { Avatar, Menu, Typography } from "@mui/material";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { User } from "../../types/userType";
@@ -22,7 +22,7 @@ export const StudyDetailCard = ({
   size = 128,
   src = "https://picsum.photos/200",
   title = "스터디 제목",
-  gatherStartDate = new Date(2022, 7, 1),
+  gatherStartDate = new Date(2022, 12, 1),
   gatherEndDate = new Date(2022, 7, 31),
   studyStartDate = new Date(2022, 8, 1),
   studyEndDate = new Date(2022, 8, 30),
@@ -42,7 +42,6 @@ export const StudyDetailCard = ({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
-    console.log(event.currentTarget);
     setAnchorEl(event.currentTarget);
   };
 
@@ -60,7 +59,7 @@ export const StudyDetailCard = ({
         <div>북카드 컴포넌트 넣기</div>
       </S.ImageWrapper>
       <S.StudyInfoContainer>
-        <S.ResponsiveText fontSize={1.3}>{title}</S.ResponsiveText>
+        <Typography style={{ fontSize: "1.25rem" }}>{title}</Typography>
         {isGathering && (
           <S.ResponsiveText>
             모집 인원 : {currentParticipant}/{maxParticipant}
@@ -90,11 +89,12 @@ export const StudyDetailCard = ({
         {member.map((user) => {
           return (
             <S.StyledMenuItem
+              key={user.userId}
               onClick={() => {
                 userOnClick(user.userId);
               }}
             >
-              <Avatar key={user.userId} src={user.img} />
+              <Avatar src={user.img} />
               <span>{user.name}</span>
             </S.StyledMenuItem>
           );

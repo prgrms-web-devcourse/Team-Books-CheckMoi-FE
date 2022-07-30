@@ -3,7 +3,8 @@ import styled from "@emotion/styled";
 interface StudyStateProps {
   color: string;
 }
-export const StudyState = styled.div`
+
+export const StudyState = styled.div<StudyStateProps>`
   min-width: 3rem;
   max-width: 3rem;
 

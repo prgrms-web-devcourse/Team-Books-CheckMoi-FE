@@ -12,6 +12,8 @@ const Template: ComponentStory<typeof StudyDetailCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  title:
+    "안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요",
   member: [
     {
       userId: "string",
@@ -20,13 +22,13 @@ Default.args = {
       img: "https://picsum.photos/200",
     },
     {
-      userId: "string",
+      userId: "string2",
       name: "string",
       email: "string",
       img: "https://picsum.photos/200",
     },
     {
-      userId: "string",
+      userId: "string3",
       name: "string",
       email: "string",
       img: "string",
