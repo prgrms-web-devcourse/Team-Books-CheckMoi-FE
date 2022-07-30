@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { MouseEvent, FormEvent } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import SearchIcon from "@mui/icons-material/Search";
@@ -19,9 +19,24 @@ const FAKE_STUDY_LIST = [
   { id: 2, title: "스터디 2" },
   { id: 3, title: "스터디 3" },
 ];
+const FAKE_URL = "/layoutTest";
+const FAKE_QUERY_SIZE = 6;
 
 export const Topbar = () => {
   const router = useRouter();
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const inputDefaultValue = useRef("");
+
+  const isClientWindow = typeof window !== "undefined";
+  if (isClientWindow)
+    if (window.location.pathname === FAKE_URL) {
+      // TODO FAKE_URL 수정 시 FAKE_QUERY_SIZE 수정
+      const defaultInitValue = decodeURI(window.location.search).slice(
+        FAKE_QUERY_SIZE
+      );
+      inputDefaultValue.current = defaultInitValue;
+    } else if (inputRef.current) inputRef.current.value = "";
 
   const [isLogin, setIsLogin] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -73,6 +88,8 @@ export const Topbar = () => {
               <S.StyledInputBase
                 placeholder="책을 검색해주세요"
                 inputProps={{ "aria-label": "search" }}
+                defaultValue={inputDefaultValue.current}
+                inputRef={inputRef}
               />
             </S.SearchInput>
           </form>
