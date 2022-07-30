@@ -1,0 +1,1 @@
+export { StudyContent } from './StudyContent';
