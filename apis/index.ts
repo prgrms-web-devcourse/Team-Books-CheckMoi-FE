@@ -1,1 +1,1 @@
-export const tempApi = 3;
+export { getNaverBooks } from "./naver";

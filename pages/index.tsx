@@ -1,9 +1,28 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { getNaverBooks } from "../apis";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
+  const [books, setBooks] = useState("");
+
+  const fetchBooks = async () => {
+    const data = await getNaverBooks("타입 스크립트");
+    console.log(data);
+
+    setBooks(data.items);
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  useEffect(() => {
+    console.log(books);
+  }, [books]);
+
   return (
     <div className={styles.container}>
       <Head>
