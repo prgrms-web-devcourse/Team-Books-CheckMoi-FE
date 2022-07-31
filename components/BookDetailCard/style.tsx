@@ -60,7 +60,7 @@ export const BookDescription = styled.div<ResponsiveTextProps>`
   font-size: ${({ fontSize }) => `${fontSize}rem`};
 `;
 
-export const StyleButton = styled(Button)`
+export const StyledButton = styled(Button)`
   min-width: 9rem;
   max-height: 2rem;
   position: absolute;
