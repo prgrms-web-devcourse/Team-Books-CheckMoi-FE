@@ -2,6 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-}
 
-module.exports = nextConfig
+  async rewrites() {
+    return [
+      {
+        source: "/naver",
+        destination: "https://openapi.naver.com/v1/search/book.json",
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;
