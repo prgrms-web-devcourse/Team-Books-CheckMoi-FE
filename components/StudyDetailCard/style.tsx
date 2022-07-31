@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Card, Menu, MenuItem, AvatarGroup } from "@mui/material";
+import { Card, MenuItem, AvatarGroup } from "@mui/material";
 
 export const StudyDetailCard = styled(Card)`
   display: flex;
@@ -52,11 +52,6 @@ interface ResponsiveTextProps {
 }
 
 export const ResponsiveText = styled.div<ResponsiveTextProps>`
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
   padding: 0.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
   font-size: ${({ fontSize }) => `${fontSize}rem`};
 `;
