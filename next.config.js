@@ -9,6 +9,10 @@ const nextConfig = {
         source: "/naver",
         destination: "https://openapi.naver.com/v1/search/book.json",
       },
+      {
+        source: "/api",
+        destination: `${process.env.NEXT_PUBLIC_API_END_POINT}`,
+      },
     ];
   },
 };
