@@ -1,12 +1,10 @@
 import { MouseEvent, useState } from "react";
-import { Avatar, Menu, Typography } from "@mui/material";
+import { Avatar, Menu } from "@mui/material";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { User } from "../../types/userType";
 
 interface StudyDetailProps {
-  size: number;
-  src: string;
   title: string;
   gatherStartDate: Date;
   gatherEndDate: Date;
@@ -19,8 +17,6 @@ interface StudyDetailProps {
 
 // TODO Image => future Image로 수정해야 함
 export const StudyDetailCard = ({
-  size = 128,
-  src = "https://picsum.photos/200",
   title = "스터디 제목",
   gatherStartDate = new Date(2022, 12, 1),
   gatherEndDate = new Date(2022, 7, 31),
@@ -59,7 +55,7 @@ export const StudyDetailCard = ({
         <div>북카드 컴포넌트 넣기</div>
       </S.ImageWrapper>
       <S.StudyInfoContainer>
-        <Typography style={{ fontSize: "1.25rem" }}>{title}</Typography>
+        <S.StyledTypograph>{title}</S.StyledTypograph>
         {isGathering && (
           <S.ResponsiveText>
             모집 인원 : {currentParticipant}/{maxParticipant}

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Card, MenuItem, AvatarGroup } from "@mui/material";
+import { Card, MenuItem, AvatarGroup, Typography } from "@mui/material";
 
 export const StudyDetailCard = styled(Card)`
   display: flex;
@@ -45,6 +45,10 @@ export const StyledMenuItem = styled(MenuItem)`
   & span {
     margin-left: 1rem;
   }
+`;
+
+export const StyledTypograph = styled(Typography)`
+  font-size: 1.25rem;
 `;
 
 interface ResponsiveTextProps {
