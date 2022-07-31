@@ -32,10 +32,13 @@ export const Topbar = () => {
   if (isClientWindow)
     if (window.location.pathname === FAKE_URL) {
       // TODO FAKE_URL 수정 시 FAKE_QUERY_SIZE 수정
-      const defaultInitValue = decodeURI(window.location.search).slice(
-        FAKE_QUERY_SIZE
-      );
-      inputDefaultValue.current = defaultInitValue;
+      const urlWord = window.location.search
+        .slice(FAKE_QUERY_SIZE)
+        .replaceAll("+", " ")
+        .trim();
+      inputDefaultValue.current = decodeURIComponent(urlWord);
+      if (inputRef.current)
+        inputRef.current.value = decodeURIComponent(urlWord);
     } else if (inputRef.current) inputRef.current.value = "";
 
   const [isLogin, setIsLogin] = useState(false);
@@ -61,7 +64,13 @@ export const Topbar = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as Element;
-    const word = target.querySelector("input")?.value;
+    const word = target.querySelector("input")?.value.trim();
+
+    if (!word) {
+      // TODO alert 통일해서 추가하기
+      alert("검색 값을 입력해주세요");
+      return;
+    }
 
     router.push({
       pathname: `/layoutTest`,
