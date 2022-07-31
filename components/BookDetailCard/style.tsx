@@ -9,7 +9,7 @@ export const BookDetailCard = styled(Card)`
   flex-direction: row;
   position: relative;
 
-  @media (max-width: 512px) {
+  @media (max-width: 600px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -23,7 +23,7 @@ export const ImageWrapper = styled.div`
     padding: 0;
     display: inline !important;
   }
-  @media (max-width: 512px) {
+  @media (max-width: 600px) {
     box-shadow: -12px 17px 16px 3px rgba(0, 0, 0, 0.1),
       13px 0px 15px 4px rgba(0, 0, 0, 0.1);
   }
@@ -40,13 +40,9 @@ interface ResponsiveTextProps {
 }
 
 export const ResponsiveText = styled.div<ResponsiveTextProps>`
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
   padding: 0.5rem;
 
   overflow: hidden;
-  text-overflow: ellipsis;
   font-size: ${({ fontSize }) => `${fontSize}rem`};
 `;
 
@@ -71,7 +67,7 @@ export const StyleButton = styled(Button)`
   right: 2rem;
   top: 1rem;
 
-  @media (max-width: 512px) {
+  @media (max-width: 600px) {
     position: relative;
     margin-bottom: 1rem;
   }
