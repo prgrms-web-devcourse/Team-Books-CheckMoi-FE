@@ -41,9 +41,9 @@ export const BookDetail = ({
           {description}
         </S.BookDescription>
       </S.BookInfoConatiner>
-      <S.StyleButton variant="contained" color="primary">
+      <S.StyledButton variant="contained" color="primary">
         스터디 개설하기
-      </S.StyleButton>
+      </S.StyledButton>
     </S.BookDetailCard>
   );
 };
