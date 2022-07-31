@@ -28,7 +28,6 @@ const DummyBook = ({ word }: DummyProps) => {
 };
 
 const LayoutTestPage = () => {
-  // TODO 더미 데이터 만들어서 페이지네이션 만들기
   const displayBookCount = 8;
 
   const dummyArray = Array.from(new Array(100), (x, i) => `${i + 1}`);

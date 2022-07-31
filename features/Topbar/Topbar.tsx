@@ -1,24 +1,14 @@
 import { useRef, useState } from "react";
-import type { MouseEvent, FormEvent } from "react";
-import Toolbar from "@mui/material/Toolbar";
+import type { FormEvent } from "react";
+import { Toolbar, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import Avatar from "@mui/material/Avatar";
-import FolderIcon from "@mui/icons-material/Folder";
-import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import * as S from "./style";
+import { UserProfile } from "./UserProfile";
 
 // TODO 사용자 정보 불러오기
-const FAKE_USER_NAME = "고광필";
-const FAKE_STUDY_LIST = [
-  { id: 1, title: "이름이 매우매우 매우 매우 매우 매우 긴 스터디" },
-  // { id: 1, title: "일이삼사오육칠팔구" },
-  { id: 2, title: "스터디 2" },
-  { id: 3, title: "스터디 3" },
-];
+
 const FAKE_URL = "/layoutTest";
 const FAKE_QUERY_SIZE = 6;
 
@@ -27,8 +17,8 @@ export const Topbar = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputDefaultValue = useRef("");
-
   const isClientWindow = typeof window !== "undefined";
+
   if (isClientWindow)
     if (window.location.pathname === FAKE_URL) {
       // TODO FAKE_URL 수정 시 FAKE_QUERY_SIZE 수정
@@ -42,7 +32,6 @@ export const Topbar = () => {
     } else if (inputRef.current) inputRef.current.value = "";
 
   const [isLogin, setIsLogin] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleLogin = () => {
     setIsLogin(true);
@@ -50,15 +39,6 @@ export const Topbar = () => {
 
   const handleLogout = () => {
     setIsLogin(false);
-    setAnchorEl(null);
-  };
-
-  const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -105,37 +85,7 @@ export const Topbar = () => {
         </S.SearchInputContainer>
         {/* TODO 로그인, 로그아웃 처리 필요 */}
         {isLogin ? (
-          <>
-            <Button variant="contained" onClick={handleOpen}>
-              프로필
-            </Button>
-            <S.StyledMenu
-              anchorEl={anchorEl}
-              open={!!anchorEl}
-              onClose={handleClose}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              <S.AvatarWrapper>
-                <Avatar>
-                  <FolderIcon />
-                </Avatar>
-                {FAKE_USER_NAME}
-              </S.AvatarWrapper>
-              <S.StyledDivider />
-              {FAKE_STUDY_LIST.map(({ id, title }) => (
-                <MenuItem onClick={handleClose} key={id}>
-                  <Typography noWrap>{title}</Typography>
-                </MenuItem>
-              ))}
-              <S.LogoutButtonWrapper>
-                <Button variant="contained" size="small" onClick={handleLogout}>
-                  로그아웃
-                </Button>
-              </S.LogoutButtonWrapper>
-            </S.StyledMenu>
-          </>
+          <UserProfile handleLogout={handleLogout} />
         ) : (
           <Button variant="contained" onClick={handleLogin}>
             로그인

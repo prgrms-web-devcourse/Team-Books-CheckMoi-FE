@@ -3,8 +3,6 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import AppBar from "@mui/material/AppBar";
-import Divider from "@mui/material/Divider";
-import Menu from "@mui/material/Menu";
 
 export const StyledAppbar = styled(AppBar)(() => ({
   backgroundColor: "green",
@@ -78,31 +76,4 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
       },
     },
   },
-}));
-
-export const AvatarWrapper = styled("div")(() => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "0.5rem",
-  margin: "auto",
-  width: "fit-content",
-}));
-
-export const StyledDivider = styled(Divider)(() => ({
-  width: "80%",
-  textAlign: "center",
-  margin: "0.5rem auto",
-}));
-
-export const StyledMenu = styled(Menu)(() => ({
-  "& ul": {
-    minWidth: "10rem",
-    maxWidth: "20rem",
-  },
-}));
-
-export const LogoutButtonWrapper = styled("div")(() => ({
-  display: "flex",
-  justifyContent: "end",
-  paddingRight: "1rem",
 }));
