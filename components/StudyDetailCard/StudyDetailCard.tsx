@@ -37,15 +37,15 @@ export const StudyDetailCard = ({
   const [isGathering, setIsGathering] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+  const handleAvatarListClick = (event: MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleAvatarListClose = () => {
     setAnchorEl(null);
   };
 
-  const userOnClick = (userId: string) => {
+  const handleUserClick = (userId: string) => {
     // TODO 유저 상세 정보 페이지로 리다이렉션 필요
   };
 
@@ -71,7 +71,7 @@ export const StudyDetailCard = ({
         </S.ResponsiveText>
       </S.StudyInfoContainer>
 
-      <S.StyledAvatarGroup max={2} onClick={handleClick}>
+      <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
         {member.map((user) => (
           <Avatar key={user.userId} src={user.img} />
         ))}
@@ -80,14 +80,14 @@ export const StudyDetailCard = ({
         id="basic-menu"
         anchorEl={anchorEl}
         open={!!anchorEl}
-        onClose={handleClose}
+        onClose={handleAvatarListClose}
       >
         {member.map((user) => {
           return (
             <S.StyledMenuItem
               key={user.userId}
               onClick={() => {
-                userOnClick(user.userId);
+                handleUserClick(user.userId);
               }}
             >
               <Avatar src={user.img} />
