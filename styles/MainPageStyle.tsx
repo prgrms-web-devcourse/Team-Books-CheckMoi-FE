@@ -11,9 +11,15 @@ export const StyledUl = styled("ul")`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1rem;
+  -webkit-padding-start: 0px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 export const StyledList = styled("li")`
+  justify-self: center;
   &:hover {
     transform: scale(1.05) translateY(-10px);
   }
@@ -25,5 +31,5 @@ export const StyledSpan = styled("span")`
 `;
 
 export const BookListWrapper = styled("div")`
-  margin-bottom: 4rem;
+  /* margin-bottom: 4rem; */
 `;
