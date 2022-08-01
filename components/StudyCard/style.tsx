@@ -9,6 +9,10 @@ export const StudyCard = styled(Card)`
 
 export const ImageWrapper = styled.div`
   flex-shrink: 0;
+  @media (max-width: 512px) {
+    width: 0;
+    height: 0;
+  }
 `;
 
 export const StudyInfoConatiner = styled.div`
@@ -31,4 +35,7 @@ export const ResponsiveText = styled.div<ResponsiveTextProps>`
   text-overflow: ellipsis;
 
   font-size: ${({ fontSize }) => `${fontSize}rem`};
+  @media (max-width: 320px) {
+    font-size: 0.8rem;
+  }
 `;
