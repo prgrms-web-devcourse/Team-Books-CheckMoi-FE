@@ -177,6 +177,7 @@ const DUMMY_BOOKS_STUDY_ADD = [
 ];
 
 const Home: NextPage = () => {
+  // ANCHOR 코드가 길어지니 프리티어가 못생겨짐
   const [latestAddedBook, setLatestAddedBook] = useState<BookDataInterface[]>(
     []
   );
