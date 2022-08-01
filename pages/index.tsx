@@ -135,7 +135,7 @@ const Home: NextPage = () => {
             <S.StyledList key={book.id}>
               <BookCard
                 src={book.image}
-                title={book.title}
+                title=""
                 size={10}
                 onClick={handleBookCardClick}
               />
@@ -151,7 +151,7 @@ const Home: NextPage = () => {
             <S.StyledList key={book.id}>
               <BookCard
                 src={book.image}
-                title={book.title}
+                title=""
                 size={10}
                 onClick={handleBookCardClick}
               />
