@@ -1,11 +1,12 @@
 import { useRef, useState } from "react";
 import type { FormEvent } from "react";
-import { Toolbar, Button } from "@mui/material";
+import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import * as S from "./style";
 import { UserProfile } from "./UserProfile";
+import { LoginButton } from "./LoginButton";
 
 // TODO 사용자 정보 불러오기
 
@@ -87,9 +88,7 @@ export const Topbar = () => {
         {isLogin ? (
           <UserProfile handleLogout={handleLogout} />
         ) : (
-          <Button variant="contained" onClick={handleLogin}>
-            로그인
-          </Button>
+          <LoginButton />
         )}
       </Toolbar>
     </S.StyledAppbar>
