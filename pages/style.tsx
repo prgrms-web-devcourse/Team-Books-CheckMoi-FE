@@ -4,6 +4,6 @@ import { styled } from "@mui/material/styles";
 export const ContentContainer = styled("div")`
   margin: calc(4rem + 4rem) 4rem 4rem;
   @media (max-width: 600px) {
-    margin: 8rem 1rem;
+    margin: 4rem 1rem;
   }
 `;

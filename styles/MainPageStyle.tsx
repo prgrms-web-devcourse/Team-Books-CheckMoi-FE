@@ -11,6 +11,7 @@ export const StyledUl = styled("ul")`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1rem;
+  align-items: start;
   -webkit-padding-start: 0px;
 
   @media (max-width: 600px) {
