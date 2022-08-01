@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { BookCard } from "../components/BookCard";
-import * as S from "./style";
+import * as S from "../styles/MainPageStyle";
 
 // TODO: BookCard 컴포넌트 가져오기 -> src, title, size, onClick 함수 만들기
 // TODO: 책 관련 백엔드 API 확인 및 검증 -> 현재 책 등록 API에 문제가 있어서 더미데이터로 사용해야 함...
@@ -122,8 +122,10 @@ const DUMMY_BOOKS_STUDY_ADD = [
 
 const Home: NextPage = () => {
   const handleBookCardClick = () => {
+    // TODO: 책 상세 페이지로 이동
     console.log("BookCard Click!");
   };
+
   return (
     <S.MainPageWrapper className="Container">
       <S.BookListWrapper>
