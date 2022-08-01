@@ -1,12 +1,13 @@
 import type { NextPage } from "next";
 import { BookCard } from "../components/BookCard";
+import * as S from "./style";
 
 // TODO: BookCard 컴포넌트 가져오기 -> src, title, size, onClick 함수 만들기
 // TODO: 책 관련 백엔드 API 확인 및 검증 -> 현재 책 등록 API에 문제가 있어서 더미데이터로 사용해야 함...
 // TODO: 백엔드 DB 사용전 더미 데이터 사용해서 map 실행
 // TODO: 최신 등록 기준으로 (스터디는 불가능 할 듯 현재로서) 정렬하기
 
-const DUMMY_BOOKS = [
+const DUMMY_BOOKS_ADD = [
   {
     id: 1,
     title: "모던 자바스크립트 Deep Dive (자바스크립트의 기본 개념과 동작 원리)",
@@ -59,6 +60,9 @@ const DUMMY_BOOKS = [
       "파이썬으로 배우는 실전 REST 서버 개발!\n\n수많은 기업이나 팀에서 코딩을 필수 덕목으로 특히, 파이썬 언어를 사용할 수 있는 사람들을 우대할 정도로 파이썬의 인기는 나날이 높아지고 있다. 이는 파이썬이 난이도가 비교적 쉽고 활용 가능한 분야가 많기 때문이다. 많은 개발자들과 개발자를 꿈꾸는 사람들이 파이썬을 배우고 있지만 막상 활용 방법이나 자신에게 무엇이 부족한지 갈피를 잡지 못하고 있다.\n이 책은 파이썬과 Django 기반의 기술로 웹과 앱에 전부 대응하는 REST 서버를 만들어 볼 수 있다. 기반 기술을 모르더라도 비전공자도 다룰 수 있도록 웹 개발 개념부터 데이터베이스 쿼리, Django 프로젝트 구조 등을 쉽게 설명한다. 더 나아가 백엔드의 기초, 실제 개발, 배포까지 전 과정을 배울 수 있어 백엔드와 API 서버 개발의 기본기를 충실하게 쌓을 수 있다. 백엔드와 서버 지식이 없는 사람도 쉽게 이해할 수 있도록 새로운 용어나 기술을 상세히 소개하고 있다. 다양한 예시를 통해 개념을 잡고 난 뒤에는 실제로 코드를 작성하며 간단한 기능 구현부터 프로젝트까지 한 번에 배울 수 있을 것이다.",
     createAt: "2022/08/01",
   },
+];
+
+const DUMMY_BOOKS_STUDY_ADD = [
   {
     id: 5,
     title:
@@ -121,18 +125,34 @@ const Home: NextPage = () => {
     console.log("BookCard Click!");
   };
   return (
-    <ul>
-      {DUMMY_BOOKS.map((book) => (
-        <li key={book.id}>
-          <BookCard
-            src={book.image}
-            title={book.title}
-            size={10}
-            onClick={handleBookCardClick}
-          />
-        </li>
-      ))}
-    </ul>
+    <S.ContentContainer className="Container">
+      <h2>가장 최근 추가된 책</h2>
+      <S.StyledUl>
+        {DUMMY_BOOKS_ADD.map((book) => (
+          <S.StyledList key={book.id}>
+            <BookCard
+              src={book.image}
+              title={book.title}
+              size={10}
+              onClick={handleBookCardClick}
+            />
+          </S.StyledList>
+        ))}
+      </S.StyledUl>
+      <h2>가장 최근 스터디가 만들어진 책</h2>
+      <S.StyledUl>
+        {DUMMY_BOOKS_STUDY_ADD.map((book) => (
+          <S.StyledList key={book.id}>
+            <BookCard
+              src={book.image}
+              title={book.title}
+              size={10}
+              onClick={handleBookCardClick}
+            />
+          </S.StyledList>
+        ))}
+      </S.StyledUl>
+    </S.ContentContainer>
   );
 };
 
