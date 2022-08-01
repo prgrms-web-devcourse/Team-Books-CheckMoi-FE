@@ -9,8 +9,13 @@ export const StudyContentContainer = styled(Card)`
 export const StudyContent = styled.pre`
   min-height: 10rem;
   max-height: 30rem;
-  overflow: auto;
   margin-bottom: 1rem;
+
+  overflow: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   white-space: pre-wrap;
   word-wrap: break-word;
