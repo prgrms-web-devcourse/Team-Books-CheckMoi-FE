@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useEffect, useState } from "react";
 import { BookCard } from "../components/BookCard";
 import * as S from "../styles/MainPageStyle";
 
@@ -54,15 +55,12 @@ const DUMMY_BOOKS_ADD = [
       "https://shopping-phinf.pstatic.net/main_3247842/32478422656.20220527090925.jpg",
     author: "권태형",
     publisher: "영진닷컴",
-    pubDate: "2022/05/20",
+    pubDate: "2022/12/20",
     isbn: "9788931466195",
     description:
       "파이썬으로 배우는 실전 REST 서버 개발!\n\n수많은 기업이나 팀에서 코딩을 필수 덕목으로 특히, 파이썬 언어를 사용할 수 있는 사람들을 우대할 정도로 파이썬의 인기는 나날이 높아지고 있다. 이는 파이썬이 난이도가 비교적 쉽고 활용 가능한 분야가 많기 때문이다. 많은 개발자들과 개발자를 꿈꾸는 사람들이 파이썬을 배우고 있지만 막상 활용 방법이나 자신에게 무엇이 부족한지 갈피를 잡지 못하고 있다.\n이 책은 파이썬과 Django 기반의 기술로 웹과 앱에 전부 대응하는 REST 서버를 만들어 볼 수 있다. 기반 기술을 모르더라도 비전공자도 다룰 수 있도록 웹 개발 개념부터 데이터베이스 쿼리, Django 프로젝트 구조 등을 쉽게 설명한다. 더 나아가 백엔드의 기초, 실제 개발, 배포까지 전 과정을 배울 수 있어 백엔드와 API 서버 개발의 기본기를 충실하게 쌓을 수 있다. 백엔드와 서버 지식이 없는 사람도 쉽게 이해할 수 있도록 새로운 용어나 기술을 상세히 소개하고 있다. 다양한 예시를 통해 개념을 잡고 난 뒤에는 실제로 코드를 작성하며 간단한 기능 구현부터 프로젝트까지 한 번에 배울 수 있을 것이다.",
     createAt: "2022/08/01",
   },
-];
-
-const DUMMY_BOOKS_STUDY_ADD = [
   {
     id: 5,
     title:
@@ -120,7 +118,86 @@ const DUMMY_BOOKS_STUDY_ADD = [
   },
 ];
 
+const DUMMY_BOOKS_STUDY_ADD = [
+  {
+    id: 9,
+    title: "초보자를 위한 리액트(React) 200제",
+    image:
+      "https://shopping-phinf.pstatic.net/main_3246564/32465643915.20220527043132.jpg",
+    author: "이정열",
+    publisher: "정보문화사",
+    pubDate: "2021/02/05",
+    isbn: "9788956749013",
+    description:
+      "따라하면서 이해하는 React A to Z\n\n리액트를 시작하기 전에 개발 환경을 준비하는 과정부터 시작하여 예제 파일을 실행하는 방법을 안내한다. 입문부터 초급, 중급, 활용, 실무까지 5개의 파트로 나누어 단계별로 실력을 향상시킬 수 있게 구성하였다. 리액트에서 사용하는 함수와 문법, 웹 브라우저에 화면을 띄워보기로 시작되는 이 책은 변수를 관리하고 컴포넌트 유형별로 장단점을 비교하고, 태그 사용 및 이벤트 처리 구현도 할 수 있다. 또한 외부 api를 활용하는 부분도 집중적으로 다루고, node.js를 사용하여 DB 서버에서 작업을 수행할 수 있는 실무 능력까지 실습할 수 있다. 예제를 200개로 나누어 간단하게 학습할 수 있기 때문에 짧은 주기로 성취감을 얻을 수 있으며, 기능 위주의 설명으로 필요한 개발 스킬에 집중할 수 있는 장점이 있다. 이 책을 따라 하기 위한 예제 파일은 정보문화사 홈페이지(infopub.co.kr) 자료실에서 다운로드 가능하고, 학습 중 궁금한 사항의 저자 홈페이지(leejungyeoul.tistory.com)에서 피드백 가능하다.",
+    createAt: "2022/08/01",
+  },
+  {
+    id: 10,
+    title: "한 권으로 배우는 Vue.js 3 (웹 애플리케이션 개발 기초부터 실전까지)",
+    image:
+      "https://shopping-phinf.pstatic.net/main_3244582/32445823246.20220530092716.jpg",
+    author: "김동혁",
+    publisher: "영진닷컴",
+    pubDate: "2021/09/10",
+    isbn: "9788931465792",
+    description:
+      "Vue.js 3를 활용한 웹 개발 기초부터 실전까지\n\n나만의 멋진 웹사이트를 직접 만들고 싶은 초보 웹 개발자와 기초적인 자바스크립트 지식은 있으나 프론트엔드 개발에서 이를 어떻게 활용해야 할지 막막한 실무 개발자들을 대상으로 하고 있습니다. \n프론트엔드 개발에 필요한 다양한 프레임워크 혹은 라이브러리 중에서, 가장 최근에 공개되어 강력한 기능을 갖췄지만 아직은 대중적이지 않은 Vue.js 3의 최신 기능과 특징들을 자세히 소개합니다. \n기존 Vue.js 사용자가 아니더라도 HTML과 CSS만 어느 정도 알고 있으면 충분히 읽고 이해할 수 있도록 Vue.js 3의 기초적인 문법을 배우고 그 문법을 활용할 수 있는 방법을 차근차근 설명하고 있습니다. \n실제 운용이 가능한 간단한 애플리케이션을 만들어보며 각 구성 요소들을 어떻게 조합하여 재사용성이 높은 코드를 만들 수 있는지 보여주고, 애플리케이션 강화 요소 등 다양한 프론트엔드 개발 노하우를 통해 실무에서도 활용할 수 있도록 구성되어 있습니다. \n후반부에는 이렇게 개발한 애플리케이션을 세상 모든 사람들이 같이 사용할 수 있도록 AWS를 이용하여 배포하는 방법도 담고 있습니다.",
+    createAt: "2022/08/01",
+  },
+  {
+    id: 11,
+    title:
+      "컨테이너 인프라 환경 구축을 위한 쿠버네티스/도커 (컨테이너 인프라 환경을 이해하고 직접 구축해 보자!)",
+    image:
+      "https://shopping-phinf.pstatic.net/main_3248493/32484930072.20220527050615.jpg",
+    author: "조훈,심근우,문성주",
+    publisher: "길벗",
+    pubDate: "2021/06/07",
+    isbn: "9791165215743",
+    description:
+      "실무에 바로 적용할 수 있는 컨테이너 인프라 환경 기술!\n\nIT 자원을 효율적으로 빠르게 사용할 수 있는 방법으로 컨테이너 환경이 거론되었으나 그동안 관리가 어렵고 복잡해서 상용되기 어려웠다. 하지만 쿠버네티스가 등장하면서 복잡도가 줄어들고 비용 대비 생산성을 높일 수 있게 되었다. 이 책은 현재 컨테이너 오케스트레이션 분야에서 표준으로 자리 잡고 있는 쿠버네티스를 활용해 시스템을 구축하고 운영하는 방법에 초점을 맞춰 구성했다. 컨테이너 인프라 환경 구축부터 통합 및 배포, 인프라 환경 운영을 위한 모니터링까지 쿠버네티스를 기반으로 시스템을 구축하고 운영하는 데 필요한 기초를 탄탄하게 다질 수 있을 것이다.",
+    createAt: "2022/08/01",
+  },
+  {
+    id: 12,
+    title:
+      "그림과 실습으로 배우는 도커 & 쿠버네티스 (개념과 작동 원리가 쏙쏙 이해되는 완벽 입문서)",
+    image:
+      "https://shopping-phinf.pstatic.net/main_3246352/32463526779.20220527042908.jpg",
+    author: "오가사와라 시게타카",
+    publisher: "위키북스",
+    pubDate: "2022/04/05",
+    isbn: "9791158393038",
+    description:
+      "컨테이너나 도커를 도통 이해하기 어려운 분들을 위한 본격 도커 입문서!\n\n이 책은 컨테이너 기술이 어렵게 느껴지는 엔지니어나 백엔드 기술에 자신이 없는 분들을 위한 도커 입문서입니다. 자세한 그림과 친절한 실습을 통해 리눅스 지식이나 서버 구축 경험이 없어도 컨테이너와 도커, 쿠버네티스에 대한 지식을 쉽게 이해할 수 있습니다.\n\n도커의 개념부터 동작 방식, 명령어 사용법, 컨테이너 운용, 나아가 도커 컴포즈와 쿠버네티스까지, 컨테이너 기술에 대한 배경지식이 전혀 없는 분들도 도커와 쿠버네티스의 개념과 기초 사용법을 익힐 수 있도록 안내합니다. 도커나 쿠버네티스를 배우고 싶은 초보자라면 철저하게 입문자의 눈높이에 맞춘 이 책으로 도커의 세계에 첫발을 내디뎌 보세요.",
+    createAt: "2022/08/01",
+  },
+];
+
+interface LatestAddedBookType {
+  id: number;
+  title: string;
+  image: string;
+  author: string;
+  publisher: string;
+  pubDate: string;
+  isbn: string;
+  description: string;
+  createAt: string;
+}
+
 const Home: NextPage = () => {
+  const [latestAddedBook, setLatestAddedBook] = useState<LatestAddedBookType[]>(
+    []
+  );
+
+  useEffect(() => {
+    // TODO 정렬을 해야 하는데, DB에서 책 정보를 가져올 때, id 순서가 추가된 순서이기 때문에 가장 마지막 값 4개만 가져오면 된다?(순서대로 보내준다면)
+    const latest = DUMMY_BOOKS_ADD.slice(-4);
+    setLatestAddedBook(latest.reverse());
+  }, []);
+
   const handleBookCardClick = () => {
     // TODO: 책 상세 페이지로 이동
     console.log("BookCard Click!");
@@ -131,7 +208,7 @@ const Home: NextPage = () => {
       <S.BookListWrapper>
         <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
         <S.StyledUl>
-          {DUMMY_BOOKS_STUDY_ADD.map((book) => (
+          {latestAddedBook.map((book) => (
             <S.StyledList key={book.id}>
               <BookCard
                 src={book.image}
@@ -147,7 +224,7 @@ const Home: NextPage = () => {
       <S.BookListWrapper>
         <S.StyledSpan>가장 최근 스터디가 만들어진 책</S.StyledSpan>
         <S.StyledUl>
-          {DUMMY_BOOKS_ADD.map((book) => (
+          {DUMMY_BOOKS_STUDY_ADD.map((book) => (
             <S.StyledList key={book.id}>
               <BookCard
                 src={book.image}
