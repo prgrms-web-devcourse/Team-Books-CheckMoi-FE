@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { BookCard } from "../components/BookCard";
+import { BookDataInterface } from "../types/testType";
 import * as S from "../styles/MainPageStyle";
 
 // TODO: BookCard 컴포넌트 가져오기 -> src, title, size, onClick 함수 만들기
@@ -175,20 +176,8 @@ const DUMMY_BOOKS_STUDY_ADD = [
   },
 ];
 
-interface LatestAddedBookType {
-  id: number;
-  title: string;
-  image: string;
-  author: string;
-  publisher: string;
-  pubDate: string;
-  isbn: string;
-  description: string;
-  createAt: string;
-}
-
 const Home: NextPage = () => {
-  const [latestAddedBook, setLatestAddedBook] = useState<LatestAddedBookType[]>(
+  const [latestAddedBook, setLatestAddedBook] = useState<BookDataInterface[]>(
     []
   );
 
