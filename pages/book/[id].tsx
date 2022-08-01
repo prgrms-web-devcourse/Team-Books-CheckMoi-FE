@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { BookDetail } from "../../components/BookDetailCard";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 import type { BookType } from "../../types/bookType";
+import { StudyType } from "../../types/studyType";
 
 const DummyBook = {
   src: "https://picsum.photos/200",
@@ -19,16 +20,37 @@ const DummyBook = {
 const Book = () => {
   const router = useRouter();
   const [bookInfo, setBookinfo] = useState<BookType>({});
-
+  const [studies, setStudies] = useState<StudyType[]>([]);
   useEffect(() => {
+    const bookInfoFetch = async (id: string) => {
+      const serverData = await fetch(`https://dev.checkmoi.ga/api/books/${id}`);
+      const { data } = await serverData.json();
+
+      setBookinfo(data);
+    };
+
+    const studiesFetch = async (id: string, page = 1) => {
+      const serverData = await fetch(
+        `https://dev.checkmoi.ga/api/studies?bookId=${id}&size=8&page=${page}`
+      );
+      const { data } = await serverData.json();
+      console.log(data.studies.content);
+      setStudies(data.studies.content);
+    };
+
     const { id } = router.query;
 
     if (id)
-      // TODO api 붙이기 작업
-      setBookinfo(DummyBook);
+      if (typeof id === "string") {
+        // TODO api 붙이기 작업
+        bookInfoFetch(id);
+        studiesFetch(id, 1);
+      }
   }, [router.query]);
 
-  const handleStudyClick = () => {};
+  const handleStudyClick = (e) => {
+    console.log(e);
+  };
 
   return (
     <div>
@@ -44,7 +66,24 @@ const Book = () => {
       />
 
       <Divider color="red" />
-      <StudyDetailCard />
+      {studies.map((study) => {
+        return (
+          <StudyDetailCard
+            key={study.id}
+            onClick={handleStudyClick}
+            name={study.name}
+            description={study.description}
+            studyStartDate={study.studyStartDate}
+            studyEndDate={study.studyEndDate}
+            gatherStartDate={study.gatherStartDate}
+            gatherEndDate={study.gatherEndDate}
+            currentParticipant={study.currentParticipant}
+            maxParticipant={study.maxParticipant}
+            id={study.id}
+            thumbnailUrl=""
+          />
+        );
+      })}
     </div>
   );
 };

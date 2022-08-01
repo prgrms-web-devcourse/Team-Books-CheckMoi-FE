@@ -6,6 +6,8 @@ export const StudyDetailCard = styled(Card)`
   padding: 1rem;
   flex-direction: row;
   position: relative;
+
+  cursor: pointer;
   @media (max-width: 512px) {
     flex-direction: column;
     justify-content: center;

@@ -1,38 +1,36 @@
 import { MouseEvent, useState } from "react";
+import type { MouseEventHandler } from "react";
 import { Avatar, Menu } from "@mui/material";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { User } from "../../types/userType";
 import { selectStudyState } from "./helper";
+import type { StudyType } from "../../types/studyType";
+import { BookCard } from "../BookCard";
 
-interface StudyDetailProps {
-  title: string;
-  gatherStartDate: string;
-  gatherEndDate: string;
-  studyStartDate: string;
-  studyEndDate: string;
-  maxParticipant: number;
-  currentParticipant: number;
-  member: User[];
+interface StudyDetailProps extends StudyType {
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 // TODO Image => future Image로 수정해야 함
 export const StudyDetailCard = ({
-  title = "스터디 제목",
+  name = "스터디 제목2",
+  thumbnailUrl = "",
   gatherStartDate = "2022/6/30",
   gatherEndDate = "2022/7/30",
   studyStartDate = "2022/7/2",
   studyEndDate = "2022/9/2",
   maxParticipant = 16,
   currentParticipant = 0,
-  member = [],
+  onClick,
 }: StudyDetailProps) => {
   const studyState = selectStudyState(
     gatherEndDate,
     studyStartDate,
     studyEndDate
   );
-  console.log(studyState);
+
+  const member: User[] = [];
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleAvatarListClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -48,12 +46,12 @@ export const StudyDetailCard = ({
   };
 
   return (
-    <S.StudyDetailCard>
+    <S.StudyDetailCard onClick={onClick}>
       <S.ImageWrapper>
-        <div>북카드 컴포넌트 넣기</div>
+        <BookCard size={10} src={thumbnailUrl} title="" />
       </S.ImageWrapper>
       <S.StudyInfoContainer>
-        <S.StyledTypograph>{title}</S.StyledTypograph>
+        <S.StyledTypograph>{name}</S.StyledTypograph>
         {studyState === "recruiting" && (
           <S.ResponsiveText>
             모집 인원 : {currentParticipant}/{maxParticipant}

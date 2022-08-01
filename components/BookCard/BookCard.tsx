@@ -6,7 +6,7 @@ interface BookCardProps {
   src: string;
   title: string;
   size: number;
-  onClick: React.MouseEventHandler<HTMLElement>;
+  onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
 export const BookCard = ({ src, title, size, onClick }: BookCardProps) => {
