@@ -2,7 +2,10 @@ import { styled } from "@mui/material/styles";
 
 // TODO 레이아웃 결정되면 수치 수정하기
 export const ContentContainer = styled("div")`
-  /* margin: calc(64px + 4rem) 4rem 64px; */
+  margin: calc(64px + 4rem) 4rem 64px;
+`;
+
+export const MainPageWrapper = styled("div")`
   margin: 2rem 1rem;
   display: flex;
   flex-direction: column;
@@ -20,4 +23,13 @@ export const StyledList = styled("li")`
   &:hover {
     transform: scale(1.05) translateY(-10px);
   }
+`;
+
+export const StyledSpan = styled("span")`
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+export const BookListWrapper = styled("div")`
+  margin-bottom: 4rem;
 `;

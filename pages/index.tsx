@@ -125,34 +125,39 @@ const Home: NextPage = () => {
     console.log("BookCard Click!");
   };
   return (
-    <S.ContentContainer className="Container">
-      <h2>가장 최근 추가된 책</h2>
-      <S.StyledUl>
-        {DUMMY_BOOKS_ADD.map((book) => (
-          <S.StyledList key={book.id}>
-            <BookCard
-              src={book.image}
-              title={book.title}
-              size={10}
-              onClick={handleBookCardClick}
-            />
-          </S.StyledList>
-        ))}
-      </S.StyledUl>
-      <h2>가장 최근 스터디가 만들어진 책</h2>
-      <S.StyledUl>
-        {DUMMY_BOOKS_STUDY_ADD.map((book) => (
-          <S.StyledList key={book.id}>
-            <BookCard
-              src={book.image}
-              title={book.title}
-              size={10}
-              onClick={handleBookCardClick}
-            />
-          </S.StyledList>
-        ))}
-      </S.StyledUl>
-    </S.ContentContainer>
+    <S.MainPageWrapper className="Container">
+      <S.BookListWrapper>
+        <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
+        <S.StyledUl>
+          {DUMMY_BOOKS_STUDY_ADD.map((book) => (
+            <S.StyledList key={book.id}>
+              <BookCard
+                src={book.image}
+                title={book.title}
+                size={10}
+                onClick={handleBookCardClick}
+              />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
+      </S.BookListWrapper>
+
+      <S.BookListWrapper>
+        <S.StyledSpan>가장 최근 스터디가 만들어진 책</S.StyledSpan>
+        <S.StyledUl>
+          {DUMMY_BOOKS_ADD.map((book) => (
+            <S.StyledList key={book.id}>
+              <BookCard
+                src={book.image}
+                title={book.title}
+                size={10}
+                onClick={handleBookCardClick}
+              />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
+      </S.BookListWrapper>
+    </S.MainPageWrapper>
   );
 };
 
