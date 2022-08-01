@@ -3,13 +3,14 @@ import { Avatar, Menu } from "@mui/material";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { User } from "../../types/userType";
+import { selectStudyState } from "./helper";
 
 interface StudyDetailProps {
   title: string;
-  gatherStartDate: Date;
-  gatherEndDate: Date;
-  studyStartDate: Date;
-  studyEndDate: Date;
+  gatherStartDate: string;
+  gatherEndDate: string;
+  studyStartDate: string;
+  studyEndDate: string;
   maxParticipant: number;
   currentParticipant: number;
   member: User[];
@@ -18,23 +19,20 @@ interface StudyDetailProps {
 // TODO Image => future Image로 수정해야 함
 export const StudyDetailCard = ({
   title = "스터디 제목",
-  gatherStartDate = new Date(2022, 12, 1),
-  gatherEndDate = new Date(2022, 7, 31),
-  studyStartDate = new Date(2022, 8, 1),
-  studyEndDate = new Date(2022, 8, 30),
+  gatherStartDate = "2022/6/30",
+  gatherEndDate = "2022/7/30",
+  studyStartDate = "2022/7/2",
+  studyEndDate = "2022/9/2",
   maxParticipant = 16,
   currentParticipant = 0,
   member = [],
 }: StudyDetailProps) => {
-  const getYYYYMMDD = (date: Date) => {
-    const yyyy = date.getFullYear();
-    const mm = date.getMonth();
-    const dd = date.getDate();
-
-    return `${yyyy}/${mm}/${dd}`;
-  };
-
-  const [isGathering, setIsGathering] = useState(true);
+  const studyState = selectStudyState(
+    gatherEndDate,
+    studyStartDate,
+    studyEndDate
+  );
+  console.log(studyState);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleAvatarListClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -56,18 +54,16 @@ export const StudyDetailCard = ({
       </S.ImageWrapper>
       <S.StudyInfoContainer>
         <S.StyledTypograph>{title}</S.StyledTypograph>
-        {isGathering && (
+        {studyState === "recruiting" && (
           <S.ResponsiveText>
             모집 인원 : {currentParticipant}/{maxParticipant}
           </S.ResponsiveText>
         )}
         <S.ResponsiveText>
-          모집 기간 : {getYYYYMMDD(gatherStartDate)} -{" "}
-          {getYYYYMMDD(gatherEndDate)}
+          모집 기간 : {`${gatherStartDate} - ${gatherEndDate}`}
         </S.ResponsiveText>
         <S.ResponsiveText>
-          진행 기간 : {getYYYYMMDD(studyStartDate)} -{" "}
-          {getYYYYMMDD(studyEndDate)}
+          진행 기간 : {`${studyStartDate} - ${studyEndDate}`}
         </S.ResponsiveText>
       </S.StudyInfoContainer>
 
@@ -96,7 +92,7 @@ export const StudyDetailCard = ({
           );
         })}
       </Menu>
-      <StudyState studyState="recruiting" />
+      {studyState !== "done" && <StudyState studyState={studyState} />}
     </S.StudyDetailCard>
   );
 };

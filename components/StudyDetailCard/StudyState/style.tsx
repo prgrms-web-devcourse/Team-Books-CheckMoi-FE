@@ -6,7 +6,6 @@ interface StudyStateProps {
 
 export const StudyState = styled.div<StudyStateProps>`
   min-width: 3rem;
-  max-width: 3rem;
 
   min-height: 2rem;
   max-height: 2rem;
