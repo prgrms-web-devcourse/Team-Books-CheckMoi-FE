@@ -30,7 +30,3 @@ export const StyledSpan = styled("span")`
   font-size: 1.5rem;
   font-weight: bold;
 `;
-
-export const BookListWrapper = styled("div")`
-  /* margin-bottom: 4rem; */
-`;

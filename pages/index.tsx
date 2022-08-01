@@ -195,37 +195,33 @@ const Home: NextPage = () => {
 
   return (
     <S.MainPageWrapper className="Container">
-      <S.BookListWrapper>
-        <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
-        <S.StyledUl>
-          {latestAddedBook.map((book) => (
-            <S.StyledList key={book.id}>
-              <BookCard
-                src={book.image}
-                title=""
-                size={10}
-                onClick={handleBookCardClick}
-              />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
-      </S.BookListWrapper>
+      <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
+      <S.StyledUl>
+        {latestAddedBook.map((book) => (
+          <S.StyledList key={book.id}>
+            <BookCard
+              src={book.image}
+              title=""
+              size={10}
+              onClick={handleBookCardClick}
+            />
+          </S.StyledList>
+        ))}
+      </S.StyledUl>
 
-      <S.BookListWrapper>
-        <S.StyledSpan>가장 최근 스터디가 만들어진 책</S.StyledSpan>
-        <S.StyledUl>
-          {DUMMY_BOOKS_STUDY_ADD.map((book) => (
-            <S.StyledList key={book.id}>
-              <BookCard
-                src={book.image}
-                title=""
-                size={10}
-                onClick={handleBookCardClick}
-              />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
-      </S.BookListWrapper>
+      <S.StyledSpan>가장 최근 스터디가 만들어진 책</S.StyledSpan>
+      <S.StyledUl>
+        {DUMMY_BOOKS_STUDY_ADD.map((book) => (
+          <S.StyledList key={book.id}>
+            <BookCard
+              src={book.image}
+              title=""
+              size={10}
+              onClick={handleBookCardClick}
+            />
+          </S.StyledList>
+        ))}
+      </S.StyledUl>
     </S.MainPageWrapper>
   );
 };
