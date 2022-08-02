@@ -34,11 +34,7 @@ export const Topbar = () => {
 
   const [isLogin, setIsLogin] = useState(false);
 
-  const handleLogin = () => {
-    setIsLogin(true);
-  };
-
-  const handleLogout = () => {
+  const handleLogoutButtonClick = () => {
     setIsLogin(false);
   };
 
@@ -69,9 +65,9 @@ export const Topbar = () => {
             <a href="{() => false}">책모이</a>
           </Link>
         </S.LogoText>
-        <S.SearchInputContainer className="SearchWrapper">
+        <S.SearchInputContainer>
           <form onSubmit={handleSubmit}>
-            <S.SearchInput className="Search">
+            <S.SearchInput>
               <S.SearchIconWrapper>
                 <SearchIcon />
               </S.SearchIconWrapper>
@@ -86,7 +82,7 @@ export const Topbar = () => {
         </S.SearchInputContainer>
         {/* TODO 로그인, 로그아웃 처리 필요 */}
         {isLogin ? (
-          <UserProfile handleLogout={handleLogout} />
+          <UserProfile handleLogout={handleLogoutButtonClick} />
         ) : (
           <LoginButton />
         )}
