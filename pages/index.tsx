@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { BookCard } from "../components/BookCard";
-import { BookDataInterface } from "../types/testType";
+import type { BookDataInterface } from "../types/testType";
 import * as S from "../styles/MainPageStyle";
 
 // TODO: BookCard 컴포넌트 가져오기 -> src, title, size, onClick 함수 만들기
@@ -194,7 +194,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <S.MainPageWrapper className="Container">
+    <S.MainPageWrapper>
       <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
       <S.StyledUl>
         {latestAddedBook.map((book) => (
