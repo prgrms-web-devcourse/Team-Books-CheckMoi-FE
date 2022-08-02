@@ -1,9 +1,8 @@
-import styled from "@emotion/styled";
-import { Card } from "@mui/material";
+import styled from '@emotion/styled';
+import { Card } from '@mui/material';
 
 export const StudyCard = styled(Card)`
   display: flex;
-
   padding: 1rem;
 `;
 
