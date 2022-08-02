@@ -1,17 +1,16 @@
 import Image from 'next/image';
+import type { MouseEventHandler } from 'react';
 import { StudyType } from '../../types/studyType';
 import * as S from './style';
 
 interface StudyCardProps extends StudyType {
   size: number;
-  src: string;
-  maxParticipant: number;
-  currentParticipant: number;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 export const StudyCard = ({
   size = 128,
-  src = 'https://picsum.photos/200',
+  thumbnailUrl = 'https://picsum.photos/200',
   name = '스터디 제목',
   gatherStartDate = '',
   gatherEndDate = '',
@@ -19,11 +18,12 @@ export const StudyCard = ({
   studyEndDate = '',
   maxParticipant = 16,
   currentParticipant = 0,
+  onClick,
 }: StudyCardProps) => {
   return (
-    <S.StudyCard>
+    <S.StudyCard onClick={onClick}>
       <S.ImageWrapper>
-        <Image width={size} height={size * 1.5} src={src} />
+        <Image width={size} height={size * 1.5} src={thumbnailUrl} />
       </S.ImageWrapper>
       <S.StudyInfoConatiner>
         <S.ResponsiveText fontSize={1.2}>{name}</S.ResponsiveText>
