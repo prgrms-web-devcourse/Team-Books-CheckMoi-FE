@@ -34,7 +34,7 @@ const LoginPage = () => {
           // TODO 로그인 유저 정보 쿠키나 로컬스토리지에 저장
           // TODO 로그인 유저 정보 전역 Context로 저장
           console.log(res.data.data);
-          // router.push("/");
+          router.push("/");
         })
         .catch((error) => {
           // TODO 로그인 실패 등 에러 처리
