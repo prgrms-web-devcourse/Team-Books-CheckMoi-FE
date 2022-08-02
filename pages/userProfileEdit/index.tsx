@@ -1,5 +1,5 @@
 import { Badge } from "@mui/material";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { CameraAlt } from "@mui/icons-material";
 import * as S from "../../styles/UserProfileEditStyle";
 
 interface UserProfileProps {
@@ -21,7 +21,7 @@ const UserProfileEditPage = ({
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           badgeContent={
             <S.SmallAvatar>
-              <CameraAltIcon />
+              <CameraAlt />
             </S.SmallAvatar>
           }
         >
