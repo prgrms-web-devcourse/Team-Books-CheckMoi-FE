@@ -39,9 +39,12 @@ export const LoginButton = () => {
             로그인 방법을 선택해주세요
           </Typography>
           <S.ButtonContainer>
-            <S.KakaoButton variant="contained" color="inherit">
-              카카오로 로그인
-            </S.KakaoButton>
+            <a
+              href={`${process.env.NEXT_PUBLIC_API_ENDPOINT}/oauth2/authorization/kakao`}
+            >
+              <img src="/images/kakao_login_medium.png" alt="" />
+            </a>
+            {/* TODO 구글 로그인 추가 */}
             <Button variant="contained">구글 로그인</Button>
           </S.ButtonContainer>
         </Box>
