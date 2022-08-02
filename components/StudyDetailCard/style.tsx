@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { Card, MenuItem, AvatarGroup, Typography } from "@mui/material";
+import styled from '@emotion/styled';
+import { Card, MenuItem, AvatarGroup, Typography } from '@mui/material';
 
 export const StudyDetailCard = styled(Card)`
   display: flex;
@@ -7,7 +7,6 @@ export const StudyDetailCard = styled(Card)`
   flex-direction: row;
   position: relative;
 
-  cursor: pointer;
   @media (max-width: 512px) {
     flex-direction: column;
     justify-content: center;

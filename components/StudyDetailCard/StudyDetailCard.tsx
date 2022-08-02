@@ -1,28 +1,25 @@
-import { MouseEvent, useState } from "react";
-import type { MouseEventHandler } from "react";
-import { Avatar, Menu } from "@mui/material";
-import { StudyState } from "./StudyState";
-import * as S from "./style";
-import type { User } from "../../types/userType";
-import { selectStudyState } from "./helper";
-import type { StudyType } from "../../types/studyType";
-import { BookCard } from "../BookCard";
+import { MouseEvent, useState } from 'react';
+import type { MouseEventHandler } from 'react';
+import { Avatar, Menu } from '@mui/material';
+import { StudyState } from './StudyState';
+import * as S from './style';
+import type { User } from '../../types/userType';
+import { selectStudyState } from './helper';
+import type { StudyType } from '../../types/studyType';
+import { BookCard } from '../BookCard';
 
-interface StudyDetailProps extends StudyType {
-  onClick?: MouseEventHandler<HTMLDivElement>;
-}
+interface StudyDetailProps extends StudyType {}
 
 // TODO Image => future Image로 수정해야 함
 export const StudyDetailCard = ({
-  name = "스터디 제목2",
-  thumbnailUrl = "",
-  gatherStartDate = "2022/6/30",
-  gatherEndDate = "2022/7/30",
-  studyStartDate = "2022/7/2",
-  studyEndDate = "2022/9/2",
+  name = '스터디 제목2',
+  thumbnailUrl = '',
+  gatherStartDate = '2022/6/30',
+  gatherEndDate = '2022/7/30',
+  studyStartDate = '2022/7/2',
+  studyEndDate = '2022/9/2',
   maxParticipant = 16,
   currentParticipant = 0,
-  onClick,
 }: StudyDetailProps) => {
   const studyState = selectStudyState(
     gatherEndDate,
@@ -46,13 +43,13 @@ export const StudyDetailCard = ({
   };
 
   return (
-    <S.StudyDetailCard onClick={onClick}>
+    <S.StudyDetailCard>
       <S.ImageWrapper>
         <BookCard size={10} src={thumbnailUrl} title="" />
       </S.ImageWrapper>
       <S.StudyInfoContainer>
         <S.StyledTypograph>{name}</S.StyledTypograph>
-        {studyState === "recruiting" && (
+        {studyState === 'recruiting' && (
           <S.ResponsiveText>
             모집 인원 : {currentParticipant}/{maxParticipant}
           </S.ResponsiveText>
@@ -90,7 +87,7 @@ export const StudyDetailCard = ({
           );
         })}
       </Menu>
-      {studyState !== "done" && <StudyState studyState={studyState} />}
+      {studyState !== 'done' && <StudyState studyState={studyState} />}
     </S.StudyDetailCard>
   );
 };
