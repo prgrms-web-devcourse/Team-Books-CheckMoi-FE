@@ -7,6 +7,7 @@ import { StudyCard } from '../../components/StudyCard';
 import type { BookType } from '../../types/bookType';
 import { StudyDetailType, StudyType } from '../../types/studyType';
 import { StudyDetail } from '../../features/StudyDetail';
+import * as S from '../../styles/bookPageStyle';
 
 const DummyBook = {
   src: 'https://picsum.photos/200',
@@ -24,6 +25,8 @@ const Book = () => {
   const [bookInfo, setBookinfo] = useState<BookType>({});
   const [studies, setStudies] = useState<StudyType[]>([]);
   const [studyInfo, setStudyInfo] = useState<StudyDetailType>({});
+  // TODO 쿠키에서 jwt 토큰 가져와서 user 정보 가져오기, 해당 데이터로 스터디원 인지 검증 로직 필요
+
   const [open, setOpen] = useState(false);
 
   const handleCloseClick = () => setOpen(false);
@@ -80,7 +83,7 @@ const Book = () => {
       <Divider color="red" />
       {studies.map((study) => {
         return (
-          <StudyCard
+          <S.StyledStudyCard
             key={study.id}
             onClick={(e) => {
               handleStudyClick(e, study.id);
