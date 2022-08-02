@@ -4,6 +4,9 @@ export const MainPageWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  @media (min-width: 1500px) {
+    margin: auto 10rem;
+  }
 `;
 
 export const StyledUl = styled("ul")`
