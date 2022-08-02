@@ -23,7 +23,7 @@ const LoginPage = () => {
       // TODO api 푸시되면 분리
       axios
         .get<AxiosResponse<UserType>>(
-          `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/me`,
+          `${process.env.NEXT_PUBLIC_API_ENDPOINT}/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ const LoginPage = () => {
           // TODO 로그인 유저 정보 쿠키나 로컬스토리지에 저장
           // TODO 로그인 유저 정보 전역 Context로 저장
           console.log(res.data.data);
-          router.push("/");
+          // router.push("/");
         })
         .catch((error) => {
           // TODO 로그인 실패 등 에러 처리
