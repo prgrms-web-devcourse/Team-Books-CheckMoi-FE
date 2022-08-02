@@ -4,6 +4,7 @@ import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { User } from "../../types/userType";
 import { selectStudyState } from "./helper";
+import { BookCard } from "../BookCard";
 
 interface StudyDetailProps {
   title: string;
@@ -49,9 +50,15 @@ export const StudyDetailCard = ({
 
   return (
     <S.StudyDetailCard>
-      <S.ImageWrapper>
+      {/* <S.ImageWrapper>
         <div>북카드 컴포넌트 넣기</div>
-      </S.ImageWrapper>
+      </S.ImageWrapper> */}
+      <BookCard
+        src="https://shopping-phinf.pstatic.net/main_3247271/32472713016.20220527034215.jpg"
+        title=""
+        size={10}
+        onClick={() => {}}
+      />
       <S.StudyInfoContainer>
         <S.StyledTypograph>{title}</S.StyledTypograph>
         {studyState === "recruiting" && (

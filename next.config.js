@@ -13,6 +13,6 @@ module.exports = {
     },
   },
   images: {
-    domains: ["i.picsum.photos"],
+    domains: ["i.picsum.photos", "shopping-phinf.pstatic.net"],
   },
 };
