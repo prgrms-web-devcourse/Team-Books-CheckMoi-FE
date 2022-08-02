@@ -18,12 +18,15 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (res) => {
-    if (res.status !== 200) throw new Error("res error");
+    if (res.status !== 200) throw new Error();
 
-    return res.data;
+    if (res.data.errors) throw new Error(res.data.errors);
+
+    return res.data.data;
   },
   (error) => {
-    console.error(error);
+    console.log(error.response.data.errors);
+
     return Promise.reject(error);
   }
 );
