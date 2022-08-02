@@ -5,7 +5,8 @@ import type { MouseEvent } from 'react';
 import { BookDetail } from '../../components/BookDetailCard';
 import { StudyCard } from '../../components/StudyCard';
 import type { BookType } from '../../types/bookType';
-import type { StudyType } from '../../types/studyType';
+import { StudyDetailType, StudyType } from '../../types/studyType';
+import { StudyDetail } from '../../features/StudyDetail';
 
 const DummyBook = {
   src: 'https://picsum.photos/200',
@@ -22,6 +23,7 @@ const Book = () => {
   const router = useRouter();
   const [bookInfo, setBookinfo] = useState<BookType>({});
   const [studies, setStudies] = useState<StudyType[]>([]);
+  const [studyInfo, setStudyInfo] = useState<StudyDetailType>({});
   const [open, setOpen] = useState(false);
 
   const handleCloseClick = () => setOpen(false);
@@ -54,11 +56,11 @@ const Book = () => {
 
   const handleStudyClick = async (
     e: MouseEvent<HTMLDivElement>,
-    id: string
+    id: string | undefined
   ) => {
     const serverData = await fetch(`https://dev.checkmoi.ga/api/studies/${id}`);
     const { data } = await serverData.json();
-    console.log(data);
+    setStudyInfo({ ...data.study, members: data.members });
     setOpen(true);
   };
 
@@ -90,7 +92,6 @@ const Book = () => {
             gatherEndDate={study.gatherEndDate}
             currentParticipant={study.currentParticipant}
             maxParticipant={study.maxParticipant}
-            id={study.id}
             thumbnailUrl=""
             size={128}
           />
@@ -102,7 +103,18 @@ const Book = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div>test</div>
+        <StudyDetail
+          members={studyInfo.members}
+          description={studyInfo.description}
+          name={studyInfo.name}
+          thumbnailUrl=""
+          currentParticipant={studyInfo.currentParticipant}
+          maxParticipant={studyInfo.maxParticipant}
+          gatherStartDate={studyInfo.gatherStartDate}
+          gatherEndDate={studyInfo.gatherEndDate}
+          studyStartDate={studyInfo.studyEndDate}
+          studyEndDate={studyInfo.studyEndDate}
+        />
       </Modal>
     </div>
   );

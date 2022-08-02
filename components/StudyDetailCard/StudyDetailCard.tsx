@@ -8,7 +8,9 @@ import { selectStudyState } from './helper';
 import type { StudyType } from '../../types/studyType';
 import { BookCard } from '../BookCard';
 
-interface StudyDetailProps extends StudyType {}
+interface StudyDetailProps extends StudyType {
+  members: User[];
+}
 
 // TODO Image => future Image로 수정해야 함
 export const StudyDetailCard = ({
@@ -20,6 +22,7 @@ export const StudyDetailCard = ({
   studyEndDate = '2022/9/2',
   maxParticipant = 16,
   currentParticipant = 0,
+  members = [],
 }: StudyDetailProps) => {
   const studyState = selectStudyState(
     gatherEndDate,
@@ -27,7 +30,6 @@ export const StudyDetailCard = ({
     studyEndDate
   );
 
-  const member: User[] = [];
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleAvatarListClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -63,7 +65,7 @@ export const StudyDetailCard = ({
       </S.StudyInfoContainer>
 
       <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
-        {member.map((user) => (
+        {members.map((user) => (
           <Avatar key={user.userId} src={user.img} />
         ))}
       </S.StyledAvatarGroup>
@@ -73,7 +75,7 @@ export const StudyDetailCard = ({
         open={!!anchorEl}
         onClose={handleAvatarListClose}
       >
-        {member.map((user) => {
+        {members.map((user) => {
           return (
             <S.StyledMenuItem
               key={user.userId}
