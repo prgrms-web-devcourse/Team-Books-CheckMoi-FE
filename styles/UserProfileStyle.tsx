@@ -49,8 +49,16 @@ export const StyledButton = styled(Button)`
 export const StyledDivider = styled(Divider)`
   width: 70%;
   margin: auto;
-  border-color: black;
+  border-color: lightgray;
   @media (max-width: 900px) {
+    width: 90%;
+  }
+`;
+
+export const StudyContainer = styled.div`
+  width: 70%;
+  margin: 1rem auto;
+  @media (max-width: 512px) {
     width: 90%;
   }
 `;
