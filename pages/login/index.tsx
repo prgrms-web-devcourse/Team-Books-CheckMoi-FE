@@ -23,7 +23,7 @@ const LoginPage = () => {
       // TODO api 푸시되면 분리
       axios
         .get<AxiosResponse<UserType>>(
-          `${process.env.NEXT_PUBLIC_API_ENDPOINT}/me`,
+          `${process.env.NEXT_PUBLIC_API_END_POINT}/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
