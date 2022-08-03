@@ -1,5 +1,5 @@
-import type { BookType } from './bookType';
-import type { User } from './userType';
+import type { BookType } from "./bookType";
+import type { User } from "./userType";
 
 export interface StudyType {
   id?: string;
