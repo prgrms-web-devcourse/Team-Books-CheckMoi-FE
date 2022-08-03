@@ -3,7 +3,6 @@ import { Card } from "@mui/material";
 
 export const StudyCard = styled(Card)`
   display: flex;
-
   padding: 1rem;
 `;
 

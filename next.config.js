@@ -10,7 +10,7 @@ const nextConfig = {
   },
   images: {
     domains: ["i.picsum.photos", "picsum.photos", "shopping-phinf.pstatic.net"],
-  
+  },
   async rewrites() {
     return [
       {

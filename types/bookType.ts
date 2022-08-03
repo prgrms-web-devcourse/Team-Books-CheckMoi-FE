@@ -1,9 +1,9 @@
-export interface Book {
+export interface BookType {
+  image: string;
   title: string;
   author: string;
-  description: string;
-  image: string;
   publisher: string;
   pubdate: string;
   isbn: string;
-}
+  description: string;
+ }
