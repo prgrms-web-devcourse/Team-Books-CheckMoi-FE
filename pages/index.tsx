@@ -13,9 +13,8 @@ interface ServerSidePropsType {
 
 const Home = ({ books }: ServerSidePropsType) => {
   const { latestBooks, studyLatestBooks } = books;
-
   const handleBookCardClick = () => {
-    console.log("BookCard Click!");
+    // TODO 책 클릭 시 상세 페이지로 이동!
   };
 
   return (
@@ -23,7 +22,7 @@ const Home = ({ books }: ServerSidePropsType) => {
       <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
       <S.StyledUl>
         {latestBooks.map((book) => (
-          <S.StyledList key={Math.random()}>
+          <S.StyledList key={book.id}>
             <BookCard
               src={book.image}
               title=""
@@ -37,7 +36,7 @@ const Home = ({ books }: ServerSidePropsType) => {
       <S.StyledSpan>가장 최근 스터디가 만들어진 책</S.StyledSpan>
       <S.StyledUl>
         {studyLatestBooks.map((book) => (
-          <S.StyledList key={Math.random()}>
+          <S.StyledList key={book.id}>
             <BookCard
               src={book.image}
               title=""
@@ -54,7 +53,7 @@ const Home = ({ books }: ServerSidePropsType) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log("getServerSideProps!~!!!");
+  // TODO status 200이 아닐 때 Client로 전달할 prop과 API호출 실패시 전달할 prop 정의 필요
 
   try {
     const res = await axios.get(
