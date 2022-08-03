@@ -28,13 +28,10 @@ const UserProfileEditPage = ({
           <S.StyledAvatar src={profileImageUrl} />
         </Badge>
       </S.UserProfileImage>
+      <S.StyledTextField id="fullWidth" label="이름" defaultValue={name} />
       <S.StyledTextField
-        id="full-width-text-field"
-        label="이름"
-        defaultValue={name}
-      />
-      <S.StyledTextField
-        id="full-width-text-field"
+        disabled
+        id="fullWidth"
         label="이메일"
         defaultValue={email}
       />
