@@ -54,7 +54,7 @@ const Book = () => {
     <div>
       <BookDetail
         size={200}
-        src={bookInfo.src}
+        src={bookInfo.image}
         title={bookInfo.title}
         author={bookInfo.author}
         publisher={bookInfo.publisher}
@@ -72,14 +72,7 @@ const Book = () => {
               onClick={() => {
                 handleStudyClick(study.id);
               }}
-              name={study.name}
-              studyStartDate={study.studyStartDate}
-              studyEndDate={study.studyEndDate}
-              gatherStartDate={study.gatherStartDate}
-              gatherEndDate={study.gatherEndDate}
-              currentParticipant={study.currentParticipant}
-              maxParticipant={study.maxParticipant}
-              thumbnailUrl=""
+              study={study}
               size={128}
             />
           );

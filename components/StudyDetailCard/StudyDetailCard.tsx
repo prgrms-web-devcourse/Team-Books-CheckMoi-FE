@@ -1,6 +1,5 @@
 import { MouseEvent, useState } from "react";
 import { Avatar, Menu } from "@mui/material";
-import { toNamespacedPath } from "path";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { User } from "../../types/userType";
