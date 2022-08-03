@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { MouseEvent } from "react";
 import { Avatar, MenuItem, Typography, Button } from "@mui/material";
-import FolderIcon from "@mui/icons-material/Folder";
+import { Folder } from "@mui/icons-material";
 import * as S from "./style";
 
 interface UserProfileProps {
@@ -19,34 +19,30 @@ export const UserProfile = ({ handleLogout }: UserProfileProps) => {
   ];
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleProfileOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleProfileClose = () => {
     setAnchorEl(null);
-  };
-
-  const clickLogoutButton = () => {
-    handleLogout();
   };
 
   return (
     <>
-      <Button variant="contained" onClick={handleOpen}>
+      <Button variant="contained" onClick={handleProfileOpen}>
         프로필
       </Button>
       <S.StyledMenu
         anchorEl={anchorEl}
         open={!!anchorEl}
-        onClose={handleClose}
+        onClose={handleProfileClose}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
       >
         <S.AvatarWrapper>
           <Avatar>
-            <FolderIcon />
+            <Folder />
           </Avatar>
           <S.StyledUserInfo>
             <span>{FAKE_USER_NAME}</span>
@@ -55,13 +51,13 @@ export const UserProfile = ({ handleLogout }: UserProfileProps) => {
         </S.AvatarWrapper>
         <S.StyledDivider />
         {FAKE_STUDY_LIST.map(({ id, title }) => (
-          <MenuItem onClick={handleClose} key={id}>
+          <MenuItem onClick={handleProfileClose} key={id}>
             <Typography noWrap>{title}</Typography>
           </MenuItem>
         ))}
         <S.StyledDivider />
         <S.LogoutButtonWrapper>
-          <Button variant="contained" size="small" onClick={clickLogoutButton}>
+          <Button variant="contained" size="small" onClick={handleLogout}>
             로그아웃
           </Button>
         </S.LogoutButtonWrapper>

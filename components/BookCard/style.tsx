@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 
 interface BookCardProps {
   size: number;
@@ -7,7 +6,6 @@ interface BookCardProps {
 
 export const BookCard = styled.div<BookCardProps>`
   width: ${({ size }) => `${size}rem`};
-  height: ${({ size }) => `${size * 1.4}rem`};
   max-width: 30rem;
   max-height: 34rem;
   position: relative;
