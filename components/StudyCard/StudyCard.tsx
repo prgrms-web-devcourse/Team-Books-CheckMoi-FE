@@ -1,25 +1,31 @@
-import Image from 'next/image';
-import type { MouseEventHandler } from 'react';
-import { StudyType } from '../../types/studyType';
-import * as S from './style';
+import Image from "next/image";
+import type { MouseEventHandler } from "react";
+import { StudyType } from "../../types/studyType";
+import * as S from "./style";
+import { dummyStudy } from "../../commons/dummy";
 
-interface StudyCardProps extends StudyType {
+interface StudyCardProps {
+  study: StudyType;
   size: number;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 export const StudyCard = ({
   size = 128,
-  thumbnailUrl = 'https://picsum.photos/200',
-  name = '스터디 제목',
-  gatherStartDate = '',
-  gatherEndDate = '',
-  studyStartDate = '',
-  studyEndDate = '',
-  maxParticipant = 16,
-  currentParticipant = 0,
+  study = dummyStudy,
   onClick,
 }: StudyCardProps) => {
+  const {
+    thumbnailUrl,
+    name,
+    gatherStartDate,
+    gatherEndDate,
+    studyStartDate,
+    studyEndDate,
+    maxParticipant,
+    currentParticipant,
+  } = study;
+
   return (
     <S.StudyCard onClick={onClick}>
       <S.ImageWrapper>

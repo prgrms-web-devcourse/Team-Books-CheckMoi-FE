@@ -1,6 +1,5 @@
 import { MouseEvent, useState } from "react";
 import { Avatar, Menu } from "@mui/material";
-import { toNamespacedPath } from "path";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { User } from "../../types/userType";
@@ -50,7 +49,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
   return (
     <S.StudyDetailCard>
       <S.ImageWrapper>
-        <BookCard size={10} src="" title="" />
+        <BookCard size={10} src={thumbnailUrl} title="" />
       </S.ImageWrapper>
       <S.StudyInfoContainer>
         <S.StyledTypograph>{name}</S.StyledTypograph>

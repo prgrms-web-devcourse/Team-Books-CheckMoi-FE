@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import { StudyCard, TabPanel } from "../../components";
+import { dummyStudy } from "../../commons/dummy";
 import * as S from "../../styles/UserProfileStyle";
 
 interface UserProfileProps {
@@ -63,43 +64,13 @@ const UserProfilePage = ({
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <StudyCard
-            size={128}
-            src="https://shopping-phinf.pstatic.net/main_3243613/32436138937.20220527040509.jpg?type=w300"
-            title="개설한 스터디"
-            gatherStartDate={new Date(2022, 7, 1)}
-            gatherEndDate={new Date(2022, 7, 1)}
-            studyStartDate={new Date(2022, 7, 1)}
-            studyEndDate={new Date(2022, 7, 1)}
-            maxParticipant={6}
-            currentParticipant={0}
-          />
+          <StudyCard size={128} study={dummyStudy} onClick={() => {}} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <StudyCard
-            size={128}
-            src="https://picsum.photos/200"
-            title="참여 중인 스터디"
-            gatherStartDate={new Date(2022, 7, 1)}
-            gatherEndDate={new Date(2022, 7, 1)}
-            studyStartDate={new Date(2022, 7, 1)}
-            studyEndDate={new Date(2022, 7, 1)}
-            maxParticipant={6}
-            currentParticipant={0}
-          />
+          <StudyCard size={128} study={dummyStudy} onClick={() => {}} />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <StudyCard
-            size={128}
-            src="https://picsum.photos/200"
-            title="완료한 스터디"
-            gatherStartDate={new Date(2022, 7, 1)}
-            gatherEndDate={new Date(2022, 7, 1)}
-            studyStartDate={new Date(2022, 7, 1)}
-            studyEndDate={new Date(2022, 7, 1)}
-            maxParticipant={6}
-            currentParticipant={0}
-          />
+          <StudyCard size={128} study={dummyStudy} onClick={() => {}} />
         </TabPanel>
       </S.StudyContainer>
     </>
