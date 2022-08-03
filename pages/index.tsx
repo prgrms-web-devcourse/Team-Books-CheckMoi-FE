@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetServerSideProps } from "next";
 import axios from "axios";
 import { BookCard } from "../components/BookCard";
 import type { BookDataInterface } from "../types/testType";
@@ -11,7 +11,7 @@ interface ServerSidePropsType {
   };
 }
 
-const Home: NextPage = ({ books }: ServerSidePropsType) => {
+const Home = ({ books }: ServerSidePropsType) => {
   const { latestBooks, studyLatestBooks } = books;
 
   const handleBookCardClick = () => {
