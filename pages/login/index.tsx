@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import type { AxiosResponse } from "axios";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress as CircularLoading } from "@mui/material";
 import { StyledBackDrop } from "../../styles/LoginPageStyle";
 
 // TODO type에 정의한 UserType으로 수정
@@ -43,7 +43,7 @@ const LoginPage = () => {
 
   return (
     <StyledBackDrop open>
-      <CircularProgress color="inherit" />
+      <CircularLoading color="inherit" />
     </StyledBackDrop>
   );
 };
