@@ -1,19 +1,18 @@
-import { Box, Divider, Modal } from "@mui/material";
+import { Divider, Modal } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import type { MouseEvent } from "react";
 import { BookDetail } from "../../components/BookDetailCard";
 import { StudyCard } from "../../components/StudyCard";
 import type { BookType } from "../../types/bookType";
-import { StudyDetailType, StudyType } from "../../types/studyType";
+import type { StudyType } from "../../types/studyType";
 import { StudyDetail } from "../../features/StudyDetail";
 import * as S from "../../styles/bookPageStyle";
 
 const Book = () => {
   const router = useRouter();
-  const [bookInfo, setBookinfo] = useState<BookType>({});
+  const [bookInfo, setBookinfo] = useState<BookType>({} as BookType);
   const [studies, setStudies] = useState<StudyType[]>([]);
-  const [studyInfo, setStudyInfo] = useState<StudyDetailType>({});
+  const [selectedId, setSelectedId] = useState("");
   // TODO 쿠키에서 jwt 토큰 가져와서 user 정보 가져오기, 해당 데이터로 스터디원 인지 검증 로직 필요
 
   const [open, setOpen] = useState(false);
@@ -38,22 +37,17 @@ const Book = () => {
 
     const { id } = router.query;
 
-    if (id)
-      if (typeof id === "string") {
-        // TODO api 붙이기 작업
-        bookInfoFetch(id);
-        studiesFetch(id, 1);
-      }
+    if (id && typeof id === "string") {
+      // TODO api 붙이기 작업
+
+      bookInfoFetch(id);
+      studiesFetch(id, 1);
+    }
   }, [router.query]);
 
-  const handleStudyClick = async (
-    e: MouseEvent<HTMLDivElement>,
-    id: string | undefined
-  ) => {
-    const serverData = await fetch(`https://dev.checkmoi.ga/api/studies/${id}`);
-    const { data } = await serverData.json();
-    setStudyInfo({ ...data.study, members: data.members });
-    setOpen(true);
+  const handleStudyClick = (id: string | undefined) => {
+    setSelectedId(id as string);
+    setOpen(!open);
   };
 
   return (
@@ -75,8 +69,8 @@ const Book = () => {
           return (
             <StudyCard
               key={study.id}
-              onClick={(e) => {
-                handleStudyClick(e, study.id);
+              onClick={() => {
+                handleStudyClick(study.id);
               }}
               name={study.name}
               studyStartDate={study.studyStartDate}
@@ -100,18 +94,7 @@ const Book = () => {
         disableEnforceFocus
       >
         <S.StyledBox>
-          <StudyDetail
-            members={studyInfo.members}
-            description={studyInfo.description}
-            name={studyInfo.name}
-            thumbnailUrl=""
-            currentParticipant={studyInfo.currentParticipant}
-            maxParticipant={studyInfo.maxParticipant}
-            gatherStartDate={studyInfo.gatherStartDate}
-            gatherEndDate={studyInfo.gatherEndDate}
-            studyStartDate={studyInfo.studyEndDate}
-            studyEndDate={studyInfo.studyEndDate}
-          />
+          <StudyDetail open={open} id={selectedId} />
         </S.StyledBox>
       </Modal>
     </div>
