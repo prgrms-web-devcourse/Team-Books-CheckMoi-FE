@@ -2,7 +2,16 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-
+  
+  experimental: {
+    images: {
+      allowFutureImage: true,
+    },
+  },
+  images: {
+    domains: ["i.picsum.photos"],
+  },
+  
   async rewrites() {
     return [
       {
