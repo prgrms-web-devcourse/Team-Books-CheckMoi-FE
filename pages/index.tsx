@@ -4,11 +4,6 @@ import { BookCard } from "../components/BookCard";
 import type { BookDataInterface } from "../types/testType";
 import * as S from "../styles/MainPageStyle";
 
-// TODO: BookCard 컴포넌트 가져오기 -> src, title, size, onClick 함수 만들기
-// TODO: 책 관련 백엔드 API 확인 및 검증 -> 현재 책 등록 API에 문제가 있어서 더미데이터로 사용해야 함...
-// TODO: 백엔드 DB 사용전 더미 데이터 사용해서 map 실행
-// TODO: 최신 등록 기준으로 (스터디는 불가능 할 듯 현재로서) 정렬하기
-
 const DUMMY_BOOKS_ADD = [
   {
     id: 1,
@@ -177,19 +172,16 @@ const DUMMY_BOOKS_STUDY_ADD = [
 ];
 
 const Home: NextPage = () => {
-  // ANCHOR 코드가 길어지니 프리티어가 못생겨짐
   const [latestAddedBook, setLatestAddedBook] = useState<BookDataInterface[]>(
     []
   );
 
   useEffect(() => {
-    // TODO 정렬을 해야 하는데, DB에서 책 정보를 가져올 때, id 순서가 추가된 순서이기 때문에 가장 마지막 값 4개만 가져오면 된다?(순서대로 보내준다면)
     const latest = DUMMY_BOOKS_ADD.slice(-4);
     setLatestAddedBook(latest.reverse());
   }, []);
 
   const handleBookCardClick = () => {
-    // TODO: 책 상세 페이지로 이동
     console.log("BookCard Click!");
   };
 
