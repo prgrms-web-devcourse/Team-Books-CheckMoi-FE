@@ -1,10 +1,6 @@
 import styled from "@emotion/styled";
 import { Avatar, Button, Divider } from "@mui/material";
 
-export const Container = styled.div`
-
-`;
-
 export const UserProfileContainer = styled.div`
   height: 8rem;
   max-width: 80%;

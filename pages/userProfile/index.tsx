@@ -17,16 +17,16 @@ const UserProfilePage = ({
   temperature = "40℃",
 }: UserProfileProps) => {
   const [mounted, setMounted] = useState(false);
-  const [value, setValue] = useState(typeof window !== 'undefined' ? 0 : -1);
-  
+  const [value, setValue] = useState(0);
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  
+
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
   return (
-    <S.Container>
+    <>
       <S.UserProfileContainer>
         <S.StyledAvatar src={profileImageUrl} />
         <S.User>
@@ -102,7 +102,7 @@ const UserProfilePage = ({
           />
         </TabPanel>
       </S.StudyContainer>
-    </S.Container>
+    </>
   );
 };
 
