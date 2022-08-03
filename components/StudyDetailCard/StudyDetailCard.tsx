@@ -49,7 +49,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
   return (
     <S.StudyDetailCard>
       <S.ImageWrapper>
-        <BookCard size={10} src="" title="" />
+        <BookCard size={10} src={thumbnailUrl} title="" />
       </S.ImageWrapper>
       <S.StudyInfoContainer>
         <S.StyledTypograph>{name}</S.StyledTypograph>
