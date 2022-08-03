@@ -1,6 +1,6 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
-import type { Book } from "../types/bookType";
+import type { BookType } from "../types/bookType";
 
 export const getBooksList = async () => {
   const data = await apiClient.get(`${END_POINT.book}`);
@@ -8,7 +8,7 @@ export const getBooksList = async () => {
   return data;
 };
 
-export const registerBook = async (book: Book, accessToken: string) => {
+export const registerBook = async (book: BookType, accessToken: string) => {
   const data = await apiClient.put(`${END_POINT.book}`, JSON.stringify(book), {
     headers: {
       Authorization: `bearer ${accessToken}`,
