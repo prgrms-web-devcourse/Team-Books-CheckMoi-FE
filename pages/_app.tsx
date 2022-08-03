@@ -2,7 +2,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Topbar } from "../features/Topbar";
-import * as S from "./style";
+import * as S from "../styles/PageStyle";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
