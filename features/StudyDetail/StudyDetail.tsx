@@ -28,18 +28,7 @@ export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
 
   return (
     <div>
-      <StudyDetailCard
-        name={studyInfo.name}
-        // thumbnailUrl={studyInfo.thumbnailUrl}
-        thumbnailUrl=""
-        maxParticipant={studyInfo.maxParticipant}
-        currentParticipant={studyInfo.currentParticipant}
-        gatherStartDate={studyInfo.gatherStartDate}
-        gatherEndDate={studyInfo.gatherEndDate}
-        studyStartDate={studyInfo.studyStartDate}
-        studyEndDate={studyInfo.studyEndDate}
-        members={studyInfo.members}
-      />
+      <StudyDetailCard study={studyInfo} members={studyInfo.members} />
       <Divider color="black" />
       <StudyContent
         description={studyInfo.description}

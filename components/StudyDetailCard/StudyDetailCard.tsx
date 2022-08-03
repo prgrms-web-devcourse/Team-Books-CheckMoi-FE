@@ -1,29 +1,32 @@
-import { MouseEvent, useState } from 'react';
-import type { MouseEventHandler } from 'react';
-import { Avatar, Menu } from '@mui/material';
-import { StudyState } from './StudyState';
-import * as S from './style';
-import type { User } from '../../types/userType';
-import { selectStudyState } from './helper';
-import type { StudyType } from '../../types/studyType';
-import { BookCard } from '../BookCard';
+import { MouseEvent, useState } from "react";
+import { Avatar, Menu } from "@mui/material";
+import { toNamespacedPath } from "path";
+import { StudyState } from "./StudyState";
+import * as S from "./style";
+import type { User } from "../../types/userType";
+import { selectStudyState } from "./helper";
+import type { StudyType } from "../../types/studyType";
+import { BookCard } from "../BookCard";
 
-interface StudyDetailProps extends StudyType {
+interface StudyDetailProps {
+  study: StudyType;
   members: User[];
 }
 
 // TODO Image => future Image로 수정해야 함
-export const StudyDetailCard = ({
-  name = '스터디 제목2',
-  thumbnailUrl = '',
-  gatherStartDate = '2022/6/30',
-  gatherEndDate = '2022/7/30',
-  studyStartDate = '2022/7/2',
-  studyEndDate = '2022/9/2',
-  maxParticipant = 16,
-  currentParticipant = 0,
-  members = [],
-}: StudyDetailProps) => {
+export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
+  const {
+    id,
+    name,
+    thumbnailUrl,
+    currentParticipant,
+    maxParticipant,
+    gatherStartDate,
+    gatherEndDate,
+    studyStartDate,
+    studyEndDate,
+  } = study;
+
   const studyState = selectStudyState(
     gatherEndDate,
     studyStartDate,
@@ -47,11 +50,11 @@ export const StudyDetailCard = ({
   return (
     <S.StudyDetailCard>
       <S.ImageWrapper>
-        <BookCard size={10} src={thumbnailUrl} title="" />
+        <BookCard size={10} src="" title="" />
       </S.ImageWrapper>
       <S.StudyInfoContainer>
         <S.StyledTypograph>{name}</S.StyledTypograph>
-        {studyState === 'recruiting' && (
+        {studyState === "recruiting" && (
           <S.ResponsiveText>
             모집 인원 : {currentParticipant}/{maxParticipant}
           </S.ResponsiveText>
@@ -66,7 +69,7 @@ export const StudyDetailCard = ({
 
       <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
         {members.map((user) => (
-          <Avatar key={user.userId} src={user.img} />
+          <Avatar key={`AvatarGroup_${user.userId}`} src={user.img} />
         ))}
       </S.StyledAvatarGroup>
       <Menu
@@ -78,7 +81,7 @@ export const StudyDetailCard = ({
         {members.map((user) => {
           return (
             <S.StyledMenuItem
-              key={user.userId}
+              key={`avatar-${user.userId}`}
               onClick={() => {
                 handleUserClick(user.userId);
               }}
@@ -89,7 +92,7 @@ export const StudyDetailCard = ({
           );
         })}
       </Menu>
-      {studyState !== 'done' && <StudyState studyState={studyState} />}
+      {studyState !== "done" && <StudyState studyState={studyState} />}
     </S.StudyDetailCard>
   );
 };
