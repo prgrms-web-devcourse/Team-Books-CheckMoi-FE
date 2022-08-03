@@ -21,7 +21,9 @@ const Book = () => {
 
   useEffect(() => {
     const bookInfoFetch = async (id: string) => {
-      const serverData = await fetch(`https://dev.checkmoi.ga/api/books/${id}`);
+      const serverData = await fetch(
+        `${process.env.NEXT_PUBLIC_API_END_POINT}/books/${id}`
+      );
       const { data } = await serverData.json();
 
       setBookinfo(data);
@@ -29,7 +31,7 @@ const Book = () => {
 
     const studiesFetch = async (id: string, page = 1) => {
       const serverData = await fetch(
-        `https://dev.checkmoi.ga/api/studies?bookId=${id}&size=8&page=${page}`
+        `${process.env.NEXT_PUBLIC_API_END_POINT}/studies?bookId=${id}&size=8&page=${page}`
       );
       const { data } = await serverData.json();
       setStudies(data.studies.content);

@@ -18,7 +18,7 @@ export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
   useEffect(() => {
     const studyInfoFetch = async (studyId: string) => {
       const serverData = await fetch(
-        `https://dev.checkmoi.ga/api/studies/${studyId}`
+        `${process.env.NEXT_PUBLIC_API_END_POINT}/studies/${studyId}`
       );
       const { data } = await serverData.json();
       setStudyInfo({ ...data.study, members: data.members });
