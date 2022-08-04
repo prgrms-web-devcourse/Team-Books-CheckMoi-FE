@@ -10,7 +10,7 @@ import { LoginButton } from "./LoginButton";
 
 // TODO 사용자 정보 불러오기
 
-const FAKE_URL = "/layoutTest";
+const FAKE_URL = "/search";
 const FAKE_QUERY_SIZE = 6;
 
 export const Topbar = () => {
@@ -50,7 +50,7 @@ export const Topbar = () => {
     }
 
     router.push({
-      pathname: `/layoutTest`,
+      pathname: FAKE_URL,
       query: { word },
     });
   };
