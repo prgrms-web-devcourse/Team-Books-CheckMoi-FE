@@ -1,8 +1,7 @@
 import { Divider, Modal } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { BookDetail } from "../../components/BookDetailCard";
-import { StudyCard } from "../../components/StudyCard";
+import { BookDetail, StudyCard, Spacer } from "../../components";
 import type { BookType } from "../../types/bookType";
 import type { StudyType } from "../../types/studyType";
 import { StudyDetail } from "../../features/StudyDetail";
@@ -67,14 +66,16 @@ const Book = () => {
       <S.StudyCardContainer>
         {studies.map((study) => {
           return (
-            <StudyCard
-              key={study.id}
-              onClick={() => {
-                handleStudyClick(study.id);
-              }}
-              study={study}
-              size={128}
-            />
+            <Spacer>
+              <StudyCard
+                key={study.id}
+                onClick={() => {
+                  handleStudyClick(study.id);
+                }}
+                study={study}
+                size={128}
+              />
+            </Spacer>
           );
         })}
       </S.StudyCardContainer>
