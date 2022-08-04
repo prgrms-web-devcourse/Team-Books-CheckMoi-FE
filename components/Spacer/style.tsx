@@ -1,5 +1,10 @@
 import styled from "@emotion/styled";
 
-export const Conatiner = styled.div`
-  margin: 1rem 0;
+interface SpacerProps {
+  size: number;
+}
+
+export const Conatiner = styled.div<SpacerProps>`
+
+  margin: ${({ size }) => `${size}rem`} 0;
 `;

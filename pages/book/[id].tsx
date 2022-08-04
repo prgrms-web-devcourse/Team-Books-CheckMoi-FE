@@ -66,7 +66,7 @@ const Book = () => {
       <S.StudyCardContainer>
         {studies.map((study) => {
           return (
-            <Spacer>
+            <Spacer size={1}>
               <StudyCard
                 key={study.id}
                 onClick={() => {
