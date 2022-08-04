@@ -8,6 +8,7 @@ import type { StudyType } from "../../types/studyType";
 import { StudyDetail } from "../../features/StudyDetail";
 import * as S from "../../styles/bookPageStyle";
 import { getBookInfo } from "../../apis";
+import { getStudies } from "../../apis/study";
 
 const Book = () => {
   const router = useRouter();
@@ -27,11 +28,8 @@ const Book = () => {
     };
 
     const studiesFetch = async (id: string, page = 1) => {
-      const serverData = await fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/studies?bookId=${id}&size=8&page=${page}`
-      );
-      const { data } = await serverData.json();
-      setStudies(data.studies.content);
+      const data = await getStudies(id, page);
+      setStudies(data);
     };
 
     const { id } = router.query;
