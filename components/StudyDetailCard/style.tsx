@@ -1,11 +1,12 @@
-import styled from "@emotion/styled";
-import { Card, MenuItem, AvatarGroup, Typography } from "@mui/material";
+import styled from '@emotion/styled';
+import { Card, MenuItem, AvatarGroup, Typography } from '@mui/material';
 
 export const StudyDetailCard = styled(Card)`
   display: flex;
   padding: 1rem;
   flex-direction: row;
   position: relative;
+
   @media (max-width: 512px) {
     flex-direction: column;
     justify-content: center;

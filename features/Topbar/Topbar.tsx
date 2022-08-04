@@ -1,15 +1,16 @@
 import { useRef, useState } from "react";
 import type { FormEvent } from "react";
-import { Toolbar, Button } from "@mui/material";
+import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import * as S from "./style";
 import { UserProfile } from "./UserProfile";
+import { LoginButton } from "./LoginButton";
 
 // TODO 사용자 정보 불러오기
 
-const FAKE_URL = "/layoutTest";
+const FAKE_URL = "/search";
 const FAKE_QUERY_SIZE = 6;
 
 export const Topbar = () => {
@@ -33,11 +34,7 @@ export const Topbar = () => {
 
   const [isLogin, setIsLogin] = useState(false);
 
-  const handleLogin = () => {
-    setIsLogin(true);
-  };
-
-  const handleLogout = () => {
+  const handleLogoutButtonClick = () => {
     setIsLogin(false);
   };
 
@@ -53,7 +50,7 @@ export const Topbar = () => {
     }
 
     router.push({
-      pathname: `/layoutTest`,
+      pathname: FAKE_URL,
       query: { word },
     });
   };
@@ -68,9 +65,9 @@ export const Topbar = () => {
             <a href="{() => false}">책모이</a>
           </Link>
         </S.LogoText>
-        <S.SearchInputContainer className="SearchWrapper">
+        <S.SearchInputContainer>
           <form onSubmit={handleSubmit}>
-            <S.SearchInput className="Search">
+            <S.SearchInput>
               <S.SearchIconWrapper>
                 <SearchIcon />
               </S.SearchIconWrapper>
@@ -85,11 +82,9 @@ export const Topbar = () => {
         </S.SearchInputContainer>
         {/* TODO 로그인, 로그아웃 처리 필요 */}
         {isLogin ? (
-          <UserProfile handleLogout={handleLogout} />
+          <UserProfile handleLogout={handleLogoutButtonClick} />
         ) : (
-          <Button variant="contained" onClick={handleLogin}>
-            로그인
-          </Button>
+          <LoginButton />
         )}
       </Toolbar>
     </S.StyledAppbar>
