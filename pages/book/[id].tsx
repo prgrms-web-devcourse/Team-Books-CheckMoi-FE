@@ -7,6 +7,7 @@ import type { BookType } from "../../types/bookType";
 import type { StudyType } from "../../types/studyType";
 import { StudyDetail } from "../../features/StudyDetail";
 import * as S from "../../styles/bookPageStyle";
+import { getBookInfo } from "../../apis";
 
 const Book = () => {
   const router = useRouter();
@@ -21,11 +22,7 @@ const Book = () => {
 
   useEffect(() => {
     const bookInfoFetch = async (id: string) => {
-      const serverData = await fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/books/${id}`
-      );
-      const { data } = await serverData.json();
-
+      const data = await getBookInfo(id);
       setBookinfo(data);
     };
 
