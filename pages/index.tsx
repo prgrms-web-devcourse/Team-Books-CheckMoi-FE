@@ -1,14 +1,14 @@
 import type { GetServerSideProps } from "next";
 import axios from "axios";
 import { useRouter } from "next/router";
-import type { BookDataInterface } from "../types/testType";
 import { BookCard } from "../components/BookCard";
+import type { BookAllType } from "../types/bookType";
 import * as S from "../styles/MainPageStyle";
 
 interface ServerSidePropsType {
   books: {
-    latestBooks: BookDataInterface[];
-    studyLatestBooks: BookDataInterface[];
+    latestBooks: BookAllType[];
+    studyLatestBooks: BookAllType[];
   };
 }
 

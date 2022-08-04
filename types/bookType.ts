@@ -6,4 +6,9 @@ export interface BookType {
   pubdate: string;
   isbn: string;
   description: string;
- }
+}
+
+export interface BookAllType extends BookType {
+  id: number;
+  createAt: string;
+}
