@@ -35,8 +35,6 @@ const Book = () => {
     const { id } = router.query;
 
     if (id && typeof id === "string") {
-      // TODO api 붙이기 작업
-
       bookInfoFetch(id);
       studiesFetch(id, 1);
     }
