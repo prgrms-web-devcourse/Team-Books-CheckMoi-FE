@@ -20,3 +20,11 @@ export const getMyInfo = async (token: string) => {
 
   return data;
 };
+
+export const logout = async (token: string) => {
+  await apiClient.delete(`${END_POINT.logout}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

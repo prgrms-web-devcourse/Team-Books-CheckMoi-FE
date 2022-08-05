@@ -13,7 +13,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (token) {
-      document.cookie = `token=${token}`;
+      document.cookie = `token=${token}; path=/; max-age=3600;`;
       const userInfo = getMyInfo(token as string);
       userInfo
         .then((responseUser) => {

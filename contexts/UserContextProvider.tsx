@@ -1,6 +1,7 @@
 import { createContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { User } from "../types/userType";
+import { logout } from "../apis/user";
 
 type UserActionType = {
   login: (inputUser: User) => void;
@@ -23,8 +24,15 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       login(inputUser: User) {
         setUser(inputUser);
       },
-      logout() {
-        setUser(null);
+      async logout() {
+        const token = document.cookie.split("token=");
+        // TODO 백엔드 로그아웃 정상 수정되면 로그아웃 처리 수정, 에러 로직 추가
+        try {
+          await logout(token[1]);
+        } finally {
+          document.cookie = "token=; max-age=0;";
+          setUser(null);
+        }
       },
     }),
     []
