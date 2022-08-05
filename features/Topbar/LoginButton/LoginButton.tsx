@@ -14,6 +14,7 @@ export const LoginButton = () => {
 
   const handleFakeLoginClick = async () => {
     const fakeToken = await fakeLogin();
+    handleModalClose();
     router.push(`/login?token=${fakeToken}`);
   };
 
