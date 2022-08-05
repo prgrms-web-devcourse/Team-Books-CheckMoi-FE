@@ -24,4 +24,7 @@ Default.args = {
     email: "asdasdsa@naver.com",
     img: "https://picsum.photos/200",
   },
+  onClick: () => {
+    console.log("Move PostDetail Page");
+  },
 };
