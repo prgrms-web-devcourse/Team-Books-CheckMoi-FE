@@ -9,9 +9,14 @@ import { getStudyDetailInfo } from "../../apis/study";
 interface StudyDetailProps {
   id: string;
   open: boolean;
+  isPage?: boolean;
 }
 
-export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
+export const StudyDetail = ({
+  id,
+  open = false,
+  isPage = false,
+}: StudyDetailProps) => {
   const [studyInfo, setStudyInfo] = useState<StudyDetailType>({
     study: {},
   } as StudyDetailType);
@@ -28,7 +33,7 @@ export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
         description,
       });
     };
-    studyInfoFetch(id);
+    if (open) studyInfoFetch(id);
   }, [open]);
 
   return (
@@ -39,6 +44,7 @@ export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
         description={studyInfo.description}
         isMember={false}
         onClick={() => {}}
+        height={isPage ? "40vh" : 10}
       />
     </div>
   );
