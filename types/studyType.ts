@@ -2,9 +2,9 @@ import type { BookType } from "./bookType";
 import type { User } from "./userType";
 
 export interface StudyType {
-  id?: string;
+  bookId?: string;
   name: string;
-  thumbnailUrl: string;
+  thumbnail: string;
   currentParticipant: number;
   maxParticipant: number;
   gatherStartDate: string;
