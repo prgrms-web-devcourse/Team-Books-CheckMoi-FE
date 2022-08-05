@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import React, { ReactNode, useEffect, useState } from "react";
 import { Tabs, Tab } from "@mui/material";
+import axios from "axios";
+import { GetServerSideProps } from "next/types";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 
 // ANCHOR 회원 상세 보기 페이지에서 스터디 카드를 클릭하면 이곳으로 이동한다.
@@ -11,36 +13,6 @@ import { StudyDetailCard } from "../../components/StudyDetailCard";
 // TODO 스터디 정보를 사용해서 BookDetailCard를 만든다. (StudyDetailProps 타입 참고)
 // TODO notice, article, free-talk, info(admin only) 탭을 만든다.
 // TODO 각 탭의 디자인을 결정한다.
-
-const DUMMY_DATA = {
-  title: "모던 자바스크립트 같이 하실분?",
-  member: [
-    {
-      userId: "string",
-      name: "string",
-      email: "string",
-      img: "https://picsum.photos/200",
-    },
-    {
-      userId: "string2",
-      name: "string",
-      email: "string",
-      img: "https://picsum.photos/200",
-    },
-    {
-      userId: "string3",
-      name: "string",
-      email: "string",
-      img: "string",
-    },
-  ],
-  gatherStartDate: "2022/6/30",
-  gatherEndDate: "2022/7/30",
-  studyStartDate: "2022/7/2",
-  studyEndDate: "2022/9/2",
-  maxParticipant: 16,
-  currentParticipant: 0,
-};
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -111,14 +83,46 @@ const DummyInfo = () => {
   );
 };
 
-const StudyDetailPage = () => {
-  const router = useRouter();
-  const studyID = router.query.id;
-  useEffect(() => {
-    // TODO studyID를 사용해서 스터디 상세 정보 요청 (StudyDetailProps 타입)
-    // TODO 스터디 상세 정보에 Thumbnail이 있어야 한다.
-  }, []);
+// NOTE SSR 실행하는 동안 API 호출 시 에러 발생 (콘솔)
+//  CSR 실행하면서 에러 발생하지 않음
+//  페이지를 새로고침 하지 않는 한 SSR 에러는 다시 발생하지 않음
+// NOTE 2가지 옵션
+//  1. SSR을 사용해서 서버에서 API 호출 후 페이지 컴포넌트로 전달(라우터로 이동하기 때문에 새로 API 호출 필요 없음)
+//  2. SSR을 막는 옵션을 이 컴포넌트에 추가 (SSR을 생략함. 에러 발생하지 않음)
+interface ServerSidePropsType {
+  studyData: {
+    study: {
+      id: number;
+      name: string;
+      thumbnailUrl: string;
+      description: string;
+      currentParticipant: number;
+      maxParticipant: number;
+      gatherStartDate: string;
+      gatherEndDate: string;
+      studyStartDate: string;
+      studyEndDate: string;
+      book: {
+        bookId: number;
+        title: string;
+        author: string;
+        publisher: string;
+        thumbnail: string;
+      };
+    };
+    members: {
+      id: number;
+      name: string;
+      email: string;
+      temperature: number;
+      profileImageUrl: string;
+    }[];
+  };
+}
+
+const StudyDetailPage = ({ studyData }: ServerSidePropsType) => {
   const [value, setValue] = useState(0);
+  const { study, members } = studyData;
 
   const handleTabChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -130,16 +134,22 @@ const StudyDetailPage = () => {
     */
     // TODO 스터디 상세 정보에서 각 게시판 내용을 가져온다.
     <>
+      {/* <StudyDetailCard study={DUMMY_DATA.study} members={DUMMY_DATA.member} /> */}
       <StudyDetailCard
-        title={DUMMY_DATA.title}
-        member={DUMMY_DATA.member}
-        gatherStartDate={DUMMY_DATA.gatherStartDate}
-        gatherEndDate={DUMMY_DATA.gatherEndDate}
-        studyStartDate={DUMMY_DATA.studyStartDate}
-        studyEndDate={DUMMY_DATA.studyEndDate}
-        maxParticipant={DUMMY_DATA.maxParticipant}
-        currentParticipant={DUMMY_DATA.currentParticipant}
+        study={{
+          id: study.id.toString(),
+          name: study.name,
+          thumbnailUrl: study.thumbnailUrl,
+          currentParticipant: study.currentParticipant,
+          maxParticipant: study.maxParticipant,
+          gatherStartDate: study.gatherStartDate,
+          gatherEndDate: study.gatherEndDate,
+          studyStartDate: study.studyStartDate,
+          studyEndDate: study.studyEndDate,
+        }}
+        members={members}
       />
+
       <Tabs value={value} onChange={handleTabChange}>
         <Tab label="Notice" />
         <Tab label="Article" />
@@ -164,3 +174,19 @@ const StudyDetailPage = () => {
 };
 
 export default StudyDetailPage;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const studyID = context.query.id;
+  try {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_END_POINT}/studies/${studyID}`
+    );
+    if (res.status === 200) {
+      const studyData = res.data.data;
+      return { props: { studyData } };
+    }
+    return { props: {} };
+  } catch (error) {
+    return { props: {} };
+  }
+};
