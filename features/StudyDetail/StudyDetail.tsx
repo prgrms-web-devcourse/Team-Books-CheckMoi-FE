@@ -38,19 +38,15 @@ export const StudyDetail = ({
   }, [open]);
 
   return (
-    <>
-      <Spacer size={1}>
-        <StudyDetailCard study={studyInfo.study} members={studyInfo.members} />
-      </Spacer>
+    <div>
+      <StudyDetailCard study={studyInfo.study} members={studyInfo.members} />
       <Divider color="grey" />
-      <Spacer size={1}>
-        <StudyContent
-          description={studyInfo.description}
-          isMember={false}
-          onClick={() => {}}
-          height={isPage ? "40vh" : 10}
-        />
-      </Spacer>
-    </>
+      <StudyContent
+        description={studyInfo.description}
+        isMember={false}
+        onClick={() => {}}
+        height={isPage ? "40vh" : 10}
+      />
+    </div>
   );
 };
