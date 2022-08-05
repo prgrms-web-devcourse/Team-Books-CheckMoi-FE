@@ -27,11 +27,12 @@ export const PostContent = styled.div`
 `;
 
 export const PostCreatedAt = styled.div`
+  margin: 0.5rem 0;
   font-size: small;
 `;
 
 export const PostBottomContainer = styled.div`
-  padding: 0 0.5rem;
+  padding: 0 1rem 0 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
