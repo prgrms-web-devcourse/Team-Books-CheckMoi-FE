@@ -1,6 +1,7 @@
 export const END_POINT = {
   book: "/books",
   fakeLogin: "/tokens/7",
+  getMyInfo: "/me",
 };
 
 export { getNaverBooks } from "./naver";

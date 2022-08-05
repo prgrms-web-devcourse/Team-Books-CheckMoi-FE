@@ -7,6 +7,10 @@ import Link from "next/link";
 import * as S from "./style";
 import { UserProfile } from "./UserProfile";
 import { LoginButton } from "./LoginButton";
+import {
+  useUserActionContext,
+  useUserContext,
+} from "../../hooks/useUserContext";
 
 // TODO 사용자 정보 불러오기
 
@@ -15,6 +19,8 @@ const FAKE_QUERY_SIZE = 6;
 
 export const Topbar = () => {
   const router = useRouter();
+  const user = useUserContext();
+  const { logout } = useUserActionContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputDefaultValue = useRef("");
@@ -32,10 +38,8 @@ export const Topbar = () => {
         inputRef.current.value = decodeURIComponent(urlWord);
     } else if (inputRef.current) inputRef.current.value = "";
 
-  const [isLogin, setIsLogin] = useState(false);
-
   const handleLogoutButtonClick = () => {
-    setIsLogin(false);
+    logout();
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -80,8 +84,7 @@ export const Topbar = () => {
             </S.SearchInput>
           </form>
         </S.SearchInputContainer>
-        {/* TODO 로그인, 로그아웃 처리 필요 */}
-        {isLogin ? (
+        {user ? (
           <UserProfile handleLogout={handleLogoutButtonClick} />
         ) : (
           <LoginButton />

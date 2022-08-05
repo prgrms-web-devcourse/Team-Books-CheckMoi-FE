@@ -1,45 +1,41 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
-import type { AxiosResponse } from "axios";
 import { CircularProgress as CircularLoading } from "@mui/material";
 import { StyledBackDrop } from "../../styles/LoginPageStyle";
-
-// TODO type에 정의한 UserType으로 수정
-interface UserType {
-  email: string;
-  id: number;
-  name: string;
-  profileImageUrl: string;
-  studies: any[];
-}
+import { getMyInfo } from "../../apis/user";
+import { useUserActionContext } from "../../hooks/useUserContext";
 
 const LoginPage = () => {
+  const { login } = useUserActionContext();
   const router = useRouter();
   const { token } = router.query;
+  const [isLoginDone, setIsLoginDone] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (token)
-      // TODO api 푸시되면 분리
-      axios
-        .get<AxiosResponse<UserType>>(
-          `${process.env.NEXT_PUBLIC_API_END_POINT}/me`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((res) => {
-          // TODO 로그인 유저 정보 쿠키나 로컬스토리지에 저장
-          // TODO 로그인 유저 정보 전역 Context로 저장
-          console.log(res.data.data);
-          router.push("/");
+    if (token) {
+      document.cookie = `token=${token}`;
+      const userInfo = getMyInfo(token as string);
+      userInfo
+        .then((responseUser) => {
+          login(responseUser);
+          setIsLoginDone(true);
         })
-        .catch((error) => {
-          // TODO 로그인 실패 등 에러 처리
-        });
+        .catch((error) => setIsLoginDone(false));
+    }
   }, [token]);
+
+  useEffect(() => {
+    if (isLoginDone === null) return;
+
+    if (isLoginDone) {
+      router.push("/");
+      return;
+    }
+
+    router.push("/");
+    // TODO alert 추가
+    alert("로그인에 실패했습니다");
+  }, [isLoginDone]);
 
   return (
     <StyledBackDrop open>
