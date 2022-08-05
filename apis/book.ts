@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import { apiClient } from "./api";
 import { END_POINT } from ".";
 import type { BookType } from "../types/bookType";

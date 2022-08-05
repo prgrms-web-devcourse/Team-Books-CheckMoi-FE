@@ -18,10 +18,6 @@ export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
 
   useEffect(() => {
     const studyInfoFetch = async (studyId: string) => {
-      // const serverData = await fetch(
-      //   `${process.env.NEXT_PUBLIC_API_END_POINT}/studies/${studyId}`
-      // );
-      // const { data } = await serverData.json();
       const data = await getStudyDetailInfo(studyId);
       setStudyInfo({
         study: data.study,
