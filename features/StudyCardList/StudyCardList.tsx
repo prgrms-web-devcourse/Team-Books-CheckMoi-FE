@@ -6,7 +6,7 @@ import { StudyDetail } from "../StudyDetail";
 import * as S from "./style";
 
 export interface StudyCardListProps {
-  studies: Array<StudyType>;
+  studies: StudyType[];
 }
 
 export const StudyCardList = ({ studies }: StudyCardListProps) => {
