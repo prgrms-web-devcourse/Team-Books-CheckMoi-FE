@@ -1,5 +1,4 @@
-import { useRouter } from "next/router";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Tabs, Tab } from "@mui/material";
 import axios from "axios";
 import { GetServerSideProps } from "next/types";
