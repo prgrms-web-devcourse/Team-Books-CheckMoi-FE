@@ -11,6 +11,7 @@ export const PostCard = styled.div<PostCardProps>`
   gap: 0.5rem;
   padding: 0.5rem;
   box-shadow: 12px 21px 15px -3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 `;
 
 export const PostTitle = styled.div`
@@ -24,6 +25,7 @@ export const PostContent = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  height: 3.5rem;
 `;
 
 export const PostCreatedAt = styled.div`
