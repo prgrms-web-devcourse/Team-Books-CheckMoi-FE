@@ -1,13 +1,21 @@
 import { Box, Button, Typography, Modal } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { fakeLogin } from "../../../apis/user";
 import * as S from "./style";
 
 export const LoginButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   const handleLoginButtonClick = () => setIsModalOpen(true);
 
   const handleModalClose = () => setIsModalOpen(false);
+
+  const handleFakeLoginClick = async () => {
+    const fakeToken = await fakeLogin();
+    router.push(`/login?token=${fakeToken}`);
+  };
 
   const style = {
     position: "absolute" as "absolute",
@@ -42,6 +50,10 @@ export const LoginButton = () => {
             <a href={process.env.NEXT_PUBLIC_KAKAO_API}>
               <img src="/images/kakao_login_medium.png" alt="" />
             </a>
+            {/* TODO 가짜 로그인 삭제하기 */}
+            <Button variant="contained" onClick={handleFakeLoginClick}>
+              Fake
+            </Button>
             {/* TODO 구글 로그인 추가 */}
             <Button variant="contained">구글 로그인</Button>
           </S.ButtonContainer>
