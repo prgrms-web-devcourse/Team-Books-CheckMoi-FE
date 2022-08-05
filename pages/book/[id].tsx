@@ -5,6 +5,9 @@ import { BookDetail } from "../../components";
 import type { BookType } from "../../types/bookType";
 import type { StudyType } from "../../types/studyType";
 import { StudyCardList } from "../../features";
+import * as S from "../../styles/bookPageStyle";
+import { getBookInfo } from "../../apis";
+import { getStudies } from "../../apis/study";
 
 const Book = () => {
   const router = useRouter();
@@ -14,27 +17,18 @@ const Book = () => {
 
   useEffect(() => {
     const bookInfoFetch = async (id: string) => {
-      const serverData = await fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/books/${id}`
-      );
-      const { data } = await serverData.json();
-
-      setBookinfo(data);
+      const bookData = await getBookInfo(id);
+      setBookinfo(bookData);
     };
 
     const studiesFetch = async (id: string, page = 1) => {
-      const serverData = await fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/studies?bookId=${id}&size=8&page=${page}`
-      );
-      const { data } = await serverData.json();
-      setStudies(data.studies.content);
+      const studiesData = await getStudies(id, page);
+      setStudies(studiesData);
     };
 
     const { id } = router.query;
 
     if (id && typeof id === "string") {
-      // TODO api 붙이기 작업
-
       bookInfoFetch(id);
       studiesFetch(id, 1);
     }

@@ -4,6 +4,7 @@ import * as S from "./style";
 import type { StudyDetailType } from "../../types/studyType";
 import { StudyContent } from "../../components/StudyContent";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
+import { getStudyDetailInfo } from "../../apis/study";
 
 interface StudyDetailProps {
   id: string;
@@ -11,24 +12,28 @@ interface StudyDetailProps {
 }
 
 export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
-  const [studyInfo, setStudyInfo] = useState<StudyDetailType>(
-    {} as StudyDetailType
-  );
+  const [studyInfo, setStudyInfo] = useState<StudyDetailType>({
+    study: {},
+  } as StudyDetailType);
 
   useEffect(() => {
     const studyInfoFetch = async (studyId: string) => {
-      const serverData = await fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/studies/${studyId}`
+      const { study, members, book, description } = await getStudyDetailInfo(
+        studyId
       );
-      const { data } = await serverData.json();
-      setStudyInfo({ ...data.study, members: data.members });
+      setStudyInfo({
+        study,
+        members,
+        book,
+        description,
+      });
     };
     studyInfoFetch(id);
   }, [open]);
 
   return (
     <div>
-      <StudyDetailCard study={studyInfo} members={studyInfo.members} />
+      <StudyDetailCard study={studyInfo.study} members={studyInfo.members} />
       <Divider color="black" />
       <StudyContent
         description={studyInfo.description}
