@@ -1,6 +1,8 @@
 import { Box, Button, Input, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
+import { createStudy } from "../../apis/study";
+import type { StudyType } from "../../types/studyType";
 import * as S from "./style";
 
 interface StudyOpenProps {
@@ -43,6 +45,19 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     console.log(studyInfo);
   };
 
+  const handleOpenClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const newStudyInfo: StudyType = {
+      ...studyInfo,
+      maxParticipant: Number(studyInfo.maxParticipant),
+      currentParticipant: 1,
+      bookId,
+    };
+
+    const study = await createStudy(newStudyInfo);
+
+    console.log(study);
+  };
+
   return (
     <S.Container>
       <TextField
@@ -81,6 +96,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         />
         -
         <TextField
+          name="gatherEndDate"
           variant="standard"
           label="스터디원 모집 마감"
           value={studyInfo.gatherEndDate}
@@ -90,6 +106,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       </Box>
       <Box component="form">
         <TextField
+          name="studyStartDate"
           variant="standard"
           label="스터디 진행 시작"
           value={studyInfo.studyStartDate}
@@ -98,6 +115,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         />
         -
         <TextField
+          name="studyEndDate"
           variant="standard"
           label="스터디 진행 종료"
           value={studyInfo.studyEndDate}
@@ -106,6 +124,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         />
       </Box>
       <TextField
+        name="description"
         variant="outlined"
         label="스터디 내용"
         multiline
@@ -113,8 +132,12 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         margin="dense"
         onChange={handleStudyInfoChange}
       />
-      <Input value={studyInfo.thumbnail} onChange={handleStudyInfoChange} />
-      <Button>개설하기</Button>
+      <Input
+        name="thumbnail"
+        value={studyInfo.thumbnail}
+        onChange={handleStudyInfoChange}
+      />
+      <Button onClick={handleOpenClick}>개설하기</Button>
     </S.Container>
   );
 };
