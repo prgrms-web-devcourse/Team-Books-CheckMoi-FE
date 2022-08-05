@@ -3,6 +3,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { Tabs, Tab } from "@mui/material";
 import axios from "axios";
 import { GetServerSideProps } from "next/types";
+import type { StudyDetailType } from "../../types/studyType";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 
 // ANCHOR 회원 상세 보기 페이지에서 스터디 카드를 클릭하면 이곳으로 이동한다.
@@ -89,40 +90,13 @@ const DummyInfo = () => {
 // NOTE 2가지 옵션
 //  1. SSR을 사용해서 서버에서 API 호출 후 페이지 컴포넌트로 전달(라우터로 이동하기 때문에 새로 API 호출 필요 없음)
 //  2. SSR을 막는 옵션을 이 컴포넌트에 추가 (SSR을 생략함. 에러 발생하지 않음)
-interface ServerSidePropsType {
-  studyData: {
-    study: {
-      id: number;
-      name: string;
-      thumbnailUrl: string;
-      description: string;
-      currentParticipant: number;
-      maxParticipant: number;
-      gatherStartDate: string;
-      gatherEndDate: string;
-      studyStartDate: string;
-      studyEndDate: string;
-      book: {
-        bookId: number;
-        title: string;
-        author: string;
-        publisher: string;
-        thumbnail: string;
-      };
-    };
-    members: {
-      id: number;
-      name: string;
-      email: string;
-      temperature: number;
-      profileImageUrl: string;
-    }[];
-  };
+interface ServerSidePropType {
+  studyData: StudyDetailType;
 }
 
-const StudyDetailPage = ({ studyData }: ServerSidePropsType) => {
+const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const [value, setValue] = useState(0);
-  const { study, members } = studyData;
+  // const { study, members } = studyData; // 디스크립션이 들어있는데
 
   const handleTabChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -134,21 +108,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropsType) => {
     */
     // TODO 스터디 상세 정보에서 각 게시판 내용을 가져온다.
     <>
-      {/* <StudyDetailCard study={DUMMY_DATA.study} members={DUMMY_DATA.member} /> */}
-      <StudyDetailCard
-        study={{
-          id: study.id.toString(),
-          name: study.name,
-          thumbnailUrl: study.thumbnailUrl,
-          currentParticipant: study.currentParticipant,
-          maxParticipant: study.maxParticipant,
-          gatherStartDate: study.gatherStartDate,
-          gatherEndDate: study.gatherEndDate,
-          studyStartDate: study.studyStartDate,
-          studyEndDate: study.studyEndDate,
-        }}
-        members={members}
-      />
+      {/* <StudyDetailCard study={study} members={members} /> */}
 
       <Tabs value={value} onChange={handleTabChange}>
         <Tab label="Notice" />
