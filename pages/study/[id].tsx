@@ -96,8 +96,7 @@ interface ServerSidePropType {
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const [value, setValue] = useState(0);
-  // const { study, members } = studyData; // 디스크립션이 들어있는데
-
+  const { study, members } = studyData;
   const handleTabChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -108,7 +107,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     */
     // TODO 스터디 상세 정보에서 각 게시판 내용을 가져온다.
     <>
-      {/* <StudyDetailCard study={study} members={members} /> */}
+      <StudyDetailCard study={study} members={members} />
 
       <Tabs value={value} onChange={handleTabChange}>
         <Tab label="Notice" />

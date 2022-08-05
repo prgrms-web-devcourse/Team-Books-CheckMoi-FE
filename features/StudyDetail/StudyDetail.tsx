@@ -21,6 +21,7 @@ export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
         `${process.env.NEXT_PUBLIC_API_END_POINT}/studies/${studyId}`
       );
       const { data } = await serverData.json();
+      console.log("data", data);
       setStudyInfo({ ...data.study, members: data.members });
     };
     studyInfoFetch(id);
@@ -28,7 +29,7 @@ export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
 
   return (
     <div>
-      <StudyDetailCard study={studyInfo} members={studyInfo.members} />
+      <StudyDetailCard study={studyInfo.study} members={studyInfo.members} />
       <Divider color="black" />
       <StudyContent
         description={studyInfo.description}
