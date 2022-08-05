@@ -5,6 +5,7 @@ import type { StudyDetailType } from "../../types/studyType";
 import { StudyContent } from "../../components/StudyContent";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { getStudyDetailInfo } from "../../apis/study";
+import { Spacer } from "../../components";
 
 interface StudyDetailProps {
   id: string;
@@ -37,15 +38,19 @@ export const StudyDetail = ({
   }, [open]);
 
   return (
-    <div>
-      <StudyDetailCard study={studyInfo.study} members={studyInfo.members} />
-      <Divider color="black" />
-      <StudyContent
-        description={studyInfo.description}
-        isMember={false}
-        onClick={() => {}}
-        height={isPage ? "40vh" : 10}
-      />
-    </div>
+    <>
+      <Spacer size={1}>
+        <StudyDetailCard study={studyInfo.study} members={studyInfo.members} />
+      </Spacer>
+      <Divider color="grey" />
+      <Spacer size={1}>
+        <StudyContent
+          description={studyInfo.description}
+          isMember={false}
+          onClick={() => {}}
+          height={isPage ? "40vh" : 10}
+        />
+      </Spacer>
+    </>
   );
 };
