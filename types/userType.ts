@@ -1,6 +1,7 @@
-export interface User {
+export interface UserType {
   userId: string;
   name: string;
   email: string;
-  img: string;
+  temperature: number;
+  profileImageUrl: string;
 }
