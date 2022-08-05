@@ -23,13 +23,13 @@ const Book = () => {
 
   useEffect(() => {
     const bookInfoFetch = async (id: string) => {
-      const data = await getBookInfo(id);
-      setBookinfo(data);
+      const bookData = await getBookInfo(id);
+      setBookinfo(bookData);
     };
 
     const studiesFetch = async (id: string, page = 1) => {
-      const data = await getStudies(id, page);
-      setStudies(data);
+      const studiesData = await getStudies(id, page);
+      setStudies(studiesData);
     };
 
     const { id } = router.query;

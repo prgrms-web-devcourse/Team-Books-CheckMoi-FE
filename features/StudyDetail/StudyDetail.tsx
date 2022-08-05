@@ -18,12 +18,14 @@ export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
 
   useEffect(() => {
     const studyInfoFetch = async (studyId: string) => {
-      const data = await getStudyDetailInfo(studyId);
+      const { study, members, book, description } = await getStudyDetailInfo(
+        studyId
+      );
       setStudyInfo({
-        study: data.study,
-        members: data.members,
-        book: data.book,
-        description: data.description,
+        study,
+        members,
+        book,
+        description,
       });
     };
     studyInfoFetch(id);
