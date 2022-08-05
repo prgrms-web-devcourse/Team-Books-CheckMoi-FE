@@ -27,11 +27,12 @@ export const StudyDetail = ({
       const { study, members, book, description } = await getStudyDetailInfo(
         studyId
       );
+
       setStudyInfo({
         study,
         members,
         book,
-        description,
+        description: study.description,
       });
     };
     if (open) studyInfoFetch(id);
