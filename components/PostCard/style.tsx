@@ -38,6 +38,7 @@ export const PostBottomContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  overflow: hidden;
 `;
 
 export const PostUserWarpper = styled.div`
