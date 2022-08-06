@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-no-useless-fragment */
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Skeleton, Box, Tabs, Tab } from "@mui/material";
@@ -13,7 +14,7 @@ const userProfile = () => {
   const [value, setValue] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9MT0dJTiIsInVzZXJJZCI6NywiaWF0IjoxNjU5Njg3MTcwLCJleHAiOjE2NTk2OTA3NzB9.Ws-o97JBaHo4spVxzpFiAF45hBr3_8XCA4UCU1fsU40";
+    "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9MT0dJTiIsInVzZXJJZCI6NywiaWF0IjoxNjU5Nzc5MDc2LCJleHAiOjE2NTk3ODI2NzZ9.yhE_noUzvgp0ofa7En2u0z3KzyxnI3m1otxz3a9-dYw";
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -84,7 +85,9 @@ const userProfile = () => {
                 {userInfo.email} | {userInfo.temperature}°C
               </S.UserInfo>
             </S.User>
-            <S.StyledButton variant="contained">프로필 수정</S.StyledButton>
+            <Link href="/userProfileEdit">
+              <S.StyledButton variant="contained">프로필 수정</S.StyledButton>
+            </Link>
           </S.UserProfileContainer>
           <S.StyledDivider />
           <S.StudyContainer>
