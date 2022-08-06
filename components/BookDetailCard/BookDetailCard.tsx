@@ -25,9 +25,14 @@ export const BookDetail = ({
 }: BookDetailProps) => {
   return (
     <S.BookDetailCard>
-      <S.ImageWrapper>
-        <Image width={size} height={size * 1.5} src={src} />
-      </S.ImageWrapper>
+      <S.ImageContainer>
+        <S.ImageWrapper>
+          <Image width={size} height={size * 1.5} src={src} />
+        </S.ImageWrapper>
+        <S.StyledButton variant="contained" color="primary">
+          스터디 개설하기
+        </S.StyledButton>
+      </S.ImageContainer>
       <S.BookInfoConatiner>
         <S.ResponsiveText fontSize={1.3}>{title}</S.ResponsiveText>
         <S.ResponsiveText>
@@ -41,9 +46,6 @@ export const BookDetail = ({
           {description}
         </S.BookDescription>
       </S.BookInfoConatiner>
-      <S.StyledButton variant="contained" color="primary">
-        스터디 개설하기
-      </S.StyledButton>
     </S.BookDetailCard>
   );
 };

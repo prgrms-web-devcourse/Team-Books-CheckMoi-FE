@@ -13,7 +13,8 @@ export interface StudyType {
   studyEndDate: string;
 }
 
-export interface StudyDetailType extends StudyType {
+export interface StudyDetailType {
+  study: StudyType;
   members: User[];
   book: BookType;
   description: string;

@@ -1,5 +1,6 @@
 export const END_POINT = {
   book: "/books",
+  studies: "/studies",
   fakeLogin: "/tokens/7",
   getMyInfo: "/me",
   logout: "/logout",

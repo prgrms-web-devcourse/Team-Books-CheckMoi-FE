@@ -20,7 +20,9 @@ export const registerBook = async (book: BookType, accessToken: string) => {
 };
 
 export const getBookInfo = async (bookId: string) => {
-  const data = await apiClient.get(`${END_POINT.book}/${bookId}`);
+  const data = await apiClient.get<BookType, BookType>(
+    `${END_POINT.book}/${bookId}`
+  );
 
   return data;
 };
