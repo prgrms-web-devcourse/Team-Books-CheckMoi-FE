@@ -1,4 +1,6 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
+import { logout as logoutApi } from "../../../apis/user";
+import { useOurSnackbar } from "../../../hooks/useOurSnackbar";
 import { useUserActionContext } from "../../../hooks/useUserContext";
 import * as S from "./style";
 
@@ -9,11 +11,18 @@ interface LogoutModalProps {
 
 const LogoutModal = ({ open, handleModalClose }: LogoutModalProps) => {
   const { logout } = useUserActionContext();
+  const { renderSnackbar } = useOurSnackbar();
 
-  const handleLogoutClick = () => {
-    logout();
-    // TODO alert 추가
-    alert("로그아웃에 성공했습니다");
+  const handleLogoutClick = async () => {
+    try {
+      const token = document.cookie.split("token=");
+      await logoutApi(token[1]);
+      document.cookie = "token=; max-age=0;";
+      logout();
+      renderSnackbar("로그아웃에 성공했습니다");
+    } catch (error) {
+      renderSnackbar("로그아웃에 실패했습니다", "warning");
+    }
   };
 
   const style = {

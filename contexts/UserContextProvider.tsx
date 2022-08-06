@@ -1,7 +1,6 @@
 import { createContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import type { User } from "../types/userType";
-import { logout } from "../apis/user";
 
 interface UserActionType {
   login: (inputUser: User) => void;
@@ -28,10 +27,7 @@ const UserContextProvider = ({
       login(inputUser: User) {
         setUser(inputUser);
       },
-      async logout() {
-        const token = document.cookie.split("token=");
-        await logout(token[1]);
-        document.cookie = "token=; max-age=0;";
+      logout() {
         setUser(null);
       },
     }),
