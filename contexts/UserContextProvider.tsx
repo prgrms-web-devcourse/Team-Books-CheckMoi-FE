@@ -1,12 +1,12 @@
 import { createContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { User } from "../types/userType";
+import type { User } from "../types/userType";
 import { logout } from "../apis/user";
 
-type UserActionType = {
+interface UserActionType {
   login: (inputUser: User) => void;
   logout: () => void;
-};
+}
 
 export const UserContext = createContext<User | null>(null);
 export const UserActionContext = createContext<UserActionType>(
