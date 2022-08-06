@@ -30,13 +30,9 @@ const UserContextProvider = ({
       },
       async logout() {
         const token = document.cookie.split("token=");
-        // TODO 백엔드 로그아웃 정상 수정되면 로그아웃 처리 수정, 에러 로직 추가
-        try {
-          await logout(token[1]);
-        } finally {
-          document.cookie = "token=; max-age=0;";
-          setUser(null);
-        }
+        await logout(token[1]);
+        document.cookie = "token=; max-age=0;";
+        setUser(null);
       },
     }),
     []
