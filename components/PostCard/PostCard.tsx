@@ -1,4 +1,4 @@
-import React from "react";
+import type { MouseEventHandler } from "react";
 import { Avatar, Badge, Divider } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import * as S from "./style";
@@ -11,7 +11,7 @@ interface PostProps {
   comments: number;
   size: number;
   user: User;
-  onClick?: React.MouseEventHandler<HTMLElement>;
+  onClick?: MouseEventHandler<HTMLElement>;
 }
 
 export const PostCard = ({
