@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Tabs, Tab } from "@mui/material";
-import axios from "axios";
 import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
+import { getStudyDetailInfo } from "../../apis/study";
 
 const DummyBoard = () => {
   return (
@@ -84,17 +84,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 export default StudyDetailPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const studyID = context.query.id;
-  try {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_END_POINT}/studies/${studyID}`
-    );
-    if (res.status === 200) {
-      const studyData = res.data.data;
-      return { props: { studyData } };
-    }
-    return { props: {} };
-  } catch (error) {
-    return { props: {} };
-  }
+  const studyID = context.query.id as string;
+  const studyData = await getStudyDetailInfo(studyID);
+  return { props: { studyData } };
 };
