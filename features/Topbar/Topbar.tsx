@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import type { FormEvent } from "react";
 import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -7,6 +7,7 @@ import Link from "next/link";
 import * as S from "./style";
 import { UserProfile } from "./UserProfile";
 import { LoginButton } from "./LoginButton";
+import { useUserContext } from "../../hooks/useUserContext";
 
 // TODO 사용자 정보 불러오기
 
@@ -15,6 +16,7 @@ const FAKE_QUERY_SIZE = 6;
 
 export const Topbar = () => {
   const router = useRouter();
+  const user = useUserContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputDefaultValue = useRef("");
@@ -31,12 +33,6 @@ export const Topbar = () => {
       if (inputRef.current)
         inputRef.current.value = decodeURIComponent(urlWord);
     } else if (inputRef.current) inputRef.current.value = "";
-
-  const [isLogin, setIsLogin] = useState(false);
-
-  const handleLogoutButtonClick = () => {
-    setIsLogin(false);
-  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -80,12 +76,7 @@ export const Topbar = () => {
             </S.SearchInput>
           </form>
         </S.SearchInputContainer>
-        {/* TODO 로그인, 로그아웃 처리 필요 */}
-        {isLogin ? (
-          <UserProfile handleLogout={handleLogoutButtonClick} />
-        ) : (
-          <LoginButton />
-        )}
+        {user ? <UserProfile /> : <LoginButton />}
       </Toolbar>
     </S.StyledAppbar>
   );
