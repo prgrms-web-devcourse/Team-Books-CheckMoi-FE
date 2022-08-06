@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Divider } from "@mui/material";
-import * as S from "./style";
 import type { StudyDetailType } from "../../types/studyType";
 import { StudyContent } from "../../components/StudyContent";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
