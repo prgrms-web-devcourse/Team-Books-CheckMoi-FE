@@ -15,10 +15,14 @@ export const UserActionContext = createContext<UserActionType>(
 
 interface UserContextProviderProps {
   children: ReactNode;
+  initialUser: User | null;
 }
 
-const UserContextProvider = ({ children }: UserContextProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+const UserContextProvider = ({
+  children,
+  initialUser,
+}: UserContextProviderProps) => {
+  const [user, setUser] = useState(initialUser);
   const actions = useMemo(
     () => ({
       login(inputUser: User) {
