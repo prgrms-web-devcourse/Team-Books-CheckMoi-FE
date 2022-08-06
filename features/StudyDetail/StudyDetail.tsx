@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Divider } from "@mui/material";
-import * as S from "./style";
 import type { StudyDetailType } from "../../types/studyType";
 import { StudyContent } from "../../components/StudyContent";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
@@ -21,7 +20,6 @@ export const StudyDetail = ({ id, open = false }: StudyDetailProps) => {
         `${process.env.NEXT_PUBLIC_API_END_POINT}/studies/${studyId}`
       );
       const { data } = await serverData.json();
-      console.log("data", data);
       setStudyInfo({ ...data.study, members: data.members });
     };
     studyInfoFetch(id);
