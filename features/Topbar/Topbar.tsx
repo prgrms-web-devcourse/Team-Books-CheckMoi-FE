@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { FormEvent } from "react";
 import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -52,6 +52,10 @@ export const Topbar = () => {
       query: { word },
     });
   };
+
+  useEffect(() => {
+    if (user) renderSnackbar("로그인에 성공했습니다");
+  }, [user]);
 
   return (
     <S.StyledAppbar position="fixed">
