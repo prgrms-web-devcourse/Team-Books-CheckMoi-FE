@@ -22,7 +22,6 @@ const Book = () => {
 
     const studiesFetch = async (id: string, page = 1) => {
       const studiesData = await getStudies(id, page);
-      console.log(studiesData);
       setStudies(studiesData);
     };
 
