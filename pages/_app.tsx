@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useRef } from "react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import { SnackbarProvider } from "notistack";
 import { Topbar } from "../features/Topbar";
 import * as S from "../styles/LayoutStyle";
 import UserContextProvider from "../contexts/UserContextProvider";
@@ -12,13 +14,17 @@ interface MyAppProps extends AppProps {
 }
 
 const MyApp = ({ Component, pageProps, user }: MyAppProps) => {
+  const snackbarRef = useRef<SnackbarProvider>(null);
+
   return (
-    <UserContextProvider initialUser={user}>
-      <Topbar />
-      <S.ContentContainer>
-        <Component {...pageProps} />
-      </S.ContentContainer>
-    </UserContextProvider>
+    <SnackbarProvider maxSnack={3} ref={snackbarRef}>
+      <UserContextProvider initialUser={user}>
+        <Topbar />
+        <S.ContentContainer>
+          <Component {...pageProps} />
+        </S.ContentContainer>
+      </UserContextProvider>
+    </SnackbarProvider>
   );
 };
 
