@@ -3,6 +3,7 @@ import { Tabs, Tab } from "@mui/material";
 import axios from "axios";
 import { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
+import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 
 // ANCHOR 회원 상세 보기 페이지에서 스터디 카드를 클릭하면 이곳으로 이동한다.
@@ -19,14 +20,6 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
-
-const TabPanel = ({ children, value, index }: TabPanelProps) => {
-  return (
-    <div role="tabpanel" hidden={value !== index} id={`tabpanel-${index}`}>
-      {value === index && <div>{children}</div>}
-    </div>
-  );
-};
 
 const DummyBoard = () => {
   return (
@@ -69,20 +62,6 @@ const DummyFreeTalk = () => {
   );
 };
 
-const DummyInfo = () => {
-  return (
-    <div>
-      <h1>Info</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-        temporibus odit voluptatum voluptatem eveniet ea nobis voluptas quisquam
-        enim, modi libero? Dicta aliquid dolor optio quaerat sequi, corrupti
-        ratione nihil?
-      </p>
-    </div>
-  );
-};
-
 // NOTE SSR 실행하는 동안 API 호출 시 에러 발생 (콘솔)
 //  CSR 실행하면서 에러 발생하지 않음
 //  페이지를 새로고침 하지 않는 한 SSR 에러는 다시 발생하지 않음
@@ -109,10 +88,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       <StudyDetailCard study={study} members={members} />
 
       <Tabs value={value} onChange={handleTabChange}>
-        <Tab label="Notice" />
-        <Tab label="Article" />
-        <Tab label="Free-Talk" />
-        <Tab label="Info(admin)" disabled />
+        <Tab label="공지" />
+        <Tab label="자유" />
+        <Tab label="관리자" disabled />
       </Tabs>
 
       <TabPanel value={value} index={0}>
@@ -123,9 +101,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <DummyFreeTalk />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <DummyInfo />
       </TabPanel>
     </>
   );
