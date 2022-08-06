@@ -1,25 +1,10 @@
-import React, { ReactNode, useState } from "react";
+import React, { useState } from "react";
 import { Tabs, Tab } from "@mui/material";
 import axios from "axios";
-import { GetServerSideProps } from "next/types";
+import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
-
-// ANCHOR 회원 상세 보기 페이지에서 스터디 카드를 클릭하면 이곳으로 이동한다.
-// ANCHOR 스터디 모집 (모달 or 페이지)에서 '스터디룸 이동하기'를 클릭하면 이곳으로 이동한다.
-// NOTE 두 곳 모두 스터디 ID를 이곳으로 전달해야 한다.
-
-// NOTE 스터디 ID를 사용해서 스터디 상세 정보를 조회할 수 있는 API가 없다?... 지금은 더미 데이터로
-// TODO 스터디 정보를 사용해서 BookDetailCard를 만든다. (StudyDetailProps 타입 참고)
-// TODO notice, article, free-talk, info(admin only) 탭을 만든다.
-// TODO 각 탭의 디자인을 결정한다.
-
-interface TabPanelProps {
-  children?: ReactNode;
-  index: number;
-  value: number;
-}
 
 const DummyBoard = () => {
   return (
@@ -62,12 +47,6 @@ const DummyFreeTalk = () => {
   );
 };
 
-// NOTE SSR 실행하는 동안 API 호출 시 에러 발생 (콘솔)
-//  CSR 실행하면서 에러 발생하지 않음
-//  페이지를 새로고침 하지 않는 한 SSR 에러는 다시 발생하지 않음
-// NOTE 2가지 옵션
-//  1. SSR을 사용해서 서버에서 API 호출 후 페이지 컴포넌트로 전달(라우터로 이동하기 때문에 새로 API 호출 필요 없음)
-//  2. SSR을 막는 옵션을 이 컴포넌트에 추가 (SSR을 생략함. 에러 발생하지 않음)
 interface ServerSidePropType {
   studyData: StudyDetailType;
 }
@@ -80,10 +59,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   };
 
   return (
-    /* TODO BookCard 컴포넌트가 Study Thumbnail 역할도 하는 건가? BookCard 컴포넌트의 src를 전달하기 위해서
-       스터디 상세 정보에서 Thumbnail을 이곳으로 전달해야 한다.
-    */
-    // TODO 스터디 상세 정보에서 각 게시판 내용을 가져온다.
     <>
       <StudyDetailCard study={study} members={members} />
 
