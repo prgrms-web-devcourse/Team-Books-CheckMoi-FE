@@ -24,11 +24,12 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     thumbnail: "",
   });
   const [inputError, setInputError] = useState({
-    maxParticipant: false,
-    gatherStartDate: false,
-    gatherEndDate: false,
-    studyStartDate: false,
-    studyEndDate: false,
+    name: "",
+    maxParticipant: "",
+    gatherStartDate: "",
+    gatherEndDate: "",
+    studyStartDate: "",
+    studyEndDate: "",
   });
 
   useEffect(() => {
@@ -77,6 +78,44 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       bookId,
     };
 
+    const newError = {
+      name: "",
+      maxParticipant: "",
+      gatherStartDate: "",
+      gatherEndDate: "",
+      studyStartDate: "",
+      studyEndDate: "",
+    };
+    console.log(inputError);
+
+    // TODO: participant 제한이 몇이었더라..?
+    const LIMIT_PARTICIPANT = 30;
+
+    if (!newStudyInfo.name) newError.name = "스터디 이름을 입력해주세요";
+
+    if (!newStudyInfo.maxParticipant)
+      newError.maxParticipant = "정원을 입력해주세요";
+    else if (newStudyInfo.maxParticipant < 1)
+      newError.maxParticipant = "적어도 2명 이상이어야 합니다.";
+    else if (newStudyInfo.maxParticipant > LIMIT_PARTICIPANT)
+      newError.maxParticipant = "정원 초과";
+
+    if (newStudyInfo.gatherStartDate.length !== 8)
+      newError.gatherStartDate = "YYYYMMDD 형식으로 입력해주세요";
+
+    if (newStudyInfo.gatherEndDate.length !== 8)
+      newError.gatherEndDate = "YYYYMMDD 형식으로 입력해주세요";
+
+    if (newStudyInfo.studyStartDate.length !== 8)
+      newError.studyStartDate = "YYYYMMDD 형식으로 입력해주세요";
+
+    if (newStudyInfo.studyEndDate.length !== 8)
+      newError.studyEndDate = "YYYYMMDD 형식으로 입력해주세요";
+
+    setInputError({ ...newError });
+
+    if (!Object.values(newError).every((errorVal) => errorVal === "")) return;
+
     const study = await createStudy(newStudyInfo);
 
     console.log(study);
@@ -92,10 +131,6 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       const resultImage = reader.result;
       setStudyInfo({ ...studyInfo, thumbnail: resultImage as string });
     };
-  };
-
-  const isInputError = () => {
-    return !Object.values(inputError).every((value) => value === false);
   };
 
   return (
@@ -116,6 +151,8 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         value={studyInfo.name}
         margin="dense"
         onChange={handleStudyInfoChange}
+        error={!!inputError.name}
+        helperText={inputError.name}
       />
       <TextField
         name="maxParticipant"
@@ -124,6 +161,8 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         value={studyInfo.maxParticipant}
         margin="dense"
         onChange={handleStudyInfoChange}
+        error={!!inputError.maxParticipant}
+        helperText={inputError.maxParticipant}
       />
       <TextField
         name="gatherStartDate"
@@ -132,6 +171,8 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         value={studyInfo.gatherStartDate}
         margin="dense"
         onChange={handleStudyInfoChange}
+        error={!!inputError.gatherStartDate}
+        helperText={inputError.gatherStartDate}
       />
       <TextField
         name="gatherEndDate"
@@ -140,6 +181,8 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         value={studyInfo.gatherEndDate}
         margin="dense"
         onChange={handleStudyInfoChange}
+        error={!!inputError.gatherEndDate}
+        helperText={inputError.gatherEndDate}
       />
       <TextField
         name="studyStartDate"
@@ -148,6 +191,8 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         value={studyInfo.studyStartDate}
         margin="dense"
         onChange={handleStudyInfoChange}
+        error={!!inputError.studyStartDate}
+        helperText={inputError.studyStartDate}
       />
       <TextField
         name="studyEndDate"
@@ -156,6 +201,8 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         value={studyInfo.studyEndDate}
         margin="dense"
         onChange={handleStudyInfoChange}
+        error={!!inputError.studyEndDate}
+        helperText={inputError.studyEndDate}
       />
       <TextField
         name="description"
@@ -178,9 +225,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
           onChange={hanldeUploadClick}
         />
       </S.ThumbnailForm>
-      <Button onClick={handleOpenClick} disabled={isInputError()}>
-        개설하기
-      </Button>
+      <Button onClick={handleOpenClick}>개설하기</Button>
     </S.Container>
   );
 };
