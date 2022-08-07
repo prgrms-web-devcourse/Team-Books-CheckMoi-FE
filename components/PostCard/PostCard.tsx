@@ -1,18 +1,9 @@
 import type { MouseEventHandler } from "react";
 import { Avatar, Badge, Divider } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
+import type { PostType } from "../../types/postType";
 import * as S from "./style";
 import { User } from "../../types/userType";
-
-interface PostProps {
-  title: string;
-  content: string;
-  createdAt: string;
-  comments: number;
-  size: number;
-  user: User;
-  onClick?: MouseEventHandler<HTMLElement>;
-}
 
 export const PostCard = ({
   title,
@@ -22,7 +13,7 @@ export const PostCard = ({
   size,
   user,
   onClick,
-}: PostProps) => {
+}: PostType) => {
   const [year, month, day] = createdAt.split("/");
   return (
     <S.PostCard size={size} onClick={onClick}>
