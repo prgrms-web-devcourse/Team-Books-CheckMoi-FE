@@ -1,5 +1,6 @@
-import { Box, Button, Input, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Button, TextField } from "@mui/material";
+import Image from "next/image";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
 import { createStudy } from "../../apis/study";
 import type { StudyType } from "../../types/studyType";
@@ -56,6 +57,18 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     const study = await createStudy(newStudyInfo);
 
     console.log(study);
+  };
+
+  const hanldeUploadClick = async (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    const reader = new FileReader();
+    if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+
+    reader.onloadend = () => {
+      const resultImage = reader.result;
+      setStudyInfo({ ...studyInfo, thumbnail: resultImage });
+    };
   };
 
   return (
@@ -132,11 +145,10 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         margin="dense"
         onChange={handleStudyInfoChange}
       />
-      <Input
-        name="thumbnail"
-        value={studyInfo.thumbnail}
-        onChange={handleStudyInfoChange}
-      />
+      <form>
+        <Image src={studyInfo.thumbnail} width="512px" height="512px" />
+        <input type="file" accept="image/*" onChange={hanldeUploadClick} />
+      </form>
       <Button onClick={handleOpenClick}>개설하기</Button>
     </S.Container>
   );
