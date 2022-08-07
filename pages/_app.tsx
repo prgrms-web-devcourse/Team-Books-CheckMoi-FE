@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useRef } from "react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { SnackbarProvider } from "notistack";
@@ -14,10 +13,8 @@ interface MyAppProps extends AppProps {
 }
 
 const MyApp = ({ Component, pageProps, user }: MyAppProps) => {
-  const snackbarRef = useRef<SnackbarProvider>(null);
-
   return (
-    <SnackbarProvider maxSnack={3} ref={snackbarRef}>
+    <SnackbarProvider maxSnack={3}>
       <UserContextProvider initialUser={user}>
         <Topbar />
         <S.ContentContainer>
