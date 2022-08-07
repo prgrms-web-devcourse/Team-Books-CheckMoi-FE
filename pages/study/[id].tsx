@@ -1,63 +1,36 @@
 import React, { useState } from "react";
 import { Tabs, Tab } from "@mui/material";
 import type { GetServerSideProps } from "next/types";
+import { useRouter } from "next/router";
 import type { StudyDetailType } from "../../types/studyType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { getStudyDetailInfo } from "../../apis/study";
-
-const DummyBoard = () => {
-  return (
-    <div>
-      <h1>Notice</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
-        aspernatur voluptas doloribus quae perferendis asperiores quos eos, sint
-        molestiae cum veniam maxime quisquam voluptate cupiditate facere atque
-        nam tenetur necessitatibus?
-      </p>
-    </div>
-  );
-};
-
-const DummyArticle = () => {
-  return (
-    <div>
-      <h1>Article</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint id vel
-        numquam assumenda magni amet asperiores quo voluptas tempore perferendis
-        esse, officiis architecto vitae rem voluptate rerum consectetur in
-        necessitatibus.
-      </p>
-    </div>
-  );
-};
-
-const DummyFreeTalk = () => {
-  return (
-    <div>
-      <h1>FreeTalk</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum molestias
-        amet porro? Nemo dicta amet libero dolores. Ullam magnam, iste
-        doloremque nihil sint ipsum, totam porro provident molestiae vero ad.
-      </p>
-    </div>
-  );
-};
+import { PostCard } from "../../components/PostCard";
+import { DummyPost } from "../../commons/dummyPost";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
 }
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
-  const [value, setValue] = useState(0);
+  // TODO router에 value query가 있으면 setValue로 실행.
+  const router = useRouter();
+  const { id: studyID, value: tabValue } = router.query;
+  const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
+
+  const [value, setValue] = useState(currentTab);
   const { study, members } = studyData;
   const handleTabChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+  // TODO PostCard를 몇 개씩 보여줄지 웹에서 가로 3개? 모바일에서 2개? 스타일 필요.
+  // TODO 게시글 클릭 시 value 값을 갖고 게시글 상세 페이지로 이동
+  // TODO 실제 API로 전달 받아서 map 실행 해야 함. map에서 key를 어떤 것으로 사용할지
+  const handlePostClick = (id: number) => {
+    router.push(`/postDetail/${id}`, { query: { value } });
+  };
   return (
     <>
       <StudyDetailCard study={study} members={members} />
@@ -69,13 +42,64 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       </Tabs>
 
       <TabPanel value={value} index={0}>
-        <DummyBoard />
+        <ul>
+          {DummyPost.map((post) => (
+            <li key={post.id}>
+              <PostCard
+                id={post.id}
+                title={post.title}
+                content={post.content}
+                comments={post.comments}
+                createdAt={post.createdAt}
+                size={post.size}
+                user={post.user}
+                onClick={() => {
+                  handlePostClick(post.id);
+                }}
+              />
+            </li>
+          ))}
+        </ul>
+        {/* <PostCard
+          id={1}
+          title={DummyPost.title}
+          content={DummyPost.content}
+          createdAt={DummyPost.createdAt}
+          comments={DummyPost.comments}
+          size={DummyPost.size}
+          user={DummyPost.user}
+          onClick={() => {
+            handlePostClick();
+          }}
+        /> */}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <DummyArticle />
+        {/* { <PostCard
+          id={2}
+          title={DummyPost.title}
+          content={DummyPost.content}
+          createdAt={DummyPost.createdAt}
+          comments={DummyPost.comments}
+          size={DummyPost.size}
+          user={DummyPost.user}
+          onClick={() => {
+            handlePostClick();
+          }} 
+        /> */}
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DummyFreeTalk />
+        {/* <PostCard
+          id={3}
+          title={DummyPost.title}
+          content={DummyPost.content}
+          createdAt={DummyPost.createdAt}
+          comments={DummyPost.comments}
+          size={DummyPost.size}
+          user={DummyPost.user}
+          onClick={() => {
+            handlePostClick();
+          }}
+        /> */}
       </TabPanel>
     </>
   );
