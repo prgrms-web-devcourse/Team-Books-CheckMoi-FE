@@ -4,6 +4,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
 import { createStudy } from "../../apis/study";
 import type { StudyType } from "../../types/studyType";
+import { isValueNumber } from "../../utils/isValueNumber";
 import * as S from "./style";
 
 interface StudyOpenProps {
@@ -38,12 +39,27 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
   }, []);
 
   const handleStudyInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name: inputName, value } = e.target;
+
+    if (inputName === "maxParticipant")
+      if (value !== "" && !isValueNumber(value)) return;
+
+    if (
+      [
+        "gatherStartDate",
+        "gatherEndDate",
+        "studyStartDate",
+        "studyEndDate",
+      ].includes(inputName)
+    )
+      if (value !== "" && !isValueNumber(value)) return;
+
     setStudyInfo({
       ...studyInfo,
-      [e.target.name]: e.target.value,
+      [inputName]: value,
     });
 
-    console.log(studyInfo);
+    // console.log(studyInfo);
   };
 
   const handleOpenClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -98,44 +114,38 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         margin="dense"
         onChange={handleStudyInfoChange}
       />
-      <Box component="form">
-        <TextField
-          name="gatherStartDate"
-          variant="standard"
-          label="스터디원 모집 시작"
-          value={studyInfo.gatherStartDate}
-          margin="dense"
-          onChange={handleStudyInfoChange}
-        />
-        -
-        <TextField
-          name="gatherEndDate"
-          variant="standard"
-          label="스터디원 모집 마감"
-          value={studyInfo.gatherEndDate}
-          margin="dense"
-          onChange={handleStudyInfoChange}
-        />
-      </Box>
-      <Box component="form">
-        <TextField
-          name="studyStartDate"
-          variant="standard"
-          label="스터디 진행 시작"
-          value={studyInfo.studyStartDate}
-          margin="dense"
-          onChange={handleStudyInfoChange}
-        />
-        -
-        <TextField
-          name="studyEndDate"
-          variant="standard"
-          label="스터디 진행 종료"
-          value={studyInfo.studyEndDate}
-          margin="dense"
-          onChange={handleStudyInfoChange}
-        />
-      </Box>
+      <TextField
+        name="gatherStartDate"
+        variant="standard"
+        label="스터디원 모집 시작"
+        value={studyInfo.gatherStartDate}
+        margin="dense"
+        onChange={handleStudyInfoChange}
+      />
+      <TextField
+        name="gatherEndDate"
+        variant="standard"
+        label="스터디원 모집 마감"
+        value={studyInfo.gatherEndDate}
+        margin="dense"
+        onChange={handleStudyInfoChange}
+      />
+      <TextField
+        name="studyStartDate"
+        variant="standard"
+        label="스터디 진행 시작"
+        value={studyInfo.studyStartDate}
+        margin="dense"
+        onChange={handleStudyInfoChange}
+      />
+      <TextField
+        name="studyEndDate"
+        variant="standard"
+        label="스터디 진행 종료"
+        value={studyInfo.studyEndDate}
+        margin="dense"
+        onChange={handleStudyInfoChange}
+      />
       <TextField
         name="description"
         variant="outlined"
