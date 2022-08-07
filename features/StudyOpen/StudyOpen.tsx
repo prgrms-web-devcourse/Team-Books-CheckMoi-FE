@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
@@ -131,6 +131,8 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     const study = await createStudy(newStudyInfo);
 
     console.log(study);
+
+    // TODO: 스터디 개설 성공하면 해당 스터디 상세 페이지로 자동 라우팅
   };
 
   const hanldeUploadClick = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -226,8 +228,11 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         onChange={handleStudyInfoChange}
       />
       <S.ThumbnailForm>
+        <S.ThumbnailTypo>스터디 썸네일</S.ThumbnailTypo>
         <S.ThumbnailLabel htmlFor="fileInput">
-          <Image src={studyInfo.thumbnail} width="512px" height="512px" />
+          <S.ImageBox>
+            <Image src={studyInfo.thumbnail} width="480px" height="480px" />
+          </S.ImageBox>
         </S.ThumbnailLabel>
         <input
           hidden
