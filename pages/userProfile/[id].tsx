@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Skeleton, Box, Tabs, Tab } from "@mui/material";
@@ -7,39 +6,32 @@ import { UserType } from "../../types/userType";
 import { StudyCard, TabPanel } from "../../components";
 import { dummyStudy } from "../../commons/dummy";
 import * as S from "../../styles/UserProfileStyle";
+import { getUser } from "../../apis";
 
 const userProfile = () => {
   const router = useRouter();
   const [userInfo, setUserInfo] = useState<UserType>({} as UserType);
   const [value, setValue] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  // TODO 전역으로 저장된 token 가져오기
+  // TODO 전역으로 저정된 유저id와 불러온 유저id가 같으면 프로필 수정 버튼 띄우는 로직 필요
   const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9MT0dJTiIsInVzZXJJZCI6NywiaWF0IjoxNjU5Nzc5MDc2LCJleHAiOjE2NTk3ODI2NzZ9.yhE_noUzvgp0ofa7En2u0z3KzyxnI3m1otxz3a9-dYw";
+    "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjcsInJvbGUiOiJST0xFX0xPR0lOIiwiaWF0IjoxNjU5ODc5MDYxLCJleHAiOjE2NTk4ODI2NjF9.73DMt8k5pL2-wD7mZsTNLc3f-n7G_DJrNItuOQ7omhA";
+  const { id } = router.query;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   useEffect(() => {
-    const userInfoFetch = async (id: string) => {
-      const userdata = await fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/users/${id}`,
-        {
-          // TODO 전역으로 저장된 token 가져오기
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const { data } = await userdata.json();
-      setUserInfo(data);
+    const userInfoApi = async (userid: string) => {
+      // TODO study정보와 user정보 같이 가져오는 api로 수정해야함
+      const userdata = await getUser(userid, token);
+      setUserInfo(userdata);
       setLoading(false);
     };
-    const { id } = router.query;
-    if (id && typeof id === "string") userInfoFetch(id);
+    if (id && typeof id === "string") userInfoApi(id);
   }, [router.isReady]);
-
-  console.log(loading, userInfo);
 
   return (
     <>
@@ -85,9 +77,14 @@ const userProfile = () => {
                 {userInfo.email} | {userInfo.temperature}°C
               </S.UserInfo>
             </S.User>
-            <Link href="/userProfileEdit">
-              <S.StyledButton variant="contained">프로필 수정</S.StyledButton>
-            </Link>
+            <S.StyledButton
+              variant="contained"
+              onClick={() => {
+                router.push({ pathname: "/userProfileEdit", query: { id } });
+              }}
+            >
+              프로필 수정
+            </S.StyledButton>
           </S.UserProfileContainer>
           <S.StyledDivider />
           <S.StudyContainer>
