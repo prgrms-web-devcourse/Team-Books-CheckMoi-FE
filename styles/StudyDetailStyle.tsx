@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
+export const StyledTab = styled.div``;
+
 export const StyledUl = styled("ul")`
   list-style: none;
   display: grid;

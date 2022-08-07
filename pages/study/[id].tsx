@@ -26,11 +26,10 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     setValue(newValue);
   };
 
-  // TODO PostCard를 몇 개씩 보여줄지 웹에서 가로 3개? 모바일에서 2개? 스타일 필요.
-  // TODO 게시글 클릭 시 value 값을 갖고 게시글 상세 페이지로 이동
-  // TODO 실제 API로 전달 받아서 map 실행 해야 함. map에서 key를 어떤 것으로 사용할지
+  // TODO 게시글 클릭 시 value 값을 갖고 게시글 상세 페이지로 이동 확인
+  // TODO API 연동 확인
   const handlePostClick = (id: number) => {
-    router.push(`/postDetail/${id}`, { query: { value } });
+    router.push(`/boardDetail/${id}`, { query: { value } });
   };
   return (
     <>
@@ -41,67 +40,68 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         <Tab label="자유" />
         <Tab label="관리자" disabled />
       </Tabs>
-
-      <TabPanel value={value} index={0}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList key={post.id}>
-              <PostCard
-                id={post.id}
-                title={post.title}
-                content={post.content}
-                comments={post.comments}
-                createdAt={post.createdAt}
-                size={post.size}
-                user={post.user}
-                onClick={() => {
-                  handlePostClick(post.id);
-                }}
-              />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList key={post.id}>
-              <PostCard
-                id={post.id}
-                title={post.title}
-                content={post.content}
-                comments={post.comments}
-                createdAt={post.createdAt}
-                size={post.size}
-                user={post.user}
-                onClick={() => {
-                  handlePostClick(post.id);
-                }}
-              />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList key={post.id}>
-              <PostCard
-                id={post.id}
-                title={post.title}
-                content={post.content}
-                comments={post.comments}
-                createdAt={post.createdAt}
-                size={post.size}
-                user={post.user}
-                onClick={() => {
-                  handlePostClick(post.id);
-                }}
-              />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
-      </TabPanel>
+      <S.StyledTab>
+        <TabPanel value={value} index={0}>
+          <S.StyledUl>
+            {DummyPost.map((post) => (
+              <S.StyledList key={post.id}>
+                <PostCard
+                  id={post.id}
+                  title={post.title}
+                  content={post.content}
+                  comments={post.comments}
+                  createdAt={post.createdAt}
+                  size={post.size}
+                  user={post.user}
+                  onClick={() => {
+                    handlePostClick(post.id);
+                  }}
+                />
+              </S.StyledList>
+            ))}
+          </S.StyledUl>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <S.StyledUl>
+            {DummyPost.map((post) => (
+              <S.StyledList key={post.id}>
+                <PostCard
+                  id={post.id}
+                  title={post.title}
+                  content={post.content}
+                  comments={post.comments}
+                  createdAt={post.createdAt}
+                  size={post.size}
+                  user={post.user}
+                  onClick={() => {
+                    handlePostClick(post.id);
+                  }}
+                />
+              </S.StyledList>
+            ))}
+          </S.StyledUl>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <S.StyledUl>
+            {DummyPost.map((post) => (
+              <S.StyledList key={post.id}>
+                <PostCard
+                  id={post.id}
+                  title={post.title}
+                  content={post.content}
+                  comments={post.comments}
+                  createdAt={post.createdAt}
+                  size={post.size}
+                  user={post.user}
+                  onClick={() => {
+                    handlePostClick(post.id);
+                  }}
+                />
+              </S.StyledList>
+            ))}
+          </S.StyledUl>
+        </TabPanel>
+      </S.StyledTab>
     </>
   );
 };
