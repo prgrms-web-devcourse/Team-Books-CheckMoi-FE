@@ -71,13 +71,6 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
   };
 
   const handleOpenClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const newStudyInfo: StudyType = {
-      ...studyInfo,
-      maxParticipant: Number(studyInfo.maxParticipant),
-      currentParticipant: 1,
-      bookId,
-    };
-
     const newError = {
       name: "",
       maxParticipant: "",
@@ -91,30 +84,49 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     // TODO: participant 제한이 몇이었더라..?
     const LIMIT_PARTICIPANT = 30;
 
-    if (!newStudyInfo.name) newError.name = "스터디 이름을 입력해주세요";
+    if (!studyInfo.name) newError.name = "스터디 이름을 입력해주세요";
 
-    if (!newStudyInfo.maxParticipant)
+    if (!studyInfo.maxParticipant)
       newError.maxParticipant = "정원을 입력해주세요";
-    else if (newStudyInfo.maxParticipant < 1)
+    else if (Number(studyInfo.maxParticipant) < 1)
       newError.maxParticipant = "적어도 2명 이상이어야 합니다.";
-    else if (newStudyInfo.maxParticipant > LIMIT_PARTICIPANT)
+    else if (Number(studyInfo.maxParticipant) > LIMIT_PARTICIPANT)
       newError.maxParticipant = "정원 초과";
 
-    if (newStudyInfo.gatherStartDate.length !== 8)
+    if (studyInfo.gatherStartDate.length !== 8)
       newError.gatherStartDate = "YYYYMMDD 형식으로 입력해주세요";
 
-    if (newStudyInfo.gatherEndDate.length !== 8)
+    if (studyInfo.gatherEndDate.length !== 8)
       newError.gatherEndDate = "YYYYMMDD 형식으로 입력해주세요";
 
-    if (newStudyInfo.studyStartDate.length !== 8)
+    if (studyInfo.studyStartDate.length !== 8)
       newError.studyStartDate = "YYYYMMDD 형식으로 입력해주세요";
 
-    if (newStudyInfo.studyEndDate.length !== 8)
+    if (studyInfo.studyEndDate.length !== 8)
       newError.studyEndDate = "YYYYMMDD 형식으로 입력해주세요";
 
     setInputError({ ...newError });
 
     if (!Object.values(newError).every((errorVal) => errorVal === "")) return;
+
+    const getForamttedDate = (yyyymmdd: string) => {
+      return `${yyyymmdd.slice(0, 4)}-${yyyymmdd.slice(4, 6)}-${yyyymmdd.slice(
+        6
+      )}`;
+    };
+
+    const newStudyInfo: StudyType = {
+      ...studyInfo,
+      bookId,
+      maxParticipant: Number(studyInfo.maxParticipant),
+      currentParticipant: 1,
+      gatherStartDate: getForamttedDate(studyInfo.gatherStartDate),
+      gatherEndDate: getForamttedDate(studyInfo.gatherEndDate),
+      studyStartDate: getForamttedDate(studyInfo.studyStartDate),
+      studyEndDate: getForamttedDate(studyInfo.studyEndDate),
+    };
+
+    console.log(newStudyInfo);
 
     const study = await createStudy(newStudyInfo);
 
