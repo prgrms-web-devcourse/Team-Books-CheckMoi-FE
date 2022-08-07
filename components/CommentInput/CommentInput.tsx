@@ -16,7 +16,6 @@ export const CommentInput = () => {
 
   const handleSendButtonClick = () => {
     // TODO 게시글 API
-    console.log("Button Click!", inputValue);
     setInputValue("");
   };
 
@@ -47,6 +46,7 @@ export const CommentInput = () => {
         if (e.key === "Enter") {
           if (e.shiftKey) return;
           e.preventDefault();
+          // TODO 게시글 API
           setInputValue("");
         }
       }}
