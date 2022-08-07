@@ -23,6 +23,13 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     description: "",
     thumbnail: "",
   });
+  const [inputError, setInputError] = useState({
+    maxParticipant: false,
+    gatherStartDate: false,
+    gatherEndDate: false,
+    studyStartDate: false,
+    studyEndDate: false,
+  });
 
   useEffect(() => {
     const fetchBookInfo = async () => {
@@ -85,6 +92,10 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       const resultImage = reader.result;
       setStudyInfo({ ...studyInfo, thumbnail: resultImage as string });
     };
+  };
+
+  const isInputError = () => {
+    return !Object.values(inputError).every((value) => value === false);
   };
 
   return (
@@ -167,7 +178,9 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
           onChange={hanldeUploadClick}
         />
       </S.ThumbnailForm>
-      <Button onClick={handleOpenClick}>개설하기</Button>
+      <Button onClick={handleOpenClick} disabled={isInputError()}>
+        개설하기
+      </Button>
     </S.Container>
   );
 };
