@@ -55,7 +55,7 @@ const Home = ({ books }: ServerSidePropsType) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async (/* context */) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const books = await getBooksList();
   return { props: { books } };
 };
