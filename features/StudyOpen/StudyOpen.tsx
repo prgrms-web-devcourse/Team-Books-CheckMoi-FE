@@ -67,7 +67,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
     reader.onloadend = () => {
       const resultImage = reader.result;
-      setStudyInfo({ ...studyInfo, thumbnail: resultImage });
+      setStudyInfo({ ...studyInfo, thumbnail: resultImage as string });
     };
   };
 
