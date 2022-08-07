@@ -8,6 +8,7 @@ import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { getStudyDetailInfo } from "../../apis/study";
 import { PostCard } from "../../components/PostCard";
 import { DummyPost } from "../../commons/dummyPost";
+import * as S from "../../styles/StudyDetailStyle";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -42,9 +43,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       </Tabs>
 
       <TabPanel value={value} index={0}>
-        <ul>
+        <S.StyledUl>
           {DummyPost.map((post) => (
-            <li key={post.id}>
+            <S.StyledList key={post.id}>
               <PostCard
                 id={post.id}
                 title={post.title}
@@ -57,49 +58,49 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
                   handlePostClick(post.id);
                 }}
               />
-            </li>
+            </S.StyledList>
           ))}
-        </ul>
-        {/* <PostCard
-          id={1}
-          title={DummyPost.title}
-          content={DummyPost.content}
-          createdAt={DummyPost.createdAt}
-          comments={DummyPost.comments}
-          size={DummyPost.size}
-          user={DummyPost.user}
-          onClick={() => {
-            handlePostClick();
-          }}
-        /> */}
+        </S.StyledUl>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {/* { <PostCard
-          id={2}
-          title={DummyPost.title}
-          content={DummyPost.content}
-          createdAt={DummyPost.createdAt}
-          comments={DummyPost.comments}
-          size={DummyPost.size}
-          user={DummyPost.user}
-          onClick={() => {
-            handlePostClick();
-          }} 
-        /> */}
+        <S.StyledUl>
+          {DummyPost.map((post) => (
+            <S.StyledList key={post.id}>
+              <PostCard
+                id={post.id}
+                title={post.title}
+                content={post.content}
+                comments={post.comments}
+                createdAt={post.createdAt}
+                size={post.size}
+                user={post.user}
+                onClick={() => {
+                  handlePostClick(post.id);
+                }}
+              />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        {/* <PostCard
-          id={3}
-          title={DummyPost.title}
-          content={DummyPost.content}
-          createdAt={DummyPost.createdAt}
-          comments={DummyPost.comments}
-          size={DummyPost.size}
-          user={DummyPost.user}
-          onClick={() => {
-            handlePostClick();
-          }}
-        /> */}
+        <S.StyledUl>
+          {DummyPost.map((post) => (
+            <S.StyledList key={post.id}>
+              <PostCard
+                id={post.id}
+                title={post.title}
+                content={post.content}
+                comments={post.comments}
+                createdAt={post.createdAt}
+                size={post.size}
+                user={post.user}
+                onClick={() => {
+                  handlePostClick(post.id);
+                }}
+              />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
       </TabPanel>
     </>
   );
