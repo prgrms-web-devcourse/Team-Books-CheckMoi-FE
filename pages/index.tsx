@@ -56,6 +56,17 @@ const Home = ({ books }: ServerSidePropsType) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const books = await getBooksList();
-  return { props: { books } };
+  try {
+    const books = await getBooksList();
+    return { props: { books } };
+  } catch (error) {
+    return {
+      props: {
+        books: {
+          latesBooks: [],
+          studyLatestBooks: [],
+        },
+      },
+    };
+  }
 };
