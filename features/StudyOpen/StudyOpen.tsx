@@ -237,7 +237,9 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
           onChange={hanldeUploadClick}
         />
       </S.ThumbnailForm>
-      <Button onClick={handleOpenClick}>개설하기</Button>
+      <Button variant="outlined" onClick={handleOpenClick}>
+        스터디 개설하기
+      </Button>
     </S.Container>
   );
 };
