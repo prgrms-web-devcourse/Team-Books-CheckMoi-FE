@@ -1,24 +1,25 @@
 import { useState } from "react";
-import Link from 'next/link';
+import { useRouter } from "next/router";
 import { Divider, Tabs, Tab } from "@mui/material";
-import * as S from "../../styles/BoardDetailStyle";
+import * as S from "../../styles/PostStyle";
 
 // TODO api가 완성되면 Type과 api 작업 필요
-const BoardDetailPage = () => {
-  // StudyDetail 페이지에서 value를 전달받아야할 것 같다.
+const PostPage = () => {
+  // TODO StudyDetail 페이지에서 value 쿼리 전달받아서 저장해야함
   const [value, setValue] = useState(0);
+  const router = useRouter();
   const date = "2022/08/05";
-  const datelist = date.split("/");
+  const [year, month, day] = date.split("/");
 
+  const handleClickTab = () => {
+    router.push({ pathname: "/studyDetail", query: { value } });
+  };
   return (
     <>
-      {/* StudyDetail에 value 전달해줘야한다 */}
       <Tabs value={value}>
-        <Link href="/StudyDetail">
-          <Tab label="공지" onClick={()=>{}}/>
-        </Link>
-        <Tab label="자유" />
-        <Tab label="관리자" disabled />
+        <Tab label="공지" onClick={handleClickTab} />
+        <Tab label="자유" onClick={handleClickTab} />
+        <Tab label="관리자" disabled onClick={handleClickTab} />
       </Tabs>
       <S.BoardTitle>Legal Abortion Is Not a Polarizing Issue</S.BoardTitle>
       <S.BoardInfo>
@@ -26,7 +27,7 @@ const BoardDetailPage = () => {
         <S.AvatarName>박인화</S.AvatarName>
         <div>·</div>
         <S.BoardCreateDate>
-          {datelist[0]}년 {datelist[1]}월 {datelist[2]}일
+          {year}년 {month}월 {day}일
         </S.BoardCreateDate>
       </S.BoardInfo>
       <Divider />
@@ -132,4 +133,4 @@ const BoardDetailPage = () => {
   );
 };
 
-export default BoardDetailPage;
+export default PostPage;
