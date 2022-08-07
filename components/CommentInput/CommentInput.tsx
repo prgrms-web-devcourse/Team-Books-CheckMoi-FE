@@ -1,4 +1,4 @@
-import { Button, IconButton, InputAdornment, TextField } from "@mui/material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useState } from "react";
 import type { ChangeEvent } from "react";
@@ -14,6 +14,12 @@ export const CommentInput = () => {
     setInputValue(e.target.value);
   };
 
+  const handleSendButtonClick = () => {
+    // TODO 게시글 API
+    console.log("Button Click!", inputValue);
+    setInputValue("");
+  };
+
   return (
     <TextField
       multiline
@@ -26,11 +32,23 @@ export const CommentInput = () => {
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton edge="end" color="primary">
+            <IconButton
+              edge="end"
+              color="primary"
+              onClick={handleSendButtonClick}
+            >
               <SendIcon />
             </IconButton>
           </InputAdornment>
         ),
+      }}
+      onKeyDown={(e) => {
+        if (e.nativeEvent.isComposing) return;
+        if (e.key === "Enter") {
+          if (e.shiftKey) return;
+          e.preventDefault();
+          setInputValue("");
+        }
       }}
     />
   );
