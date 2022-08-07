@@ -145,10 +145,18 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         margin="dense"
         onChange={handleStudyInfoChange}
       />
-      <form>
-        <Image src={studyInfo.thumbnail} width="512px" height="512px" />
-        <input type="file" accept="image/*" onChange={hanldeUploadClick} />
-      </form>
+      <S.ThumbnailForm>
+        <S.ThumbnailLabel htmlFor="fileInput">
+          <Image src={studyInfo.thumbnail} width="512px" height="512px" />
+        </S.ThumbnailLabel>
+        <input
+          hidden
+          id="fileInput"
+          type="file"
+          accept="image/*"
+          onChange={hanldeUploadClick}
+        />
+      </S.ThumbnailForm>
       <Button onClick={handleOpenClick}>개설하기</Button>
     </S.Container>
   );

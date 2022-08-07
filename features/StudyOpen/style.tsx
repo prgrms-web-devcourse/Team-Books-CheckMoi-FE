@@ -4,5 +4,18 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
-  marign: 1rem;
+  padding: 1rem;
+`;
+
+export const ThumbnailForm = styled.form`
+  width: 100%;
+`;
+
+export const ThumbnailLabel = styled.label`
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  cursor: pointer;
 `;
