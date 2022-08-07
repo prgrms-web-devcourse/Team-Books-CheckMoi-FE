@@ -18,6 +18,5 @@ Default.args = {
     email: "test@naver.com",
     img: "https://picsum.photos/200",
   },
-  content:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem rerum similique a deserunt consequuntur, dolore veritatis error fugit modi quasi aut tempora nostrum quidem magnam at ipsam tempore natus cupiditate.Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem rerum similique a deserunt consequuntur, dolore veritatis error fugit modi quasi aut tempora nostrum quidem magnam at ipsam tempore natus cupiditate.Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem rerum similique a deserunt consequuntur, dolore veritatis error fugit modi quasi aut tempora nostrum quidem magnam at ipsam tempore natus cupiditate.",
+  content: " Lorem ipsum dolor sit ",
 };
