@@ -11,8 +11,29 @@ interface StudyOpenProps {
   bookId: string;
 }
 
+interface IStudyInfo {
+  bookTitle: string;
+  name: string;
+  maxParticipant: string;
+  gatherStartDate: string;
+  gatherEndDate: string;
+  studyStartDate: string;
+  studyEndDate: string;
+  description: string;
+  thumbnail: string;
+}
+
+interface IInputError {
+  name: string;
+  maxParticipant: string;
+  gatherStartDate: string;
+  gatherEndDate: string;
+  studyStartDate: string;
+  studyEndDate: string;
+}
+
 export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
-  const [studyInfo, setStudyInfo] = useState({
+  const [studyInfo, setStudyInfo] = useState<IStudyInfo>({
     bookTitle: "",
     name: "",
     maxParticipant: "",
@@ -23,7 +44,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     description: "",
     thumbnail: "",
   });
-  const [inputError, setInputError] = useState({
+  const [inputError, setInputError] = useState<IInputError>({
     name: "",
     maxParticipant: "",
     gatherStartDate: "",
@@ -34,12 +55,12 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
   useEffect(() => {
     const fetchBookInfo = async () => {
-      const bookInfo = await getBookInfo(bookId);
+      const { title, image } = await getBookInfo(bookId);
 
       setStudyInfo({
         ...studyInfo,
-        bookTitle: bookInfo.title,
-        thumbnail: bookInfo.image,
+        bookTitle: title,
+        thumbnail: image,
       });
     };
 
