@@ -17,13 +17,13 @@ export const getStudyDetailInfo = async (studyId: string) => {
   return data;
 };
 
-export const createStudy = async (study: StudyType) => {
+export const createStudy = async (study: StudyType, token: string) => {
   const data = await apiClient.post(
     `${END_POINT.studies}`,
     JSON.stringify(study),
     {
       headers: {
-        Authorization: `bearer ${dummyToken}`,
+        Authorization: `bearer ${token}`,
         "Content-Type": "application/json",
       },
     }

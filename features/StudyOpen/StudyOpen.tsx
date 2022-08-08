@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
 import { createStudy } from "../../apis/study";
+import { fakeLogin } from "../../apis/user";
 import type { StudyType } from "../../types/studyType";
 import { isValueNumber } from "../../utils/isValueNumber";
 import * as S from "./style";
@@ -134,7 +135,9 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       studyEndDate: studyInfo.studyEndDate,
     };
 
-    const newStudyId = await createStudy(newStudyInfo);
+    // TODO: tobe removed dummy
+    const FAKE_TOKEN = await fakeLogin();
+    const newStudyId = await createStudy(newStudyInfo, FAKE_TOKEN);
 
     // TODO: 스터디 개설 성공하면 해당 스터디 상세 페이지로 자동 라우팅
     console.log(newStudyId);
