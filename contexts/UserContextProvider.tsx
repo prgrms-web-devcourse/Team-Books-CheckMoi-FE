@@ -1,14 +1,24 @@
 import { createContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import type { UserType } from "../types/userType";
-import { logout } from "../apis/user";
 
 interface UserActionType {
   login: (inputUser: UserType) => void;
   logout: () => void;
+  openLoginModal: () => void;
+  closeLoginModal: () => void;
 }
 
-export const UserContext = createContext<UserType | null>(null);
+interface ContextType {
+  user: UserType | null;
+  isLoginModalOpen: boolean;
+}
+
+export const UserContext = createContext<ContextType>({
+  user: null,
+  isLoginModalOpen: false,
+});
+
 export const UserActionContext = createContext<UserActionType>(
   {} as UserActionType
 );
@@ -22,14 +32,35 @@ const UserContextProvider = ({
   children,
   initialUser,
 }: UserContextProviderProps) => {
-  const [user, setUser] = useState(initialUser);
+  const [context, setContext] = useState<ContextType>({
+    user: initialUser,
+    isLoginModalOpen: false,
+  });
   const actions = useMemo(
     () => ({
       login(inputUser: UserType) {
-        setUser(inputUser);
+        setContext((prevContext) => ({
+          ...prevContext,
+          user: inputUser,
+        }));
       },
       logout() {
-        setUser(null);
+        setContext((prevContext) => ({
+          ...prevContext,
+          user: null,
+        }));
+      },
+      openLoginModal() {
+        setContext((prevContext) => ({
+          ...prevContext,
+          isLoginModalOpen: true,
+        }));
+      },
+      closeLoginModal() {
+        setContext((prevContext) => ({
+          ...prevContext,
+          isLoginModalOpen: false,
+        }));
       },
     }),
     []
@@ -37,7 +68,7 @@ const UserContextProvider = ({
 
   return (
     <UserActionContext.Provider value={actions}>
-      <UserContext.Provider value={user}>{children}</UserContext.Provider>
+      <UserContext.Provider value={context}>{children}</UserContext.Provider>
     </UserActionContext.Provider>
   );
 };

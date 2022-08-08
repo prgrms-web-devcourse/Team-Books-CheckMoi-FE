@@ -17,7 +17,7 @@ const FAKE_QUERY_SIZE = 6;
 
 export const Topbar = () => {
   const router = useRouter();
-  const user = useUserContext();
+  const { user } = useUserContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputDefaultValue = useRef("");
