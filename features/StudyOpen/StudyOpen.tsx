@@ -83,8 +83,11 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
     // TODO: participant 제한이 몇이었더라..?
     const LIMIT_PARTICIPANT = 10;
+    const LIMIT_NAME = 30;
 
     if (!studyInfo.name) newError.name = "스터디 이름을 입력해주세요";
+    else if (studyInfo.name.length > LIMIT_NAME)
+      newError.name = "스터디 이름은 최대 30자입니다.";
 
     if (!studyInfo.maxParticipant)
       newError.maxParticipant = "정원을 입력해주세요";
