@@ -1,16 +1,16 @@
 import { createContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import type { UserType } from "../types/userType";
+import type { TopbarUserType } from "../types/userType";
 
 interface UserActionType {
-  login: (inputUser: UserType) => void;
+  login: (inputUser: TopbarUserType) => void;
   logout: () => void;
   openLoginModal: () => void;
   closeLoginModal: () => void;
 }
 
 interface ContextType {
-  user: UserType | null;
+  user: TopbarUserType | null;
   isLoginModalOpen: boolean;
 }
 
@@ -25,7 +25,7 @@ export const UserActionContext = createContext<UserActionType>(
 
 interface UserContextProviderProps {
   children: ReactNode;
-  initialUser: UserType | null;
+  initialUser: TopbarUserType | null;
 }
 
 const UserContextProvider = ({
@@ -38,7 +38,7 @@ const UserContextProvider = ({
   });
   const actions = useMemo(
     () => ({
-      login(inputUser: UserType) {
+      login(inputUser: TopbarUserType) {
         setContext((prevContext) => ({
           ...prevContext,
           user: inputUser,
