@@ -224,6 +224,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         variant="outlined"
         label="스터디 내용"
         multiline
+        minRows={8}
         value={studyInfo.description}
         margin="dense"
         onChange={handleStudyInfoChange}
