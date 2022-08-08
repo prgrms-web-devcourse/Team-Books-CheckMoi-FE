@@ -13,9 +13,13 @@ export interface StudyType {
   studyEndDate: string;
 }
 
+export type StudyStatusType = "recruiting" | "inProgress" | "finished";
+
+// TODO: 추후 null 삭제 (백 수정 이후)
 export interface StudyDetailType {
   study: StudyType;
   members: UserType[];
   book: BookType;
   description: string;
+  status: StudyStatusType | null;
 }
