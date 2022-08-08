@@ -14,4 +14,4 @@ export { getBooksList, getBookInfo, registerBook } from "./book";
 
 export { postImage } from "./image";
 
-export { putUser } from "./user";
+export { getUser, putUser } from "./user";
