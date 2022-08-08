@@ -18,7 +18,7 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (res) => {
-    if (res.status !== 200) throw new Error();
+    if (res.status !== 200 && res.status !== 201) throw new Error();
 
     if (res.data.errors) throw new Error(res.data.errors);
 
