@@ -8,8 +8,9 @@ const PostPage = () => {
   // TODO StudyDetail 페이지에서 value 쿼리 전달받아서 저장해야함
   const [value, setValue] = useState(0);
   const router = useRouter();
-  const date = "2022/08/05";
-  const [year, month, day] = date.split("/");
+  // TODO api 연결 후 지울 변수
+  const DATE = "2022/08/05";
+  const [year, month, day] = DATE.split("/");
 
   const handleClickTab = () => {
     router.push({ pathname: "/studyDetail", query: { value } });
