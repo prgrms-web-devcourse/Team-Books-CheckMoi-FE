@@ -8,7 +8,7 @@ import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { getStudyDetailInfo } from "../../apis/study";
 import { PostCard } from "../../components/PostCard";
 import { DummyPost } from "../../commons/dummyPost";
-import * as S from "../../styles/StudyDetailStyle";
+import * as S from "../../styles/StudyDetailPageStyle";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;

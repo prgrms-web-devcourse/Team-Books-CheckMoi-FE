@@ -1,5 +1,5 @@
 import type { MouseEventHandler } from "react";
-import type { User } from "./userType";
+import type { UserType } from "./userType";
 
 export interface PostType {
   id: string;
@@ -8,6 +8,6 @@ export interface PostType {
   createdAt: string;
   comments: number;
   size: number;
-  user: User;
+  user: UserType;
   onClick?: MouseEventHandler<HTMLElement>;
 }
