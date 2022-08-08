@@ -1,14 +1,14 @@
 import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { BookCard } from "../components/BookCard";
-import type { BookAllType } from "../types/bookType";
+import type { BookType } from "../types/bookType";
 import * as S from "../styles/MainPageStyle";
 import { getBooksList } from "../apis";
 
 interface ServerSidePropsType {
   books: {
-    latestBooks: BookAllType[];
-    studyLatestBooks: BookAllType[];
+    latestBooks: BookType[];
+    studyLatestBooks: BookType[];
   };
 }
 

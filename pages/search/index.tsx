@@ -3,13 +3,13 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getNaverBooks, registerBook } from "../../apis";
 import { BookCard } from "../../components";
-import { BookType } from "../../types/bookType";
+import { NaverBookType } from "../../types/bookType";
 
 const SearchPage = () => {
   const router = useRouter();
   const { word } = router.query;
 
-  const [bookList, setBookList] = useState<BookType[] | null>(null);
+  const [bookList, setBookList] = useState<NaverBookType[] | null>(null);
 
   useEffect(() => {
     if (word)

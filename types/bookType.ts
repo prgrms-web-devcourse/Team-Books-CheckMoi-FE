@@ -1,4 +1,4 @@
-export interface BookType {
+export interface NaverBookType {
   image: string;
   title: string;
   author: string;
@@ -8,7 +8,7 @@ export interface BookType {
   description: string;
 }
 
-export interface BookAllType extends BookType {
+export interface BookType extends NaverBookType {
   id: number;
-  createAt: string;
+  createdAt: string;
 }
