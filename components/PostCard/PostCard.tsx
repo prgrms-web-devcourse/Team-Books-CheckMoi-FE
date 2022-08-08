@@ -2,7 +2,7 @@ import type { MouseEventHandler } from "react";
 import { Avatar, Badge, Divider } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import * as S from "./style";
-import { User } from "../../types/userType";
+import { UserType } from "../../types/userType";
 
 interface PostProps {
   title: string;
@@ -10,7 +10,7 @@ interface PostProps {
   createdAt: string;
   comments: number;
   size: number;
-  user: User;
+  user: UserType;
   onClick?: MouseEventHandler<HTMLElement>;
 }
 
@@ -32,8 +32,8 @@ export const PostCard = ({
       <Divider light />
       <S.PostBottomContainer>
         <S.PostUserWarpper>
-          <Avatar src={user.img} />
-          {user.userId}
+          <Avatar src={user.image} />
+          {user.id}
         </S.PostUserWarpper>
         <Badge badgeContent={comments} color="primary">
           <ChatIcon color="action" />
