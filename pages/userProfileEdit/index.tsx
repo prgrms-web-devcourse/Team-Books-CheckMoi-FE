@@ -32,9 +32,9 @@ const UserProfileEditPage = ({
     if (file) {
       reader.readAsDataURL(file);
       reader.onload = () => setImage(reader.result as string);
+      const imageData = await postImage(token, file);
+      setImageUrl(imageData);
     }
-    const imageData = await postImage(token, file);
-    setImageUrl(imageData);
   };
 
   const handleClickInput = () => {
@@ -51,7 +51,7 @@ const UserProfileEditPage = ({
   };
 
   useEffect(() => {
-    console.log(image);
+    setImageUrl(image);
   }, [image]);
 
   return (
