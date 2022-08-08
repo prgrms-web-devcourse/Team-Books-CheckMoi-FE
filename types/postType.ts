@@ -2,7 +2,7 @@ import type { MouseEventHandler } from "react";
 import type { User } from "./userType";
 
 export interface PostType {
-  id: number;
+  id: string;
   title: string;
   content: string;
   createdAt: string;
