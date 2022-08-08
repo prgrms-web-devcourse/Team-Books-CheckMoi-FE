@@ -1,6 +1,5 @@
-import { useState, useRef } from "react";
-import { useRouter } from 'next/router'
-import axios from "axios";
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import { Badge } from "@mui/material";
 import { CameraAlt } from "@mui/icons-material";
 import { postImage, putUser } from "../../apis";
@@ -25,7 +24,7 @@ const UserProfileEditPage = ({
   const imageref = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjcsInJvbGUiOiJST0xFX0xPR0lOIiwiaWF0IjoxNjU5ODc1NDY4LCJleHAiOjE2NTk4NzkwNjh9.OloP1tFCMH7F7zX_fdYAmnP9-716XLPSiI2m0R83ijQ";
+    "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9MT0dJTiIsInVzZXJJZCI6NywiaWF0IjoxNjU5OTM1MjY2LCJleHAiOjE2NTk5Mzg4NjZ9.6jttoMhex-ylHnqF5W4MXLgYy7sU_0vA8FX5Ulf0cSU";
 
   const handleChangeImage = async (e: any) => {
     const reader = new FileReader();
@@ -34,22 +33,8 @@ const UserProfileEditPage = ({
       reader.readAsDataURL(file);
       reader.onload = () => setImage(reader.result as string);
     }
-    // TODO image api 분리 
-    const formData = new FormData();
-    formData.append("files", file);
-    const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_END_POINT}/images`,
-      formData,
-      {
-        headers: {
-          Authorization: `bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    // const imagedata = await postImage(token, file)
-    // console.log(imagedata);
-    setImageUrl(data.data.urls[0]);
+    const imageData = await postImage(token, file);
+    setImageUrl(imageData);
   };
 
   const handleClickInput = () => {
@@ -61,9 +46,13 @@ const UserProfileEditPage = ({
   };
 
   const handleUserInfoUpdate = async () => {
-    await putUser(id, name, imageUrl, token);
+    await putUser(id, username, imageUrl, token);
     router.push(`/userProfile/${id}`);
   };
+
+  useEffect(() => {
+    console.log(image);
+  }, [image]);
 
   return (
     <S.Container>

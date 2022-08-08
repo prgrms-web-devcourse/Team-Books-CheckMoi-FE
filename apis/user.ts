@@ -7,7 +7,7 @@ export const putUser = async (
   profileImageUrl: string,
   token: string
 ) => {
-  await apiClient.put(
+  const data = await apiClient.put(
     `${END_POINT.user}/${id}`,
     {
       name,
@@ -19,4 +19,5 @@ export const putUser = async (
       },
     }
   );
+  return data;
 };
