@@ -72,9 +72,6 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
   const handleStudyInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
 
-    if (inputName === "maxParticipant")
-      if (value !== "" && !isValueNumber(value)) return;
-
     setStudyInfo({
       ...studyInfo,
       [inputName]: value,
@@ -106,7 +103,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     if (!studyInfo.maxParticipant)
       newError.maxParticipant = "정원을 입력해주세요";
     else if (Number(studyInfo.maxParticipant) > LIMIT_PARTICIPANT)
-      newError.maxParticipant = "최대 10명까지 가능합니다.";
+      newError.maxParticipant = `최대 ${LIMIT_PARTICIPANT}명까지 가능합니다.`;
 
     if (studyInfo.gatherStartDate >= studyInfo.gatherEndDate) {
       newError.gatherStartDate = "모집 시작을 다시 입력해주세요";
@@ -189,6 +186,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       <TextField
         name="maxParticipant"
         variant="standard"
+        type="number"
         label="스터디 인원"
         value={studyInfo.maxParticipant}
         margin="dense"
