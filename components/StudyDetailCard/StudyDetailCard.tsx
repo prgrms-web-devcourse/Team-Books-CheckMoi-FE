@@ -46,7 +46,6 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
   };
 
   const handleUserClick = (userId: string) => {
-    // TODO 유저 상세 정보 페이지로 리다이렉션 필요
     router.push(`/userProfile/${userId}`);
   };
 
