@@ -25,22 +25,22 @@ Default.args = {
   },
   members: [
     {
-      userId: "string",
+      id: "string",
       name: "string",
       email: "string",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
     },
     {
-      userId: "string2",
+      id: "string2",
       name: "string",
       email: "string",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
     },
     {
-      userId: "string3",
+      id: "string3",
       name: "string",
       email: "string",
-      img: "string",
+      image: "string",
     },
   ],
 };

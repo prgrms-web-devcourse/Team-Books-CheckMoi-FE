@@ -1,5 +1,5 @@
 import type { BookType } from "./bookType";
-import type { User } from "./userType";
+import type { UserType } from "./userType";
 
 export interface StudyType {
   id: string;
@@ -15,7 +15,7 @@ export interface StudyType {
 
 export interface StudyDetailType {
   study: StudyType;
-  members: User[];
+  members: UserType[];
   book: BookType;
   description: string;
 }
