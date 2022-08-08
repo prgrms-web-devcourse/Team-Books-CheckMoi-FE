@@ -1,8 +1,9 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
-import { createStudy } from "../../apis/study";
+import { createStudy, getStudyDetailInfo } from "../../apis/study";
 import { fakeLogin } from "../../apis/user";
 import type { StudyType } from "../../types/studyType";
 import { isValueNumber } from "../../utils/isValueNumber";
@@ -55,6 +56,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     studyEndDate: "",
     description: "",
   });
+  const router = useRouter();
 
   useEffect(() => {
     const fetchBookInfo = async () => {
@@ -77,8 +79,6 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       ...studyInfo,
       [inputName]: value,
     });
-
-    console.log(studyInfo);
   };
 
   const handleOpenClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -139,8 +139,9 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     const FAKE_TOKEN = await fakeLogin();
     const newStudyId = await createStudy(newStudyInfo, FAKE_TOKEN);
 
-    // TODO: 스터디 개설 성공하면 해당 스터디 상세 페이지로 자동 라우팅
-    console.log(newStudyId);
+    router.push({
+      pathname: `/study/${newStudyId}`,
+    });
   };
 
   const hanldeUploadClick = async (e: ChangeEvent<HTMLInputElement>) => {
