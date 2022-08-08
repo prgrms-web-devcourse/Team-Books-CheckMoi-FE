@@ -82,16 +82,14 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     console.log(inputError);
 
     // TODO: participant 제한이 몇이었더라..?
-    const LIMIT_PARTICIPANT = 30;
+    const LIMIT_PARTICIPANT = 10;
 
     if (!studyInfo.name) newError.name = "스터디 이름을 입력해주세요";
 
     if (!studyInfo.maxParticipant)
       newError.maxParticipant = "정원을 입력해주세요";
-    else if (Number(studyInfo.maxParticipant) < 1)
-      newError.maxParticipant = "적어도 2명 이상이어야 합니다.";
     else if (Number(studyInfo.maxParticipant) > LIMIT_PARTICIPANT)
-      newError.maxParticipant = "정원 초과";
+      newError.maxParticipant = "최대 10명까지 가능합니다.";
 
     if (studyInfo.gatherStartDate.length !== 8)
       newError.gatherStartDate = "YYYYMMDD 형식으로 입력해주세요";
