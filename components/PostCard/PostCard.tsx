@@ -17,8 +17,8 @@ export const PostCard = ({ post }: PostCardProps) => {
       <Divider light />
       <S.PostBottomContainer>
         <S.PostUserWarpper>
-          <Avatar src={post.user.img} />
-          {post.user.userId}
+          <Avatar src={post.user.image} />
+          {post.user.id}
         </S.PostUserWarpper>
         <Badge badgeContent={post.comments} color="primary">
           <ChatIcon color="action" />

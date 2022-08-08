@@ -1,21 +1,21 @@
 import { createContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import type { User } from "../types/userType";
+import type { UserType } from "../types/userType";
 import { logout } from "../apis/user";
 
 interface UserActionType {
-  login: (inputUser: User) => void;
+  login: (inputUser: UserType) => void;
   logout: () => void;
 }
 
-export const UserContext = createContext<User | null>(null);
+export const UserContext = createContext<UserType | null>(null);
 export const UserActionContext = createContext<UserActionType>(
   {} as UserActionType
 );
 
 interface UserContextProviderProps {
   children: ReactNode;
-  initialUser: User | null;
+  initialUser: UserType | null;
 }
 
 const UserContextProvider = ({
@@ -25,13 +25,10 @@ const UserContextProvider = ({
   const [user, setUser] = useState(initialUser);
   const actions = useMemo(
     () => ({
-      login(inputUser: User) {
+      login(inputUser: UserType) {
         setUser(inputUser);
       },
-      async logout() {
-        const token = document.cookie.split("token=");
-        await logout(token[1]);
-        document.cookie = "token=; max-age=0;";
+      logout() {
         setUser(null);
       },
     }),
