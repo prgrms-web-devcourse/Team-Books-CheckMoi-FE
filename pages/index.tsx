@@ -1,9 +1,9 @@
 import type { GetServerSideProps } from "next";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { BookCard } from "../components/BookCard";
 import type { BookAllType } from "../types/bookType";
 import * as S from "../styles/MainPageStyle";
+import { getBooksList } from "../apis";
 
 interface ServerSidePropsType {
   books: {
@@ -55,20 +55,18 @@ const Home = ({ books }: ServerSidePropsType) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async (/* context */) => {
-  // TODO status 200이 아닐 때 Client로 전달할 prop과 API호출 실패시 전달할 prop 정의 필요
-  // TODO Router 사용이 필요할 경우 context 사용
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_END_POINT}/books`
-    );
-
-    if (res.status === 200) {
-      const books = res.data.data;
-      return { props: { books } };
-    }
-    return { props: {} };
+    const books = await getBooksList();
+    return { props: { books } };
   } catch (error) {
-    return { props: {} };
+    return {
+      props: {
+        books: {
+          latesBooks: [],
+          studyLatestBooks: [],
+        },
+      },
+    };
   }
 };
