@@ -21,10 +21,11 @@ Default.args = {
     comments: 10,
     size: 20,
     user: {
-      userId: "asdasdsa@naver.com",
+      id: "asdasdsa@naver.com",
       name: "김민기",
       email: "asdasdsa@naver.com",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
     onClick: () => {
       console.log("Move PostDetail Page");

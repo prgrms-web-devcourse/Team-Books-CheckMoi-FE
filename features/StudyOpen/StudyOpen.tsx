@@ -125,7 +125,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
     const newStudyInfo: StudyType = {
       ...studyInfo,
-      bookId,
+      id: bookId,
       maxParticipant: Number(studyInfo.maxParticipant),
       currentParticipant: 1,
       gatherStartDate: studyInfo.gatherStartDate,

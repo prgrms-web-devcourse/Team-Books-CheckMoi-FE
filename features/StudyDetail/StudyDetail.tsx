@@ -23,15 +23,15 @@ export const StudyDetail = ({
 
   useEffect(() => {
     const studyInfoFetch = async (studyId: string) => {
-      const { study, members, book, description } = await getStudyDetailInfo(
-        studyId
-      );
+      const { study, members, book, description, status } =
+        await getStudyDetailInfo(studyId);
 
       setStudyInfo({
         study,
         members,
         book,
-        description: study.description,
+        description,
+        status,
       });
     };
     if (open) studyInfoFetch(id);

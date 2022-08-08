@@ -40,35 +40,33 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         <Tab label="자유" />
         <Tab label="관리자" disabled />
       </Tabs>
-      <S.StyledTab>
-        <TabPanel value={tabNumber} index={0}>
-          <S.StyledUl>
-            {DummyPost.map((post) => (
-              <S.StyledList key={post.id}>
-                <PostCard post={post} />
-              </S.StyledList>
-            ))}
-          </S.StyledUl>
-        </TabPanel>
-        <TabPanel value={tabNumber} index={1}>
-          <S.StyledUl>
-            {DummyPost.map((post) => (
-              <S.StyledList key={post.id}>
-                <PostCard post={post} />
-              </S.StyledList>
-            ))}
-          </S.StyledUl>
-        </TabPanel>
-        <TabPanel value={tabNumber} index={2}>
-          <S.StyledUl>
-            {DummyPost.map((post) => (
-              <S.StyledList key={post.id}>
-                <PostCard post={post} />
-              </S.StyledList>
-            ))}
-          </S.StyledUl>
-        </TabPanel>
-      </S.StyledTab>
+      <TabPanel value={tabNumber} index={0}>
+        <S.StyledUl>
+          {DummyPost.map((post) => (
+            <S.StyledList key={post.id}>
+              <PostCard post={post} />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
+      </TabPanel>
+      <TabPanel value={tabNumber} index={1}>
+        <S.StyledUl>
+          {DummyPost.map((post) => (
+            <S.StyledList key={post.id}>
+              <PostCard post={post} />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
+      </TabPanel>
+      <TabPanel value={tabNumber} index={2}>
+        <S.StyledUl>
+          {DummyPost.map((post) => (
+            <S.StyledList key={post.id}>
+              <PostCard post={post} />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
+      </TabPanel>
     </>
   );
 };

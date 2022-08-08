@@ -13,10 +13,11 @@ const Template: ComponentStory<typeof Comment> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   user: {
-    userId: "TestUser",
+    id: "TestUser",
     name: "user",
     email: "test@naver.com",
-    img: "https://picsum.photos/200",
+    image: "https://picsum.photos/200",
+    temperature: 36.5,
   },
   content: " Lorem ipsum dolor sit ",
 };

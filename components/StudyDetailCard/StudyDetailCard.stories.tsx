@@ -29,18 +29,21 @@ Default.args = {
       name: "string",
       email: "string",
       image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
     {
       id: "string2",
       name: "string",
       email: "string",
       image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
     {
       id: "string3",
       name: "string",
       email: "string",
       image: "string",
+      temperature: 36.5,
     },
   ],
 };
