@@ -30,6 +30,7 @@ interface IInputError {
   gatherEndDate: string;
   studyStartDate: string;
   studyEndDate: string;
+  description: string;
 }
 
 export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
@@ -51,6 +52,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     gatherEndDate: "",
     studyStartDate: "",
     studyEndDate: "",
+    description: "",
   });
 
   useEffect(() => {
@@ -73,32 +75,23 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     if (inputName === "maxParticipant")
       if (value !== "" && !isValueNumber(value)) return;
 
-    if (
-      [
-        "gatherStartDate",
-        "gatherEndDate",
-        "studyStartDate",
-        "studyEndDate",
-      ].includes(inputName)
-    )
-      if (value !== "" && !isValueNumber(value)) return;
-
     setStudyInfo({
       ...studyInfo,
       [inputName]: value,
     });
 
-    // console.log(studyInfo);
+    console.log(studyInfo);
   };
 
   const handleOpenClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const newError = {
+    const newError: IInputError = {
       name: "",
       maxParticipant: "",
       gatherStartDate: "",
       gatherEndDate: "",
       studyStartDate: "",
       studyEndDate: "",
+      description: "",
     };
     console.log(inputError);
 
@@ -115,17 +108,21 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     else if (Number(studyInfo.maxParticipant) > LIMIT_PARTICIPANT)
       newError.maxParticipant = "최대 10명까지 가능합니다.";
 
-    if (studyInfo.gatherStartDate.length !== 8)
-      newError.gatherStartDate = "YYYYMMDD 형식으로 입력해주세요";
+    if (studyInfo.gatherStartDate >= studyInfo.gatherEndDate) {
+      newError.gatherStartDate = "모집 시작을 다시 입력해주세요";
+      newError.gatherEndDate = "모집 마감을 다시 입력해주세요";
+    }
+    if (studyInfo.gatherEndDate >= studyInfo.studyStartDate) {
+      newError.gatherEndDate = "모집 마감을 다시 입력해주세요";
+      newError.studyStartDate = "진행 시작을 다시 입력해주세요";
+    }
+    if (studyInfo.studyStartDate >= studyInfo.studyEndDate) {
+      newError.studyStartDate = "진행 시작을 다시 입력해주세요";
+      newError.studyEndDate = "진행 마감을 다시 입력해주세요";
+    }
 
-    if (studyInfo.gatherEndDate.length !== 8)
-      newError.gatherEndDate = "YYYYMMDD 형식으로 입력해주세요";
-
-    if (studyInfo.studyStartDate.length !== 8)
-      newError.studyStartDate = "YYYYMMDD 형식으로 입력해주세요";
-
-    if (studyInfo.studyEndDate.length !== 8)
-      newError.studyEndDate = "YYYYMMDD 형식으로 입력해주세요";
+    if (!studyInfo.description)
+      newError.description = "스터디 내용을 입력해주세요";
 
     setInputError({ ...newError });
 
@@ -183,7 +180,6 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         name="name"
         variant="standard"
         label="스터디 이름"
-        placeholder="hello"
         value={studyInfo.name}
         margin="dense"
         onChange={handleStudyInfoChange}
@@ -203,42 +199,59 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       <TextField
         name="gatherStartDate"
         variant="standard"
+        type="date"
+        defaultValue=""
         label="스터디원 모집 시작"
         value={studyInfo.gatherStartDate}
         margin="dense"
         onChange={handleStudyInfoChange}
         error={!!inputError.gatherStartDate}
         helperText={inputError.gatherStartDate}
+        InputLabelProps={{
+          shrink: true,
+        }}
       />
       <TextField
         name="gatherEndDate"
         variant="standard"
+        type="date"
         label="스터디원 모집 마감"
         value={studyInfo.gatherEndDate}
         margin="dense"
         onChange={handleStudyInfoChange}
         error={!!inputError.gatherEndDate}
         helperText={inputError.gatherEndDate}
+        InputLabelProps={{
+          shrink: true,
+        }}
       />
       <TextField
         name="studyStartDate"
         variant="standard"
+        type="date"
         label="스터디 진행 시작"
         value={studyInfo.studyStartDate}
         margin="dense"
         onChange={handleStudyInfoChange}
         error={!!inputError.studyStartDate}
         helperText={inputError.studyStartDate}
+        InputLabelProps={{
+          shrink: true,
+        }}
       />
       <TextField
         name="studyEndDate"
         variant="standard"
+        type="date"
         label="스터디 진행 종료"
         value={studyInfo.studyEndDate}
         margin="dense"
         onChange={handleStudyInfoChange}
         error={!!inputError.studyEndDate}
         helperText={inputError.studyEndDate}
+        InputLabelProps={{
+          shrink: true,
+        }}
       />
       <TextField
         name="description"
@@ -249,6 +262,8 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         value={studyInfo.description}
         margin="dense"
         onChange={handleStudyInfoChange}
+        error={!!inputError.description}
+        helperText={inputError.description}
       />
       <S.ThumbnailForm>
         <S.ThumbnailTypo>스터디 썸네일</S.ThumbnailTypo>
