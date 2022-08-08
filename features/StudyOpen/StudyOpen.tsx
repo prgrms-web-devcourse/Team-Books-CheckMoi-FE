@@ -38,10 +38,10 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     bookTitle: "",
     name: "",
     maxParticipant: "",
-    gatherStartDate: "",
-    gatherEndDate: "",
-    studyStartDate: "",
-    studyEndDate: "",
+    gatherStartDate: new Date("2022-08-08").toISOString().slice(0, 10),
+    gatherEndDate: new Date("2022-08-08").toISOString().slice(0, 10),
+    studyStartDate: new Date("2022-08-08").toISOString().slice(0, 10),
+    studyEndDate: new Date("2022-08-08").toISOString().slice(0, 10),
     description: "",
     thumbnail: "",
   });
@@ -90,9 +90,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       studyEndDate: "",
       description: "",
     };
-    console.log(inputError);
 
-    // TODO: participant 제한이 몇이었더라..?
     const LIMIT_PARTICIPANT = 10;
     const LIMIT_NAME = 30;
 
@@ -125,30 +123,21 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
     if (!Object.values(newError).every((errorVal) => errorVal === "")) return;
 
-    const getForamttedDate = (yyyymmdd: string) => {
-      return `${yyyymmdd.slice(0, 4)}-${yyyymmdd.slice(4, 6)}-${yyyymmdd.slice(
-        6
-      )}`;
-    };
-
     const newStudyInfo: StudyType = {
       ...studyInfo,
       bookId,
       maxParticipant: Number(studyInfo.maxParticipant),
       currentParticipant: 1,
-      gatherStartDate: getForamttedDate(studyInfo.gatherStartDate),
-      gatherEndDate: getForamttedDate(studyInfo.gatherEndDate),
-      studyStartDate: getForamttedDate(studyInfo.studyStartDate),
-      studyEndDate: getForamttedDate(studyInfo.studyEndDate),
+      gatherStartDate: studyInfo.gatherStartDate,
+      gatherEndDate: studyInfo.gatherEndDate,
+      studyStartDate: studyInfo.studyStartDate,
+      studyEndDate: studyInfo.studyEndDate,
     };
 
-    console.log(newStudyInfo);
-
-    const study = await createStudy(newStudyInfo);
-
-    console.log(study);
+    const newStudyId = await createStudy(newStudyInfo);
 
     // TODO: 스터디 개설 성공하면 해당 스터디 상세 페이지로 자동 라우팅
+    console.log(newStudyId);
   };
 
   const hanldeUploadClick = async (e: ChangeEvent<HTMLInputElement>) => {
