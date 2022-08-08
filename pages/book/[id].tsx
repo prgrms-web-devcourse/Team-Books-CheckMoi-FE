@@ -5,7 +5,6 @@ import { BookDetail } from "../../components";
 import type { BookType } from "../../types/bookType";
 import type { StudyType } from "../../types/studyType";
 import { StudyCardList } from "../../features";
-import * as S from "../../styles/bookPageStyle";
 import { getBookInfo } from "../../apis";
 import { getStudies } from "../../apis/study";
 
@@ -23,7 +22,7 @@ const Book = () => {
 
     const studiesFetch = async (id: string, page = 1) => {
       const studiesData = await getStudies(id, page);
-      setStudies(studiesData);
+      setStudies(studiesData || []);
     };
 
     const { id } = router.query;
