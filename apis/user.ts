@@ -1,17 +1,20 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
 
-export const putUser = async (
-  id: string,
-  name: string,
-  profileImageUrl: string,
-  token: string
-) => {
+// TODO 추후 타입 추가
+export interface UserType {
+  id: string;
+  name: string;
+  image: string;
+  token: string;
+}
+
+export const putUser = async ({id, name, image, token}: UserType) => {
   const data = await apiClient.put(
     `${END_POINT.user}/${id}`,
     {
       name,
-      profileImageUrl,
+      image,
     },
     {
       headers: {

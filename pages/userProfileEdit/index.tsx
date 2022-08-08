@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, ChangeEvent } from "react";
 import { useRouter } from "next/router";
 import { Badge } from "@mui/material";
 import { CameraAlt } from "@mui/icons-material";
@@ -21,7 +21,7 @@ const UserProfileEditPage = ({
   const [image, setImage] = useState(profileImageUrl);
   const [imageUrl, setImageUrl] = useState("");
   const [username, setUserName] = useState(name);
-  const imageref = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const token =
     "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9MT0dJTiIsInVzZXJJZCI6NywiaWF0IjoxNjU5OTM1MjY2LCJleHAiOjE2NTk5Mzg4NjZ9.6jttoMhex-ylHnqF5W4MXLgYy7sU_0vA8FX5Ulf0cSU";
@@ -32,21 +32,21 @@ const UserProfileEditPage = ({
     if (file) {
       reader.readAsDataURL(file);
       reader.onload = () => setImage(reader.result as string);
-      const imageData = await postImage(token, file);
+      const imageData = await postImage({token, file});
       setImageUrl(imageData);
     }
   };
 
   const handleClickInput = () => {
-    if (imageref.current !== null) imageref.current.click();
+    if (imageRef.current !== null) imageRef.current.click();
   };
 
-  const handleNameChange = (e: any) => {
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
   };
 
   const handleUserInfoUpdate = async () => {
-    await putUser(id, username, imageUrl, token);
+    await putUser({ id, name: username, image: imageUrl, token });
     router.push(`/userProfile/${id}`);
   };
 
@@ -57,7 +57,7 @@ const UserProfileEditPage = ({
   return (
     <S.Container>
       <input
-        ref={imageref}
+        ref={imageRef}
         type="file"
         accept="image/*"
         onChange={handleChangeImage}
