@@ -3,6 +3,9 @@ export const END_POINT = {
   studies: "/studies",
   image: "/images",
   user: "/users",
+  fakeLogin: "/tokens/7",
+  getMyInfo: "/me",
+  logout: "/logout",
 };
 
 export { getNaverBooks } from "./naver";

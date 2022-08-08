@@ -36,3 +36,8 @@ export const LogoutButtonWrapper = styled("div")(() => ({
   justifyContent: "end",
   paddingRight: "1rem",
 }));
+
+export const ButtonContainer = styled("div")`
+  display: flex;
+  justify-content: space-between;
+`;

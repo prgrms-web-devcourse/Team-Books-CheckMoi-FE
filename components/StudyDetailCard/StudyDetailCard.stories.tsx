@@ -13,8 +13,9 @@ const Template: ComponentStory<typeof StudyDetailCard> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   study: {
+    id: "1",
     name: "안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요안녕하새요",
-    thumbnailUrl: "",
+    thumbnail: "",
     currentParticipant: 1,
     maxParticipant: 16,
     gatherStartDate: "2021/01/01",
@@ -24,22 +25,22 @@ Default.args = {
   },
   members: [
     {
-      userId: "string",
+      id: "string",
       name: "string",
       email: "string",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
     },
     {
-      userId: "string2",
+      id: "string2",
       name: "string",
       email: "string",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
     },
     {
-      userId: "string3",
+      id: "string3",
       name: "string",
       email: "string",
-      img: "string",
+      image: "string",
     },
   ],
 };
