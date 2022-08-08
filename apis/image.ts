@@ -1,15 +1,15 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
 
+interface IPostImage {
+  urls: string[];
+}
+
 export const postImage = async (token: string, file: Blob) => {
   const formData = new FormData();
   formData.append("files", file);
 
-  interface Itemp {
-    urls: string[];
-  }
-
-  const { urls } = await apiClient.post<Itemp, Itemp>(
+  const { urls } = await apiClient.post<IPostImage, IPostImage>(
     `${END_POINT.image}`,
     formData,
     {
@@ -19,5 +19,6 @@ export const postImage = async (token: string, file: Blob) => {
       },
     }
   );
-  return urls[0];
+  const imageUrl = urls[0]
+  return imageUrl;
 };
