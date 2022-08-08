@@ -17,7 +17,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
   const {
     id,
     name,
-    thumbnailUrl,
+    thumbnail,
     currentParticipant,
     maxParticipant,
     gatherStartDate,
@@ -49,7 +49,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
   return (
     <S.StudyDetailCard>
       <S.ImageWrapper>
-        <BookCard size={10} src={thumbnailUrl} title="" />
+        <BookCard size={10} src={thumbnail} title="" />
       </S.ImageWrapper>
       <S.StudyInfoContainer>
         <S.StyledTypograph>{name}</S.StyledTypograph>
