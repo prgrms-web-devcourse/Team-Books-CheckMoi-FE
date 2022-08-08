@@ -33,14 +33,14 @@ export const logout = async (token: string) => {
 };
 
 // TODO 추후 타입 추가
-export interface UserType {
+export interface PutUserType {
   id: string;
   name: string;
   image: string;
   token: string;
 }
 
-export const putUser = async ({id, name, image, token}: UserType) => {
+export const putUser = async ({id, name, image, token}: PutUserType) => {
   const data = await apiClient.put(
     `${END_POINT.user}/${id}`,
     {
