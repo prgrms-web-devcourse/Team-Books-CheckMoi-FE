@@ -13,8 +13,8 @@ export const StudyCardList = ({ studies }: StudyCardListProps) => {
   const [selectedId, setSelectedId] = useState("");
   const [open, setOpen] = useState(false);
 
-  const handleStudyClick = (id: string | undefined) => {
-    setSelectedId(id as string);
+  const handleStudyClick = (id: string) => {
+    setSelectedId(id);
     setOpen(!open);
   };
 

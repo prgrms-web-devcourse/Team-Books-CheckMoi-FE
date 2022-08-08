@@ -4,11 +4,11 @@ import type { AppProps } from "next/app";
 import { Topbar } from "../features/Topbar";
 import * as S from "../styles/LayoutStyle";
 import UserContextProvider from "../contexts/UserContextProvider";
-import { User } from "../types/userType";
+import { UserType } from "../types/userType";
 import { getMyInfo } from "../apis/user";
 
 interface MyAppProps extends AppProps {
-  user: User | null;
+  user: UserType | null;
 }
 
 const MyApp = ({ Component, pageProps, user }: MyAppProps) => {
