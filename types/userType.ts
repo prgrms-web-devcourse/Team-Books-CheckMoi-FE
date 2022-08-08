@@ -1,7 +1,7 @@
 export interface UserType {
-  userId: string;
+  id: string;
   name: string;
   email: string;
+  image: string;
   temperature: number;
-  profileImageUrl: string;
 }

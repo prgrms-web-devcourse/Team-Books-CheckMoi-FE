@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { FormEvent } from "react";
 import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -7,6 +7,8 @@ import Link from "next/link";
 import * as S from "./style";
 import { UserProfile } from "./UserProfile";
 import { LoginButton } from "./LoginButton";
+import { useUserContext } from "../../hooks/useUserContext";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 // TODO 사용자 정보 불러오기
 
@@ -15,6 +17,7 @@ const FAKE_QUERY_SIZE = 6;
 
 export const Topbar = () => {
   const router = useRouter();
+  const user = useUserContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputDefaultValue = useRef("");
@@ -32,11 +35,7 @@ export const Topbar = () => {
         inputRef.current.value = decodeURIComponent(urlWord);
     } else if (inputRef.current) inputRef.current.value = "";
 
-  const [isLogin, setIsLogin] = useState(false);
-
-  const handleLogoutButtonClick = () => {
-    setIsLogin(false);
-  };
+  const { renderSnackbar } = useOurSnackbar();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,8 +43,7 @@ export const Topbar = () => {
     const word = target.querySelector("input")?.value.trim();
 
     if (!word) {
-      // TODO alert 통일해서 추가하기
-      alert("검색 값을 입력해주세요");
+      renderSnackbar("찾으려는 책을 입력해주세요", "warning");
       return;
     }
 
@@ -54,6 +52,10 @@ export const Topbar = () => {
       query: { word },
     });
   };
+
+  useEffect(() => {
+    if (user) renderSnackbar("로그인에 성공했습니다");
+  }, [user]);
 
   return (
     <S.StyledAppbar position="fixed">
@@ -80,12 +82,7 @@ export const Topbar = () => {
             </S.SearchInput>
           </form>
         </S.SearchInputContainer>
-        {/* TODO 로그인, 로그아웃 처리 필요 */}
-        {isLogin ? (
-          <UserProfile handleLogout={handleLogoutButtonClick} />
-        ) : (
-          <LoginButton />
-        )}
+        {user ? <UserProfile /> : <LoginButton />}
       </Toolbar>
     </S.StyledAppbar>
   );

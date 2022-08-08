@@ -1,4 +1,4 @@
-import { styled } from "@mui/material/styles";
+import styled from "@emotion/styled";
 
 export const MainPageWrapper = styled("div")`
   display: flex;
@@ -17,7 +17,7 @@ export const StyledUl = styled("ul")`
   align-items: start;
   -webkit-padding-start: 0px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 512px) {
     grid-template-columns: 1fr 1fr;
   }
 `;
