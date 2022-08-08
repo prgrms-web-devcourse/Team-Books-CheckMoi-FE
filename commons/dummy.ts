@@ -1,8 +1,8 @@
 import type { StudyType } from "../types/studyType";
-import type { NaverBookType } from "../types/bookType";
+import type { BookType } from "../types/bookType";
 
 export const dummyStudy: StudyType = {
-  thumbnailUrl: "https://picsum.photos/200",
+  thumbnail: "https://picsum.photos/200",
   name: "dummy study",
   gatherStartDate: "2022/07/01",
   gatherEndDate: "2022/07/31",
@@ -12,7 +12,7 @@ export const dummyStudy: StudyType = {
   currentParticipant: 3,
 };
 
-export const dummyBook: NaverBookType = {
+export const dummyBook: BookType = {
   image: "https://picsum.photos/200",
   title: "dummy book",
   author: "Juan Mayorga",

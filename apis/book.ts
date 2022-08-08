@@ -1,6 +1,6 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
-import type { NaverBookType } from "../types/bookType";
+import type { BookType, NaverBookType } from "../types/bookType";
 
 export const getBooksList = async () => {
   const data = await apiClient.get(`${END_POINT.book}`);
@@ -23,7 +23,7 @@ export const registerBook = async (
 };
 
 export const getBookInfo = async (bookId: string) => {
-  const data = await apiClient.get<NaverBookType, NaverBookType>(
+  const data = await apiClient.get<BookType, BookType>(
     `${END_POINT.book}/${bookId}`
   );
 

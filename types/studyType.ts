@@ -1,4 +1,4 @@
-import type { NaverBookType } from "./bookType";
+import type { BookType } from "./bookType";
 import type { User } from "./userType";
 
 export interface StudyType {
@@ -16,6 +16,6 @@ export interface StudyType {
 export interface StudyDetailType {
   study: StudyType;
   members: User[];
-  book: NaverBookType;
+  book: BookType;
   description: string;
 }
