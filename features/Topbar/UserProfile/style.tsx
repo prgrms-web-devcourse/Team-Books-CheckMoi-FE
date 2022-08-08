@@ -20,10 +20,10 @@ export const AvatarWrapper = styled("div")(() => ({
 export const StyledUserInfo = styled("div")(() => ({
   display: "flex",
   flexDirection: "column",
+}));
 
-  "& span:last-child": {
-    fontSize: "0.5rem",
-  },
+export const SmallSpan = styled("span")(() => ({
+  fontSize: "0.5rem",
 }));
 
 export const StyledDivider = styled(Divider)(() => ({

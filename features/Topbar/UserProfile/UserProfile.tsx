@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { MouseEvent } from "react";
 import { Avatar, MenuItem, Typography, Button } from "@mui/material";
-import { Folder } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import * as S from "./style";
 import LogoutModal from "./LogoutModal";
@@ -48,12 +47,11 @@ export const UserProfile = () => {
         }}
       >
         <S.AvatarWrapper>
-          <Avatar>
-            <Folder />
-          </Avatar>
+          <Avatar src={user?.image} />
           <S.StyledUserInfo>
             <span>{user?.name}</span>
-            <span>{user?.email}</span>
+            <S.SmallSpan>{user?.email}</S.SmallSpan>
+            <S.SmallSpan>{user?.temperature}℃</S.SmallSpan>
           </S.StyledUserInfo>
         </S.AvatarWrapper>
         <S.StyledDivider />
