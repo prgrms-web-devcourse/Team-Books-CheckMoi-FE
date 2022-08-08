@@ -2,7 +2,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Skeleton, Box, Tabs, Tab } from "@mui/material";
-import { UserType } from "../../types/userType";
+import type { UserType } from "../../types/userType";
 import { StudyCard, TabPanel } from "../../components";
 import { dummyStudy } from "../../commons/dummy";
 import * as S from "../../styles/UserProfileStyle";
@@ -10,9 +10,9 @@ import { getUser } from "../../apis";
 
 const userProfile = () => {
   const router = useRouter();
-  const [userInfo, setUserInfo] = useState<UserType>({} as UserType);
-  const [tabNumber, setTabNumber] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [userInfo, setUserInfo] = useState({} as UserType);
+  const [tabNumber, setTabNumber] = useState(0);
+  const [loading, setLoading] = useState(true);
   // TODO 전역으로 저장된 token 가져오기
   // TODO 전역으로 저정된 유저id와 불러온 유저id가 같으면 프로필 수정 버튼 띄우는 로직 필요
   const token =
