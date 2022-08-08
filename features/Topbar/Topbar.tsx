@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { FormEvent } from "react";
 import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -8,6 +8,7 @@ import * as S from "./style";
 import { UserProfile } from "./UserProfile";
 import { LoginButton } from "./LoginButton";
 import { useUserContext } from "../../hooks/useUserContext";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 // TODO 사용자 정보 불러오기
 
@@ -34,14 +35,15 @@ export const Topbar = () => {
         inputRef.current.value = decodeURIComponent(urlWord);
     } else if (inputRef.current) inputRef.current.value = "";
 
+  const { renderSnackbar } = useOurSnackbar();
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as Element;
     const word = target.querySelector("input")?.value.trim();
 
     if (!word) {
-      // TODO alert 통일해서 추가하기
-      alert("검색 값을 입력해주세요");
+      renderSnackbar("찾으려는 책을 입력해주세요", "warning");
       return;
     }
 
@@ -50,6 +52,10 @@ export const Topbar = () => {
       query: { word },
     });
   };
+
+  useEffect(() => {
+    if (user) renderSnackbar("로그인에 성공했습니다");
+  }, [user]);
 
   return (
     <S.StyledAppbar position="fixed">

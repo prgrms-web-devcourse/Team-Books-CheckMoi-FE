@@ -28,10 +28,7 @@ const UserContextProvider = ({
       login(inputUser: UserType) {
         setUser(inputUser);
       },
-      async logout() {
-        const token = document.cookie.split("token=");
-        await logout(token[1]);
-        document.cookie = "token=; max-age=0;";
+      logout() {
         setUser(null);
       },
     }),
