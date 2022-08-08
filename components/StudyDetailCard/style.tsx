@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
-import { Card, MenuItem, AvatarGroup, Typography } from '@mui/material';
+import styled from "@emotion/styled";
+import { Card, MenuItem, AvatarGroup, Typography } from "@mui/material";
 
 export const StudyDetailCard = styled(Card)`
   display: flex;
@@ -34,12 +34,17 @@ export const StudyInfoContainer = styled.div`
 `;
 
 export const StyledAvatarGroup = styled(AvatarGroup)`
-  height: 100%;
-
   @media (max-width: 512px) {
     width: 100%;
     justify-content: flex-end;
   }
+`;
+
+export const IconsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 0.5rem;
 `;
 
 export const StyledMenuItem = styled(MenuItem)`

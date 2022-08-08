@@ -76,12 +76,14 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
           진행 기간 : {`${studyStartDate} - ${studyEndDate}`}
         </S.ResponsiveText>
       </S.StudyInfoContainer>
-      <ShareIcon onClick={handleShareClick} />
-      <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
-        {members.map((user) => (
-          <Avatar key={`AvatarGroup_${user.userId}`} src={user.img} />
-        ))}
-      </S.StyledAvatarGroup>
+      <S.IconsContainer>
+        <ShareIcon onClick={handleShareClick} />
+        <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
+          {members.map((user) => (
+            <Avatar key={`AvatarGroup_${user.userId}`} src={user.img} />
+          ))}
+        </S.StyledAvatarGroup>
+      </S.IconsContainer>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
