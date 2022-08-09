@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import type { SyntheticEvent } from "react";
 import { Tabs, Tab, Button } from "@mui/material";
 import type { GetServerSideProps } from "next/types";
 import { useRouter } from "next/router";
@@ -23,21 +24,26 @@ interface ServerSidePropType {
 const STUDY_OWNER = 0;
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
-  const router = useRouter();
-  // TODO studyID를 사용하지 않는 다면 삭제
-  const { id: studyID, value: tabValue } = router.query;
-  const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
-  const { user } = useUserContext();
-  const [tabNumber, setTabNumber] = useState(currentTab);
   const { study, members } = studyData;
-  const userID = user?.id;
-  const ownerID = members[STUDY_OWNER].id;
-  const handleTabChange = (e: React.SyntheticEvent, newValue: number) => {
+
+  const router = useRouter();
+  const { value: tabValue } = router.query;
+  const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
+  const [tabNumber, setTabNumber] = useState(currentTab);
+
+  const [isOwner, setIsOwner] = useState(false);
+
+  const { user } = useUserContext();
+
+  useEffect(() => {
+    if (user?.id === members[STUDY_OWNER].id) setIsOwner(true);
+    else setIsOwner(false);
+  }, [user]);
+
+  const handleTabChange = (e: SyntheticEvent, newValue: number) => {
     setTabNumber(newValue);
   };
 
-  // TODO 게시글 클릭 시 value 값을 갖고 게시글 상세 페이지로 이동 확인
-  // TODO API 연동 확인
   const handlePostClick = (id: number) => {
     router.push(`/boardDetail/${id}`, { query: { tabNumber } });
   };
@@ -46,24 +52,19 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     router.push(`/postCreate`, { query: { tabNumber } });
   };
 
-  // TODO 관리자 탭 0,1 모두 작성 가능
-  // TODO 일반 참가자 1번 탭만 작성 가능
-
   return (
     <>
       <StudyDetailCard study={study} members={members} />
       <Tabs value={tabNumber} onChange={handleTabChange}>
         <Tab label="공지" />
         <Tab label="자유" />
-        {userID === ownerID ? <Tab label="관리자" /> : ""}
+        {isOwner && <Tab label="관리자" />}
       </Tabs>
       <TabPanel value={tabNumber} index={0}>
-        {userID === ownerID ? (
+        {isOwner && (
           <Button variant="contained" onClick={handleButtonClick}>
             글 작성
           </Button>
-        ) : (
-          ""
         )}
 
         <S.StyledUl>
