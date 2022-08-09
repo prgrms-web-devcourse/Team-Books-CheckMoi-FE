@@ -28,12 +28,12 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const { id: studyID, value: tabValue } = router.query;
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
   const user = useUserContext();
-  const [tabNumber, setTabValue] = useState(currentTab);
+  const [tabNumber, setTabNumber] = useState(currentTab);
   const { study, members } = studyData;
-  console.log("user", user);
-  console.log("owner", members[STUDY_OWNER]);
+  const userID = user?.id;
+  const ownerID = members[STUDY_OWNER].id;
   const handleTabChange = (e: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
+    setTabNumber(newValue);
   };
 
   // TODO 게시글 클릭 시 value 값을 갖고 게시글 상세 페이지로 이동 확인
@@ -41,18 +41,22 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const handlePostClick = (id: number) => {
     router.push(`/boardDetail/${id}`, { query: { tabNumber } });
   };
+
+  // TODO 관리자 탭 0,1 모두 작성 가능
+  // TODO 일반 참가자 1번 탭만 작성 가능
+
   return (
     <>
       <StudyDetailCard study={study} members={members} />
-      <S.TabsWrapper>
-        <Tabs value={tabNumber} onChange={handleTabChange}>
-          <Tab label="공지" />
-          <Tab label="자유" />
-          <Tab label="관리자" disabled />
-        </Tabs>
-        <Button variant="contained">글쓰기</Button>
-      </S.TabsWrapper>
+      <Tabs value={tabNumber} onChange={handleTabChange}>
+        <Tab label="공지" />
+        <Tab label="자유" />
+        {userID === ownerID ? <Tab label="관리자" /> : ""}
+      </Tabs>
       <TabPanel value={tabNumber} index={0}>
+        <Button variant="contained" disabled={userID !== ownerID}>
+          글 작성
+        </Button>
         <S.StyledUl>
           {DummyPost.map((post) => (
             <S.StyledList key={post.id}>
@@ -62,6 +66,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         </S.StyledUl>
       </TabPanel>
       <TabPanel value={tabNumber} index={1}>
+        <Button variant="contained">글 작성</Button>
         <S.StyledUl>
           {DummyPost.map((post) => (
             <S.StyledList key={post.id}>
