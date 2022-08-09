@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
+import { MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -6,7 +6,6 @@ import { getBookInfo } from "../../apis";
 import { createStudy, getStudyDetailInfo } from "../../apis/study";
 import { fakeLogin } from "../../apis/user";
 import type { StudyType } from "../../types/studyType";
-import { isValueNumber } from "../../utils/isValueNumber";
 import * as S from "./style";
 
 interface StudyOpenProps {
@@ -37,7 +36,7 @@ interface IInputError {
   status: string;
 }
 
-const getDateFromToday = (count: number = 0) => {
+const getDateFromToday = (count: number = 0): string => {
   const today = new Date();
 
   const returnDate = new Date(today);
