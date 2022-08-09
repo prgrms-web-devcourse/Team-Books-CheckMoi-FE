@@ -35,15 +35,25 @@ interface IInputError {
   description: string;
 }
 
+const getDateFromToday = (count: number = 0) => {
+  const today = new Date();
+
+  const returnDate = new Date(today);
+
+  returnDate.setDate(today.getDate() + count);
+
+  return returnDate.toISOString().slice(0, 10);
+};
+
 export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
   const [studyInfo, setStudyInfo] = useState<IStudyInfo>({
     bookTitle: "",
     name: "",
     maxParticipant: "",
-    gatherStartDate: new Date("2022-08-08").toISOString().slice(0, 10),
-    gatherEndDate: new Date("2022-08-08").toISOString().slice(0, 10),
-    studyStartDate: new Date("2022-08-08").toISOString().slice(0, 10),
-    studyEndDate: new Date("2022-08-08").toISOString().slice(0, 10),
+    gatherStartDate: getDateFromToday(),
+    gatherEndDate: getDateFromToday(1),
+    studyStartDate: getDateFromToday(2),
+    studyEndDate: getDateFromToday(3),
     description: "",
     thumbnail: "",
   });
@@ -124,9 +134,9 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
     if (!Object.values(newError).every((errorVal) => errorVal === "")) return;
 
-    const newStudyInfo: StudyType = {
+    const newStudyInfo = {
       ...studyInfo,
-      id: bookId,
+      bookId,
       maxParticipant: Number(studyInfo.maxParticipant),
       currentParticipant: 1,
       gatherStartDate: studyInfo.gatherStartDate,

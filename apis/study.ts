@@ -17,7 +17,8 @@ export const getStudyDetailInfo = async (studyId: string) => {
   return data;
 };
 
-export const createStudy = async (study: StudyType, token: string) => {
+// TODO: studyType
+export const createStudy = async (study, token: string) => {
   const data = await apiClient.post(
     `${END_POINT.studies}`,
     JSON.stringify(study),
