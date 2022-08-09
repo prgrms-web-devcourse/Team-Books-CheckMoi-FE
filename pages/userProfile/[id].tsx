@@ -70,7 +70,7 @@ const userProfile = () => {
       ) : (
         <>
           <S.UserProfileContainer>
-            <S.StyledAvatar src={userInfo.profileImageUrl} />
+            <S.StyledAvatar src={userInfo.image} />
             <S.User>
               <S.UserName>{userInfo.name}</S.UserName>
               <S.UserInfo>
