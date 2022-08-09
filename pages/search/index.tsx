@@ -2,10 +2,13 @@ import { Pagination } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
-import { getNaverBooks, registerBook } from "../../apis";
+import { getNaverBooks } from "../../apis";
 import { BookCard } from "../../components";
 import type { NaverBookResponseType } from "../../types/bookType";
 import * as S from "../../styles/SearchPageStyle";
+import { getBookInfoByISBN } from "../../apis/book";
+import type { ErrorResponseType } from "../../types/errorTypes";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 const SEARCH_URL = "/search";
 
@@ -15,6 +18,25 @@ const SearchPage = () => {
 
   const [loading, setLoading] = useState(true);
   const [searchedInfo, setSearchedInfo] = useState({} as NaverBookResponseType);
+
+  const { renderSnackbar } = useOurSnackbar();
+
+  const handleBookCardClick = async (isbn: string) => {
+    try {
+      const { id } = await getBookInfoByISBN(isbn);
+      router.push(`/book/${id}`);
+    } catch (error) {
+      const err = error as ErrorResponseType;
+      if (err.response?.status === 404) {
+        renderSnackbar("이 책은 등록되지 않았습니다", "warning");
+        return;
+      }
+      renderSnackbar(
+        "알 수 없는 오류로 책 정보를 받아오지 못했습니다",
+        "error"
+      );
+    }
+  };
 
   const handlePaginationChange = (_: ChangeEvent<unknown>, two: number) => {
     router.push({
@@ -53,15 +75,7 @@ const SearchPage = () => {
                 src={book.image}
                 title={book.title}
                 size={10}
-                onClick={() => {
-                  registerBook(
-                    book,
-                    process.env.NEXT_PUBLIC_FAKE_TOKEN as string
-                  ).then((response) => {
-                    console.log(response);
-                    router.push(`/book/${response}`);
-                  });
-                }}
+                onClick={() => handleBookCardClick(book.isbn)}
               />
             ))
           : "검색 결과가 없습니다"}

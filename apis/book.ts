@@ -29,3 +29,10 @@ export const getBookInfo = async (bookId: string) => {
 
   return data;
 };
+
+export const getBookInfoByISBN = async (isbn: string) => {
+  const data = await apiClient.get<BookType, BookType>(
+    `${END_POINT.isbnBook}/${isbn}`
+  );
+  return data;
+};
