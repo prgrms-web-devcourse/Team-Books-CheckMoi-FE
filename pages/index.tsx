@@ -24,30 +24,32 @@ const Home = ({ books }: ServerSidePropsType) => {
     <S.MainPageWrapper>
       <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
       <S.StyledUl>
-        {latestBooks.map((book) => (
-          <S.StyledList key={book.id}>
-            <BookCard
-              src={book.image}
-              title=""
-              size={10}
-              onClick={() => handleBookCardClick(book.id)}
-            />
-          </S.StyledList>
-        ))}
+        {latestBooks &&
+          latestBooks.map((book) => (
+            <S.StyledList key={book.id}>
+              <BookCard
+                src={book.image}
+                title=""
+                size={10}
+                onClick={() => handleBookCardClick(book.id)}
+              />
+            </S.StyledList>
+          ))}
       </S.StyledUl>
 
       <S.StyledSpan>가장 최근 스터디가 만들어진 책</S.StyledSpan>
       <S.StyledUl>
-        {studyLatestBooks.map((book) => (
-          <S.StyledList key={book.id}>
-            <BookCard
-              src={book.image}
-              title=""
-              size={10}
-              onClick={() => handleBookCardClick(book.id)}
-            />
-          </S.StyledList>
-        ))}
+        {studyLatestBooks &&
+          studyLatestBooks.map((book) => (
+            <S.StyledList key={book.id}>
+              <BookCard
+                src={book.image}
+                title=""
+                size={10}
+                onClick={() => handleBookCardClick(book.id)}
+              />
+            </S.StyledList>
+          ))}
       </S.StyledUl>
     </S.MainPageWrapper>
   );

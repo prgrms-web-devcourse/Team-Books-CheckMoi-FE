@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Tabs, Tab } from "@mui/material";
+import { Tabs, Tab, Button } from "@mui/material";
 import type { GetServerSideProps } from "next/types";
 import { useRouter } from "next/router";
 import type { StudyDetailType } from "../../types/studyType";
@@ -9,19 +9,29 @@ import { getStudyDetailInfo } from "../../apis/study";
 import { PostCard } from "../../components/PostCard";
 import { DummyPost } from "../../commons/dummyPost";
 import * as S from "../../styles/StudyDetailPageStyle";
+import { useUserContext } from "../../hooks/useUserContext";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
 }
 
+// TODO ContextAPI로 User 정보 가져오기
+// TODO studyID로 Study 정보 요청하기
+// TODO 게시글 작성 버튼
+// TODO User가 스터디장일 경우와 아닐 경우 탭, 버튼 권한 부여
+
+const STUDY_OWNER = 0;
+
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
-  // TODO router에 value query가 있으면 setValue로 실행.
   const router = useRouter();
+  // TODO studyID를 사용하지 않는 다면 삭제
   const { id: studyID, value: tabValue } = router.query;
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
-
+  const user = useUserContext();
   const [tabNumber, setTabValue] = useState(currentTab);
   const { study, members } = studyData;
+  console.log("user", user);
+  console.log("owner", members[STUDY_OWNER]);
   const handleTabChange = (e: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
@@ -34,41 +44,40 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   return (
     <>
       <StudyDetailCard study={study} members={members} />
-
+      
       <Tabs value={tabNumber} onChange={handleTabChange}>
         <Tab label="공지" />
         <Tab label="자유" />
         <Tab label="관리자" disabled />
       </Tabs>
-      <S.StyledTab>
-        <TabPanel value={tabNumber} index={0}>
-          <S.StyledUl>
-            {DummyPost.map((post) => (
-              <S.StyledList key={post.id}>
-                <PostCard post={post} />
-              </S.StyledList>
-            ))}
-          </S.StyledUl>
-        </TabPanel>
-        <TabPanel value={tabNumber} index={1}>
-          <S.StyledUl>
-            {DummyPost.map((post) => (
-              <S.StyledList key={post.id}>
-                <PostCard post={post} />
-              </S.StyledList>
-            ))}
-          </S.StyledUl>
-        </TabPanel>
-        <TabPanel value={tabNumber} index={2}>
-          <S.StyledUl>
-            {DummyPost.map((post) => (
-              <S.StyledList key={post.id}>
-                <PostCard post={post} />
-              </S.StyledList>
-            ))}
-          </S.StyledUl>
-        </TabPanel>
-      </S.StyledTab>
+      <Button variant="contained">글쓰기</Button>
+      <TabPanel value={tabNumber} index={0}>
+        <S.StyledUl>
+          {DummyPost.map((post) => (
+            <S.StyledList key={post.id}>
+              <PostCard post={post} />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
+      </TabPanel>
+      <TabPanel value={tabNumber} index={1}>
+        <S.StyledUl>
+          {DummyPost.map((post) => (
+            <S.StyledList key={post.id}>
+              <PostCard post={post} />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
+      </TabPanel>
+      <TabPanel value={tabNumber} index={2}>
+        <S.StyledUl>
+          {DummyPost.map((post) => (
+            <S.StyledList key={post.id}>
+              <PostCard post={post} />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
+      </TabPanel>
     </>
   );
 };
