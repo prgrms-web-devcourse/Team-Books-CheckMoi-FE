@@ -1,15 +1,31 @@
 import styled from "@emotion/styled";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 export const Container = styled.div`
+  padding: 1rem;
+
+  display: flex;
+
+  width: 1048px;
+`;
+
+export const TextFieldContainer = styled.div`
+  width: 512px;
+
   display: flex;
   flex-direction: column;
 
-  padding: 1rem;
+  margin-right: 1rem;
+`;
+
+export const ThumbnailContainer = styled.div`
+  width: 512px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const ThumbnailForm = styled.form`
-  width: 100%;
+  width: 512px;
 
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -43,8 +59,17 @@ export const ThumbnailLabel = styled.label`
 `;
 
 export const ImageBox = styled.div`
+  border: 1px solid black;
+  border-radius: 0.5rem;
+
   &:hover {
     border: 1px solid black;
     border-radius: 0.5rem;
   }
+`;
+
+export const StudyOpenButton = styled(Button)`
+  width: 144px;
+
+  margin-left: auto;
 `;

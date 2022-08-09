@@ -1,8 +1,10 @@
 import styled from "@emotion/styled";
 
-export const Container = styled.div`
+export const PageContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
 
-  max-width: 66rem;
+  width: 1048px;
+
+  border: 1px solid pink;
 `;

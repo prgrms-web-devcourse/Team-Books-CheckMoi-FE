@@ -8,9 +8,9 @@ interface StudyOpenPageProps {
 
 const StudyOpenPage = ({ dummy = "" }: StudyOpenPageProps) => {
   return (
-    <S.Container>
+    <S.PageContainer>
       <StudyOpen bookId="1" />
-    </S.Container>
+    </S.PageContainer>
   );
 };
 

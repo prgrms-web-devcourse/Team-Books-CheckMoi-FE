@@ -126,7 +126,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
     const newStudyInfo: StudyType = {
       ...studyInfo,
-      bookId,
+      id: bookId,
       maxParticipant: Number(studyInfo.maxParticipant),
       currentParticipant: 1,
       gatherStartDate: studyInfo.gatherStartDate,
@@ -158,122 +158,126 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
   return (
     <S.Container>
-      <TextField
-        name="bookTitle"
-        variant="standard"
-        label="책 제목"
-        disabled
-        value={studyInfo.bookTitle}
-        margin="dense"
-      />
-      <TextField
-        name="name"
-        variant="standard"
-        label="스터디 이름"
-        value={studyInfo.name}
-        margin="dense"
-        onChange={handleStudyInfoChange}
-        error={!!inputError.name}
-        helperText={inputError.name}
-      />
-      <TextField
-        name="maxParticipant"
-        variant="standard"
-        type="number"
-        label="스터디 인원"
-        value={studyInfo.maxParticipant}
-        margin="dense"
-        onChange={handleStudyInfoChange}
-        error={!!inputError.maxParticipant}
-        helperText={inputError.maxParticipant}
-      />
-      <TextField
-        name="gatherStartDate"
-        variant="standard"
-        type="date"
-        defaultValue=""
-        label="스터디원 모집 시작"
-        value={studyInfo.gatherStartDate}
-        margin="dense"
-        onChange={handleStudyInfoChange}
-        error={!!inputError.gatherStartDate}
-        helperText={inputError.gatherStartDate}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <TextField
-        name="gatherEndDate"
-        variant="standard"
-        type="date"
-        label="스터디원 모집 마감"
-        value={studyInfo.gatherEndDate}
-        margin="dense"
-        onChange={handleStudyInfoChange}
-        error={!!inputError.gatherEndDate}
-        helperText={inputError.gatherEndDate}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <TextField
-        name="studyStartDate"
-        variant="standard"
-        type="date"
-        label="스터디 진행 시작"
-        value={studyInfo.studyStartDate}
-        margin="dense"
-        onChange={handleStudyInfoChange}
-        error={!!inputError.studyStartDate}
-        helperText={inputError.studyStartDate}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <TextField
-        name="studyEndDate"
-        variant="standard"
-        type="date"
-        label="스터디 진행 종료"
-        value={studyInfo.studyEndDate}
-        margin="dense"
-        onChange={handleStudyInfoChange}
-        error={!!inputError.studyEndDate}
-        helperText={inputError.studyEndDate}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <TextField
-        name="description"
-        variant="outlined"
-        label="스터디 내용"
-        multiline
-        minRows={8}
-        value={studyInfo.description}
-        margin="dense"
-        onChange={handleStudyInfoChange}
-        error={!!inputError.description}
-        helperText={inputError.description}
-      />
-      <S.ThumbnailForm>
-        <S.ThumbnailTypo>스터디 썸네일</S.ThumbnailTypo>
-        <S.ThumbnailLabel htmlFor="fileInput">
-          <S.ImageBox>
-            <Image src={studyInfo.thumbnail} width="480px" height="480px" />
-          </S.ImageBox>
-        </S.ThumbnailLabel>
-        <input
-          hidden
-          id="fileInput"
-          type="file"
-          accept="image/*"
-          onChange={hanldeUploadClick}
+      <S.TextFieldContainer>
+        <TextField
+          name="bookTitle"
+          variant="standard"
+          label="책 제목"
+          disabled
+          value={studyInfo.bookTitle}
+          margin="normal"
         />
-      </S.ThumbnailForm>
-      <Button variant="outlined" onClick={handleOpenClick}>
-        스터디 개설하기
-      </Button>
+        <TextField
+          name="name"
+          variant="standard"
+          label="스터디 이름"
+          value={studyInfo.name}
+          margin="normal"
+          onChange={handleStudyInfoChange}
+          error={!!inputError.name}
+          helperText={inputError.name}
+        />
+        <TextField
+          name="maxParticipant"
+          variant="standard"
+          type="number"
+          label="스터디 인원"
+          value={studyInfo.maxParticipant}
+          margin="normal"
+          onChange={handleStudyInfoChange}
+          error={!!inputError.maxParticipant}
+          helperText={inputError.maxParticipant}
+        />
+        <TextField
+          name="gatherStartDate"
+          variant="standard"
+          type="date"
+          defaultValue=""
+          label="스터디원 모집 시작"
+          value={studyInfo.gatherStartDate}
+          margin="normal"
+          onChange={handleStudyInfoChange}
+          error={!!inputError.gatherStartDate}
+          helperText={inputError.gatherStartDate}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          name="gatherEndDate"
+          variant="standard"
+          type="date"
+          label="스터디원 모집 마감"
+          value={studyInfo.gatherEndDate}
+          margin="normal"
+          onChange={handleStudyInfoChange}
+          error={!!inputError.gatherEndDate}
+          helperText={inputError.gatherEndDate}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          name="studyStartDate"
+          variant="standard"
+          type="date"
+          label="스터디 진행 시작"
+          value={studyInfo.studyStartDate}
+          margin="normal"
+          onChange={handleStudyInfoChange}
+          error={!!inputError.studyStartDate}
+          helperText={inputError.studyStartDate}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          name="studyEndDate"
+          variant="standard"
+          type="date"
+          label="스터디 진행 종료"
+          value={studyInfo.studyEndDate}
+          margin="normal"
+          onChange={handleStudyInfoChange}
+          error={!!inputError.studyEndDate}
+          helperText={inputError.studyEndDate}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          name="description"
+          variant="outlined"
+          label="스터디 내용"
+          multiline
+          minRows={5}
+          value={studyInfo.description}
+          margin="normal"
+          onChange={handleStudyInfoChange}
+          error={!!inputError.description}
+          helperText={inputError.description}
+        />
+      </S.TextFieldContainer>
+      <S.ThumbnailContainer>
+        <S.ThumbnailForm>
+          <S.ThumbnailTypo>스터디 썸네일</S.ThumbnailTypo>
+          <S.ThumbnailLabel htmlFor="fileInput">
+            <S.ImageBox>
+              <Image src={studyInfo.thumbnail} width="300" height="450" />
+            </S.ImageBox>
+          </S.ThumbnailLabel>
+          <input
+            hidden
+            id="fileInput"
+            type="file"
+            accept="image/*"
+            onChange={hanldeUploadClick}
+          />
+        </S.ThumbnailForm>
+        <S.StudyOpenButton variant="outlined" onClick={handleOpenClick}>
+          스터디 개설하기
+        </S.StudyOpenButton>
+      </S.ThumbnailContainer>
     </S.Container>
   );
 };
