@@ -1,0 +1,1 @@
+export { SearchPageModal } from "./SearchPageModal";

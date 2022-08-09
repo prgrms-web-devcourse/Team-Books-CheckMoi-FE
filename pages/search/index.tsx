@@ -9,6 +9,9 @@ import * as S from "../../styles/SearchPageStyle";
 import { getBookInfoByISBN } from "../../apis/book";
 import type { ErrorResponseType } from "../../types/errorTypes";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
+import { useUserContext } from "../../hooks/useUserContext";
+import type { TopbarUserType } from "../../types/userType";
+import { SearchPageModal } from "../../features/SearchPageModal";
 
 const SEARCH_URL = "/search";
 
@@ -18,8 +21,19 @@ const SearchPage = () => {
 
   const [loading, setLoading] = useState(true);
   const [searchedInfo, setSearchedInfo] = useState({} as NaverBookResponseType);
+  const [isSearchPageModalOpen, setIsSearchPageModalOpen] = useState(false);
 
   const { renderSnackbar } = useOurSnackbar();
+  const { user } = useUserContext();
+
+  const registerBook = (inputUser: TopbarUserType | null) => {
+    if (inputUser) {
+      console.log("로그인");
+      console.log(inputUser);
+      return;
+    }
+    setIsSearchPageModalOpen(true);
+  };
 
   const handleBookCardClick = async (isbn: string) => {
     try {
@@ -28,7 +42,7 @@ const SearchPage = () => {
     } catch (error) {
       const err = error as ErrorResponseType;
       if (err.response?.status === 404) {
-        renderSnackbar("이 책은 등록되지 않았습니다", "warning");
+        registerBook(user);
         return;
       }
       renderSnackbar(
@@ -46,6 +60,10 @@ const SearchPage = () => {
         page: two,
       },
     });
+  };
+
+  const handleSearchPageModalClose = () => {
+    setIsSearchPageModalOpen(false);
   };
 
   useEffect(() => {
@@ -90,6 +108,10 @@ const SearchPage = () => {
           onChange={handlePaginationChange}
         />
       </S.PaginationWrapper>
+      <SearchPageModal
+        open={isSearchPageModalOpen}
+        onClose={handleSearchPageModalClose}
+      />
     </>
   );
 };
