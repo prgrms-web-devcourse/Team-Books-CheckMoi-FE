@@ -53,10 +53,6 @@ export const Topbar = () => {
     });
   };
 
-  useEffect(() => {
-    if (user) renderSnackbar("로그인에 성공했습니다");
-  }, [user]);
-
   return (
     <S.StyledAppbar position="fixed">
       <Toolbar>
