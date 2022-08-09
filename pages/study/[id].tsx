@@ -44,13 +44,14 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   return (
     <>
       <StudyDetailCard study={study} members={members} />
-      
-      <Tabs value={tabNumber} onChange={handleTabChange}>
-        <Tab label="공지" />
-        <Tab label="자유" />
-        <Tab label="관리자" disabled />
-      </Tabs>
-      <Button variant="contained">글쓰기</Button>
+      <S.TabsWrapper>
+        <Tabs value={tabNumber} onChange={handleTabChange}>
+          <Tab label="공지" />
+          <Tab label="자유" />
+          <Tab label="관리자" disabled />
+        </Tabs>
+        <Button variant="contained">글쓰기</Button>
+      </S.TabsWrapper>
       <TabPanel value={tabNumber} index={0}>
         <S.StyledUl>
           {DummyPost.map((post) => (
