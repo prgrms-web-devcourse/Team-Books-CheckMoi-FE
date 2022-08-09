@@ -5,6 +5,7 @@ import type { ChangeEvent } from "react";
 import { getNaverBooks, registerBook } from "../../apis";
 import { BookCard } from "../../components";
 import type { NaverBookResponseType } from "../../types/bookType";
+import * as S from "../../styles/SearchPageStyle";
 
 const SearchPage = () => {
   const router = useRouter();
@@ -42,14 +43,7 @@ const SearchPage = () => {
     "로딩 중"
   ) : (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          gap: "1rem",
-          flexWrap: "wrap",
-          marginBottom: "2rem",
-        }}
-      >
+      <S.BookCardContainer>
         {searchedInfo.items.length
           ? searchedInfo.items.map((book) => (
               <BookCard
@@ -69,15 +63,17 @@ const SearchPage = () => {
               />
             ))
           : "검색 결과가 없습니다"}
-      </Box>
-      <Pagination
-        count={Math.ceil(searchedInfo.total / 10)}
-        variant="outlined"
-        shape="rounded"
-        color="primary"
-        page={Number(router.query?.page)}
-        onChange={handlePaginationChange}
-      />
+      </S.BookCardContainer>
+      <S.PaginationWrapper>
+        <Pagination
+          count={Math.ceil(searchedInfo.total / 10)}
+          variant="outlined"
+          shape="rounded"
+          color="primary"
+          page={Number(router.query?.page)}
+          onChange={handlePaginationChange}
+        />
+      </S.PaginationWrapper>
     </>
   );
 };
