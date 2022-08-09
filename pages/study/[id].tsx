@@ -45,7 +45,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   };
 
   const handlePostClick = (id: number) => {
-    router.push(`/boardDetail/${id}`, { query: { tabNumber } });
+    router.push(`/postDetail/${id}`, { query: { tabNumber } });
   };
 
   const handleButtonClick = () => {
