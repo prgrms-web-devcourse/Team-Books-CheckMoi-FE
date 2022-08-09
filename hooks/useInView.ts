@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 
-export const useInView = () => {
+export const useInView = (): [RefObject<HTMLDivElement>, boolean] => {
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
