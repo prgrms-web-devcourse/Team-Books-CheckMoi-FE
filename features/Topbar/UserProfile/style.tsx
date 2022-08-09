@@ -1,41 +1,41 @@
-import { styled } from "@mui/material/styles";
 import { Menu, Divider } from "@mui/material";
+import styled from "@emotion/styled";
 
-export const StyledMenu = styled(Menu)(() => ({
-  "& ul": {
-    minWidth: "10rem",
-    maxWidth: "20rem",
-  },
-}));
+export const StyledMenu = styled(Menu)`
+  & ul {
+    min-width: 10rem;
+    max-width: 20rem;
+  }
+`;
 
-export const AvatarWrapper = styled("div")(() => ({
-  display: "flex",
-  padding: "0.5rem 1rem",
-  alignItems: "center",
-  gap: "1rem",
-  width: "fit-content",
-  fontSize: "1.2rem",
-}));
+export const AvatarWrapper = styled("div")`
+  display: flex;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  gap: 1rem;
+  width: fit-content;
+  font-size: 1.2rem;
+`;
 
-export const StyledUserInfo = styled("div")(() => ({
-  display: "flex",
-  flexDirection: "column",
-}));
+export const StyledUserInfo = styled("div")`
+  display: flex;
+  flex-direction: column;
+`;
 
-export const SmallSpan = styled("span")(() => ({
-  fontSize: "0.5rem",
-}));
+export const SmallSpan = styled("span")`
+  font-size: 0.5rem;
+`;
 
-export const StyledDivider = styled(Divider)(() => ({
-  textAlign: "center",
-  margin: "0.5rem 1rem",
-}));
+export const StyledDivider = styled(Divider)`
+  text-align: center;
+  margin: 0.5rem 1rem;
+`;
 
-export const LogoutButtonWrapper = styled("div")(() => ({
-  display: "flex",
-  justifyContent: "end",
-  paddingRight: "1rem",
-}));
+export const LogoutButtonWrapper = styled("div")`
+  display: flex;
+  justify-content: end;
+  padding-right: 1rem;
+`;
 
 export const ButtonContainer = styled("div")`
   display: flex;
