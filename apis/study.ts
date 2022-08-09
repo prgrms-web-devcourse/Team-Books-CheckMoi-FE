@@ -1,6 +1,7 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
 import type { StudyDetailType, StudyType } from "../types/studyType";
+import { dummyToken } from "../commons/dummy";
 
 export const getStudies = async (bookId: string, page = 1) => {
   const data = await apiClient.get<any, any>(
@@ -13,5 +14,20 @@ export const getStudyDetailInfo = async (studyId: string) => {
   const data = await apiClient.get<StudyDetailType, StudyDetailType>(
     `${END_POINT.studies}/${studyId}`
   );
+  return data;
+};
+
+export const createStudy = async (study: StudyType) => {
+  const data = await apiClient.post(
+    `${END_POINT.studies}`,
+    JSON.stringify(study),
+    {
+      headers: {
+        Authorization: `bearer ${dummyToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
   return data;
 };

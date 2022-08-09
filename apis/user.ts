@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiClient } from "./api";
 import { END_POINT } from ".";
-import { UserType } from "../types/userType";
+import { TopbarUserType } from "../types/userType";
 
 export const fakeLogin = async () => {
   const data = await axios.get<string>(
@@ -12,7 +12,7 @@ export const fakeLogin = async () => {
 };
 
 export const getMyInfo = async (token: string) => {
-  const data = await apiClient.get<UserType, UserType>(
+  const data = await apiClient.get<TopbarUserType, TopbarUserType>(
     `${END_POINT.getMyInfo}`,
     {
       headers: {
@@ -40,7 +40,7 @@ export interface PutUserType {
   token: string;
 }
 
-export const putUser = async ({id, name, image, token}: PutUserType) => {
+export const putUser = async ({ id, name, image, token }: PutUserType) => {
   const data = await apiClient.put(
     `${END_POINT.user}/${id}`,
     {
