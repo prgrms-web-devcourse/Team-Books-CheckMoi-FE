@@ -1,4 +1,4 @@
-import { Pagination, Box } from "@mui/material";
+import { Pagination } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
@@ -6,6 +6,8 @@ import { getNaverBooks, registerBook } from "../../apis";
 import { BookCard } from "../../components";
 import type { NaverBookResponseType } from "../../types/bookType";
 import * as S from "../../styles/SearchPageStyle";
+
+const SEARCH_URL = "/search";
 
 const SearchPage = () => {
   const router = useRouter();
@@ -16,7 +18,7 @@ const SearchPage = () => {
 
   const handlePaginationChange = (_: ChangeEvent<unknown>, two: number) => {
     router.push({
-      pathname: "/search",
+      pathname: SEARCH_URL,
       query: {
         word,
         page: two,
