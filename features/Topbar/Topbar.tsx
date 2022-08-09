@@ -27,7 +27,8 @@ export const Topbar = () => {
     if (window.location.pathname === FAKE_URL) {
       // TODO FAKE_URL 수정 시 FAKE_QUERY_SIZE 수정
       const urlWord = window.location.search
-        .slice(FAKE_QUERY_SIZE)
+        ?.split("&")[0]
+        ?.slice(FAKE_QUERY_SIZE)
         .replaceAll("+", " ")
         .trim();
       inputDefaultValue.current = decodeURIComponent(urlWord);
@@ -49,7 +50,10 @@ export const Topbar = () => {
 
     router.push({
       pathname: FAKE_URL,
-      query: { word },
+      query: {
+        word,
+        page: 1,
+      },
     });
   };
 
