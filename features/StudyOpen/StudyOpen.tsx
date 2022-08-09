@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -23,6 +23,7 @@ interface IStudyInfo {
   studyEndDate: string;
   description: string;
   thumbnail: string;
+  status: string; // TODO: 명확한 enum 정해지면 type으로 변경
 }
 
 interface IInputError {
@@ -33,6 +34,7 @@ interface IInputError {
   studyStartDate: string;
   studyEndDate: string;
   description: string;
+  status: string;
 }
 
 const getDateFromToday = (count: number = 0) => {
@@ -56,6 +58,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     studyEndDate: getDateFromToday(3),
     description: "",
     thumbnail: "",
+    status: "recruiting",
   });
   const [inputError, setInputError] = useState<IInputError>({
     name: "",
@@ -65,8 +68,12 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     studyStartDate: "",
     studyEndDate: "",
     description: "",
+    status: "",
   });
   const router = useRouter();
+
+  // TODO: status enum 확정 후 변경 예정
+  const statusOptions = ["recruiting", "inProgress", "finished"];
 
   useEffect(() => {
     const fetchBookInfo = async () => {
@@ -100,6 +107,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       studyStartDate: "",
       studyEndDate: "",
       description: "",
+      status: "",
     };
 
     const LIMIT_PARTICIPANT = 10;
@@ -269,6 +277,26 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
                 shrink: true,
               }}
             />
+          </S.TextFieldWrapper>
+          <S.TextFieldWrapper>
+            <TextField
+              select
+              fullWidth
+              disabled
+              name="status"
+              variant="standard"
+              label="스터디 모집 상태"
+              value={studyInfo.status}
+              onChange={handleStudyInfoChange}
+              error={!!inputError.status}
+              helperText={inputError.status}
+            >
+              {statusOptions.map((option) => (
+                <MenuItem key={`status-${option}`} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
           </S.TextFieldWrapper>
         </S.TextFieldContainer>
         <S.ThumbnailContainer>

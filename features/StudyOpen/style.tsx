@@ -45,6 +45,7 @@ export const ThumbnailForm = styled.form`
 
 export const ThumbnailTypo = styled(Typography)`
   margin: 0.5rem;
+  padding: 0.4rem;
 
   color: #a1a1a1;
   border-bottom: 1px solid #a1a1a1;
@@ -60,6 +61,8 @@ export const ThumbnailLabel = styled.label`
 `;
 
 export const ImageBox = styled.div`
+  margin-top: 1.5rem;
+
   border: 1px solid black;
   border-radius: 0.5rem;
 
