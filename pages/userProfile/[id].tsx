@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-useless-fragment */
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Skeleton, Box, Tabs, Tab } from "@mui/material";
@@ -7,16 +6,21 @@ import { StudyCard, TabPanel } from "../../components";
 import { dummyStudy } from "../../commons/dummy";
 import * as S from "../../styles/UserProfileStyle";
 import { getUser } from "../../apis";
+import { useUserContext } from "../../hooks/useUserContext";
 
 const userProfile = () => {
-  const router = useRouter();
   const [userInfo, setUserInfo] = useState({} as UserType);
   const [tabNumber, setTabNumber] = useState(0);
   const [loading, setLoading] = useState(true);
-  // TODO 전역으로 저장된 token 가져오기
-  // TODO 전역으로 저정된 유저id와 불러온 유저id가 같으면 프로필 수정 버튼 띄우는 로직 필요
+  const [isOwner, setIsOwner] = useState(false);
+
+  const router = useRouter();
+  const user = useUserContext();
+
+  const ownerInfo = user;
   const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjcsInJvbGUiOiJST0xFX0xPR0lOIiwiaWF0IjoxNjU5ODc5MDYxLCJleHAiOjE2NTk4ODI2NjF9.73DMt8k5pL2-wD7mZsTNLc3f-n7G_DJrNItuOQ7omhA";
+    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
+
   const { id } = router.query;
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -24,17 +28,23 @@ const userProfile = () => {
   };
 
   useEffect(() => {
-    const userInfoApi = async (userid: string) => {
-      // TODO study정보와 user정보 같이 가져오는 api로 수정해야함
-      const userdata = await getUser(userid, token);
-      setUserInfo(userdata);
+    if (ownerInfo && ownerInfo.id.toString() === id) {
       setLoading(false);
-    };
-    if (id) userInfoApi(id as string);
-  }, [router.isReady]);
+      setUserInfo(ownerInfo);
+      setIsOwner(true);
+    } else {
+      const userInfoApi = async (userid: string) => {
+        // TODO study정보와 user정보 같이 가져오는 api로 수정해야함
+        const userdata = await getUser(userid, token);
+        setUserInfo(userdata);
+        setLoading(false);
+      };
+      if (token && id) userInfoApi(id as string);
+    }
+  }, [id]);
 
   return (
-    <>
+    <div>
       {loading ? (
         <>
           <S.UserProfileContainer>
@@ -77,14 +87,16 @@ const userProfile = () => {
                 {userInfo.email} | {userInfo.temperature}°C
               </S.UserInfo>
             </S.User>
-            <S.StyledButton
-              variant="contained"
-              onClick={() => {
-                router.push({ pathname: "/userProfileEdit", query: { id } });
-              }}
-            >
-              프로필 수정
-            </S.StyledButton>
+            {isOwner && (
+              <S.StyledButton
+                variant="contained"
+                onClick={() => {
+                  router.push({ pathname: "/userProfileEdit", query: { id } });
+                }}
+              >
+                프로필 수정
+              </S.StyledButton>
+            )}
           </S.UserProfileContainer>
           <S.StyledDivider />
           <S.StudyContainer>
@@ -123,7 +135,7 @@ const userProfile = () => {
           </S.StudyContainer>
         </>
       )}
-    </>
+    </div>
   );
 };
 
