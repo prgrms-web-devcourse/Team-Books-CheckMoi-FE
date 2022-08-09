@@ -1,5 +1,11 @@
 import styled from "@emotion/styled";
 
+export const TabsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+`;
+
 export const StyledUl = styled.ul`
   list-style: none;
   display: grid;

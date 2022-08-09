@@ -52,21 +52,38 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     router.push(`/postCreate`, { query: { tabNumber } });
   };
 
-  return (
-    <>
-      <StudyDetailCard study={study} members={members} />
-      <Tabs value={tabNumber} onChange={handleTabChange}>
-        <Tab label="공지" />
-        <Tab label="자유" />
-        {isOwner && <Tab label="관리자" />}
-      </Tabs>
-      <TabPanel value={tabNumber} index={0}>
-        {isOwner && (
+  const writeButton = () => {
+    if (tabNumber !== 2)
+      if (tabNumber === 0) {
+        if (isOwner)
+          return (
+            <Button variant="contained" onClick={handleButtonClick}>
+              글 작성
+            </Button>
+          );
+      } else
+        return (
           <Button variant="contained" onClick={handleButtonClick}>
             글 작성
           </Button>
-        )}
+        );
 
+    return "";
+  };
+
+  return (
+    <>
+      <StudyDetailCard study={study} members={members} />
+      <S.TabsWrapper>
+        <Tabs value={tabNumber} onChange={handleTabChange}>
+          <Tab label="공지" />
+          <Tab label="자유" />
+          {isOwner && <Tab label="관리자" />}
+        </Tabs>
+        {writeButton()}
+      </S.TabsWrapper>
+
+      <TabPanel value={tabNumber} index={0}>
         <S.StyledUl>
           {DummyPost.map((post) => (
             <S.StyledList
@@ -81,9 +98,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         </S.StyledUl>
       </TabPanel>
       <TabPanel value={tabNumber} index={1}>
-        <Button variant="contained" onClick={handleButtonClick}>
-          글 작성
-        </Button>
         <S.StyledUl>
           {DummyPost.map((post) => (
             <S.StyledList
