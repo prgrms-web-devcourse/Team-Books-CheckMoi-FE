@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  MenuItem,
-  TextField,
-  SelectChangeEvent,
-} from "@mui/material";
+import { MenuItem, TextField, SelectChangeEvent } from "@mui/material";
 import * as S from "../../styles/PostCreatePageStyle";
 
 const PostCreatePage = () => {
