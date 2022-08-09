@@ -1,14 +1,15 @@
 import axios from "axios";
+import type { NaverBookResponseType } from "../types/bookType";
 
-// (네이버에서 계산한) 유사도에 의한 책 조회
-// title, author, isbn 등...
-export const getNaverBooks = async (query: string, count = 10, offset = 1) => {
+const display = 10;
+
+export const getNaverBooks = async (query: string, start = 1) => {
   try {
-    const res = await axios.get("/naver", {
+    const res = await axios.get<NaverBookResponseType>("/naver", {
       params: {
         query,
-        display: count,
-        start: offset,
+        display,
+        start,
       },
       headers: {
         "X-Naver-Client-Id": process.env
