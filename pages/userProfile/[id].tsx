@@ -8,6 +8,7 @@ import * as S from "../../styles/UserProfileStyle";
 import { getUser } from "../../apis";
 import { useUserContext } from "../../hooks/useUserContext";
 
+// TODO 사용자의 스터디 목록 가져오는 로직 추가해야함
 const userProfile = () => {
   const [userInfo, setUserInfo] = useState({} as UserType);
   const [tabNumber, setTabNumber] = useState(0);
@@ -15,7 +16,7 @@ const userProfile = () => {
   const [isOwner, setIsOwner] = useState(false);
 
   const router = useRouter();
-  const user = useUserContext();
+  const { user } = useUserContext();
 
   const ownerInfo = user;
   const token =
@@ -34,7 +35,6 @@ const userProfile = () => {
       setIsOwner(true);
     } else {
       const userInfoApi = async (userid: string) => {
-        // TODO study정보와 user정보 같이 가져오는 api로 수정해야함
         const userdata = await getUser(userid, token);
         setUserInfo(userdata);
         setLoading(false);
