@@ -8,8 +8,8 @@ import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { getStudyDetailInfo } from "../../apis/study";
 import { PostCard } from "../../components/PostCard";
 import { DummyPost } from "../../commons/dummyPost";
-import * as S from "../../styles/StudyDetailPageStyle";
 import { useUserContext } from "../../hooks/useUserContext";
+import * as S from "../../styles/StudyDetailPageStyle";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -27,7 +27,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   // TODO studyID를 사용하지 않는 다면 삭제
   const { id: studyID, value: tabValue } = router.query;
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
-  const user = useUserContext();
+  const { user } = useUserContext();
   const [tabNumber, setTabNumber] = useState(currentTab);
   const { study, members } = studyData;
   const userID = user?.id;
@@ -42,6 +42,10 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     router.push(`/boardDetail/${id}`, { query: { tabNumber } });
   };
 
+  const handleButtonClick = () => {
+    router.push(`/postCreate`, { query: { tabNumber } });
+  };
+
   // TODO 관리자 탭 0,1 모두 작성 가능
   // TODO 일반 참가자 1번 탭만 작성 가능
 
@@ -54,22 +58,39 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         {userID === ownerID ? <Tab label="관리자" /> : ""}
       </Tabs>
       <TabPanel value={tabNumber} index={0}>
-        <Button variant="contained" disabled={userID !== ownerID}>
-          글 작성
-        </Button>
+        {userID === ownerID ? (
+          <Button variant="contained" onClick={handleButtonClick}>
+            글 작성
+          </Button>
+        ) : (
+          ""
+        )}
+
         <S.StyledUl>
           {DummyPost.map((post) => (
-            <S.StyledList key={post.id}>
+            <S.StyledList
+              key={post.id}
+              onClick={() => {
+                handlePostClick(+post.id);
+              }}
+            >
               <PostCard post={post} />
             </S.StyledList>
           ))}
         </S.StyledUl>
       </TabPanel>
       <TabPanel value={tabNumber} index={1}>
-        <Button variant="contained">글 작성</Button>
+        <Button variant="contained" onClick={handleButtonClick}>
+          글 작성
+        </Button>
         <S.StyledUl>
           {DummyPost.map((post) => (
-            <S.StyledList key={post.id}>
+            <S.StyledList
+              key={post.id}
+              onClick={() => {
+                handlePostClick(+post.id);
+              }}
+            >
               <PostCard post={post} />
             </S.StyledList>
           ))}
@@ -78,7 +99,12 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       <TabPanel value={tabNumber} index={2}>
         <S.StyledUl>
           {DummyPost.map((post) => (
-            <S.StyledList key={post.id}>
+            <S.StyledList
+              key={post.id}
+              onClick={() => {
+                handlePostClick(+post.id);
+              }}
+            >
               <PostCard post={post} />
             </S.StyledList>
           ))}
