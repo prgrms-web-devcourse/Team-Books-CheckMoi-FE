@@ -192,7 +192,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
               fullWidth
               name="name"
               variant="standard"
-              label="스터디 이름"
+              label="스터디 이름 (최대 30자)"
               value={studyInfo.name}
               onChange={handleStudyInfoChange}
               error={!!inputError.name}
@@ -205,7 +205,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
               name="maxParticipant"
               variant="standard"
               type="number"
-              label="스터디 인원"
+              label="스터디 인원 (최대 10명)"
               value={studyInfo.maxParticipant}
               onChange={handleStudyInfoChange}
               error={!!inputError.maxParticipant}
