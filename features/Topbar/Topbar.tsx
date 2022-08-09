@@ -17,7 +17,7 @@ const FAKE_QUERY_SIZE = 6;
 
 export const Topbar = () => {
   const router = useRouter();
-  const user = useUserContext();
+  const { user } = useUserContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputDefaultValue = useRef("");
@@ -52,10 +52,6 @@ export const Topbar = () => {
       query: { word },
     });
   };
-
-  useEffect(() => {
-    if (user) renderSnackbar("로그인에 성공했습니다");
-  }, [user]);
 
   return (
     <S.StyledAppbar position="fixed">
