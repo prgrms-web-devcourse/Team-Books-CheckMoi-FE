@@ -5,6 +5,4 @@ export const PageContainer = styled.div`
   margin-right: auto;
 
   width: 1048px;
-
-  border: 1px solid pink;
 `;
