@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import type { FormEvent } from "react";
 import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -10,24 +10,22 @@ import { LoginButton } from "./LoginButton";
 import { useUserContext } from "../../hooks/useUserContext";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
-// TODO 사용자 정보 불러오기
-
-const FAKE_URL = "/search";
-const FAKE_QUERY_SIZE = 6;
+const SEARCH_URL = "/search";
+const SEARCH_URL_SIZE = 6;
 
 export const Topbar = () => {
   const router = useRouter();
-  const user = useUserContext();
+  const { user } = useUserContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputDefaultValue = useRef("");
   const isClientWindow = typeof window !== "undefined";
 
   if (isClientWindow)
-    if (window.location.pathname === FAKE_URL) {
-      // TODO FAKE_URL 수정 시 FAKE_QUERY_SIZE 수정
+    if (window.location.pathname === SEARCH_URL) {
       const urlWord = window.location.search
-        .slice(FAKE_QUERY_SIZE)
+        ?.split("&")[0]
+        ?.slice(SEARCH_URL_SIZE)
         .replaceAll("+", " ")
         .trim();
       inputDefaultValue.current = decodeURIComponent(urlWord);
@@ -48,14 +46,13 @@ export const Topbar = () => {
     }
 
     router.push({
-      pathname: FAKE_URL,
-      query: { word },
+      pathname: SEARCH_URL,
+      query: {
+        word,
+        page: 1,
+      },
     });
   };
-
-  useEffect(() => {
-    if (user) renderSnackbar("로그인에 성공했습니다");
-  }, [user]);
 
   return (
     <S.StyledAppbar position="fixed">

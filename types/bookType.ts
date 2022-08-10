@@ -12,3 +12,11 @@ export interface BookType extends NaverBookType {
   id: number;
   createdAt: string;
 }
+
+export interface NaverBookResponseType {
+  display: number;
+  items: NaverBookType[];
+  lastBuildDate: string;
+  start: number;
+  total: number;
+}

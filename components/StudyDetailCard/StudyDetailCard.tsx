@@ -1,5 +1,6 @@
 import { MouseEvent, useState } from "react";
 import { Avatar, Menu } from "@mui/material";
+import { useRouter } from "next/router";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { UserType } from "../../types/userType";
@@ -14,6 +15,7 @@ interface StudyDetailProps {
 
 // TODO Image => future Image로 수정해야 함
 export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
+  const router = useRouter();
   const {
     id,
     name,
@@ -43,7 +45,15 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
   };
 
   const handleUserClick = (userId: string) => {
-    // TODO 유저 상세 정보 페이지로 리다이렉션 필요
+    router.push(`/userProfile/${userId}`);
+  };
+
+  const handleShareClick = async () => {
+    const { origin } = window.location;
+    const willCopyUrl = `${origin}/studyRecruiting/${id}`;
+    await navigator.clipboard.writeText(willCopyUrl);
+    // TODO 이후 스낵바로 수정
+    alert("스터디 링크가 복사 되었습니다");
   };
 
   return (
@@ -65,12 +75,14 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
           진행 기간 : {`${studyStartDate} - ${studyEndDate}`}
         </S.ResponsiveText>
       </S.StudyInfoContainer>
-
-      <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
-        {members.map((user) => (
-          <Avatar key={`AvatarGroup_${user.id}`} src={user.image} />
-        ))}
-      </S.StyledAvatarGroup>
+      <S.IconsContainer>
+        <S.StyledShareIcon onClick={handleShareClick} />
+        <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
+          {members.map((user) => (
+            <Avatar key={`AvatarGroup_${user.userId}`} src={user.img} />
+          ))}
+        </S.StyledAvatarGroup>
+      </S.IconsContainer>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}

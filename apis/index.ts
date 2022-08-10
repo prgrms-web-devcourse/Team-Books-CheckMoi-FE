@@ -6,6 +6,7 @@ export const END_POINT = {
   fakeLogin: "/tokens/7",
   getMyInfo: "/me",
   logout: "/logout",
+  isbnBook: "/books/isbn",
 };
 
 export { getNaverBooks } from "./naver";
@@ -14,4 +15,4 @@ export { getBooksList, getBookInfo, registerBook } from "./book";
 
 export { postImage } from "./image";
 
-export { putUser } from "./user";
+export { getUser, putUser } from "./user";

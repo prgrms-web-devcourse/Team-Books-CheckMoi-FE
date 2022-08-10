@@ -1,16 +1,20 @@
 import { Box, Button, Typography, Modal } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { fakeLogin } from "../../../apis/user";
+import {
+  useUserActionContext,
+  useUserContext,
+} from "../../../hooks/useUserContext";
 import * as S from "./style";
 
 export const LoginButton = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isLoginModalOpen } = useUserContext();
+  const { openLoginModal, closeLoginModal } = useUserActionContext();
   const router = useRouter();
 
-  const handleLoginButtonClick = () => setIsModalOpen(true);
+  const handleLoginButtonClick = () => openLoginModal();
 
-  const handleModalClose = () => setIsModalOpen(false);
+  const handleModalClose = () => closeLoginModal();
 
   const handleFakeLoginClick = async () => {
     const fakeToken = await fakeLogin();
@@ -35,7 +39,7 @@ export const LoginButton = () => {
         로그인
       </Button>
       <Modal
-        open={isModalOpen}
+        open={isLoginModalOpen}
         onClose={handleModalClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"

@@ -30,6 +30,7 @@ const LoginPage = () => {
     if (isLoginDone === null) return;
 
     if (isLoginDone) {
+      renderSnackbar("로그인에 성공했습니다");
       router.push("/");
       return;
     }
