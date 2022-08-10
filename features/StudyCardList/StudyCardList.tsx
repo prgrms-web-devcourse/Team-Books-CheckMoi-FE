@@ -23,19 +23,23 @@ export const StudyCardList = ({ studies }: StudyCardListProps) => {
   return (
     <>
       <S.StudyCardContainer>
-        {studies?.map((study) => {
-          return (
-            <Spacer size={1} key={study.id}>
-              <StudyCard
-                onClick={() => {
-                  handleStudyClick(study.id);
-                }}
-                study={study}
-                size={128}
-              />
-            </Spacer>
-          );
-        })}
+        {studies.length !== 0 ? (
+          studies.map((study) => {
+            return (
+              <Spacer size={1} key={study.id}>
+                <StudyCard
+                  onClick={() => {
+                    handleStudyClick(study.id);
+                  }}
+                  study={study}
+                  size={128}
+                />
+              </Spacer>
+            );
+          })
+        ) : (
+          <S.NotStudy>스터디가 없습니다.</S.NotStudy>
+        )}
       </S.StudyCardContainer>
 
       <Modal
