@@ -68,6 +68,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     description: "",
     status: "",
   });
+
   const router = useRouter();
 
   // TODO: status enum 확정 후 변경 예정
@@ -217,7 +218,6 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
               name="gatherStartDate"
               variant="standard"
               type="date"
-              defaultValue=""
               label="스터디원 모집 시작"
               value={studyInfo.gatherStartDate}
               onChange={handleStudyInfoChange}
@@ -302,7 +302,9 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
             <S.ThumbnailTypo>스터디 썸네일</S.ThumbnailTypo>
             <S.ThumbnailLabel htmlFor="fileInput">
               <S.ImageBox>
-                <Image src={studyInfo.thumbnail} width="300" height="450" />
+                {studyInfo.thumbnail && (
+                  <Image src={studyInfo.thumbnail} width="300" height="450" />
+                )}
               </S.ImageBox>
             </S.ThumbnailLabel>
             <input
