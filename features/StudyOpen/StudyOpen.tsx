@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
-import { createStudy } from "../../apis/study";
+import { createStudy, ICreateStudy } from "../../apis/study";
 import { fakeLogin } from "../../apis/user";
 import * as S from "./style";
 
@@ -143,7 +143,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
     const newStudyInfo = {
       ...studyInfo,
-      bookId,
+      bookId: Number(bookId),
       maxParticipant: Number(studyInfo.maxParticipant),
       currentParticipant: 1,
       gatherStartDate: studyInfo.gatherStartDate,
@@ -154,7 +154,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
     // TODO: tobe removed dummy
     const FAKE_TOKEN = await fakeLogin();
-    const newStudyId = await createStudy(newStudyInfo, FAKE_TOKEN);
+    const newStudyId = await createStudy({ newStudyInfo, token: FAKE_TOKEN });
 
     router.push({
       pathname: `/study/${newStudyId}`,
