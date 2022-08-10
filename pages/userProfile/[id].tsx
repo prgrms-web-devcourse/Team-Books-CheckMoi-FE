@@ -2,21 +2,25 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Skeleton, Box, Tabs, Tab } from "@mui/material";
 import type { UserType } from "../../types/userType";
-import { StudyCard, TabPanel } from "../../components";
-import { dummyStudy } from "../../commons/dummy";
-import { getUser, getOpenStudy, getFinishStudy } from "../../apis";
-import { useUserContext } from "../../hooks/useUserContext";
 import type { StudyType } from "../../types/studyType";
-import * as S from "../../styles/UserProfileStyle";
+import {
+  getUser,
+  getOpenStudy,
+  getPartiStudy,
+  getFinishStudy,
+} from "../../apis";
+import { TabPanel } from "../../components";
 import { StudyCardList } from "../../features";
+import { useUserContext } from "../../hooks/useUserContext";
+import * as S from "../../styles/UserProfileStyle";
 
-// TODO 사용자의 스터디 목록 가져오는 로직 추가해야함
 const userProfile = () => {
   const [userInfo, setUserInfo] = useState({} as UserType);
   const [tabNumber, setTabNumber] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false);
   const [openStudy, setOpenStudy] = useState<StudyType[]>([]);
+  const [partiStudy, setPartiStudy] = useState<StudyType[]>([]);
   const [finishStudy, setFinishStudy] = useState<StudyType[]>([]);
 
   const router = useRouter();
@@ -32,6 +36,7 @@ const userProfile = () => {
     setTabNumber(newValue);
   };
 
+  // TODO axios 에러처리 논의 필요
   useEffect(() => {
     const userInfoApi = async (userid: string) => {
       if (ownerInfo && ownerInfo.id.toString() === userid) {
@@ -43,14 +48,13 @@ const userProfile = () => {
       }
       const openStudyData = await getOpenStudy({ id: userid, token });
       if (openStudyData) setOpenStudy(openStudyData.studies);
-
+      const partiStudyData = await getPartiStudy({ id: userid, token });
+      if (partiStudyData) setPartiStudy(partiStudyData.studies);
       const finishStudyData = await getFinishStudy({ id: userid, token });
       if (finishStudyData) setFinishStudy(finishStudyData.studies);
 
       setLoading(false);
     };
-
-    // const partiStudyData = await axios.get();
 
     if (token && id) userInfoApi(id as string);
   }, [id]);
@@ -81,6 +85,7 @@ const userProfile = () => {
             </S.User>
           </S.UserProfileContainer>
           <S.StyledDivider />
+          {/* TODO StudyCard SKeleton 구현하면 삭제할 예정 */}
           <S.StudyContainer>
             <Skeleton
               sx={{ height: 190 }}
@@ -139,7 +144,7 @@ const userProfile = () => {
               <StudyCardList studies={openStudy} />
             </TabPanel>
             <TabPanel value={tabNumber} index={1}>
-              <StudyCard size={128} study={dummyStudy} onClick={() => {}} />
+              <StudyCardList studies={partiStudy} />
             </TabPanel>
             <TabPanel value={tabNumber} index={2}>
               <StudyCardList studies={finishStudy} />

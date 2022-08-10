@@ -15,4 +15,10 @@ export { getBooksList, getBookInfo, registerBook } from "./book";
 
 export { postImage } from "./image";
 
-export { getUser, putUser, getOpenStudy, getFinishStudy } from "./user";
+export {
+  getUser,
+  putUser,
+  getOpenStudy,
+  getPartiStudy,
+  getFinishStudy,
+} from "./user";
