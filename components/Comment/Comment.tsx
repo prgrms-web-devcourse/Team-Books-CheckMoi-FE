@@ -1,5 +1,5 @@
 import { Avatar } from "@mui/material";
-import { UserType } from "../../types/userType";
+import type { UserType } from "../../types/userType";
 import * as S from "./style";
 
 interface CommentProps {

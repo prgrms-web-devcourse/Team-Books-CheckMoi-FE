@@ -23,21 +23,20 @@ export const StudyCardList = ({ studies }: StudyCardListProps) => {
   return (
     <>
       <S.StudyCardContainer>
-        {studies &&
-          studies.map((study) => {
-            return (
-              <Spacer size={1}>
-                <StudyCard
-                  key={study.id}
-                  onClick={() => {
-                    handleStudyClick(study.id);
-                  }}
-                  study={study}
-                  size={128}
-                />
-              </Spacer>
-            );
-          })}
+        {studies?.map((study) => {
+          return (
+            <Spacer size={1}>
+              <StudyCard
+                key={study.id}
+                onClick={() => {
+                  handleStudyClick(study.id);
+                }}
+                study={study}
+                size={128}
+              />
+            </Spacer>
+          );
+        })}
       </S.StudyCardContainer>
 
       <Modal

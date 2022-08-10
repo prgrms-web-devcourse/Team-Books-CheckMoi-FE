@@ -23,6 +23,29 @@ interface ServerSidePropType {
 
 const STUDY_OWNER = 0;
 
+const writeButton = (
+  tabNumber: number,
+  isOwner: boolean,
+  onButtonClick: () => void
+) => {
+  if (tabNumber !== 2)
+    if (tabNumber === 0) {
+      if (isOwner)
+        return (
+          <Button variant="contained" onClick={onButtonClick}>
+            글 작성
+          </Button>
+        );
+    } else
+      return (
+        <Button variant="contained" onClick={onButtonClick}>
+          글 작성
+        </Button>
+      );
+
+  return "";
+};
+
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const { study, members } = studyData;
 
@@ -45,30 +68,17 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   };
 
   const handlePostClick = (id: number) => {
-    router.push(`/postDetail/${id}`, { query: { tabNumber } });
+    router.push({
+      pathname: `/post/${id}`,
+      query: { tabNumber },
+    });
   };
 
   const handleButtonClick = () => {
-    router.push(`/postCreate`, { query: { tabNumber } });
-  };
-
-  const writeButton = () => {
-    if (tabNumber !== 2)
-      if (tabNumber === 0) {
-        if (isOwner)
-          return (
-            <Button variant="contained" onClick={handleButtonClick}>
-              글 작성
-            </Button>
-          );
-      } else
-        return (
-          <Button variant="contained" onClick={handleButtonClick}>
-            글 작성
-          </Button>
-        );
-
-    return "";
+    router.push({
+      pathname: `/postCreate`,
+      query: { tabNumber },
+    });
   };
 
   return (
@@ -80,9 +90,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
           <Tab label="자유" />
           {isOwner && <Tab label="관리자" />}
         </Tabs>
-        {writeButton()}
+        {writeButton(tabNumber, isOwner, handleButtonClick)}
       </S.TabsWrapper>
-
+      {/* TODO 더미 데이터 사용중 교체 예정 */}
       <TabPanel value={tabNumber} index={0}>
         <S.StyledUl>
           {DummyPost.map((post) => (
