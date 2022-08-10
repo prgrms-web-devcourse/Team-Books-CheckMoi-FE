@@ -1,7 +1,6 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
 import type { StudyDetailType, StudyType } from "../types/studyType";
-import { dummyToken } from "../commons/dummy";
 
 export const getStudies = async (bookId: string, page = 1) => {
   const data = await apiClient.get<any, any>(

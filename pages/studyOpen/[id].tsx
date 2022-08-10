@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import { StudyOpen } from "../../features";
 import * as S from "../../styles/StudyOpenPageStyle";
 

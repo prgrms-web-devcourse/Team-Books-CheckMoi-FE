@@ -3,9 +3,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
-import { createStudy, getStudyDetailInfo } from "../../apis/study";
+import { createStudy } from "../../apis/study";
 import { fakeLogin } from "../../apis/user";
-import type { StudyType } from "../../types/studyType";
 import * as S from "./style";
 
 interface StudyOpenProps {
