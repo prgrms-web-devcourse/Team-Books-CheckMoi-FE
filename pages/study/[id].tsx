@@ -18,9 +18,6 @@ interface ServerSidePropType {
   studyData: StudyDetailType;
 }
 
-// TODO 비 로그인 접근 막기!
-// TODO 로그인 상태일 때, 스터디원이 아닐 경우 접근 막기!
-
 const STUDY_OWNER = 0;
 const NOTICE_BOARD_TAB = 0;
 const FREE_BOARD_TAB = 1;
@@ -46,8 +43,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   }, [user]);
 
   const isStudyMember = membersIdList.includes(user?.id as string);
-
-  // console.log("include?", members.includes(user?.id));
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
     setTabNumber(newValue);
