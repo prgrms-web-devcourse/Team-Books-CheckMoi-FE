@@ -79,7 +79,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
         <S.StyledShareIcon onClick={handleShareClick} />
         <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
           {members.map((user) => (
-            <Avatar key={`AvatarGroup_${user.userId}`} src={user.img} />
+            <Avatar key={`AvatarGroup_${user.id}`} src={user.image} />
           ))}
         </S.StyledAvatarGroup>
       </S.IconsContainer>
