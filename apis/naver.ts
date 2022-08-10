@@ -1,14 +1,14 @@
 import axios from "axios";
 import type { NaverBookResponseType } from "../types/bookType";
 
-const display = 10;
+const DISPLAY = 10;
 
 export const getNaverBooks = async (query: string, start = 1) => {
   try {
     const res = await axios.get<NaverBookResponseType>("/naver", {
       params: {
         query,
-        display,
+        display: DISPLAY,
         start,
       },
       headers: {
