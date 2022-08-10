@@ -26,12 +26,14 @@ const Home = ({ books }: ServerSidePropsType) => {
       <S.StyledUl>
         {latestBooks.map((book) => (
           <S.StyledList key={book.id}>
-            <BookCard
-              src={book.image}
-              title=""
-              size={10}
-              onClick={() => handleBookCardClick(book.id)}
-            />
+            <S.BookCardWrapper>
+              <BookCard
+                src={book.image}
+                title={book.title}
+                size={10}
+                onClick={() => handleBookCardClick(book.id)}
+              />
+            </S.BookCardWrapper>
           </S.StyledList>
         ))}
       </S.StyledUl>
@@ -40,12 +42,14 @@ const Home = ({ books }: ServerSidePropsType) => {
       <S.StyledUl>
         {studyLatestBooks.map((book) => (
           <S.StyledList key={book.id}>
-            <BookCard
-              src={book.image}
-              title=""
-              size={10}
-              onClick={() => handleBookCardClick(book.id)}
-            />
+            <S.BookCardWrapper>
+              <BookCard
+                src={book.image}
+                title={book.title}
+                size={10}
+                onClick={() => handleBookCardClick(book.id)}
+              />
+            </S.BookCardWrapper>
           </S.StyledList>
         ))}
       </S.StyledUl>
