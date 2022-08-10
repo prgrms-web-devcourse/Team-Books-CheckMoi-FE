@@ -1,6 +1,5 @@
 import { MouseEvent, useState } from "react";
 import { Avatar, Menu } from "@mui/material";
-import ShareIcon from "@mui/icons-material/Share";
 import { useRouter } from "next/router";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
@@ -77,7 +76,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
         </S.ResponsiveText>
       </S.StudyInfoContainer>
       <S.IconsContainer>
-        <ShareIcon onClick={handleShareClick} />
+        <S.StyledShareIcon onClick={handleShareClick} />
         <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
           {members.map((user) => (
             <Avatar key={`AvatarGroup_${user.userId}`} src={user.img} />

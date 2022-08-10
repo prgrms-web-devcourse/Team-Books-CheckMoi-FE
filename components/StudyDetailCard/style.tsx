@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Card, MenuItem, AvatarGroup, Typography } from "@mui/material";
+import ShareIcon from "@mui/icons-material/Share";
 
 export const StudyDetailCard = styled(Card)`
   display: flex;
@@ -45,6 +46,10 @@ export const IconsContainer = styled.div`
   align-items: center;
   height: 100%;
   gap: 0.5rem;
+`;
+
+export const StyledShareIcon = styled(ShareIcon)`
+  cursor: pointer;
 `;
 
 export const StyledMenuItem = styled(MenuItem)`
