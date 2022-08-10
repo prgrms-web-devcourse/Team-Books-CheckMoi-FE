@@ -27,4 +27,7 @@ export const BookTitle = styled.p`
   margin-top: 1rem;
   padding: 0;
   text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;

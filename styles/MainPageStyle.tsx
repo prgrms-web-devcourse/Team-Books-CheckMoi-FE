@@ -35,14 +35,6 @@ export const StyledSpan = styled.span`
   font-weight: bold;
 `;
 
-export const BookCardWrapper = styled.div`
-  & p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-`;
-
 interface BookCardProps {
   src: string;
   title: string;
