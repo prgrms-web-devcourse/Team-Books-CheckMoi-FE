@@ -23,7 +23,7 @@ export const StudyCardList = ({ studies }: StudyCardListProps) => {
   return (
     <>
       <S.StudyCardContainer>
-        {studies.map((study) => {
+        {studies?.map((study) => {
           return (
             <Spacer size={1}>
               <StudyCard

@@ -1,9 +1,9 @@
 import { Avatar } from "@mui/material";
-import { User } from "../../types/userType";
+import type { UserType } from "../../types/userType";
 import * as S from "./style";
 
 interface CommentProps {
-  user: User;
+  user: UserType;
   content: string;
 }
 
@@ -11,7 +11,7 @@ export const Comment = ({ user, content }: CommentProps) => {
   return (
     <S.CommentContainer>
       <S.UserWrapper>
-        <Avatar src={user.img} /> {user.name}
+        <Avatar src={user.image} /> {user.name}
       </S.UserWrapper>
       <p>{content}</p>
     </S.CommentContainer>

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Badge } from "@mui/material";
 
 interface PostCardProps {
   size: number;
@@ -20,12 +21,13 @@ export const PostTitle = styled.div`
 `;
 
 export const PostContent = styled.div`
+  padding-top: 0.5rem;
   text-overflow: ellipsis;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  height: 3.5rem;
+  height: 4rem;
 `;
 
 export const PostCreatedAt = styled.div`
@@ -39,6 +41,12 @@ export const PostBottomContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
+`;
+
+export const StyledBadge = styled(Badge)`
+  & .MuiBadge-badge {
+    top: 2px;
+  }
 `;
 
 export const PostUserWarpper = styled.div`
