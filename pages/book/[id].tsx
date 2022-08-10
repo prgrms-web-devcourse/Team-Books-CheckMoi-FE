@@ -14,7 +14,7 @@ const Book = () => {
   const [bookInfo, setBookinfo] = useState({} as BookType);
   const [studies, setStudies] = useState<StudyType[]>([]);
   const [ref, inView] = useInView();
-  const [pageState, setPageState] = useState({ pageNumber: 1, totalPage: 1 });
+  const [pageState, setPageState] = useState({ pageNumber: 1, totalPage: 2 });
   const [loading, setLoading] = useState(false);
   // TODO 쿠키에서 jwt 토큰 가져와서 user 정보 가져오기, 해당 데이터로 스터디원 인지 검증 로직 필요
   useEffect(() => {
@@ -33,8 +33,10 @@ const Book = () => {
   useEffect(() => {
     const studiesFetch = async (id: string, page = 1) => {
       setLoading(true);
-      const studiesData = await getStudies(id, page);
+      const data = await getStudies(id, page);
+      const { studiesData, totalPage } = data;
       setStudies([...studies, ...studiesData]);
+      setPageState({ ...pageState, totalPage });
       setLoading(false);
     };
 
