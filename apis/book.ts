@@ -12,12 +12,16 @@ export const registerBook = async (
   book: NaverBookType,
   accessToken: string
 ) => {
-  const data = await apiClient.put(`${END_POINT.book}`, JSON.stringify(book), {
-    headers: {
-      Authorization: `bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    },
-  });
+  const data = await apiClient.post<number, number>(
+    `${END_POINT.book}`,
+    JSON.stringify(book),
+    {
+      headers: {
+        Authorization: `bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   return data;
 };

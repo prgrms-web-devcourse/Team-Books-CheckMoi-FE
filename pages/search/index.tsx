@@ -2,9 +2,12 @@ import { Pagination } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
-import { getNaverBooks } from "../../apis";
+import { getNaverBooks, registerBook } from "../../apis";
 import { BookCard } from "../../components";
-import type { NaverBookResponseType } from "../../types/bookType";
+import type {
+  NaverBookResponseType,
+  NaverBookType,
+} from "../../types/bookType";
 import * as S from "../../styles/SearchPageStyle";
 import { getBookInfoByISBN } from "../../apis/book";
 import type { ErrorResponseType } from "../../types/errorTypes";
@@ -26,23 +29,28 @@ const SearchPage = () => {
   const { renderSnackbar } = useOurSnackbar();
   const { user } = useUserContext();
 
-  const registerBook = (inputUser: TopbarUserType | null) => {
-    if (inputUser) {
-      console.log("로그인");
-      console.log(inputUser);
+  const addBook = async (
+    inputUser: TopbarUserType | null,
+    book: NaverBookType
+  ) => {
+    if (!inputUser) {
+      setIsSearchPageModalOpen(true);
       return;
     }
-    setIsSearchPageModalOpen(true);
+
+    const [_, token] = document.cookie.split("token=");
+    const registeredBookId = await registerBook(book, token);
+    router.push(`/book/${registeredBookId}`);
   };
 
-  const handleBookCardClick = async (isbn: string) => {
+  const handleBookCardClick = async (book: NaverBookType) => {
     try {
-      const { id } = await getBookInfoByISBN(isbn);
+      const { id } = await getBookInfoByISBN(book.isbn);
       router.push(`/book/${id}`);
     } catch (error) {
       const err = error as ErrorResponseType;
       if (err.response?.status === 404) {
-        registerBook(user);
+        addBook(user, book);
         return;
       }
       renderSnackbar(
@@ -93,7 +101,7 @@ const SearchPage = () => {
                 src={book.image}
                 title={book.title}
                 size={10}
-                onClick={() => handleBookCardClick(book.isbn)}
+                onClick={() => handleBookCardClick(book)}
               />
             ))
           : "검색 결과가 없습니다"}
