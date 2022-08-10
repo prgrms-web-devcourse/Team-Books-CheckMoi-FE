@@ -2,7 +2,7 @@ import type { StudyType } from "../types/studyType";
 import type { BookType } from "../types/bookType";
 
 export const dummyStudy: StudyType = {
-  thumbnailUrl: "https://picsum.photos/200",
+  thumbnail: "https://picsum.photos/200",
   name: "dummy study",
   gatherStartDate: "2022/07/01",
   gatherEndDate: "2022/07/31",
@@ -10,9 +10,12 @@ export const dummyStudy: StudyType = {
   studyEndDate: "2022/08/31",
   maxParticipant: 16,
   currentParticipant: 3,
+  id: "1",
 };
 
 export const dummyBook: BookType = {
+  id: 1,
+  createdAt: "9999/08/01",
   image: "https://picsum.photos/200",
   title: "dummy book",
   author: "Juan Mayorga",

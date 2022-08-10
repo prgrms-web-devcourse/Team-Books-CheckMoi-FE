@@ -1,41 +1,26 @@
-import type { MouseEventHandler } from "react";
 import { Avatar, Badge, Divider } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
+import type { PostType } from "../../types/postType";
 import * as S from "./style";
-import { User } from "../../types/userType";
 
-interface PostProps {
-  title: string;
-  content: string;
-  createdAt: string;
-  comments: number;
-  size: number;
-  user: User;
-  onClick?: MouseEventHandler<HTMLElement>;
+interface PostCardProps {
+  post: PostType;
 }
 
-export const PostCard = ({
-  title,
-  content,
-  createdAt,
-  comments,
-  size,
-  user,
-  onClick,
-}: PostProps) => {
-  const [year, month, day] = createdAt.split("/");
+export const PostCard = ({ post }: PostCardProps) => {
+  const [year, month, day] = post.createdAt.split("/");
   return (
-    <S.PostCard size={size} onClick={onClick}>
-      <S.PostTitle>{title}</S.PostTitle>
-      <S.PostContent>{content}</S.PostContent>
+    <S.PostCard size={post.size} onClick={post.onClick}>
+      <S.PostTitle>{post.title}</S.PostTitle>
+      <S.PostContent>{post.content}</S.PostContent>
       <S.PostCreatedAt>{`${year}년 ${month}월 ${day}일`}</S.PostCreatedAt>
       <Divider light />
       <S.PostBottomContainer>
         <S.PostUserWarpper>
-          <Avatar src={user.img} />
-          {user.userId}
+          <Avatar src={post.user.image} />
+          {post.user.id}
         </S.PostUserWarpper>
-        <Badge badgeContent={comments} color="primary">
+        <Badge badgeContent={post.comments} color="primary">
           <ChatIcon color="action" />
         </Badge>
       </S.PostBottomContainer>

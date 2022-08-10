@@ -3,14 +3,14 @@ import { Avatar, Menu } from "@mui/material";
 import { useRouter } from "next/router";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
-import type { User } from "../../types/userType";
+import type { UserType } from "../../types/userType";
 import { selectStudyState } from "./helper";
 import type { StudyType } from "../../types/studyType";
 import { BookCard } from "../BookCard";
 
 interface StudyDetailProps {
   study: StudyType;
-  members: User[];
+  members: UserType[];
 }
 
 // TODO Image => future Image로 수정해야 함
@@ -19,7 +19,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
   const {
     id,
     name,
-    thumbnailUrl,
+    thumbnail,
     currentParticipant,
     maxParticipant,
     gatherStartDate,
@@ -59,7 +59,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
   return (
     <S.StudyDetailCard>
       <S.ImageWrapper>
-        <BookCard size={10} src="" title="" />
+        <BookCard size={10} src={thumbnail} title="" />
       </S.ImageWrapper>
       <S.StudyInfoContainer>
         <S.StyledTypograph>{name}</S.StyledTypograph>
@@ -92,12 +92,12 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
         {members.map((user) => {
           return (
             <S.StyledMenuItem
-              key={`avatar-${user.userId}`}
+              key={`avatar-${user.id}`}
               onClick={() => {
                 handleUserClick(user.id);
               }}
             >
-              <Avatar src={user.img} />
+              <Avatar src={user.image} />
               <span>{user.name}</span>
             </S.StyledMenuItem>
           );

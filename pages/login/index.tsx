@@ -4,12 +4,14 @@ import { CircularProgress as CircularLoading } from "@mui/material";
 import { StyledBackDrop } from "../../styles/LoginPageStyle";
 import { getMyInfo } from "../../apis/user";
 import { useUserActionContext } from "../../hooks/useUserContext";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 const LoginPage = () => {
   const { login } = useUserActionContext();
   const router = useRouter();
   const { token } = router.query;
   const [isLoginDone, setIsLoginDone] = useState<boolean | null>(null);
+  const { renderSnackbar } = useOurSnackbar();
 
   useEffect(() => {
     if (token) {
@@ -28,13 +30,13 @@ const LoginPage = () => {
     if (isLoginDone === null) return;
 
     if (isLoginDone) {
+      renderSnackbar("로그인에 성공했습니다");
       router.push("/");
       return;
     }
 
     router.push("/");
-    // TODO alert 추가
-    alert("로그인에 실패했습니다");
+    renderSnackbar("로그인에 실패했습니다", "warning");
   }, [isLoginDone]);
 
   return (
