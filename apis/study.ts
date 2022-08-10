@@ -7,7 +7,7 @@ export const getStudies = async (bookId: string, page = 1) => {
   const data = await apiClient.get<any, any>(
     `${END_POINT.studies}?bookId=${bookId}&size=8&page=${page}`
   );
-  return data.studies.content as StudyType[];
+  return data.studies as StudyType[];
 };
 
 export const getStudyDetailInfo = async (studyId: string) => {
