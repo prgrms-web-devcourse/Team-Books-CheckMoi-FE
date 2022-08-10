@@ -4,9 +4,11 @@ import { Skeleton, Box, Tabs, Tab } from "@mui/material";
 import type { UserType } from "../../types/userType";
 import { StudyCard, TabPanel } from "../../components";
 import { dummyStudy } from "../../commons/dummy";
-import * as S from "../../styles/UserProfileStyle";
-import { getUser } from "../../apis";
+import { getUser, getOpenStudy, getFinishStudy } from "../../apis";
 import { useUserContext } from "../../hooks/useUserContext";
+import type { StudyType } from "../../types/studyType";
+import * as S from "../../styles/UserProfileStyle";
+import { StudyCardList } from "../../features";
 
 // TODO 사용자의 스터디 목록 가져오는 로직 추가해야함
 const userProfile = () => {
@@ -14,6 +16,8 @@ const userProfile = () => {
   const [tabNumber, setTabNumber] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false);
+  const [openStudy, setOpenStudy] = useState<StudyType[]>([]);
+  const [finishStudy, setFinishStudy] = useState<StudyType[]>([]);
 
   const router = useRouter();
   const { user } = useUserContext();
@@ -29,18 +33,26 @@ const userProfile = () => {
   };
 
   useEffect(() => {
-    if (ownerInfo && ownerInfo.id.toString() === id) {
+    const userInfoApi = async (userid: string) => {
+      if (ownerInfo && ownerInfo.id.toString() === userid) {
+        setUserInfo(ownerInfo);
+        setIsOwner(true);
+      } else {
+        const userData = await getUser({ id: userid, token });
+        setUserInfo(userData);
+      }
+      const openStudyData = await getOpenStudy({ id: userid, token });
+      if (openStudyData) setOpenStudy(openStudyData.studies);
+
+      const finishStudyData = await getFinishStudy({ id: userid, token });
+      if (finishStudyData) setFinishStudy(finishStudyData.studies);
+
       setLoading(false);
-      setUserInfo(ownerInfo);
-      setIsOwner(true);
-    } else {
-      const userInfoApi = async (userid: string) => {
-        const userdata = await getUser(userid, token);
-        setUserInfo(userdata);
-        setLoading(false);
-      };
-      if (token && id) userInfoApi(id as string);
-    }
+    };
+
+    // const partiStudyData = await axios.get();
+
+    if (token && id) userInfoApi(id as string);
   }, [id]);
 
   return (
@@ -112,7 +124,7 @@ const userProfile = () => {
                   aria-controls="simple-tabpanel-0"
                 />
                 <Tab
-                  label="참여 중인 스터디"
+                  label="참여한 스터디"
                   id="simple-tab-1"
                   aria-controls="simple-tabpanel-1"
                 />
@@ -124,13 +136,13 @@ const userProfile = () => {
               </Tabs>
             </Box>
             <TabPanel value={tabNumber} index={0}>
-              <StudyCard size={128} study={dummyStudy} onClick={() => {}} />
+              <StudyCardList studies={openStudy} />
             </TabPanel>
             <TabPanel value={tabNumber} index={1}>
               <StudyCard size={128} study={dummyStudy} onClick={() => {}} />
             </TabPanel>
             <TabPanel value={tabNumber} index={2}>
-              <StudyCard size={128} study={dummyStudy} onClick={() => {}} />
+              <StudyCardList studies={finishStudy} />
             </TabPanel>
           </S.StudyContainer>
         </>

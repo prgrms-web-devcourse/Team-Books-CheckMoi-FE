@@ -56,11 +56,58 @@ export const putUser = async ({ id, name, image, token }: PutUserType) => {
   return data;
 };
 
-export const getUser = async (id: string, token: string) => {
+export interface getUserType {
+  id: string;
+  token: string;
+}
+
+export const getUser = async ({id, token}: getUserType) => {
   const data = await apiClient.get<any, any>(`${END_POINT.user}/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  return data;
+};
+
+export const getOpenStudy = async ({id, token}: getUserType) => {
+  const data = await apiClient.get<any, any>(`${END_POINT.v2_studies}`, {
+    params: {
+      userId: id,
+      memberStatus: "OWNED",
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+
+  return data;
+};
+
+export const getPartiStudy = async ({id, token}: getUserType) => {
+  const data = await apiClient.get<any, any>(`${END_POINT.v2_studies}`, {
+    params: {
+      userId: id,
+      // TODO 다중조건 생각해보신다고 함
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+
+  return data;
+};
+
+export const getFinishStudy = async ({id, token}: getUserType) => {
+  const data = await apiClient.get<any, any>(`${END_POINT.v2_studies}`, {
+    params: {
+      userId: id,
+      studyStatus: "FINISHED",
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+
   return data;
 };
