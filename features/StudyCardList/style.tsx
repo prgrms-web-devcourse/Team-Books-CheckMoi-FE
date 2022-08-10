@@ -16,6 +16,6 @@ export const StudyCardContainer = styled.div`
 `;
 
 export const NotStudy = styled.div`
-  margin: 1rem;
+  margin: 3rem;
   text-align: center;
 `;
