@@ -38,9 +38,13 @@ const SearchPage = () => {
       return;
     }
 
-    const [_, token] = document.cookie.split("token=");
-    const registeredBookId = await registerBook(book, token);
-    router.push(`/book/${registeredBookId}`);
+    try {
+      const [_, token] = document.cookie.split("token=");
+      const registeredBookId = await registerBook(book, token);
+      router.push(`/book/${registeredBookId}`);
+    } catch (error) {
+      renderSnackbar("책 등록에 실패했습니다", "error");
+    }
   };
 
   const handleBookCardClick = async (book: NaverBookType) => {
