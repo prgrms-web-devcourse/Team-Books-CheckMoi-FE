@@ -2,12 +2,12 @@ import { Button, Modal, Typography } from "@mui/material";
 import { useUserActionContext } from "../../hooks/useUserContext";
 import * as S from "./style";
 
-interface Props {
+interface SearchPageModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-export const SearchPageModal = ({ open, onClose }: Props) => {
+export const SearchPageModal = ({ open, onClose }: SearchPageModalProps) => {
   const { openLoginModal } = useUserActionContext();
 
   const handleLoginClick = () => {
