@@ -1,9 +1,14 @@
 import styled from "@emotion/styled";
 
-export const TabsWrapper = styled.div`
+export const TabsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 1rem;
+`;
+
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
 `;
 
 export const StyledUl = styled.ul`

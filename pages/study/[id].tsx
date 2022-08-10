@@ -11,6 +11,7 @@ import { PostCard } from "../../components/PostCard";
 import { DummyPost } from "../../commons/dummyPost";
 import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "../../styles/StudyDetailPageStyle";
+import { ApplicantList } from "../../features/ApplicantList";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -22,6 +23,8 @@ interface ServerSidePropType {
 // TODO User가 스터디장일 경우와 아닐 경우 탭, 버튼 권한 부여
 
 const STUDY_OWNER = 0;
+const NOTICE_BOARD_TAB = 0;
+const FREE_BOARD_TAB = 1;
 
 const writeButton = (
   tabNumber: number,
@@ -74,26 +77,42 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     });
   };
 
-  const handleButtonClick = () => {
-    router.push({
-      pathname: `/postCreate`,
-      query: { tabNumber },
-    });
+  const handleWriteButtonClick = () => {
+    router.push(`/postCreate`, { query: { tabNumber } });
+  };
+
+  const handleStudyEditButtonClick = () => {
+    // TODO: 수정 페이지
   };
 
   return (
     <>
       <StudyDetailCard study={study} members={members} />
-      <S.TabsWrapper>
+      <S.TabsContainer>
         <Tabs value={tabNumber} onChange={handleTabChange}>
           <Tab label="공지" />
           <Tab label="자유" />
-          {isOwner && <Tab label="관리자" />}
         </Tabs>
-        {writeButton(tabNumber, isOwner, handleButtonClick)}
-      </S.TabsWrapper>
-      {/* TODO 더미 데이터 사용중 교체 예정 */}
-      <TabPanel value={tabNumber} index={0}>
+        <S.ButtonsWrapper>
+          {isOwner && (
+            <>
+              <ApplicantList />
+              <Button variant="contained" onClick={handleStudyEditButtonClick}>
+                스터디 정보 수정
+              </Button>
+            </>
+          )}
+          {tabNumber === NOTICE_BOARD_TAB && !isOwner ? (
+            ""
+          ) : (
+            <Button variant="contained" onClick={handleWriteButtonClick}>
+              글 작성
+            </Button>
+          )}
+        </S.ButtonsWrapper>
+      </S.TabsContainer>
+
+      <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
         <S.StyledUl>
           {DummyPost.map((post) => (
             <S.StyledList
@@ -107,21 +126,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
           ))}
         </S.StyledUl>
       </TabPanel>
-      <TabPanel value={tabNumber} index={1}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList
-              key={post.id}
-              onClick={() => {
-                handlePostClick(+post.id);
-              }}
-            >
-              <PostCard post={post} />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
-      </TabPanel>
-      <TabPanel value={tabNumber} index={2}>
+      <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
         <S.StyledUl>
           {DummyPost.map((post) => (
             <S.StyledList
