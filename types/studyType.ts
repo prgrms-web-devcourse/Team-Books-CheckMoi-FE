@@ -11,6 +11,7 @@ export interface StudyType {
   gatherEndDate: string;
   studyStartDate: string;
   studyEndDate: string;
+  description: string;
 }
 
 export type StudyStatusType = "recruiting" | "inProgress" | "finished";

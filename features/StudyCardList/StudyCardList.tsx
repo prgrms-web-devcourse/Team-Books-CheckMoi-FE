@@ -25,9 +25,8 @@ export const StudyCardList = ({ studies }: StudyCardListProps) => {
       <S.StudyCardContainer>
         {studies?.map((study) => {
           return (
-            <Spacer size={1}>
+            <Spacer size={1} key={study.id}>
               <StudyCard
-                key={study.id}
                 onClick={() => {
                   handleStudyClick(study.id);
                 }}

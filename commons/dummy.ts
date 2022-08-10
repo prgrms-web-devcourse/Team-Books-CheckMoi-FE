@@ -11,6 +11,7 @@ export const dummyStudy: StudyType = {
   maxParticipant: 16,
   currentParticipant: 3,
   id: "1",
+  description: "dummy desc",
 };
 
 export const dummyBook: BookType = {

@@ -22,6 +22,7 @@ Default.args = {
     gatherEndDate: "2022/02/02",
     studyStartDate: "2023/03/03",
     studyEndDate: "2024/04/04",
+    description: "1111",
   },
   members: [
     {
@@ -29,18 +30,21 @@ Default.args = {
       name: "string",
       email: "string",
       image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
     {
       id: "string2",
       name: "string",
       email: "string",
       image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
     {
       id: "string3",
       name: "string",
       email: "string",
       image: "string",
+      temperature: 36.5,
     },
   ],
 };

@@ -10,10 +10,11 @@ export const DummyPost: PostType[] = [
     comments: 10,
     size: 20,
     user: {
-      userId: "DummyID",
+      id: "DummyID",
       name: "Dummy",
       email: "DummyEmail",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
   },
   {
@@ -25,10 +26,11 @@ export const DummyPost: PostType[] = [
     comments: 10,
     size: 20,
     user: {
-      userId: "DummyID",
+      id: "DummyID",
       name: "Dummy",
       email: "DummyEmail",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
   },
   {
@@ -40,10 +42,11 @@ export const DummyPost: PostType[] = [
     comments: 10,
     size: 20,
     user: {
-      userId: "DummyID",
+      id: "DummyID",
       name: "Dummy",
       email: "DummyEmail",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
   },
   {
@@ -55,10 +58,11 @@ export const DummyPost: PostType[] = [
     comments: 10,
     size: 20,
     user: {
-      userId: "DummyID",
+      id: "DummyID",
       name: "Dummy",
       email: "DummyEmail",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
   },
   {
@@ -70,10 +74,11 @@ export const DummyPost: PostType[] = [
     comments: 10,
     size: 20,
     user: {
-      userId: "DummyID",
+      id: "DummyID",
       name: "Dummy",
       email: "DummyEmail",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
   },
   {
@@ -85,10 +90,11 @@ export const DummyPost: PostType[] = [
     comments: 10,
     size: 20,
     user: {
-      userId: "DummyID",
+      id: "DummyID",
       name: "Dummy",
       email: "DummyEmail",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
   },
   {
@@ -100,10 +106,11 @@ export const DummyPost: PostType[] = [
     comments: 10,
     size: 20,
     user: {
-      userId: "DummyID",
+      id: "DummyID",
       name: "Dummy",
       email: "DummyEmail",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
   },
   {
@@ -115,10 +122,11 @@ export const DummyPost: PostType[] = [
     comments: 10,
     size: 20,
     user: {
-      userId: "DummyID",
+      id: "DummyID",
       name: "Dummy",
       email: "DummyEmail",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
   },
   {
@@ -130,10 +138,11 @@ export const DummyPost: PostType[] = [
     comments: 10,
     size: 20,
     user: {
-      userId: "DummyID",
+      id: "DummyID",
       name: "Dummy",
       email: "DummyEmail",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
   },
   {
@@ -145,10 +154,11 @@ export const DummyPost: PostType[] = [
     comments: 10,
     size: 20,
     user: {
-      userId: "DummyID",
+      id: "DummyID",
       name: "Dummy",
       email: "DummyEmail",
-      img: "https://picsum.photos/200",
+      image: "https://picsum.photos/200",
+      temperature: 36.5,
     },
   },
 ];
