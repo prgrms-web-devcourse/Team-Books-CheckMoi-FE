@@ -7,6 +7,7 @@ import type { UserType } from "../../types/userType";
 import { selectStudyState } from "./helper";
 import type { StudyType } from "../../types/studyType";
 import { BookCard } from "../BookCard";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 interface StudyDetailProps {
   study: StudyType;
@@ -28,6 +29,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
     studyEndDate,
   } = study;
 
+  const { renderSnackbar } = useOurSnackbar();
   const studyState = selectStudyState(
     gatherEndDate,
     studyStartDate,
@@ -52,8 +54,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
     const { origin } = window.location;
     const willCopyUrl = `${origin}/studyRecruiting/${id}`;
     await navigator.clipboard.writeText(willCopyUrl);
-    // TODO 이후 스낵바로 수정
-    alert("스터디 링크가 복사 되었습니다");
+    renderSnackbar("스터디 링크가 복사 되었습니다");
   };
 
   return (
