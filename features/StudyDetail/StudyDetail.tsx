@@ -49,8 +49,9 @@ export const StudyDetail = ({
     try {
       const [_, token] = document.cookie.split("token=");
       await joinStudy(studyId, token);
-    } catch (error) {
-      renderSnackbar("스터디 참여에 실패 했습니다", "error");
+    } catch (error: any) {
+      const { message } = error.response.data.errors[0];
+      renderSnackbar(message, "error");
     }
   };
 

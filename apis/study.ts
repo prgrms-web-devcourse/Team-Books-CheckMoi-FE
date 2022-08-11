@@ -53,12 +53,12 @@ export const createStudy = async ({ newStudyInfo, token }: ICreateStudy) => {
 };
 
 export const joinStudy = async (id: string, token: string) => {
-  const data = await apiClient.put<number, number>(
+  const data = await apiClient.put(
     `${END_POINT.studies}/${id}/members`,
+    {},
     {
       headers: {
         Authorization: `bearer ${token}`,
-        "Content-Type": "application/json",
       },
     }
   );
