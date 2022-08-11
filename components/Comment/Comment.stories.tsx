@@ -1,5 +1,5 @@
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Comment } from ".";
+import { Comment, CommentSkeleton } from ".";
 
 export default {
   title: "components/Comment",
@@ -21,3 +21,10 @@ Default.args = {
   },
   content: " Lorem ipsum dolor sit ",
 };
+
+const SkeletonTemplate: ComponentStory<typeof CommentSkeleton> = (args) => (
+  <CommentSkeleton {...args} />
+);
+
+export const Skeleton = SkeletonTemplate.bind({});
+Skeleton.args = {};
