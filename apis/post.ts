@@ -52,6 +52,6 @@ export const putPost = async (postId: number, post: CreatePostType) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(data, "포스트 수정");
+  console.log(postId, "포스트 수정");
   return data;
 };
