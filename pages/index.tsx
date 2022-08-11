@@ -24,7 +24,7 @@ const Home = ({ books }: ServerSidePropsType) => {
     <S.MainPageWrapper>
       <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
       <S.StyledUl>
-        {latestBooks?.map((book) => (
+        {latestBooks.map((book) => (
           <S.StyledList key={book.id}>
             <BookCard
               src={book.image}
@@ -38,7 +38,7 @@ const Home = ({ books }: ServerSidePropsType) => {
 
       <S.StyledSpan>가장 최근 스터디가 만들어진 책</S.StyledSpan>
       <S.StyledUl>
-        {studyLatestBooks?.map((book) => (
+        {studyLatestBooks.map((book) => (
           <S.StyledList key={book.id}>
             <BookCard
               src={book.image}
