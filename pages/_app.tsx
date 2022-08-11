@@ -5,11 +5,11 @@ import { SnackbarProvider } from "notistack";
 import { Topbar } from "../features/Topbar";
 import * as S from "../styles/LayoutStyle";
 import UserContextProvider from "../contexts/UserContextProvider";
-import { UserType } from "../types/userType";
+import type { TopbarUserType } from "../types/userType";
 import { getMyInfo } from "../apis/user";
 
 interface MyAppProps extends AppProps {
-  user: UserType | null;
+  user: TopbarUserType | null;
 }
 
 const MyApp = ({ Component, pageProps, user }: MyAppProps) => {

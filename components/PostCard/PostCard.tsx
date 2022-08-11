@@ -1,4 +1,4 @@
-import { Avatar, Badge, Divider } from "@mui/material";
+import { Avatar, Divider } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import type { PostType } from "../../types/postType";
 import * as S from "./style";
@@ -20,9 +20,9 @@ export const PostCard = ({ post }: PostCardProps) => {
           <Avatar src={post.user.image} />
           {post.user.id}
         </S.PostUserWarpper>
-        <Badge badgeContent={post.comments} color="primary">
+        <S.StyledBadge badgeContent={post.comments} color="primary">
           <ChatIcon color="action" />
-        </Badge>
+        </S.StyledBadge>
       </S.PostBottomContainer>
     </S.PostCard>
   );
