@@ -26,11 +26,12 @@ const FREE_BOARD_TAB = 1;
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   // TODO 토큰 가져와서 API 요청하기
-
+  console.log("StudyDetailPage");
   const { study, members } = studyData;
 
   const router = useRouter();
   const { id: studyId, tabNumber: tabValue } = router.query;
+  console.log("studyId", studyId);
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
 
   const token =
@@ -49,7 +50,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   useEffect(() => {
     if (user?.id === members[STUDY_OWNER].id) setIsOwner(true);
     else setIsOwner(false);
-  }, [user]);
+  }, [studyId, user]);
 
   useEffect(() => {
     const getPostLists = async () => {
@@ -59,7 +60,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       }
     };
     getPostLists();
-  }, []);
+  }, [studyId]);
 
   const isStudyMember = membersIdList.includes(user?.id as string);
 
@@ -111,17 +112,20 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 
       <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
         <S.StyledUl>
-          {/* TODO 게시글이 하나도 없는 경우 처리 */}
-          {postList?.map((post) => (
-            <S.StyledList
-              key={post.id}
-              onClick={() => {
-                handlePostClick(+post.id);
-              }}
-            >
-              <PostCard post={post} />
-            </S.StyledList>
-          ))}
+          {postList.length !== 0 ? (
+            postList?.map((post) => (
+              <S.StyledList
+                key={post.id}
+                onClick={() => {
+                  handlePostClick(+post.id);
+                }}
+              >
+                <PostCard post={post} />
+              </S.StyledList>
+            ))
+          ) : (
+            <h1>게시글이 하나도 없습니다.</h1>
+          )}
         </S.StyledUl>
       </TabPanel>
       <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
@@ -155,6 +159,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 export default StudyDetailPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  console.log("SSR Rendering");
   const studyID = context.query.id as string;
   const studyData = await getStudyDetailInfo(studyID);
   return { props: { studyData } };
