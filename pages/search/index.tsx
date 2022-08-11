@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import { getNaverBooks, registerBook } from "../../apis";
-import { BookCard } from "../../components";
+import { BookCard, BookCardSkeleton } from "../../components";
 import type {
   NaverBookResponseType,
   NaverBookType,
@@ -94,7 +94,11 @@ const SearchPage = () => {
   }, [router.query]);
 
   return loading ? (
-    "로딩 중"
+    <S.BookCardContainer>
+      {Array.from({ length: 10 }, (_, idx) => idx).map((id) => (
+        <BookCardSkeleton key={id} size={10} />
+      ))}
+    </S.BookCardContainer>
   ) : (
     <>
       <S.BookCardContainer>
