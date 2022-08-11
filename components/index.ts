@@ -5,3 +5,4 @@ export { StudyCard } from "./StudyCard";
 export { StudyContent } from "./StudyContent";
 export { TabPanel } from "./TabPanel";
 export { Comment, CommentSkeleton } from "./Comment";
+export { PostCard, PostCardSkeleton } from "./PostCard";
