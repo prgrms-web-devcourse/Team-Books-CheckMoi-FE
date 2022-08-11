@@ -23,3 +23,5 @@ export {
   getPartiStudy,
   getFinishStudy,
 } from "./user";
+
+export { getStudies, getStudyDetailInfo, createStudy } from "./study";
