@@ -29,9 +29,7 @@ export const StudyCardList = ({ studies }: StudyCardListProps) => {
             return (
               <Spacer size={1} key={study.id}>
                 <StudyCard
-                  onClick={() => {
-                    handleStudyClick(study.id);
-                  }}
+                  onClick={() => handleStudyClick(study.id)}
                   study={study}
                   size={128}
                 />
