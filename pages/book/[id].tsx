@@ -17,6 +17,7 @@ const Book = () => {
   const [pageState, setPageState] = useState({ pageNumber: 1, totalPage: 2 });
   const [loading, setLoading] = useState(false);
   // TODO 쿠키에서 jwt 토큰 가져와서 user 정보 가져오기, 해당 데이터로 스터디원 인지 검증 로직 필요
+  
   useEffect(() => {
     const bookInfoFetch = async (id: string) => {
       setLoading(true);
@@ -52,6 +53,7 @@ const Book = () => {
   return (
     <div>
       <BookDetail
+        id={bookInfo.id}
         size={200}
         src={bookInfo.image}
         title={bookInfo.title}
@@ -61,7 +63,6 @@ const Book = () => {
         description={bookInfo.description}
         isbn={bookInfo.isbn}
       />
-
       <Divider color="black" />
       <StudyCardList studies={studies} />
       {pageState.pageNumber !== pageState.totalPage ? <div ref={ref} /> : null}
