@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Tabs, Tab, Button } from "@mui/material";
+import { Tabs, Tab, Button, Typography } from "@mui/material";
 import type { SyntheticEvent } from "react";
 import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
@@ -123,9 +123,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       </S.TabsContainer>
 
       <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
-        <S.StyledUl>
-          {postList.length !== 0 ? (
-            postList?.map((post) => (
+        {postList.length !== 0 ? (
+          <S.StyledUl>
+            {postList?.map((post) => (
               <S.StyledList
                 key={post.id}
                 onClick={() => {
@@ -134,11 +134,13 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
               >
                 <PostCard post={post} />
               </S.StyledList>
-            ))
-          ) : (
-            <h1>게시글이 하나도 없습니다.</h1>
-          )}
-        </S.StyledUl>
+            ))}
+          </S.StyledUl>
+        ) : (
+          <S.NoPost>
+            <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
+          </S.NoPost>
+        )}
       </TabPanel>
       <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
         <S.StyledUl>

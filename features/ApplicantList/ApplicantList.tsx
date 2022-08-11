@@ -30,7 +30,7 @@ export const ApplicantList = ({ applicantList }: ApplicantListProps) => {
             <Divider />
           </S.TitleWrapper>
           <S.ApplicantList>
-            {applicantList.length !== 0 ?
+            {applicantList.length !== 0 ? (
               applicantList?.map((applicant) => (
                 <Applicant
                   key={applicant.id}
@@ -39,10 +39,12 @@ export const ApplicantList = ({ applicantList }: ApplicantListProps) => {
                   image={applicant.image}
                   temperature={applicant.temperature}
                 />
-              )):(
-                <h1>신청자가 없습니다.</h1>
-              )}
-          
+              ))
+            ) : (
+              <S.NoApplicant>
+                <Typography>신청자가 없습니다.</Typography>
+              </S.NoApplicant>
+            )}
           </S.ApplicantList>
         </S.StyledModal>
       </Modal>

@@ -24,3 +24,9 @@ export const ApplicantList = styled.div`
   height: 25rem;
   overflow: scroll;
 `;
+
+export const NoApplicant = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 10rem;
+`;
