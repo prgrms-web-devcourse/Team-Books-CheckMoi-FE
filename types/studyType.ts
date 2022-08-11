@@ -1,6 +1,8 @@
 import type { BookType } from "./bookType";
 import type { UserType } from "./userType";
 
+export type StudyStatusType = "recruiting" | "inProgress" | "finished";
+
 export interface StudyType {
   id: string;
   name: string;
@@ -12,9 +14,8 @@ export interface StudyType {
   studyStartDate: string;
   studyEndDate: string;
   description: string;
+  status?: StudyStatusType | null;
 }
-
-export type StudyStatusType = "recruiting" | "inProgress" | "finished";
 
 // TODO: 추후 null 삭제 (백 수정 이후)
 export interface StudyDetailType {
