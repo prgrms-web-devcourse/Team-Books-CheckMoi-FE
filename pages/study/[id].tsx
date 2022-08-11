@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import type { SyntheticEvent } from "react";
-import { Tabs, Tab, Button } from "@mui/material";
-import type { GetServerSideProps } from "next/types";
 import { useRouter } from "next/router";
+import { Tabs, Tab, Button } from "@mui/material";
+import type { SyntheticEvent } from "react";
+import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
+import type { ResponsePostType } from "../../types/postType";
+import type { ApplicantsType } from "../../types/applicantType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { getStudyDetailInfo } from "../../apis/study";
@@ -14,8 +16,6 @@ import * as S from "../../styles/StudyDetailPageStyle";
 import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
-import type { ResponsePostType } from "../../types/postType";
-import { ApplicantsType } from "../../types/applicantType";
 import { getApplicants } from "../../apis";
 
 interface ServerSidePropType {
@@ -60,10 +60,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         setPostList(getList);
       }
     };
-    getPostList();
-  }, [studyId]);
 
-  useEffect(() => {
     const getApplicantList = async () => {
       if (studyId) {
         const getList = await getApplicants({
@@ -73,6 +70,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         setApplicantList(getList);
       }
     };
+    getPostList();
     getApplicantList();
   }, [studyId]);
 

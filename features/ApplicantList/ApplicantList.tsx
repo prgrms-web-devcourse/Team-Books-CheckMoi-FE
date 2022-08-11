@@ -30,9 +30,8 @@ export const ApplicantList = ({ applicantList }: ApplicantListProps) => {
             <Divider />
           </S.TitleWrapper>
           <S.ApplicantList>
-            {applicantList.length !== 0 &&
-              applicantList &&
-              applicantList.map((applicant) => (
+            {applicantList.length !== 0 ?
+              applicantList?.map((applicant) => (
                 <Applicant
                   key={applicant.id}
                   id={applicant.id}
@@ -40,52 +39,10 @@ export const ApplicantList = ({ applicantList }: ApplicantListProps) => {
                   image={applicant.image}
                   temperature={applicant.temperature}
                 />
-              ))}
-            {/* <Applicant
-              name="Hello I'm Dummy1"
-              image="https://picsum.photos/200"
-              temperature={36.5}
-            />
-            <Applicant
-              name="Hello I'm Dummy2"
-              image="https://picsum.photos/200"
-              temperature={36.5}
-            />
-            <Applicant
-              name="Hello I'm Dummy3"
-              image="https://picsum.photos/200"
-              temperature={36.5}
-            />
-            <Applicant
-              name="Hello I'm Dummy4"
-              image="https://picsum.photos/200"
-              temperature={36.5}
-            />
-            <Applicant
-              name="Hello I'm Dummy5"
-              image="https://picsum.photos/200"
-              temperature={36.5}
-            />
-            <Applicant
-              name="Hello I'm Dummy6"
-              image="https://picsum.photos/200"
-              temperature={36.5}
-            />
-            <Applicant
-              name="Hello I'm Dummy7"
-              image="https://picsum.photos/200"
-              temperature={36.5}
-            />
-            <Applicant
-              name="Hello I'm Dummy7"
-              image="https://picsum.photos/200"
-              temperature={36.5}
-            />
-            <Applicant
-              name="Hello I'm Dummy7"
-              image="https://picsum.photos/200"
-              temperature={36.5}
-            /> */}
+              )):(
+                <h1>신청자가 없습니다.</h1>
+              )}
+          
           </S.ApplicantList>
         </S.StyledModal>
       </Modal>
