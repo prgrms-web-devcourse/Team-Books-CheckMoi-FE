@@ -3,8 +3,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
-import { createStudy, ICreateStudy } from "../../apis/study";
-import { fakeLogin } from "../../apis/user";
+import { createStudy } from "../../apis/study";
+import { NoAccess } from "../../components/NoAccess";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
+import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "./style";
 
 interface StudyOpenProps {
@@ -68,8 +70,10 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     description: "",
     status: "",
   });
+  const { user } = useUserContext();
 
   const router = useRouter();
+  const { renderSnackbar } = useOurSnackbar();
 
   // TODO: status enum 확정 후 변경 예정
   const statusOptions = ["recruiting", "inProgress", "finished"];
@@ -152,13 +156,16 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       studyEndDate: studyInfo.studyEndDate,
     };
 
-    // TODO: tobe removed dummy
-    const FAKE_TOKEN = await fakeLogin();
-    const newStudyId = await createStudy({ newStudyInfo, token: FAKE_TOKEN });
+    try {
+      const [, token] = document.cookie.split("token=");
+      const newStudyId = await createStudy({ newStudyInfo, token });
 
-    router.push({
-      pathname: `/study/${newStudyId}`,
-    });
+      router.push({
+        pathname: `/study/${newStudyId}`,
+      });
+    } catch (error) {
+      renderSnackbar("스터디 개설에 실패했습니다.", "error");
+    }
   };
 
   const hanldeUploadClick = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -172,6 +179,14 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       setStudyInfo({ ...studyInfo, thumbnail: resultImage as string });
     };
   };
+
+  if (!user)
+    return (
+      <NoAccess
+        title="이 페이지는 로그인한 사용자만 이용할 수 있습니다."
+        description="책모이에 로그인하시면 다양한 서비스를 이용하실 수 있습니다."
+      />
+    );
 
   return (
     <S.EntierContainer>
