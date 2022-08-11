@@ -50,7 +50,8 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const { study, members } = studyData;
 
   const router = useRouter();
-  const { value: tabValue } = router.query;
+  const { id: studyId, tabNumber: tabValue } = router.query;
+  console.log("query", router.query);
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
   const [tabNumber, setTabNumber] = useState(currentTab);
 
@@ -70,7 +71,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const handlePostClick = (id: number) => {
     router.push({
       pathname: `/post/${id}`,
-      query: { tabNumber },
+      query: { tabNumber, studyId },
     });
   };
 

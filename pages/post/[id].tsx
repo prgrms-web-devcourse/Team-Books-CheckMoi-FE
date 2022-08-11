@@ -1,26 +1,35 @@
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { Divider, Tabs, Tab } from "@mui/material";
 import * as S from "../../styles/PostStyle";
+import { CommentInput } from "../../components/CommentInput";
 
 // TODO api가 완성되면 Type과 api 작업 필요
 const PostPage = () => {
   // TODO StudyDetail 페이지에서 value 쿼리 전달받아서 저장해야함
-  const [value, setValue] = useState(0);
   const router = useRouter();
+
+  const { studyId, tabNumber } = router.query;
+  const currentTab = tabNumber ? +tabNumber : 0;
+  const [value, setValue] = useState(currentTab);
+
   // TODO api 연결 후 지울 변수
   const DATE = "2022/08/05";
   const [year, month, day] = DATE.split("/");
 
-  const handleClickTab = () => {
-    router.push({ pathname: "/studyDetail", query: { value } });
+  const handleTabChange = (e: SyntheticEvent, newValue: number) => {
+    router.push({
+      pathname: `/study/${studyId}`,
+      query: { tabNumber: newValue },
+    });
+    setValue(newValue);
   };
+
   return (
     <>
-      <Tabs value={value}>
-        <Tab label="공지" onClick={handleClickTab} />
-        <Tab label="자유" onClick={handleClickTab} />
-        <Tab label="관리자" disabled onClick={handleClickTab} />
+      <Tabs value={value} onChange={handleTabChange}>
+        <Tab label="공지" />
+        <Tab label="자유" />
       </Tabs>
       <S.BoardTitle>Legal Abortion Is Not a Polarizing Issue</S.BoardTitle>
       <S.BoardInfo>
@@ -130,6 +139,8 @@ const PostPage = () => {
         weeks.
       </S.BoardContent>
       <Divider />
+      <CommentInput />
+      {/* TODO Comment List 출력 */}
     </>
   );
 };
