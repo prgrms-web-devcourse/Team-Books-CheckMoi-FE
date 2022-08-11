@@ -51,7 +51,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 
   const router = useRouter();
   const { id: studyId, tabNumber: tabValue } = router.query;
-  console.log("query", router.query);
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
   const [tabNumber, setTabNumber] = useState(currentTab);
 
