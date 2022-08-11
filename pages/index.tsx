@@ -28,7 +28,7 @@ const Home = ({ books }: ServerSidePropsType) => {
           <S.StyledList key={book.id}>
             <BookCard
               src={book.image}
-              title=""
+              title={book.title}
               size={10}
               onClick={() => handleBookCardClick(book.id)}
             />
@@ -42,7 +42,7 @@ const Home = ({ books }: ServerSidePropsType) => {
           <S.StyledList key={book.id}>
             <BookCard
               src={book.image}
-              title=""
+              title={book.title}
               size={10}
               onClick={() => handleBookCardClick(book.id)}
             />
