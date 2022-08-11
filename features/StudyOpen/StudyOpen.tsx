@@ -5,6 +5,8 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
 import { createStudy, ICreateStudy } from "../../apis/study";
 import { fakeLogin } from "../../apis/user";
+import { NoAccess } from "../../components/NoAccess";
+import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "./style";
 
 interface StudyOpenProps {
@@ -68,6 +70,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     description: "",
     status: "",
   });
+  const { user } = useUserContext();
 
   const router = useRouter();
 
@@ -172,6 +175,14 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       setStudyInfo({ ...studyInfo, thumbnail: resultImage as string });
     };
   };
+
+  if (!user)
+    return (
+      <NoAccess
+        title="이 페이지는 로그인한 사용자만 이용할 수 있습니다."
+        description="책모이에 로그인하시면 다양한 서비스를 이용하실 수 있습니다."
+      />
+    );
 
   return (
     <S.EntierContainer>
