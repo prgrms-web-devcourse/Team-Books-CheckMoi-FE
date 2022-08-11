@@ -2,7 +2,12 @@ import { MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { getBookInfo, createStudy } from "../../apis";
+import {
+  getBookInfo,
+  createStudy,
+  getStudyDetailInfo,
+  updateStudy,
+} from "../../apis";
 import { NoAccess } from "../../components/NoAccess";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import { useUserContext } from "../../hooks/useUserContext";
@@ -10,12 +15,13 @@ import * as S from "./style";
 
 interface StudyOpenProps {
   bookId: string;
+  studyId?: string;
 }
 
 interface IStudyInfo {
   bookTitle: string;
   name: string;
-  maxParticipant: string;
+  maxParticipant: number;
   gatherStartDate: string;
   gatherEndDate: string;
   studyStartDate: string;
@@ -46,11 +52,11 @@ const getDateFromToday = (count: number = 0): string => {
   return returnDate.toISOString().slice(0, 10);
 };
 
-export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
+export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
   const [studyInfo, setStudyInfo] = useState<IStudyInfo>({
     bookTitle: "",
     name: "",
-    maxParticipant: "",
+    maxParticipant: 10,
     gatherStartDate: getDateFromToday(),
     gatherEndDate: getDateFromToday(1),
     studyStartDate: getDateFromToday(2),
@@ -88,7 +94,37 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       });
     };
 
-    fetchBookInfo();
+    const fetchStudyInfo = async () => {
+      const { study, book } = await getStudyDetailInfo(studyId || "");
+      const {
+        name,
+        thumbnail,
+        description,
+        status,
+        maxParticipant,
+        gatherStartDate,
+        gatherEndDate,
+        studyStartDate,
+        studyEndDate,
+      } = study;
+      const { title: bookTitle } = book;
+
+      setStudyInfo({
+        bookTitle,
+        name,
+        thumbnail,
+        description,
+        status: status || "recruiting", // TODO: 에러 핸들링 수정 예정
+        maxParticipant,
+        gatherStartDate,
+        gatherEndDate,
+        studyStartDate,
+        studyEndDate,
+      });
+    };
+
+    if (!studyId) fetchBookInfo();
+    else fetchStudyInfo();
   }, []);
 
   const handleStudyInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -157,13 +193,23 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
 
     try {
       const [, token] = document.cookie.split("token=");
-      const newStudyId = await createStudy({ newStudyInfo, token });
 
-      router.push({
-        pathname: `/study/${newStudyId}`,
-      });
+      if (!studyId) {
+        const newStudyId = await createStudy({ newStudyInfo, token });
+
+        router.push({
+          pathname: `/study/${newStudyId}`,
+        });
+      } else {
+        const data = await updateStudy({ studyId, newStudyInfo, token });
+
+        router.push({
+          pathname: `/study/${studyId}`,
+        });
+      }
     } catch (error) {
-      renderSnackbar("스터디 개설에 실패했습니다.", "error");
+      if (!studyId) renderSnackbar("스터디 개설에 실패했습니다.", "error");
+      else renderSnackbar("스터디 수정에 실패했습니다.", "error");
     }
   };
 
@@ -215,6 +261,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
           </S.TextFieldWrapper>
           <S.TextFieldWrapper>
             <TextField
+              disabled={!!studyId}
               fullWidth
               name="maxParticipant"
               variant="standard"
@@ -224,10 +271,14 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
               onChange={handleStudyInfoChange}
               error={!!inputError.maxParticipant}
               helperText={inputError.maxParticipant}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
           </S.TextFieldWrapper>
           <S.TextFieldWrapper>
             <TextField
+              disabled={!!studyId}
               fullWidth
               name="gatherStartDate"
               variant="standard"
@@ -244,6 +295,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
           </S.TextFieldWrapper>
           <S.TextFieldWrapper>
             <TextField
+              disabled={!!studyId}
               fullWidth
               name="gatherEndDate"
               variant="standard"
@@ -260,6 +312,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
           </S.TextFieldWrapper>
           <S.TextFieldWrapper>
             <TextField
+              disabled={!!studyId}
               fullWidth
               name="studyStartDate"
               variant="standard"
@@ -276,6 +329,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
           </S.TextFieldWrapper>
           <S.TextFieldWrapper>
             <TextField
+              disabled={!!studyId}
               fullWidth
               name="studyEndDate"
               variant="standard"
@@ -294,7 +348,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
             <TextField
               select
               fullWidth
-              disabled
+              disabled={!studyId}
               name="status"
               variant="standard"
               label="스터디 모집 상태"
@@ -346,7 +400,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
         />
       </S.LowerContainer>
       <S.StudyOpenButton variant="outlined" onClick={handleOpenClick}>
-        스터디 개설하기
+        {studyId ? "스터디 수정하기" : "스터디 개설하기"}
       </S.StudyOpenButton>
     </S.EntierContainer>
   );
