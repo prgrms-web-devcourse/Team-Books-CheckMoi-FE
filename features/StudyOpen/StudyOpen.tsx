@@ -3,9 +3,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { getBookInfo } from "../../apis";
-import { createStudy, ICreateStudy } from "../../apis/study";
-import { fakeLogin } from "../../apis/user";
+import { createStudy } from "../../apis/study";
 import { NoAccess } from "../../components/NoAccess";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "./style";
 
@@ -73,6 +73,7 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
   const { user } = useUserContext();
 
   const router = useRouter();
+  const { renderSnackbar } = useOurSnackbar();
 
   // TODO: status enum 확정 후 변경 예정
   const statusOptions = ["recruiting", "inProgress", "finished"];
@@ -156,12 +157,16 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
     };
 
     // TODO: tobe removed dummy
-    const FAKE_TOKEN = await fakeLogin();
-    const newStudyId = await createStudy({ newStudyInfo, token: FAKE_TOKEN });
+    try {
+      const [, token] = document.cookie.split("token=");
+      const newStudyId = await createStudy({ newStudyInfo, token });
 
-    router.push({
-      pathname: `/study/${newStudyId}`,
-    });
+      router.push({
+        pathname: `/study/${newStudyId}`,
+      });
+    } catch (error) {
+      renderSnackbar("스터디 개설에 실패했습니다.", "error");
+    }
   };
 
   const hanldeUploadClick = async (e: ChangeEvent<HTMLInputElement>) => {
