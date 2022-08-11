@@ -1,20 +1,32 @@
 import { useState, ChangeEvent } from "react";
 import { MenuItem, TextField, SelectChangeEvent } from "@mui/material";
+import { useRouter } from "next/router";
 import * as S from "./style";
+import { createPost, putPost } from "../../apis";
 
 interface PostFormProp {
+  state: string;
   selectValue: string;
+  postId: number;
   title: string;
   content: string;
+  studyId: number;
 }
 
-export const PostForm = ({ selectValue, title, content }: PostFormProp) => {
-  // TODO Prop으로 NOTICE인지 FREE인지 전달해줘야할 듯
-  // TODO title과 content 어떻게 서버로 보내지
+export const PostForm = ({
+  state,
+  selectValue,
+  postId,
+  title,
+  content,
+  studyId,
+}: PostFormProp) => {
   const [postSelectValue, setPostSelectValue] = useState(selectValue);
   const [postTitle, setPostTitle] = useState(title);
   const [postContent, setPostContent] = useState(content);
 
+  const router = useRouter();
+  // TODO 스터디 장이 쓰고있는지 받아서 이 작동 못하게 해야함
   const handleSelectChange = (event: SelectChangeEvent<unknown>) => {
     setPostSelectValue(event.target.value as string);
   };
@@ -25,6 +37,22 @@ export const PostForm = ({ selectValue, title, content }: PostFormProp) => {
 
   const handleContentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPostContent(event.target.value);
+  };
+
+  const handleOnClick = async () => {
+    const postObject = {
+      title: postTitle,
+      content: postContent,
+      category: selectValue,
+      studyId,
+    };
+    if (state === "POST") {
+      const getPostId = await createPost(postObject);
+      if (getPostId) router.push(`/post/${getPostId}`);
+    } else if (state === "PUT") {
+      await putPost(postId, postObject);
+      router.push(`/post/${postId}`);
+    }
   };
 
   return (
@@ -59,7 +87,15 @@ export const PostForm = ({ selectValue, title, content }: PostFormProp) => {
         margin="dense"
         onChange={handleContentChange}
       />
-      <S.StyledButton variant="contained">게시하기</S.StyledButton>
+      {state === "POST" ? (
+        <S.StyledButton variant="contained" onClick={handleOnClick}>
+          게시하기
+        </S.StyledButton>
+      ) : (
+        <S.StyledButton variant="contained" onClick={handleOnClick}>
+          수정하기
+        </S.StyledButton>
+      )}
     </S.Container>
   );
 };
