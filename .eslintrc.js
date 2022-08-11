@@ -41,7 +41,6 @@ module.exports = {
     curly: ["error", "multi"],
     "import/no-extraneous-dependencies": "off",
     "react/react-in-jsx-scope": "off",
-    "react/jsx-no-useless-fragment": "off",
   },
   settings: {
     "import/resolver": {

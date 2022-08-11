@@ -63,83 +63,72 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     // TODO: 수정 페이지
   };
 
-  return (
+  return user && isStudyMember ? (
     <>
-      {user && isStudyMember ? (
-        <>
-          <StudyDetailCard study={study} members={members} />
-          <S.TabsContainer>
-            <Tabs value={tabNumber} onChange={handleTabChange}>
-              <Tab label="공지" />
-              <Tab label="자유" />
-            </Tabs>
-            <S.ButtonsWrapper>
-              {isOwner && (
-                <>
-                  <ApplicantList />
-                  <Button
-                    variant="contained"
-                    onClick={handleStudyEditButtonClick}
-                  >
-                    스터디 정보 수정
-                  </Button>
-                </>
-              )}
-              {tabNumber === NOTICE_BOARD_TAB && !isOwner ? (
-                ""
-              ) : (
-                <Button variant="contained" onClick={handleWriteButtonClick}>
-                  글 작성
-                </Button>
-              )}
-            </S.ButtonsWrapper>
-          </S.TabsContainer>
-
-          <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
-            <S.StyledUl>
-              {DummyPost.map((post) => (
-                <S.StyledList
-                  key={post.id}
-                  onClick={() => {
-                    handlePostClick(+post.id);
-                  }}
-                >
-                  <PostCard post={post} />
-                </S.StyledList>
-              ))}
-            </S.StyledUl>
-          </TabPanel>
-          <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
-            <S.StyledUl>
-              {DummyPost.map((post) => (
-                <S.StyledList
-                  key={post.id}
-                  onClick={() => {
-                    handlePostClick(+post.id);
-                  }}
-                >
-                  <PostCard post={post} />
-                </S.StyledList>
-              ))}
-            </S.StyledUl>
-          </TabPanel>
-        </>
-      ) : (
-        <>
-          {user ? (
-            <NoAccess
-              title="이 페이지는 스터디에 참여한 사용자만 이용할 수 있습니다."
-              description="스터디에 참가 신청을 하시기 바랍니다."
-            />
-          ) : (
-            <NoAccess
-              title="이 페이지는 로그인한 사용자만 이용할 수 있습니다."
-              description="책모이에 로그인하시면 다양한 서비스를 이용하실 수 있습니다."
-            />
+      <StudyDetailCard study={study} members={members} />
+      <S.TabsContainer>
+        <Tabs value={tabNumber} onChange={handleTabChange}>
+          <Tab label="공지" />
+          <Tab label="자유" />
+        </Tabs>
+        <S.ButtonsWrapper>
+          {isOwner && (
+            <>
+              <ApplicantList />
+              <Button variant="contained" onClick={handleStudyEditButtonClick}>
+                스터디 정보 수정
+              </Button>
+            </>
           )}
-        </>
-      )}
+          {tabNumber === NOTICE_BOARD_TAB && !isOwner ? (
+            ""
+          ) : (
+            <Button variant="contained" onClick={handleWriteButtonClick}>
+              글 작성
+            </Button>
+          )}
+        </S.ButtonsWrapper>
+      </S.TabsContainer>
+
+      <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
+        <S.StyledUl>
+          {DummyPost.map((post) => (
+            <S.StyledList
+              key={post.id}
+              onClick={() => {
+                handlePostClick(+post.id);
+              }}
+            >
+              <PostCard post={post} />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
+      </TabPanel>
+      <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
+        <S.StyledUl>
+          {DummyPost.map((post) => (
+            <S.StyledList
+              key={post.id}
+              onClick={() => {
+                handlePostClick(+post.id);
+              }}
+            >
+              <PostCard post={post} />
+            </S.StyledList>
+          ))}
+        </S.StyledUl>
+      </TabPanel>
     </>
+  ) : user ? (
+    <NoAccess
+      title="이 페이지는 스터디에 참여한 사용자만 이용할 수 있습니다."
+      description="스터디에 참가 신청을 하시기 바랍니다."
+    />
+  ) : (
+    <NoAccess
+      title="이 페이지는 로그인한 사용자만 이용할 수 있습니다."
+      description="책모이에 로그인하시면 다양한 서비스를 이용하실 수 있습니다."
+    />
   );
 };
 
