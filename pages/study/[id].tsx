@@ -26,12 +26,10 @@ const FREE_BOARD_TAB = 1;
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   // TODO 토큰 가져와서 API 요청하기
-  console.log("StudyDetailPage");
   const { study, members } = studyData;
 
   const router = useRouter();
   const { id: studyId, tabNumber: tabValue } = router.query;
-  console.log("studyId", studyId);
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
 
   const token =
@@ -50,7 +48,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   useEffect(() => {
     if (user?.id === members[STUDY_OWNER].id) setIsOwner(true);
     else setIsOwner(false);
-  }, [studyId, user]);
+  }, [user]);
 
   useEffect(() => {
     const getPostLists = async () => {
@@ -159,7 +157,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 export default StudyDetailPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log("SSR Rendering");
   const studyID = context.query.id as string;
   const studyData = await getStudyDetailInfo(studyID);
   return { props: { studyData } };
