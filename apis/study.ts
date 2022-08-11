@@ -37,7 +37,6 @@ export interface ICreateStudy {
   token: string;
 }
 
-// TODO: studyType
 export const createStudy = async ({ newStudyInfo, token }: ICreateStudy) => {
   const data = await apiClient.post<number, number>(
     `${END_POINT.studies}`,
@@ -69,7 +68,7 @@ export const updateStudy = async ({
   newStudyInfo,
   token,
 }: IUpdateStudy) => {
-  const data = await apiClient.put(
+  const data = await apiClient.put<number, number>(
     `${END_POINT.studies}/${studyId}`,
     { ...newStudyInfo },
     {
@@ -80,6 +79,5 @@ export const updateStudy = async ({
     }
   );
 
-  console.log(data);
   return data;
 };
