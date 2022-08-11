@@ -8,6 +8,7 @@ export const END_POINT = {
   getMyInfo: "/me",
   logout: "/logout",
   isbnBook: "/books/isbn",
+  posts: "/posts",
 };
 
 export { getNaverBooks } from "./naver";

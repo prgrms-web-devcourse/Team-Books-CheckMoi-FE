@@ -1,13 +1,18 @@
 import type { MouseEventHandler } from "react";
 import type { UserType } from "./userType";
 
-export interface PostType {
-  id: string;
+export interface ResponsePostType {
+  id: number;
   title: string;
   content: string;
+  category: string;
+  studyId: number;
+  writer: string;
+  writerImage: string;
+  commentCount: number;
   createdAt: string;
-  comments: number;
-  size: number;
-  user: UserType;
+  updatedAt: string;
+}
+export interface PostPropsType extends ResponsePostType {
   onClick?: MouseEventHandler<HTMLElement>;
 }

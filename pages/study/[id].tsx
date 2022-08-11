@@ -13,6 +13,8 @@ import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "../../styles/StudyDetailPageStyle";
 import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
+import { getPosts } from "../../apis/post";
+import type { ResponsePostType } from "../../types/postType";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -23,12 +25,18 @@ const NOTICE_BOARD_TAB = 0;
 const FREE_BOARD_TAB = 1;
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
+  // TODO 토큰 가져와서 API 요청하기
+
   const { study, members } = studyData;
+  const token =
+    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
 
   const router = useRouter();
   const { id: studyId, tabNumber: tabValue } = router.query;
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
   const [tabNumber, setTabNumber] = useState(currentTab);
+
+  const [postList, setPostList] = useState<ResponsePostType[]>([]);
 
   const [isOwner, setIsOwner] = useState(false);
 
@@ -41,6 +49,17 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     if (user?.id === members[STUDY_OWNER].id) setIsOwner(true);
     else setIsOwner(false);
   }, [user]);
+
+  useEffect(() => {
+    const getPostLists = async () => {
+      if (studyId) {
+        const getList = await getPosts({ studyId: studyId as string, token });
+        console.log("postList", postList);
+        setPostList(getList);
+      }
+    };
+    getPostLists();
+  }, []);
 
   const isStudyMember = membersIdList.includes(user?.id as string);
 
@@ -92,7 +111,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 
       <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
         <S.StyledUl>
-          {DummyPost.map((post) => (
+          {postList.map((post) => (
             <S.StyledList
               key={post.id}
               onClick={() => {
