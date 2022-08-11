@@ -5,8 +5,9 @@ export const ApplicantContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: -12px 17px 16px 3px rgba(0, 0, 0, 0.1),
-    13px 0px 15px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d7d7d7;
+  border-radius: 1rem;
+  margin-bottom: 0.5rem;
   padding: 1rem;
 `;
 

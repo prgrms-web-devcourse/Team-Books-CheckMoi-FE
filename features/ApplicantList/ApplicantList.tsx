@@ -1,9 +1,14 @@
 import { Button, Divider, Modal, Typography } from "@mui/material";
 import { useState } from "react";
+import { ApplicantsType } from "../../types/applicantType";
 import { Applicant } from "./Applicant/Applicant";
 import * as S from "./style";
 
-export const ApplicantList = () => {
+interface ApplicantListProps {
+  applicantList: ApplicantsType[];
+}
+
+export const ApplicantList = ({ applicantList }: ApplicantListProps) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -25,7 +30,18 @@ export const ApplicantList = () => {
             <Divider />
           </S.TitleWrapper>
           <S.ApplicantList>
-            <Applicant
+            {applicantList.length !== 0 &&
+              applicantList &&
+              applicantList.map((applicant) => (
+                <Applicant
+                  key={applicant.id}
+                  id={applicant.id}
+                  name={applicant.name}
+                  image={applicant.image}
+                  temperature={applicant.temperature}
+                />
+              ))}
+            {/* <Applicant
               name="Hello I'm Dummy1"
               image="https://picsum.photos/200"
               temperature={36.5}
@@ -69,7 +85,7 @@ export const ApplicantList = () => {
               name="Hello I'm Dummy7"
               image="https://picsum.photos/200"
               temperature={36.5}
-            />
+            /> */}
           </S.ApplicantList>
         </S.StyledModal>
       </Modal>

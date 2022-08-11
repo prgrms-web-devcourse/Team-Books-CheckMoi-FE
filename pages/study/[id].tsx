@@ -15,6 +15,8 @@ import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
 import type { ResponsePostType } from "../../types/postType";
+import { ApplicantsType } from "../../types/applicantType";
+import { getApplicants } from "../../apis";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -37,6 +39,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 
   const [tabNumber, setTabNumber] = useState(currentTab);
   const [postList, setPostList] = useState<ResponsePostType[]>([]);
+  const [applicantList, setApplicantList] = useState<ApplicantsType[]>([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useUserContext();
@@ -51,13 +54,26 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   }, [user]);
 
   useEffect(() => {
-    const getPostLists = async () => {
+    const getPostList = async () => {
       if (studyId) {
         const getList = await getPosts({ studyId: studyId as string, token });
         setPostList(getList);
       }
     };
-    getPostLists();
+    getPostList();
+  }, [studyId]);
+
+  useEffect(() => {
+    const getApplicantList = async () => {
+      if (studyId) {
+        const getList = await getApplicants({
+          studyId: studyId as string,
+          token,
+        });
+        setApplicantList(getList);
+      }
+    };
+    getApplicantList();
   }, [studyId]);
 
   const isStudyMember = membersIdList.includes(user?.id as string);
@@ -92,7 +108,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         <S.ButtonsWrapper>
           {isOwner && (
             <>
-              <ApplicantList />
+              <ApplicantList applicantList={applicantList} />
               <Button variant="contained" onClick={handleStudyEditButtonClick}>
                 스터디 정보 수정
               </Button>

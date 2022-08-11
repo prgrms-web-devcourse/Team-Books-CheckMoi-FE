@@ -2,17 +2,18 @@ import { Avatar, Badge, Button, Typography } from "@mui/material";
 import * as S from "./style";
 
 interface ApplicantProps {
+  id: number;
   name: string;
   image: string;
   temperature: number;
 }
 
-export const Applicant = ({ name, image, temperature }: ApplicantProps) => {
+export const Applicant = ({ id, name, image, temperature }: ApplicantProps) => {
   return (
     <S.ApplicantContainer>
       <S.UserWrapper>
         <Badge badgeContent={temperature} color="primary">
-          <Avatar src="https://picsum.photos/200" />
+          <Avatar src={image} />
         </Badge>
         <Typography>{name}</Typography>
       </S.UserWrapper>
