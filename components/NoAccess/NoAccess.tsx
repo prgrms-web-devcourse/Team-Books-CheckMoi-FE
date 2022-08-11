@@ -8,9 +8,9 @@ interface NoAccessProps {
 
 export const NoAccess = ({ title, description }: NoAccessProps) => {
   return (
-    <S.styledDiv>
+    <S.StyledDiv>
       <Typography variant="h5">{title}</Typography>
       <Typography variant="h6">{description}</Typography>
-    </S.styledDiv>
+    </S.StyledDiv>
   );
 };
