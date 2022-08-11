@@ -1,4 +1,4 @@
-export { BookCard } from "./BookCard";
+export { BookCard, BookCardSkeleton } from "./BookCard";
 export { BookDetail } from "./BookDetailCard";
 export { Spacer } from "./Spacer";
 export { StudyCard } from "./StudyCard";

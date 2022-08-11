@@ -7,13 +7,13 @@ interface BookCardSkeletonProps {
 
 export const BookCardSkeleton = ({ size }: BookCardSkeletonProps) => {
   return (
-    <>
+    <div>
       <Skeleton
         variant="rectangular"
         width={`${size}rem`}
         height={`${size * 1.25}rem`}
       />
       <S.BookTitle />
-    </>
+    </div>
   );
 };
