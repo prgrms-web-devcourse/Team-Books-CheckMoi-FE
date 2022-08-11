@@ -39,7 +39,7 @@ export const BookDetail = ({
 
   const handleStudyCreateBtnClick = () => {
     if (!user) setOpenModal(true);
-    else router.push(`studyOpen/${id}`);
+    else router.push(`/studyOpen/${id}`);
   };
 
   const handleOnCloseClick = () => {
