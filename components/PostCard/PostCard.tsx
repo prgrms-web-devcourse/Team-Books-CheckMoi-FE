@@ -10,7 +10,7 @@ interface PostCardProps {
 export const PostCard = ({ post }: PostCardProps) => {
   const [year, month, day] = post.createdAt.split("/");
   return (
-    <S.PostCard size={20} onClick={post.onClick}>
+    <S.PostCard onClick={post.onClick}>
       <S.PostTitle>{post.title}</S.PostTitle>
       <S.PostContent>{post.content}</S.PostContent>
       <S.PostCreatedAt>{`${year}년 ${month}월 ${day}일`}</S.PostCreatedAt>

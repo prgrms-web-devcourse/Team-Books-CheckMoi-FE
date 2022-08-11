@@ -8,7 +8,7 @@ interface getPostType {
 }
 
 export const getPosts = async ({ studyId, token }: getPostType) => {
-  const data = (await apiClient.get)<ResponsePostType[], ResponsePostType[]>(
+  const data = await apiClient.get<ResponsePostType[], ResponsePostType[]>(
     `${END_POINT.posts}?studyId=${studyId}`,
     {
       headers: {

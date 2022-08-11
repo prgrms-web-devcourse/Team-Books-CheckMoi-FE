@@ -1,12 +1,8 @@
 import styled from "@emotion/styled";
 import { Badge } from "@mui/material";
 
-interface PostCardProps {
-  size: number;
-}
-
-export const PostCard = styled.div<PostCardProps>`
-  width: ${({ size }) => `${size}rem`};
+export const PostCard = styled.div`
+  width: 20rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
