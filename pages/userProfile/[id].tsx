@@ -1,40 +1,66 @@
-/* eslint-disable react/jsx-no-useless-fragment */
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Skeleton, Box, Tabs, Tab } from "@mui/material";
 import type { UserType } from "../../types/userType";
-import { StudyCard, TabPanel } from "../../components";
-import { dummyStudy } from "../../commons/dummy";
+import type { StudyType } from "../../types/studyType";
+import {
+  getUser,
+  getOpenStudy,
+  getPartiStudy,
+  getFinishStudy,
+} from "../../apis";
+import { TabPanel } from "../../components";
+import { StudyCardList } from "../../features";
+import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "../../styles/UserProfileStyle";
-import { getUser } from "../../apis";
 
 const userProfile = () => {
-  const router = useRouter();
   const [userInfo, setUserInfo] = useState({} as UserType);
   const [tabNumber, setTabNumber] = useState(0);
   const [loading, setLoading] = useState(true);
-  // TODO 전역으로 저장된 token 가져오기
-  // TODO 전역으로 저정된 유저id와 불러온 유저id가 같으면 프로필 수정 버튼 띄우는 로직 필요
+  const [isOwner, setIsOwner] = useState(false);
+  const [openStudy, setOpenStudy] = useState<StudyType[]>([]);
+  const [partiStudy, setPartiStudy] = useState<StudyType[]>([]);
+  const [finishStudy, setFinishStudy] = useState<StudyType[]>([]);
+
+  const router = useRouter();
+  const { user } = useUserContext();
+
+  const ownerInfo = user;
   const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjcsInJvbGUiOiJST0xFX0xPR0lOIiwiaWF0IjoxNjU5ODc5MDYxLCJleHAiOjE2NTk4ODI2NjF9.73DMt8k5pL2-wD7mZsTNLc3f-n7G_DJrNItuOQ7omhA";
+    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
+
   const { id } = router.query;
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabNumber(newValue);
   };
 
+  // TODO axios 에러처리 논의 필요
   useEffect(() => {
     const userInfoApi = async (userid: string) => {
-      // TODO study정보와 user정보 같이 가져오는 api로 수정해야함
-      const userdata = await getUser(userid, token);
-      setUserInfo(userdata);
+      if (ownerInfo && ownerInfo.id.toString() === userid) {
+        setUserInfo(ownerInfo);
+        setIsOwner(true);
+      } else {
+        const userData = await getUser({ id: userid, token });
+        setUserInfo(userData);
+      }
+      const openStudyData = await getOpenStudy({ id: userid, token });
+      if (openStudyData) setOpenStudy(openStudyData.studies);
+      const partiStudyData = await getPartiStudy({ id: userid, token });
+      if (partiStudyData) setPartiStudy(partiStudyData.studies);
+      const finishStudyData = await getFinishStudy({ id: userid, token });
+      if (finishStudyData) setFinishStudy(finishStudyData.studies);
+
       setLoading(false);
     };
-    if (id) userInfoApi(id as string);
-  }, [router.isReady]);
+
+    if (token && id) userInfoApi(id as string);
+  }, [id]);
 
   return (
-    <>
+    <div>
       {loading ? (
         <>
           <S.UserProfileContainer>
@@ -59,6 +85,7 @@ const userProfile = () => {
             </S.User>
           </S.UserProfileContainer>
           <S.StyledDivider />
+          {/* TODO StudyCard SKeleton 구현하면 삭제할 예정 */}
           <S.StudyContainer>
             <Skeleton
               sx={{ height: 190 }}
@@ -77,14 +104,16 @@ const userProfile = () => {
                 {userInfo.email} | {userInfo.temperature}°C
               </S.UserInfo>
             </S.User>
-            <S.StyledButton
-              variant="contained"
-              onClick={() => {
-                router.push({ pathname: "/userProfileEdit", query: { id } });
-              }}
-            >
-              프로필 수정
-            </S.StyledButton>
+            {isOwner && (
+              <S.StyledButton
+                variant="contained"
+                onClick={() => {
+                  router.push({ pathname: "/userProfileEdit", query: { id } });
+                }}
+              >
+                프로필 수정
+              </S.StyledButton>
+            )}
           </S.UserProfileContainer>
           <S.StyledDivider />
           <S.StudyContainer>
@@ -100,7 +129,7 @@ const userProfile = () => {
                   aria-controls="simple-tabpanel-0"
                 />
                 <Tab
-                  label="참여 중인 스터디"
+                  label="참여한 스터디"
                   id="simple-tab-1"
                   aria-controls="simple-tabpanel-1"
                 />
@@ -112,18 +141,18 @@ const userProfile = () => {
               </Tabs>
             </Box>
             <TabPanel value={tabNumber} index={0}>
-              <StudyCard size={128} study={dummyStudy} onClick={() => {}} />
+              <StudyCardList studies={openStudy} />
             </TabPanel>
             <TabPanel value={tabNumber} index={1}>
-              <StudyCard size={128} study={dummyStudy} onClick={() => {}} />
+              <StudyCardList studies={partiStudy} />
             </TabPanel>
             <TabPanel value={tabNumber} index={2}>
-              <StudyCard size={128} study={dummyStudy} onClick={() => {}} />
+              <StudyCardList studies={finishStudy} />
             </TabPanel>
           </S.StudyContainer>
         </>
       )}
-    </>
+    </div>
   );
 };
 

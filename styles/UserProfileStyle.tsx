@@ -16,6 +16,7 @@ export const UserProfileContainer = styled.div`
 export const StyledAvatar = styled(Avatar)`
   width: 5rem;
   height: 5rem;
+  border: 1px solid lightgray;
   @media (max-width: 512px) {
     width: 4rem;
     height: 4rem;
