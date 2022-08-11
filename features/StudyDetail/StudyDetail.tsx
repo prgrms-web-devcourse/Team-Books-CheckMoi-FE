@@ -57,7 +57,8 @@ export const StudyDetail = ({
   useEffect(() => {
     const studyInfoFetch = async (studyId: string) => {
       const { study, members, book } = await getStudyDetailInfo(studyId);
-      if (members.filter((member) => member.id === user?.id)) setIsMember(true);
+      if (members.filter((member) => member.id === user?.id).length > 0)
+        setIsMember(true);
 
       setStudyInfo({
         study,
