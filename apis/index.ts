@@ -24,4 +24,9 @@ export {
   getFinishStudy,
 } from "./user";
 
-export { getStudies, getStudyDetailInfo, createStudy } from "./study";
+export {
+  getStudies,
+  getStudyDetailInfo,
+  createStudy,
+  updateStudy,
+} from "./study";
