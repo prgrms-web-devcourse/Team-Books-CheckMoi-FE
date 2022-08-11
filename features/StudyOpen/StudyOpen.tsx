@@ -156,7 +156,6 @@ export const StudyOpen = ({ bookId = "1" }: StudyOpenProps) => {
       studyEndDate: studyInfo.studyEndDate,
     };
 
-    // TODO: tobe removed dummy
     try {
       const [, token] = document.cookie.split("token=");
       const newStudyId = await createStudy({ newStudyInfo, token });
