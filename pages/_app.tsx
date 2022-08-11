@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
+import type { AppContext, AppProps } from "next/app";
 import { SnackbarProvider } from "notistack";
 import { Topbar } from "../features/Topbar";
 import * as S from "../styles/LayoutStyle";
@@ -25,27 +25,21 @@ const MyApp = ({ Component, pageProps, user }: MyAppProps) => {
   );
 };
 
-type TokenType = string | undefined;
+MyApp.getInitialProps = async (context: AppContext) => {
+  const cookie = context.ctx.req?.headers.cookie;
 
-MyApp.getInitialProps = async (context: any) => {
-  const token: TokenType = context?.ctx?.req?.cookies?.token;
+  if (cookie) {
+    const [_, token] = cookie.split("token=");
 
-  if (token)
     try {
       const user = await getMyInfo(token);
-
-      return {
-        user,
-      };
+      return { user };
     } catch (error) {
-      return {
-        user: null,
-      };
+      return { user: null };
     }
+  }
 
-  return {
-    user: null,
-  };
+  return { user: null };
 };
 
 export default MyApp;
