@@ -1,5 +1,4 @@
 import { Avatar, Badge, Button, Typography } from "@mui/material";
-import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import * as S from "./style";
 
 interface ApplicantProps {

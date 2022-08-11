@@ -1,5 +1,6 @@
-import { Button, Modal, Typography } from "@mui/material";
+import { Button, Divider, Modal, Typography } from "@mui/material";
 import { useState } from "react";
+import { Applicant } from "./Applicant/Applicant";
 import * as S from "./style";
 
 export const ApplicantList = () => {
@@ -19,16 +20,57 @@ export const ApplicantList = () => {
         aria-describedby="modal-modal-description"
       >
         <S.StyledModal>
-          {/* TODO 신청자 목록 가져오기 */}
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-            aperiam, voluptates deleniti exercitationem impedit eligendi
-            obcaecati, harum repellendus aspernatur repellat aliquid alias
-            dolorum? Ipsa, fuga dignissimos ratione nam veritatis quam?
-          </Typography>
+          <S.TitleWrapper>
+            <Typography>스터디 신청자 목록</Typography>
+            <Divider />
+          </S.TitleWrapper>
+          <S.ApplicantList>
+            <Applicant
+              name="Hello I'm Dummy1"
+              image="https://picsum.photos/200"
+              temperature={36.5}
+            />
+            <Applicant
+              name="Hello I'm Dummy2"
+              image="https://picsum.photos/200"
+              temperature={36.5}
+            />
+            <Applicant
+              name="Hello I'm Dummy3"
+              image="https://picsum.photos/200"
+              temperature={36.5}
+            />
+            <Applicant
+              name="Hello I'm Dummy4"
+              image="https://picsum.photos/200"
+              temperature={36.5}
+            />
+            <Applicant
+              name="Hello I'm Dummy5"
+              image="https://picsum.photos/200"
+              temperature={36.5}
+            />
+            <Applicant
+              name="Hello I'm Dummy6"
+              image="https://picsum.photos/200"
+              temperature={36.5}
+            />
+            <Applicant
+              name="Hello I'm Dummy7"
+              image="https://picsum.photos/200"
+              temperature={36.5}
+            />
+            <Applicant
+              name="Hello I'm Dummy7"
+              image="https://picsum.photos/200"
+              temperature={36.5}
+            />
+            <Applicant
+              name="Hello I'm Dummy7"
+              image="https://picsum.photos/200"
+              temperature={36.5}
+            />
+          </S.ApplicantList>
         </S.StyledModal>
       </Modal>
     </>
