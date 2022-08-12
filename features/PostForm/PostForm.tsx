@@ -7,7 +7,7 @@ import { createPost, putPost } from "../../apis";
 interface PostFormProp {
   state: string;
   selectValue: string;
-  postId: number;
+  postId?: number;
   title: string;
   content: string;
   studyId: number;
@@ -50,7 +50,7 @@ export const PostForm = ({
       const getPostId = await createPost(postObject);
       if (getPostId) router.push(`/post/${getPostId}`);
     } else if (state === "PUT") {
-      await putPost(postId, postObject);
+      await putPost(postId as number, postObject);
       router.push(`/post/${postId}`);
     }
   };

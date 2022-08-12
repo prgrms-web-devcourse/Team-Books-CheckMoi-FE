@@ -5,7 +5,6 @@ const PostCreatePage = () => {
   return (
     <PostForm
       state="POST"
-      postId={-1}
       selectValue="NOTICE"
       title=""
       content=""
