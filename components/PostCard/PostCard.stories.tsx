@@ -1,5 +1,5 @@
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { PostCard } from ".";
+import { PostCard, PostCardSkeleton } from ".";
 
 export default {
   title: "components/PostCard",
@@ -32,3 +32,10 @@ Default.args = {
     },
   },
 };
+
+const SkeletonTemplate: ComponentStory<typeof PostCardSkeleton> = (args) => (
+  <PostCardSkeleton {...args} />
+);
+
+export const Skeleton = SkeletonTemplate.bind({});
+Skeleton.args = {};
