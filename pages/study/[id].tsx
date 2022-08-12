@@ -4,11 +4,8 @@ import { Tabs, Tab, Button, Typography } from "@mui/material";
 import type { SyntheticEvent } from "react";
 import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
-import type { ResponsePostType } from "../../types/postType";
-import type {
-  ApplicantsType,
-  ApplicantMemberType,
-} from "../../types/applicantType";
+import type { PostPropsType } from "../../types/postType";
+import type { ApplicantMemberType } from "../../types/applicantType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { getStudyDetailInfo } from "../../apis/study";
@@ -20,10 +17,9 @@ import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
 import {
-  getApplicants,
-  getNewApplicants,
+  getApplicantMembers,
   putApplicantAcceptOrDeny,
-} from "../../apis";
+} from "../../apis/applicant";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -48,8 +44,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
 
   const [tabNumber, setTabNumber] = useState(currentTab);
-  const [postList, setPostList] = useState<ResponsePostType[]>([]);
-  const [applicantList, setApplicantList] = useState<ApplicantsType[]>([]);
+  const [postList, setPostList] = useState<Omit<PostPropsType, "onClick">[]>(
+    []
+  );
   const [applicantMemberList, setApplicantMemberList] = useState<
     ApplicantMemberType[]
   >([]);
@@ -70,33 +67,21 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     const getPostList = async () => {
       if (studyId) {
         const getList = await getPosts({ studyId: studyId as string });
-        setPostList(getList);
-      }
-    };
-
-    const getApplicantList = async () => {
-      if (studyId) {
-        const getList = await getApplicants({
-          studyId: studyId as string,
-          token,
-        });
-        setApplicantList(getList);
+        setPostList(getList.posts);
       }
     };
 
     const getApplicantMemberList = async () => {
       if (studyId) {
-        const getList = await getNewApplicants({
+        const getList = await getApplicantMembers({
           studyId: studyId as string,
           token,
         });
-        console.log("getList", getList);
         setApplicantMemberList(getList);
       }
     };
 
     getPostList();
-    // getApplicantList();
     getApplicantMemberList();
   }, [studyId]);
 

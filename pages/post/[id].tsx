@@ -33,6 +33,7 @@ const PostPage = () => {
   useEffect(() => {
     const getCommentList = async () => {
       const result = await getComments({ postId: id as string });
+      console.log("comments", result.comments);
       setCommentList(result.comments);
     };
     getCommentList();
