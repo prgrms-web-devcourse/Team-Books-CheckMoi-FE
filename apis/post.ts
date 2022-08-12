@@ -1,8 +1,26 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
 
+import type { ResponsePostType } from "../types/postType";
+
 const token =
   typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
+
+interface getPostType {
+  studyId: string;
+}
+
+export const getPosts = async ({ studyId }: getPostType) => {
+  const data = await apiClient.get<ResponsePostType[], ResponsePostType[]>(
+    `${END_POINT.posts}?studyId=${studyId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data;
+};
 
 interface PostType {
   id: number;
@@ -16,18 +34,6 @@ interface PostType {
   createdAt: string;
   updatedAt: string;
 }
-
-export const getPost = async (postId: string) => {
-  const data = await apiClient.get<PostType, PostType>(
-    `${END_POINT.posts}/${postId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return data;
-};
 
 interface CreatePostType {
   title: string;

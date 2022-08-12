@@ -1,8 +1,20 @@
-import { Button, Modal, Typography } from "@mui/material";
+import { Button, Divider, Modal, Typography } from "@mui/material";
 import { useState } from "react";
+import { ApplicantsType } from "../../types/applicantType";
+import { Applicant } from "./Applicant/Applicant";
 import * as S from "./style";
 
-export const ApplicantList = () => {
+interface ApplicantListProps {
+  applicantList: ApplicantsType[];
+  onAccepted: (id: string) => void;
+  onDenied: (id: string) => void;
+}
+
+export const ApplicantList = ({
+  applicantList,
+  onAccepted,
+  onDenied,
+}: ApplicantListProps) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -19,16 +31,29 @@ export const ApplicantList = () => {
         aria-describedby="modal-modal-description"
       >
         <S.StyledModal>
-          {/* TODO 신청자 목록 가져오기 */}
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-            aperiam, voluptates deleniti exercitationem impedit eligendi
-            obcaecati, harum repellendus aspernatur repellat aliquid alias
-            dolorum? Ipsa, fuga dignissimos ratione nam veritatis quam?
-          </Typography>
+          <S.TitleWrapper>
+            <Typography>스터디 신청자 목록</Typography>
+            <Divider />
+          </S.TitleWrapper>
+          <S.ApplicantList>
+            {applicantList.length !== 0 ? (
+              applicantList?.map((applicant) => (
+                <Applicant
+                  key={applicant.id}
+                  id={applicant.id}
+                  name={applicant.name}
+                  image={applicant.image}
+                  temperature={applicant.temperature}
+                  onAccepted={onAccepted}
+                  onDenied={onDenied}
+                />
+              ))
+            ) : (
+              <S.NoApplicant>
+                <Typography>신청자가 없습니다.</Typography>
+              </S.NoApplicant>
+            )}
+          </S.ApplicantList>
         </S.StyledModal>
       </Modal>
     </>
