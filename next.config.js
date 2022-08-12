@@ -9,7 +9,12 @@ const nextConfig = {
     },
   },
   images: {
-    domains: ["i.picsum.photos", "picsum.photos", "shopping-phinf.pstatic.net"],
+    domains: [
+      "i.picsum.photos",
+      "picsum.photos",
+      "shopping-phinf.pstatic.net",
+      "s3.ap-northeast-2.amazonaws.com",
+    ],
   },
   async rewrites() {
     return [

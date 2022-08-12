@@ -7,6 +7,7 @@ import {
   createStudy,
   getStudyDetailInfo,
   updateStudy,
+  postImage,
 } from "../../apis";
 import { NoAccess } from "../../components/NoAccess";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
@@ -189,6 +190,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       gatherEndDate: studyInfo.gatherEndDate,
       studyStartDate: studyInfo.studyStartDate,
       studyEndDate: studyInfo.studyEndDate,
+      thumbnail: studyInfo.thumbnail,
     };
 
     try {
@@ -215,13 +217,21 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
 
   const hanldeUploadClick = async (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    if (!e.target.files) return;
+    const file = e.target.files[0];
 
     const reader = new FileReader();
-    if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
 
     reader.onloadend = () => {
-      const resultImage = reader.result;
-      setStudyInfo({ ...studyInfo, thumbnail: resultImage as string });
+      (async () => {
+        const newImageUrl = await postImage({
+          file,
+          token: document.cookie.split("token=")[1],
+        });
+
+        setStudyInfo({ ...studyInfo, thumbnail: newImageUrl });
+      })();
     };
   };
 
