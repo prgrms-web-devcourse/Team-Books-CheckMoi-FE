@@ -35,6 +35,17 @@ interface PostType {
   updatedAt: string;
 }
 
+export const getPost = async (postId: string) => {
+  const data = await apiClient.get<PostType, PostType>(
+    `${END_POINT.posts}/${postId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data;
+};
 interface CreatePostType {
   title: string;
   content: string;
@@ -59,5 +70,15 @@ export const putPost = async (postId: number, post: CreatePostType) => {
     },
   });
   console.log(postId, "포스트 수정");
+  return data;
+};
+
+export const delPost = async (postId: number) => {
+  const data = await apiClient.delete(`${END_POINT.posts}/${postId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log(postId, "포스트 삭제");
   return data;
 };

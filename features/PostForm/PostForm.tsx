@@ -48,10 +48,17 @@ export const PostForm = ({
     };
     if (state === "POST") {
       const getPostId = await createPost(postObject);
-      if (getPostId) router.push(`/post/${getPostId}`);
+      if (getPostId)
+        router.push({
+          pathname: `/post/${getPostId}`,
+          query: { tabNumber: postContent === "NOTICE" ? 0 : 1 },
+        });
     } else if (state === "PUT") {
       await putPost(postId as number, postObject);
-      router.push(`/post/${postId}`);
+      router.push({
+        pathname: `/post/${postId}`,
+        query: { tabNumber: postContent === "NOTICE" ? 0 : 1 },
+      });
     }
   };
 
@@ -65,7 +72,7 @@ export const PostForm = ({
           onChange={handleSelectChange}
         >
           <MenuItem value="NOTICE">공지</MenuItem>
-          <MenuItem value="FREE">자유</MenuItem>
+          <MenuItem value="GENERIC">자유</MenuItem>
         </S.StyledSelect>
         <S.StyledTextField
           name="title"

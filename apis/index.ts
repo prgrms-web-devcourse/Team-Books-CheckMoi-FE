@@ -18,7 +18,7 @@ export { getBooksList, getBookInfo, registerBook } from "./book";
 
 export { postImage } from "./image";
 
-export { getPost, createPost, putPost } from "./post";
+export { getPost, createPost, putPost, delPost } from "./post";
 
 export {
   getUser,
