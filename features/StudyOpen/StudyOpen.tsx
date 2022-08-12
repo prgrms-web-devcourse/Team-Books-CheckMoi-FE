@@ -262,6 +262,8 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       />
     );
 
+  console.log(studyInfo.status);
+
   return (
     <S.EntierContainer>
       <S.UpperContainer>
@@ -390,14 +392,20 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
               error={!!inputError.status}
               helperText={inputError.status}
             >
-              <MenuItem key="status-recruting" value="recruiting">
+              <MenuItem key="status-recruiting" value="recruiting">
                 {STATUS.recruiting}
               </MenuItem>
               <MenuItem
-                key="status-recrutingFinished"
+                key="status-recruitingFinished"
                 value="recruitingFinished"
               >
                 {STATUS.recruitingFinished}
+              </MenuItem>
+              <MenuItem disabled key="status-inProgress" value="inProgress">
+                {STATUS.inProgress}
+              </MenuItem>
+              <MenuItem disabled key="status-finished" value="finished">
+                {STATUS.finished}
               </MenuItem>
             </TextField>
           </S.TextFieldWrapper>
