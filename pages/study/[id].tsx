@@ -58,6 +58,16 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     return member.id;
   });
 
+  const getApplicantMemberList = async () => {
+    if (studyId) {
+      const getList = await getApplicantMembers({
+        studyId: studyId as string,
+        token,
+      });
+      setApplicantMemberList(getList);
+    }
+  };
+
   useEffect(() => {
     if (user?.id === userList[STUDY_OWNER].id) setIsOwner(true);
     else setIsOwner(false);
@@ -68,16 +78,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       if (studyId) {
         const getList = await getPosts({ studyId: studyId as string });
         setPostList(getList.posts);
-      }
-    };
-
-    const getApplicantMemberList = async () => {
-      if (studyId) {
-        const getList = await getApplicantMembers({
-          studyId: studyId as string,
-          token,
-        });
-        setApplicantMemberList(getList);
       }
     };
 
@@ -118,6 +118,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     } catch (error) {
       renderSnackbar("승인 실패", "error");
     }
+    getApplicantMemberList();
   };
 
   const onDenied = async (memberId: string) => {
@@ -132,6 +133,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     } catch (error) {
       renderSnackbar("거절 실패", "error");
     }
+    getApplicantMemberList();
   };
 
   return user && isStudyMember ? (
