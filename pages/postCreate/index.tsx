@@ -1,14 +1,18 @@
+import { useRouter } from "next/router";
 import { PostForm } from "../../features";
 
 const PostCreatePage = () => {
-  // TODO selectValue와 studyId 전달받아서 넣어주기
+  const router = useRouter();
+  const { tabNumber, studyId, isOwner } = router.query;
+
   return (
     <PostForm
       state="POST"
-      selectValue="NOTICE"
+      selectValue={tabNumber ? "GENERIC" : "NOTICE"}
       title=""
       content=""
-      studyId={1}
+      studyId={Number(studyId)}
+      isOwner={isOwner === "true"}
     />
   );
 };
