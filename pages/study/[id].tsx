@@ -20,6 +20,7 @@ import {
   getApplicantMembers,
   putApplicantAcceptOrDeny,
 } from "../../apis/applicant";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -51,6 +52,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useUserContext();
+  const { renderSnackbar } = useOurSnackbar();
 
   const membersIdList = userList.map((member) => {
     return member.id;
@@ -105,22 +107,31 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   };
 
   const onAccepted = async (memberId: string) => {
-    const result = await putApplicantAcceptOrDeny({
-      studyId: studyId as string,
-      memberId,
-      token,
-      status: "ACCEPTED",
-    });
-    console.log("Accepted result", result);
+    try {
+      await putApplicantAcceptOrDeny({
+        studyId: studyId as string,
+        memberId,
+        token,
+        status: "ACCEPTED",
+      });
+      renderSnackbar("승인 성공");
+    } catch (error) {
+      renderSnackbar("승인 실패", "error");
+    }
   };
+
   const onDenied = async (memberId: string) => {
-    const result = await putApplicantAcceptOrDeny({
-      studyId: studyId as string,
-      memberId,
-      token,
-      status: "DENIED",
-    });
-    console.log("Denied result", result);
+    try {
+      await putApplicantAcceptOrDeny({
+        studyId: studyId as string,
+        memberId,
+        token,
+        status: "DENIED",
+      });
+      renderSnackbar("거절 성공 ");
+    } catch (error) {
+      renderSnackbar("거절 실패", "error");
+    }
   };
 
   return user && isStudyMember ? (
