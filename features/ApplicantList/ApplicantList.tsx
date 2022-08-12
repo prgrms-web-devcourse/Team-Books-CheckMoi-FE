@@ -6,9 +6,15 @@ import * as S from "./style";
 
 interface ApplicantListProps {
   applicantList: ApplicantsType[];
+  onAccepted: (id: string) => void;
+  onDenied: (id: string) => void;
 }
 
-export const ApplicantList = ({ applicantList }: ApplicantListProps) => {
+export const ApplicantList = ({
+  applicantList,
+  onAccepted,
+  onDenied,
+}: ApplicantListProps) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -38,6 +44,8 @@ export const ApplicantList = ({ applicantList }: ApplicantListProps) => {
                   name={applicant.name}
                   image={applicant.image}
                   temperature={applicant.temperature}
+                  onAccepted={onAccepted}
+                  onDenied={onDenied}
                 />
               ))
             ) : (

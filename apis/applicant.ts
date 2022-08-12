@@ -7,6 +7,13 @@ interface getApplicantsProps {
   token: string;
 }
 
+interface putApplicantProps {
+  studyId: string;
+  memberId: string;
+  token: string;
+  status: string;
+}
+
 export const getApplicants = async ({ studyId, token }: getApplicantsProps) => {
   const data = await apiClient.get<
     ResponseApplicantsType,
@@ -17,4 +24,22 @@ export const getApplicants = async ({ studyId, token }: getApplicantsProps) => {
     },
   });
   return data.appliers;
+};
+
+export const putApplicantAcceptOrDeny = async ({
+  studyId,
+  memberId,
+  token,
+  status,
+}: putApplicantProps) => {
+  const data = await apiClient.put(
+    `${END_POINT.applicants}/${studyId}/members/${memberId}`,
+    { status },
+    {
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    }
+  );
+  return data;
 };
