@@ -1,9 +1,11 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState, MouseEvent } from "react";
 import { useRouter } from "next/router";
-import { Divider, Tabs, Tab, Button } from "@mui/material";
+import { Divider, Tabs, Tab, IconButton, Menu, MenuItem } from "@mui/material";
+import { MoreVert } from "@mui/icons-material";
 import { CommentInput } from "../../components/CommentInput";
 import { delPost, getPost } from "../../apis";
 import * as S from "../../styles/PostStyle";
+import { useUserContext } from "../../hooks/useUserContext";
 
 // TODO 타입 따로 빼기
 interface PostType {
@@ -12,6 +14,7 @@ interface PostType {
   content: string;
   category: string;
   studyId: number;
+  writerId: number;
   writer: string;
   writerImage: string;
   commentCount: number;
@@ -22,23 +25,35 @@ interface PostType {
 const PostPage = () => {
   const router = useRouter();
 
+  const { user } = useUserContext();
+
   const { id, studyId, tabNumber } = router.query;
   const currentTab = tabNumber ? +tabNumber : 0;
 
   const [TabValue, setTabValue] = useState(currentTab);
+  
   const [post, setPost] = useState({} as PostType);
+  const [postDate, setPostDate] = useState([] as string[]);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     const getPostApi = async (postId: string) => {
       const postData = await getPost(postId);
       setPost(postData);
+      setPostDate(postData.createdAt.split("/"));
     };
     if (id) getPostApi(id as string);
   }, []);
-
-  // TODO api 연결 후 지울 변수
-  const DATE = "2022/08/05";
-  const [year, month, day] = DATE.split("/");
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
     router.push({
@@ -58,8 +73,6 @@ const PostPage = () => {
     await delPost(Number(id));
   };
 
-  // TODO 현재 로그인한 유저와 게시글을 작성한 유저를 비교해서 동일할 경우 삭제, 수정 버튼 보이기
-
   return (
     <div>
       {post.id && (
@@ -69,22 +82,52 @@ const PostPage = () => {
               <Tab label="공지" />
               <Tab label="자유" />
             </Tabs>
-            <S.ButtonsContainer>
-              <Button variant="contained" onClick={handleUpdateClick}>
-                수정
-              </Button>
-              <Button variant="contained" onClick={handleDeleteClick}>
-                삭제
-              </Button>
-            </S.ButtonsContainer>
           </S.TabsContainer>
-          <S.BoardTitle>{post.title}</S.BoardTitle>
+          <S.BoardTitleContainer>
+            <S.BoardTitle>{post.title}</S.BoardTitle>
+            <S.ButtonsContainer>
+              {Number(user?.id) === post.writerId && (
+                <>
+                  <IconButton
+                    aria-label="more"
+                    id="long-button"
+                    aria-controls={open ? "long-menu" : undefined}
+                    aria-expanded={open ? "true" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                  >
+                    <MoreVert />
+                  </IconButton>
+                  <Menu
+                    id="long-menu"
+                    sx={{ textAlign: "center" }}
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <MenuItem
+                      sx={{ width: "5rem", justifyContent: "center" }}
+                      onClick={handleUpdateClick}
+                    >
+                      수정
+                    </MenuItem>
+                    <MenuItem
+                      sx={{ width: "5rem", justifyContent: "center" }}
+                      onClick={handleDeleteClick}
+                    >
+                      삭제
+                    </MenuItem>
+                  </Menu>
+                </>
+              )}
+            </S.ButtonsContainer>
+          </S.BoardTitleContainer>
           <S.BoardInfo>
             <S.StyledAvatar src={post.writerImage} />
             <S.AvatarName>{post.writer}</S.AvatarName>
             <div>·</div>
             <S.BoardCreateDate>
-              {year}년 {month}월 {day}일
+              {postDate[0]}년 {postDate[1]}월 {postDate[2]}일
             </S.BoardCreateDate>
           </S.BoardInfo>
           <Divider />
@@ -93,7 +136,6 @@ const PostPage = () => {
           <CommentInput />
         </>
       )}
-
       {/* TODO Comment List 출력 */}
     </div>
   );
