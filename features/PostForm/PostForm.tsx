@@ -11,7 +11,7 @@ interface PostFormProp {
   title: string;
   content: string;
   studyId: number;
-  isOwner: boolean;
+  isOwner?: boolean;
 }
 
 export const PostForm = ({
@@ -97,15 +97,9 @@ export const PostForm = ({
         margin="dense"
         onChange={handleContentChange}
       />
-      {state === "POST" ? (
-        <S.StyledButton variant="contained" onClick={handleOnClick}>
-          게시하기
-        </S.StyledButton>
-      ) : (
-        <S.StyledButton variant="contained" onClick={handleOnClick}>
-          수정하기
-        </S.StyledButton>
-      )}
+      <S.StyledButton variant="contained" onClick={handleOnClick}>
+        {state === "POST" ? "게시하기" : "수정하기"}
+      </S.StyledButton>
     </S.Container>
   );
 };
