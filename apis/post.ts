@@ -10,7 +10,9 @@ interface getPostType {
   studyId: string;
 }
 
+
 export const getPosts = async ({ studyId }: getPostType) => {
+  console.log(token);
   const data = await apiClient.get<ResponsePostType, ResponsePostType>(
     `${END_POINT.posts}?studyId=${studyId}`,
     {
@@ -19,7 +21,6 @@ export const getPosts = async ({ studyId }: getPostType) => {
       },
     }
   );
-  console.log("data", data);
   return data;
 };
 
