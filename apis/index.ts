@@ -28,9 +28,7 @@ export {
   getFinishStudy,
 } from "./user";
 
-
 export {
-  getApplicants,
-  getApplicantMembers as getNewApplicants,
+  getApplicantMembers,
+  putApplicantAcceptOrDeny,
 } from "./applicant";
-

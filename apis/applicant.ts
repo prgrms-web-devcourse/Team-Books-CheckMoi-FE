@@ -1,9 +1,6 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
-import {
-  ResponseApplicantsType,
-  ResponseApplicantMemberType,
-} from "../types/applicantType";
+import { ResponseApplicantMemberType } from "../types/applicantType";
 
 interface getApplicantsProps {
   studyId: string;
@@ -16,18 +13,6 @@ interface putApplicantProps {
   token: string;
   status: string;
 }
-
-export const getApplicants = async ({ studyId, token }: getApplicantsProps) => {
-  const data = await apiClient.get<
-    ResponseApplicantsType,
-    ResponseApplicantsType
-  >(`${END_POINT.applicants}/${studyId}/members`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return data.appliers;
-};
 
 export const getApplicantMembers = async ({
   studyId,

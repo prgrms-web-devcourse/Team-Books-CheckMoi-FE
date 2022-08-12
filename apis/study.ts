@@ -13,7 +13,6 @@ export const getStudies = async (bookId: string, page = 1) => {
     `${END_POINT.studies}?bookId=${bookId}&size=8&page=${page}`
   );
   return { studiesData: data.studies, totalPage: data.totalPage };
-
 };
 
 export const getStudyDetailInfo = async (studyId: string) => {
@@ -22,7 +21,6 @@ export const getStudyDetailInfo = async (studyId: string) => {
   );
   return data;
 };
-
 
 export interface ICreateStudy {
   newStudyInfo: {

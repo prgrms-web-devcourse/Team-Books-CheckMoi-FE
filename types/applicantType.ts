@@ -1,13 +1,14 @@
 import { UserType } from "./userType";
 
+export interface ApplicantsType {
+  id: number;
+  name: string;
+  email: string;
+  image: string;
+  temperature: number;
+}
 export interface ResponseApplicantsType {
-  appliers: {
-    id: number;
-    name: string;
-    email: string;
-    image: string;
-    temperature: number;
-  }[];
+  appliers: ApplicantsType[];
 }
 
 export interface ResponseApplicantMemberType {
@@ -17,14 +18,6 @@ export interface ResponseApplicantMemberType {
       user: UserType; // id, name, email, image, temperature
     }[];
   };
-}
-
-export interface ApplicantsType {
-  id: number;
-  name: string;
-  email: string;
-  image: string;
-  temperature: number;
 }
 
 export interface ApplicantMemberType {

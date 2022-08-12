@@ -4,22 +4,15 @@ import { Tabs, Tab, Button, Typography } from "@mui/material";
 import type { SyntheticEvent } from "react";
 import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
-import type { ResponsePostType } from "../../types/postType";
-import type {
-  ApplicantsType,
-  ApplicantMemberType,
-} from "../../types/applicantType";
-
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { PostCard } from "../../components/PostCard";
 import { DummyPost } from "../../commons/dummyPost";
 import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "../../styles/StudyDetailPageStyle";
-import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
-import { getApplicants, getNewApplicants } from "../../apis";
+import { PostsType } from "../../types/postType";
 import { getStudyDetailInfo } from "../../apis/study";
 
 interface ServerSidePropType {
@@ -42,15 +35,8 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const { id: studyId, tabNumber: tabValue } = router.query;
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
 
-  const token =
-    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
-
   const [tabNumber, setTabNumber] = useState(currentTab);
-  const [postList, setPostList] = useState<ResponsePostType[]>([]);
-  const [applicantList, setApplicantList] = useState<ApplicantsType[]>([]);
-  const [applicantMemberList, setApplicantMemberList] = useState<
-    ApplicantMemberType[]
-  >([]);
+  const [postList, setPostList] = useState<PostsType[]>([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useUserContext();
@@ -68,32 +54,11 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     const getPostList = async () => {
       if (studyId) {
         const getList = await getPosts({ studyId: studyId as string });
-        setPostList(getList);
-      }
-    };
-
-    const getApplicantList = async () => {
-      if (studyId) {
-        const getList = await getApplicants({
-          studyId: studyId as string,
-          token,
-        });
-        setApplicantList(getList);
-      }
-    };
-
-    const getApplicantMemberList = async () => {
-      if (studyId) {
-        const getList = await getNewApplicants({
-          studyId: studyId as string,
-          token,
-        });
-        setApplicantMemberList(getList.member);
+        setPostList(getList.posts);
       }
     };
 
     getPostList();
-    getApplicantList();
   }, [studyId]);
 
   const isStudyMember = membersIdList.includes(user?.id as string);
@@ -120,13 +85,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     router.push(`/studyEdit/${studyId}`);
   };
 
-  const onAccepted = (memberId: string) => {
-    console.log("memberId:", memberId);
-  };
-  const onDenied = (memberId: string) => {
-    console.log("memberId:", memberId);
-  };
-
   return user && isStudyMember ? (
     <>
       <StudyDetailCard study={study} members={userList} />
@@ -137,16 +95,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         </Tabs>
         <S.ButtonsWrapper>
           {isOwner && (
-            <>
-              <ApplicantList
-                applicantList={applicantList}
-                onAccepted={onAccepted}
-                onDenied={onDenied}
-              />
               <Button variant="contained" onClick={handleStudyEditButtonClick}>
                 스터디 정보 수정
               </Button>
-            </>
           )}
           {tabNumber === NOTICE_BOARD_TAB && !isOwner ? (
             ""
