@@ -15,11 +15,30 @@ export const Container = styled.div`
       opacity: 1;
     }
   }
+
+  @media (max-width: 512px) {
+    flex-direction: column;
+    height: auto;
+  }
+`;
+
+export const HomeUITextContainer = styled.div`
+  max-width: 50%;
+  flex-grow: 1;
+
+  @media (max-width: 512px) {
+    max-width: 100%;
+  }
 `;
 
 export const HomeUIContent = styled.div`
   max-width: 50%;
   flex-grow: 1;
+
+  @media (max-width: 512px) {
+    max-width: 100%;
+    display: none;
+  }
 `;
 
 export const HomeUIBook1 = styled.img`
