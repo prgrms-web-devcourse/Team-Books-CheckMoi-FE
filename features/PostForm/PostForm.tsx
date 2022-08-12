@@ -43,7 +43,7 @@ export const PostForm = ({
     const postObject = {
       title: postTitle,
       content: postContent,
-      category: selectValue,
+      category: postSelectValue,
       studyId,
     };
     if (state === "POST") {
@@ -51,13 +51,13 @@ export const PostForm = ({
       if (getPostId)
         router.push({
           pathname: `/post/${getPostId}`,
-          query: { tabNumber: postContent === "NOTICE" ? 0 : 1 },
+          query: { tabNumber: postSelectValue === "NOTICE" ? 0 : 1, studyId },
         });
     } else if (state === "PUT") {
       await putPost(postId as number, postObject);
       router.push({
         pathname: `/post/${postId}`,
-        query: { tabNumber: postContent === "NOTICE" ? 0 : 1 },
+        query: { tabNumber: postSelectValue === "NOTICE" ? 0 : 1, studyId },
       });
     }
   };
