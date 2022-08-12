@@ -8,6 +8,7 @@ export const END_POINT = {
   getMyInfo: "/me",
   logout: "/logout",
   isbnBook: "/books/isbn",
+  posts: "/posts",
 };
 
 export { getNaverBooks } from "./naver";
@@ -16,6 +17,8 @@ export { getBooksList, getBookInfo, registerBook } from "./book";
 
 export { postImage } from "./image";
 
+export { getPost, createPost, putPost } from "./post";
+
 export {
   getUser,
   putUser,
@@ -23,3 +26,4 @@ export {
   getPartiStudy,
   getFinishStudy,
 } from "./user";
+
