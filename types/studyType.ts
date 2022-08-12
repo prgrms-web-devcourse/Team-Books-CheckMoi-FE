@@ -1,7 +1,12 @@
 import type { BookType } from "./bookType";
 import type { UserType } from "./userType";
 
-export type StudyStatusType = "recruiting" | "inProgress" | "finished";
+// 모집중 | 모집완료 | 스터디 진행 중 | 스터디 완료
+export type StudyStatusType =
+  | "recruiting"
+  | "recruitingFinished"
+  | "inProgress"
+  | "finished";
 
 export interface StudyType {
   id: string;

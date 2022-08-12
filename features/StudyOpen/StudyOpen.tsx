@@ -12,6 +12,7 @@ import {
 import { NoAccess } from "../../components/NoAccess";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import { useUserContext } from "../../hooks/useUserContext";
+import { StudyStatusType } from "../../types/studyType";
 import * as S from "./style";
 
 interface StudyOpenProps {
@@ -29,7 +30,7 @@ interface IStudyInfo {
   studyEndDate: string;
   description: string;
   thumbnail: string;
-  status: string; // TODO: 명확한 enum 정해지면 type으로 변경
+  status: StudyStatusType;
 }
 
 interface IInputError {
@@ -51,6 +52,13 @@ const getDateFromToday = (count: number = 0): string => {
   returnDate.setDate(today.getDate() + count);
 
   return returnDate.toISOString().slice(0, 10);
+};
+
+const STATUS = {
+  recruiting: "모집 중",
+  recruitingFinished: "모집 완료",
+  inProgress: "스터디 진행 중",
+  finished: "스터디 완료",
 };
 
 export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
@@ -80,9 +88,6 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
 
   const router = useRouter();
   const { renderSnackbar } = useOurSnackbar();
-
-  // TODO: status enum 확정 후 변경 예정
-  const statusOptions = ["recruiting", "inProgress", "finished"];
 
   useEffect(() => {
     const fetchBookInfo = async () => {
@@ -244,6 +249,8 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       />
     );
 
+  console.log(studyInfo.status);
+
   return (
     <S.EntierContainer>
       <S.UpperContainer>
@@ -363,16 +370,20 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
               name="status"
               variant="standard"
               label="스터디 모집 상태"
-              value={studyInfo.status}
+              defaultValue={studyInfo.status}
               onChange={handleStudyInfoChange}
               error={!!inputError.status}
               helperText={inputError.status}
             >
-              {statusOptions.map((option) => (
-                <MenuItem key={`status-${option}`} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
+              <MenuItem key="status-recruting" value="recruiting">
+                {STATUS.recruiting}
+              </MenuItem>
+              <MenuItem
+                key="status-recrutingFinished"
+                value="recruitingFinished"
+              >
+                {STATUS.recruitingFinished}
+              </MenuItem>
             </TextField>
           </S.TextFieldWrapper>
         </S.TextFieldContainer>
