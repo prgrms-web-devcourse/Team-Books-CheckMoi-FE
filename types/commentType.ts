@@ -5,6 +5,8 @@ export interface CommentsType {
   content: string;
   createdAt: string;
   updatedAt: string;
+  userImage: string;
+  userName: string;
 }
 
 export interface ResponseCommentsType {

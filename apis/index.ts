@@ -31,4 +31,4 @@ export {
 
 export { getApplicantMembers, putApplicantAcceptOrDeny } from "./applicant";
 
-export { getComments, postComments } from "./comments";
+export { getComments, postComments, deleteComment } from "./comments";

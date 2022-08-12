@@ -4,10 +4,10 @@ import { useState } from "react";
 import type { ChangeEvent, KeyboardEvent } from "react";
 
 interface commentInputProp {
-  onSubmit: (postId: string) => void;
+  onCreateComment: (postId: string) => void;
 }
 
-export const CommentInput = ({ onSubmit }: commentInputProp) => {
+export const CommentInput = ({ onCreateComment }: commentInputProp) => {
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +15,7 @@ export const CommentInput = ({ onSubmit }: commentInputProp) => {
   };
 
   const handleSendButtonClick = () => {
-    onSubmit(inputValue);
+    onCreateComment(inputValue);
     setInputValue("");
   };
 
@@ -24,7 +24,7 @@ export const CommentInput = ({ onSubmit }: commentInputProp) => {
     if (e.key === "Enter") {
       if (e.shiftKey) return;
       e.preventDefault();
-      onSubmit(inputValue);
+      onCreateComment(inputValue);
       setInputValue("");
     }
   };

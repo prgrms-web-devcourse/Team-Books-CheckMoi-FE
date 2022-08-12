@@ -1,19 +1,147 @@
-import { Avatar } from "@mui/material";
-import type { UserType } from "../../types/userType";
+import {
+  Avatar,
+  IconButton,
+  Menu,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useState } from "react";
+import type { MouseEvent, KeyboardEvent, ChangeEvent } from "react";
 import * as S from "./style";
+import { deleteComment } from "../../apis";
+import { putComment } from "../../apis/comments";
 
 interface CommentProps {
-  user: UserType;
-  content: string;
+  commentProps: {
+    id: number;
+    userId: number;
+    postId: number;
+    createdAt: string;
+    updatedAt: string;
+    userImage: string;
+    userName: string;
+    content: string;
+  };
+  currentUserId: string;
+  onReloadComment: () => void;
 }
 
-export const Comment = ({ user, content }: CommentProps) => {
+export const Comment = ({
+  commentProps,
+  currentUserId,
+  onReloadComment,
+}: CommentProps) => {
+  const [anchorEl, setAncorEl] = useState<null | HTMLElement>(null);
+  const [currentValue, setCurrentValue] = useState<string>(
+    commentProps.content
+  );
+  const [editValue, setEditValue] = useState<string>(commentProps.content);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const open = !!anchorEl;
+  const handleClick = (e: MouseEvent<HTMLElement>) => {
+    setAncorEl(e.currentTarget);
+  };
+  const handleClose = () => {
+    setAncorEl(null);
+  };
+
+  const handleDeleteButtonClick = async () => {
+    const result = await deleteComment({
+      commentId: commentProps.id.toString(),
+    });
+    // TODO 삭제 후 스낵바 추가
+    onReloadComment();
+    handleClose();
+  };
+
+  const updateComment = async () => {
+    const result = await putComment({
+      commentId: commentProps.id.toString(),
+      content: editValue,
+    });
+    onReloadComment();
+    // TODO 수정 후 스낵바 추가
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditValue(e.target.value);
+  };
+
+  const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing) return;
+    if (e.key === "Enter") {
+      if (e.shiftKey) return;
+      e.preventDefault();
+      updateComment();
+      setEditValue(editValue);
+      setCurrentValue(editValue);
+      setIsEditMode(false);
+    }
+  };
+
+  const handleEditButtonClick = () => {
+    // TODO 수정 로직 추가
+    setIsEditMode(true);
+    handleClose();
+  };
   return (
     <S.CommentContainer>
       <S.UserWrapper>
-        <Avatar src={user.image} /> {user.name}
+        <Avatar src={commentProps.userImage} />
       </S.UserWrapper>
-      <p>{content}</p>
+      <S.ContentWrapper>
+        <Typography>{commentProps.userName}</Typography>
+        {!isEditMode ? (
+          <Typography>{currentValue}</Typography>
+        ) : (
+          <TextField
+            className="textField"
+            multiline
+            maxRows={4}
+            value={editValue}
+            onChange={handleInputChange}
+            placeholder="수정 사항을 입력하세요"
+            onKeyDown={handleOnKeyDown}
+          />
+        )}
+      </S.ContentWrapper>
+      {commentProps.userId.toString() === currentUserId.toString() && (
+        <>
+          <S.StyledMenu>
+            <IconButton
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? "long-menu" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <MoreVertIcon />
+            </IconButton>
+          </S.StyledMenu>
+
+          <Menu
+            id="long-menu"
+            MenuListProps={{
+              "aria-labelledby": "long-button",
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                maxHeight: 48 * 4.5,
+                width: "20ch",
+              },
+            }}
+          >
+            <MenuItem onClick={handleEditButtonClick}>수정</MenuItem>
+            <MenuItem onClick={handleDeleteButtonClick}>삭제</MenuItem>
+          </Menu>
+        </>
+      )}
     </S.CommentContainer>
   );
 };

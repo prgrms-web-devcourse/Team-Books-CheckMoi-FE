@@ -4,7 +4,7 @@ import { Tabs, Tab, Button, Typography } from "@mui/material";
 import type { SyntheticEvent } from "react";
 import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
-import type { PostPropsType } from "../../types/postType";
+import type { PostsType } from "../../types/postType";
 import type { ApplicantMemberType } from "../../types/applicantType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
@@ -44,9 +44,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
 
   const [tabNumber, setTabNumber] = useState(currentTab);
-  const [postList, setPostList] = useState<Omit<PostPropsType, "onClick">[]>(
-    []
-  );
+  const [postList, setPostList] = useState<PostsType[]>([]);
   const [applicantMemberList, setApplicantMemberList] = useState<
     ApplicantMemberType[]
   >([]);

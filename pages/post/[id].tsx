@@ -6,15 +6,18 @@ import { CommentInput } from "../../components/CommentInput";
 import { Comment } from "../../components/Comment";
 import { postComments, getComments } from "../../apis";
 import type { CommentsType } from "../../types/commentType";
+import { getMyInfo } from "../../apis/user";
 
 // TODO api가 완성되면 Type과 api 작업 필요
 const PostPage = () => {
   const router = useRouter();
-
+  const token =
+    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
   const { id, studyId, tabNumber } = router.query;
   const currentTab = tabNumber ? +tabNumber : 0;
   const [value, setValue] = useState(currentTab);
   const [commentList, setCommentList] = useState<CommentsType[]>([]);
+  const [currentUserId, setCurrentUserId] = useState("");
 
   // TODO 포스트 상세 정보 가져오기
 
@@ -29,20 +32,32 @@ const PostPage = () => {
     });
     setValue(newValue);
   };
+  const getCommentList = async () => {
+    const result = await getComments({ postId: id as string });
+    setCommentList(result.comments);
+  };
 
   useEffect(() => {
-    const getCommentList = async () => {
-      const result = await getComments({ postId: id as string });
-      console.log("comments", result.comments);
-      setCommentList(result.comments);
-    };
     getCommentList();
   }, [id]);
 
-  const onSubmit = async (content: string) => {
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const user = await getMyInfo(token);
+      setCurrentUserId(user.id);
+    };
+    getCurrentUser();
+  }, []);
+
+  const onCreateComment = async (content: string) => {
     const result = await postComments({ postId: id as string, content });
+    await getCommentList();
     console.log("result", result);
     // TODO Result로 댓글 ID가 반환되는데 이것으로 댓글 추가 성공 여부 스낵바 추가
+  };
+
+  const onReloadComment = async () => {
+    await getCommentList();
   };
 
   // TODO 현재 로그인한 유저와 게시글을 작성한 유저를 비교해서 동일할 경우 삭제, 수정 버튼 보이기
@@ -167,8 +182,16 @@ const PostPage = () => {
         weeks.
       </S.BoardContent>
       <Divider />
-      <CommentInput onSubmit={onSubmit} />
+      <CommentInput onCreateComment={onCreateComment} />
       {/* TODO Comment List 출력 */}
+      {commentList.map((comment) => (
+        <Comment
+          key={comment.id}
+          commentProps={comment}
+          currentUserId={currentUserId}
+          onReloadComment={onReloadComment}
+        />
+      ))}
     </>
   );
 };
