@@ -7,6 +7,7 @@ import { Comment } from "../../components/Comment";
 import { postComments, getComments } from "../../apis";
 import type { CommentsType } from "../../types/commentType";
 import { getMyInfo } from "../../apis/user";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 // TODO api가 완성되면 Type과 api 작업 필요
 const PostPage = () => {
@@ -18,6 +19,7 @@ const PostPage = () => {
   const [value, setValue] = useState(currentTab);
   const [commentList, setCommentList] = useState<CommentsType[]>([]);
   const [currentUserId, setCurrentUserId] = useState("");
+  const { renderSnackbar } = useOurSnackbar();
 
   // TODO 포스트 상세 정보 가져오기
 
@@ -50,10 +52,13 @@ const PostPage = () => {
   }, []);
 
   const onCreateComment = async (content: string) => {
-    const result = await postComments({ postId: id as string, content });
-    await getCommentList();
-    console.log("result", result);
-    // TODO Result로 댓글 ID가 반환되는데 이것으로 댓글 추가 성공 여부 스낵바 추가
+    try {
+      await postComments({ postId: id as string, content });
+      renderSnackbar("댓글 추가 성공");
+    } catch (error) {
+      renderSnackbar("댓글 추가 실패", "error");
+    }
+    getCommentList();
   };
 
   const onReloadComment = async () => {

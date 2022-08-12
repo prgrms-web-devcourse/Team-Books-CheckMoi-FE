@@ -12,6 +12,7 @@ import type { MouseEvent, KeyboardEvent, ChangeEvent } from "react";
 import * as S from "./style";
 import { deleteComment } from "../../apis";
 import { putComment } from "../../apis/comments";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 interface CommentProps {
   commentProps: {
@@ -46,23 +47,32 @@ export const Comment = ({
   const handleClose = () => {
     setAncorEl(null);
   };
+  const { renderSnackbar } = useOurSnackbar();
 
   const handleDeleteButtonClick = async () => {
-    const result = await deleteComment({
-      commentId: commentProps.id.toString(),
-    });
-    // TODO 삭제 후 스낵바 추가
+    try {
+      await deleteComment({
+        commentId: commentProps.id.toString(),
+      });
+      renderSnackbar("댓글 삭제 성공");
+    } catch (error) {
+      renderSnackbar("댓글 삭제 실패", "error");
+    }
     onReloadComment();
     handleClose();
   };
 
   const updateComment = async () => {
-    const result = await putComment({
-      commentId: commentProps.id.toString(),
-      content: editValue,
-    });
+    try {
+      await putComment({
+        commentId: commentProps.id.toString(),
+        content: editValue,
+      });
+      renderSnackbar("댓글 수정 성공");
+    } catch (error) {
+      renderSnackbar("댓글 수정 실패", "error");
+    }
     onReloadComment();
-    // TODO 수정 후 스낵바 추가
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
