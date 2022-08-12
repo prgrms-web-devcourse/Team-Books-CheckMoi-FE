@@ -9,9 +9,9 @@ import type {
   ApplicantsType,
   ApplicantMemberType,
 } from "../../types/applicantType";
+
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
-import { getStudyDetailInfo } from "../../apis/study";
 import { PostCard } from "../../components/PostCard";
 import { DummyPost } from "../../commons/dummyPost";
 import { useUserContext } from "../../hooks/useUserContext";
@@ -20,6 +20,7 @@ import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
 import { getApplicants, getNewApplicants } from "../../apis";
+import { getStudyDetailInfo } from "../../apis/study";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -32,6 +33,7 @@ const FREE_BOARD_TAB = 1;
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   // TODO 토큰 가져와서 API 요청하기
   const { study, members } = studyData;
+
   const userList = members.map((member) => {
     return member.user;
   });
@@ -108,7 +110,10 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   };
 
   const handleWriteButtonClick = () => {
-    router.push(`/postCreate`, { query: { tabNumber } });
+    router.push({
+      pathname: `/postCreate`,
+      query: { tabNumber, studyId, isOwner },
+    });
   };
 
   const handleStudyEditButtonClick = () => {

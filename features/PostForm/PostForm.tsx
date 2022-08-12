@@ -11,6 +11,7 @@ interface PostFormProp {
   title: string;
   content: string;
   studyId: number;
+  isOwner: boolean;
 }
 
 export const PostForm = ({
@@ -20,13 +21,14 @@ export const PostForm = ({
   title,
   content,
   studyId,
+  isOwner,
 }: PostFormProp) => {
   const [postSelectValue, setPostSelectValue] = useState(selectValue);
   const [postTitle, setPostTitle] = useState(title);
   const [postContent, setPostContent] = useState(content);
 
   const router = useRouter();
-  // TODO 스터디 장이 쓰고있는지 받아서 이 작동 못하게 해야함
+
   const handleSelectChange = (event: SelectChangeEvent<unknown>) => {
     setPostSelectValue(event.target.value as string);
   };
@@ -70,6 +72,7 @@ export const PostForm = ({
           id="demo-simple-select"
           value={postSelectValue}
           onChange={handleSelectChange}
+          disabled={!isOwner}
         >
           <MenuItem value="NOTICE">공지</MenuItem>
           <MenuItem value="GENERIC">자유</MenuItem>
