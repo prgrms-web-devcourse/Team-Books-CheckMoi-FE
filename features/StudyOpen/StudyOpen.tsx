@@ -84,6 +84,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     description: "",
     status: "",
   });
+  const [isOwenr, setIsOwner] = useState(true);
   const { user } = useUserContext();
 
   const router = useRouter();
@@ -101,7 +102,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     };
 
     const fetchStudyInfo = async () => {
-      const { study, book } = await getStudyDetailInfo(studyId || "");
+      const { study, book, members } = await getStudyDetailInfo(studyId || "");
       const {
         name,
         thumbnail,
@@ -114,6 +115,8 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
         studyEndDate,
       } = study;
       const { title: bookTitle } = book;
+
+      setIsOwner(user?.id === members[0].id || false);
 
       setStudyInfo({
         ...studyInfo,
@@ -246,6 +249,14 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       <NoAccess
         title="이 페이지는 로그인한 사용자만 이용할 수 있습니다."
         description="책모이에 로그인하시면 다양한 서비스를 이용하실 수 있습니다."
+      />
+    );
+
+  if (studyId && !isOwenr)
+    return (
+      <NoAccess
+        title="이 페이지는 스터디장만 이용할 수 있습니다."
+        description="스터디장을 제외한 참여 인원은 사용하실 수 없습니다."
       />
     );
 
