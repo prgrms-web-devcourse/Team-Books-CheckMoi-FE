@@ -116,9 +116,6 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       } = study;
       const { title: bookTitle } = book;
 
-      console.log(user?.id);
-      console.log(members[0].id);
-      console.log(members);
       setIsOwner(user?.id === members[0].user.id || false);
 
       setStudyInfo({
@@ -149,7 +146,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     });
   };
 
-  const handleOpenClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOpenClick = async () => {
     const newError: IInputError = {
       name: "",
       maxParticipant: "",
@@ -168,22 +165,24 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     else if (studyInfo.name.length > LIMIT_NAME)
       newError.name = "스터디 이름은 최대 30자입니다.";
 
-    if (!studyInfo.maxParticipant)
-      newError.maxParticipant = "정원을 입력해주세요";
-    else if (Number(studyInfo.maxParticipant) > LIMIT_PARTICIPANT)
-      newError.maxParticipant = `최대 ${LIMIT_PARTICIPANT}명까지 가능합니다.`;
+    if (!studyId) {
+      if (!studyInfo.maxParticipant)
+        newError.maxParticipant = "정원을 입력해주세요";
+      else if (Number(studyInfo.maxParticipant) > LIMIT_PARTICIPANT)
+        newError.maxParticipant = `최대 ${LIMIT_PARTICIPANT}명까지 가능합니다.`;
 
-    if (studyInfo.gatherStartDate >= studyInfo.gatherEndDate) {
-      newError.gatherStartDate = "모집 시작을 다시 입력해주세요";
-      newError.gatherEndDate = "모집 마감을 다시 입력해주세요";
-    }
-    if (studyInfo.gatherEndDate >= studyInfo.studyStartDate) {
-      newError.gatherEndDate = "모집 마감을 다시 입력해주세요";
-      newError.studyStartDate = "진행 시작을 다시 입력해주세요";
-    }
-    if (studyInfo.studyStartDate >= studyInfo.studyEndDate) {
-      newError.studyStartDate = "진행 시작을 다시 입력해주세요";
-      newError.studyEndDate = "진행 마감을 다시 입력해주세요";
+      if (studyInfo.gatherStartDate >= studyInfo.gatherEndDate) {
+        newError.gatherStartDate = "모집 시작을 다시 입력해주세요";
+        newError.gatherEndDate = "모집 마감을 다시 입력해주세요";
+      }
+      if (studyInfo.gatherEndDate >= studyInfo.studyStartDate) {
+        newError.gatherEndDate = "모집 마감을 다시 입력해주세요";
+        newError.studyStartDate = "진행 시작을 다시 입력해주세요";
+      }
+      if (studyInfo.studyStartDate >= studyInfo.studyEndDate) {
+        newError.studyStartDate = "진행 시작을 다시 입력해주세요";
+        newError.studyEndDate = "진행 마감을 다시 입력해주세요";
+      }
     }
 
     if (!studyInfo.description)
@@ -215,7 +214,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
           pathname: `/study/${newStudyId}`,
         });
       } else {
-        const data = await updateStudy({ studyId, newStudyInfo, token });
+        await updateStudy({ studyId, newStudyInfo, token });
 
         router.push({
           pathname: `/study/${studyId}`,
@@ -386,7 +385,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
               name="status"
               variant="standard"
               label="스터디 모집 상태"
-              defaultValue={studyInfo.status}
+              value={studyInfo.status}
               onChange={handleStudyInfoChange}
               error={!!inputError.status}
               helperText={inputError.status}
