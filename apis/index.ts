@@ -32,6 +32,7 @@ export {
 export {
   getApplicants,
   getApplicantMembers as getNewApplicants,
+  putApplicantAcceptOrDeny,
 } from "./applicant";
 
 export { getComments, postComments } from "./comments";

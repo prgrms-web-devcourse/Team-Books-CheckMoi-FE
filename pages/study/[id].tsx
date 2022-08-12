@@ -19,7 +19,11 @@ import * as S from "../../styles/StudyDetailPageStyle";
 import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
-import { getApplicants, getNewApplicants } from "../../apis";
+import {
+  getApplicants,
+  getNewApplicants,
+  putApplicantAcceptOrDeny,
+} from "../../apis";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -117,11 +121,23 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     router.push(`/studyEdit/${studyId}`);
   };
 
-  const onAccepted = (memberId: string) => {
-    console.log("memberId:", memberId);
+  const onAccepted = async (memberId: string) => {
+    const result = await putApplicantAcceptOrDeny({
+      studyId: studyId as string,
+      memberId,
+      token,
+      status: "ACCEPTED",
+    });
+    console.log("Accepted result", result);
   };
-  const onDenied = (memberId: string) => {
-    console.log("memberId:", memberId);
+  const onDenied = async (memberId: string) => {
+    const result = await putApplicantAcceptOrDeny({
+      studyId: studyId as string,
+      memberId,
+      token,
+      status: "DENIED",
+    });
+    console.log("Denied result", result);
   };
 
   return user && isStudyMember ? (
