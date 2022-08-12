@@ -25,7 +25,10 @@ export interface StudyType {
 // TODO: 추후 null 삭제 (백 수정 이후)
 export interface StudyDetailType {
   study: StudyType;
-  members: UserType[];
+  members: {
+    id: string;
+    user: UserType;
+  }[];
   book: BookType;
   description: string;
   status: StudyStatusType | null;

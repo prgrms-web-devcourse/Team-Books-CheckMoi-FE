@@ -84,7 +84,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     description: "",
     status: "",
   });
-  const [isOwenr, setIsOwner] = useState(true);
+  const [isOwner, setIsOwner] = useState(true);
   const { user } = useUserContext();
 
   const router = useRouter();
@@ -116,7 +116,10 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       } = study;
       const { title: bookTitle } = book;
 
-      setIsOwner(user?.id === members[0].id || false);
+      console.log(user?.id);
+      console.log(members[0].id);
+      console.log(members);
+      setIsOwner(user?.id === members[0].user.id || false);
 
       setStudyInfo({
         ...studyInfo,
@@ -252,7 +255,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       />
     );
 
-  if (studyId && !isOwenr)
+  if (studyId && !isOwner)
     return (
       <NoAccess
         title="이 페이지는 스터디장만 이용할 수 있습니다."
@@ -375,7 +378,11 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
             <TextField
               select
               fullWidth
-              disabled={!studyId}
+              disabled={
+                !studyId ||
+                studyInfo.status === "inProgress" ||
+                studyInfo.status === "finished"
+              }
               name="status"
               variant="standard"
               label="스터디 모집 상태"
