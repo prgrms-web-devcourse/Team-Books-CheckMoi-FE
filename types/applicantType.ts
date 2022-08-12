@@ -12,11 +12,9 @@ export interface ResponseApplicantsType {
 
 export interface ResponseApplicantMemberType {
   members: {
-    member: {
-      id: number;
-      user: UserType; // id, name, email, image, temperature
-    }[];
-  };
+    id: number;
+    user: UserType; // id, name, email, image, temperature
+  }[];
 }
 
 export interface ApplicantsType {

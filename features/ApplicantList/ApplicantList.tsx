@@ -1,11 +1,11 @@
 import { Button, Divider, Modal, Typography } from "@mui/material";
 import { useState } from "react";
-import { ApplicantsType } from "../../types/applicantType";
+import { ApplicantMemberType } from "../../types/applicantType";
 import { Applicant } from "./Applicant/Applicant";
 import * as S from "./style";
 
 interface ApplicantListProps {
-  applicantList: ApplicantsType[];
+  applicantList: ApplicantMemberType[];
   onAccepted: (id: string) => void;
   onDenied: (id: string) => void;
 }
@@ -41,9 +41,9 @@ export const ApplicantList = ({
                 <Applicant
                   key={applicant.id}
                   id={applicant.id}
-                  name={applicant.name}
-                  image={applicant.image}
-                  temperature={applicant.temperature}
+                  name={applicant.user.name}
+                  image={applicant.user.image}
+                  temperature={applicant.user.temperature}
                   onAccepted={onAccepted}
                   onDenied={onDenied}
                 />

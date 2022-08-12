@@ -58,7 +58,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   });
 
   useEffect(() => {
-    if (user?.id === members[STUDY_OWNER].id) setIsOwner(true);
+    if (user?.id === userList[STUDY_OWNER].id) setIsOwner(true);
     else setIsOwner(false);
   }, [user]);
 
@@ -86,12 +86,14 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
           studyId: studyId as string,
           token,
         });
-        setApplicantMemberList(getList.member);
+        console.log("getList", getList);
+        setApplicantMemberList(getList);
       }
     };
 
     getPostList();
-    getApplicantList();
+    // getApplicantList();
+    getApplicantMemberList();
   }, [studyId]);
 
   const isStudyMember = membersIdList.includes(user?.id as string);
@@ -134,7 +136,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
           {isOwner && (
             <>
               <ApplicantList
-                applicantList={applicantList}
+                applicantList={applicantMemberList}
                 onAccepted={onAccepted}
                 onDenied={onDenied}
               />
