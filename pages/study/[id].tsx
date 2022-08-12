@@ -32,6 +32,9 @@ const FREE_BOARD_TAB = 1;
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   // TODO 토큰 가져와서 API 요청하기
   const { study, members } = studyData;
+  const userList = members.map((member) => {
+    return member.user;
+  });
 
   const router = useRouter();
   const { id: studyId, tabNumber: tabValue } = router.query;
@@ -50,7 +53,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 
   const { user } = useUserContext();
 
-  const membersIdList = members.map((member) => {
+  const membersIdList = userList.map((member) => {
     return member.id;
   });
 
@@ -121,7 +124,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 
   return user && isStudyMember ? (
     <>
-      <StudyDetailCard study={study} members={members} />
+      <StudyDetailCard study={study} members={userList} />
       <S.TabsContainer>
         <Tabs value={tabNumber} onChange={handleTabChange}>
           <Tab label="공지" />

@@ -3,7 +3,9 @@ import { useRouter } from "next/router";
 import { Divider, Tabs, Tab, Button } from "@mui/material";
 import * as S from "../../styles/PostStyle";
 import { CommentInput } from "../../components/CommentInput";
-import { postComments } from "../../apis";
+import { Comment } from "../../components/Comment";
+import { postComments, getComments } from "../../apis";
+import type { CommentsType } from "../../types/commentType";
 
 // TODO api가 완성되면 Type과 api 작업 필요
 const PostPage = () => {
@@ -12,6 +14,7 @@ const PostPage = () => {
   const { id, studyId, tabNumber } = router.query;
   const currentTab = tabNumber ? +tabNumber : 0;
   const [value, setValue] = useState(currentTab);
+  const [commentList, setCommentList] = useState<CommentsType[]>([]);
 
   // TODO 포스트 상세 정보 가져오기
 
@@ -27,12 +30,13 @@ const PostPage = () => {
     setValue(newValue);
   };
 
-  useEffect(()=>{
-    const getComments = async () => {
-      
-    }
-
-  },[id])
+  useEffect(() => {
+    const getCommentList = async () => {
+      const result = await getComments({ postId: id as string });
+      setCommentList(result.comments);
+    };
+    getCommentList();
+  }, [id]);
 
   const onSubmit = async (content: string) => {
     const result = await postComments({ postId: id as string, content });
