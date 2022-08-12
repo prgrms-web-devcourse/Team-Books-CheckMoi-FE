@@ -109,7 +109,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   };
 
   const handleStudyEditButtonClick = () => {
-    // TODO: 수정 페이지
+    router.push(`/studyEdit/${studyId}`);
   };
 
   const onAccepted = (memberId: string) => {
