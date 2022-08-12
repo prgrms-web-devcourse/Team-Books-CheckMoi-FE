@@ -8,7 +8,7 @@ const PostCreatePage = () => {
   return (
     <PostForm
       state="POST"
-      selectValue={tabNumber ? "GENERAL" : "NOTICE"}
+      selectValue={tabNumber === "1" ? "GENERAL" : "NOTICE"}
       title=""
       content=""
       studyId={Number(studyId)}
