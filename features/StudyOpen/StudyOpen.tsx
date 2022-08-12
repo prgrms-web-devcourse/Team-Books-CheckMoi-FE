@@ -111,17 +111,18 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       const { title: bookTitle } = book;
 
       setStudyInfo({
+        ...studyInfo,
         bookTitle,
         name,
         thumbnail,
         description,
         status: status || "recruiting", // TODO: 에러 핸들링 수정 예정
         maxParticipant,
-        gatherStartDate,
-        gatherEndDate,
-        studyStartDate,
-        studyEndDate,
-      });
+        gatherStartDate: gatherStartDate.replaceAll("/", "-"),
+        gatherEndDate: gatherEndDate.replaceAll("/", "-"),
+        studyStartDate: studyStartDate.replaceAll("/", "-"),
+        studyEndDate: studyEndDate.replaceAll("/", "-"),
+      } as IStudyInfo);
     };
 
     if (!studyId) fetchBookInfo();
