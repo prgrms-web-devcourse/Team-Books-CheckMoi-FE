@@ -10,6 +10,7 @@ interface PostType {
   content: string;
   category: string;
   studyId: number;
+  writerId: number;
   writer: string;
   writerImage: string;
   commentCount: number;
