@@ -36,8 +36,8 @@ const Home = ({ books }: ServerSidePropsType) => {
         autoplay
         pauseOnHover
         speed={500}
-        slidesToShow={width <= 512 ? 2 : 5}
-        slidesToScroll={width <= 512 ? 2 : 5}
+        slidesToShow={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
+        slidesToScroll={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
       >
         {mostStudyBooks.map((book) => (
           <BookCard
@@ -55,8 +55,8 @@ const Home = ({ books }: ServerSidePropsType) => {
         autoplay
         pauseOnHover
         speed={500}
-        slidesToShow={width <= 512 ? 2 : 5}
-        slidesToScroll={width <= 512 ? 2 : 5}
+        slidesToShow={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
+        slidesToScroll={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
       >
         {studyLatestBooks.map((book) => (
           <BookCard

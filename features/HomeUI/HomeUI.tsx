@@ -1,6 +1,9 @@
+import useWindowSize from "../../hooks/useWindowSize";
 import * as S from "./style";
 
 export const HomeUI = () => {
+  const { width } = useWindowSize();
+
   return (
     <S.Container>
       <S.HomeUITextContainer>
@@ -9,8 +12,10 @@ export const HomeUI = () => {
       </S.HomeUITextContainer>
       <S.HomeUIContent>
         <S.HomeUIBook1 src="/images/main_book_1.jpeg" alt="" />
-        <S.HomeUIBook2 src="/images/main_book_2.jpeg" alt="" />
-        <S.HomeUIBook3 src="/images/main_book_3.jpeg" alt="" />
+        {width > 900 && <S.HomeUIBook2 src="/images/main_book_2.jpeg" alt="" />}
+        {width > 1240 && (
+          <S.HomeUIBook3 src="/images/main_book_3.jpeg" alt="" />
+        )}
       </S.HomeUIContent>
     </S.Container>
   );
