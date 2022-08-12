@@ -1,16 +1,19 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Divider, Tabs, Tab, Button } from "@mui/material";
 import * as S from "../../styles/PostStyle";
 import { CommentInput } from "../../components/CommentInput";
+import { postComments } from "../../apis";
 
 // TODO api가 완성되면 Type과 api 작업 필요
 const PostPage = () => {
   const router = useRouter();
 
-  const { studyId, tabNumber } = router.query;
+  const { id, studyId, tabNumber } = router.query;
   const currentTab = tabNumber ? +tabNumber : 0;
   const [value, setValue] = useState(currentTab);
+
+  // TODO 포스트 상세 정보 가져오기
 
   // TODO api 연결 후 지울 변수
   const DATE = "2022/08/05";
@@ -22,6 +25,19 @@ const PostPage = () => {
       query: { tabNumber: newValue },
     });
     setValue(newValue);
+  };
+
+  useEffect(()=>{
+    const getComments = async () => {
+      
+    }
+
+  },[id])
+
+  const onSubmit = async (content: string) => {
+    const result = await postComments({ postId: id as string, content });
+    console.log("result", result);
+    // TODO Result로 댓글 ID가 반환되는데 이것으로 댓글 추가 성공 여부 스낵바 추가
   };
 
   // TODO 현재 로그인한 유저와 게시글을 작성한 유저를 비교해서 동일할 경우 삭제, 수정 버튼 보이기
@@ -146,7 +162,7 @@ const PostPage = () => {
         weeks.
       </S.BoardContent>
       <Divider />
-      <CommentInput />
+      <CommentInput onSubmit={onSubmit} />
       {/* TODO Comment List 출력 */}
     </>
   );

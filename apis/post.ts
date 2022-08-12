@@ -9,19 +9,6 @@ const token =
 interface getPostType {
   studyId: string;
 }
-
-export const getPosts = async ({ studyId }: getPostType) => {
-  const data = await apiClient.get<ResponsePostType[], ResponsePostType[]>(
-    `${END_POINT.posts}?studyId=${studyId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return data;
-};
-
 interface PostType {
   id: number;
   title: string;
@@ -35,12 +22,36 @@ interface PostType {
   updatedAt: string;
 }
 
+export const getPosts = async ({ studyId }: getPostType) => {
+  const data = await apiClient.get<ResponsePostType[], ResponsePostType[]>(
+    `${END_POINT.posts}?studyId=${studyId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data;
+};
+
 interface CreatePostType {
   title: string;
   content: string;
   category: string;
   studyId: number;
 }
+
+export const getPost = async (postId: string) => {
+  const data = await apiClient.get<PostType, PostType>(
+    `${END_POINT.posts}/${postId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data;
+};
 
 export const createPost = async (post: CreatePostType) => {
   const data = await apiClient.post<any, any>(`${END_POINT.posts}`, post, {
