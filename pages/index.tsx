@@ -3,19 +3,19 @@ import { useRouter } from "next/router";
 import { BookCard } from "../components/BookCard";
 import type { BookType } from "../types/bookType";
 import * as S from "../styles/MainPageStyle";
-import { getBooksList } from "../apis";
 import { HomeUI } from "../features/HomeUI";
+import { getBooksByLatestStudy, getBooksByMostStudy } from "../apis/book";
 
 interface ServerSidePropsType {
   books: {
-    latestBooks: BookType[];
     studyLatestBooks: BookType[];
+    mostStudyBooks: BookType[];
   };
 }
 
 const Home = ({ books }: ServerSidePropsType) => {
   const router = useRouter();
-  const { latestBooks, studyLatestBooks } = books;
+  const { studyLatestBooks, mostStudyBooks } = books;
 
   const handleBookCardClick = (id: number) => {
     router.push(`/book/${id}`);
@@ -24,9 +24,9 @@ const Home = ({ books }: ServerSidePropsType) => {
   return (
     <S.MainPageWrapper>
       <HomeUI />
-      <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
+      <S.StyledSpan>가장 많은 스터디가 개설된 책</S.StyledSpan>
       <S.StyledUl>
-        {latestBooks.map((book) => (
+        {mostStudyBooks.map((book) => (
           <S.StyledList key={book.id}>
             <BookCard
               src={book.image}
@@ -59,14 +59,23 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const books = await getBooksList();
-    return { props: { books } };
+    const studyLatestBooks = await getBooksByLatestStudy();
+    const mostStudyBooks = await getBooksByMostStudy();
+
+    return {
+      props: {
+        books: {
+          studyLatestBooks,
+          mostStudyBooks,
+        },
+      },
+    };
   } catch (error) {
     return {
       props: {
         books: {
-          latesBooks: [],
           studyLatestBooks: [],
+          mostStudyBooks: [],
         },
       },
     };
