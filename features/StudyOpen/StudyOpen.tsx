@@ -249,8 +249,6 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       />
     );
 
-  console.log(studyInfo.status);
-
   return (
     <S.EntierContainer>
       <S.UpperContainer>
