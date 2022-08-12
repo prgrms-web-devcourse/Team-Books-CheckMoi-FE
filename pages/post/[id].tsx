@@ -7,6 +7,7 @@ import { getPost } from "../../apis";
 import * as S from "../../styles/PostStyle";
 import { useUserContext } from "../../hooks/useUserContext";
 import { DeleteModal } from "../../features/DeleteModal";
+import { NoAccess } from "../../components/NoAccess";
 
 // TODO 타입 따로 빼기
 interface PostType {
@@ -80,7 +81,7 @@ const PostPage = () => {
 
   return (
     <div>
-      {post.id && (
+      {user && post.id ? (
         <>
           <S.TabsContainer>
             <Tabs value={TabValue} onChange={handleTabChange}>
@@ -146,6 +147,11 @@ const PostPage = () => {
             onClose={handleCloseModal}
           />
         </>
+      ) : (
+        <NoAccess
+          title="이 페이지는 로그인한 사용자만 이용할 수 있습니다."
+          description="책모이에 로그인하시면 다양한 서비스를 이용하실 수 있습니다."
+        />
       )}
       {/* TODO Comment List 출력 */}
     </div>
