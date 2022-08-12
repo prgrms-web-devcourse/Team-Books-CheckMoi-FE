@@ -3,9 +3,10 @@ import { useRouter } from "next/router";
 import { Divider, Tabs, Tab, IconButton, Menu, MenuItem } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import { CommentInput } from "../../components/CommentInput";
-import { delPost, getPost } from "../../apis";
+import { getPost } from "../../apis";
 import * as S from "../../styles/PostStyle";
 import { useUserContext } from "../../hooks/useUserContext";
+import { DeleteModal } from "../../features/DeleteModal";
 
 // TODO 타입 따로 빼기
 interface PostType {
@@ -31,12 +32,14 @@ const PostPage = () => {
   const currentTab = tabNumber ? +tabNumber : 0;
 
   const [TabValue, setTabValue] = useState(currentTab);
-  
+
   const [post, setPost] = useState({} as PostType);
   const [postDate, setPostDate] = useState([] as string[]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -44,6 +47,10 @@ const PostPage = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -68,9 +75,7 @@ const PostPage = () => {
   };
 
   const handleDeleteClick = async () => {
-    alert("정말 삭제하시겠습니까?");
-    router.push(`/study/${studyId}`);
-    await delPost(Number(id));
+    setIsModalOpen(true);
   };
 
   return (
@@ -134,6 +139,12 @@ const PostPage = () => {
           <S.BoardContent>{post.content}</S.BoardContent>
           <Divider />
           <CommentInput />
+          <DeleteModal
+            id={post.id}
+            studyId={post.studyId}
+            open={isModalOpen}
+            onClose={handleCloseModal}
+          />
         </>
       )}
       {/* TODO Comment List 출력 */}
