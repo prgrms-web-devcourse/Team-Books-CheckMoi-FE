@@ -18,6 +18,8 @@ export { getBooksList, getBookInfo, registerBook } from "./book";
 
 export { postImage } from "./image";
 
+export { getPost, createPost, putPost } from "./post";
+
 export {
   getUser,
   putUser,
@@ -26,7 +28,9 @@ export {
   getFinishStudy,
 } from "./user";
 
+
 export {
   getApplicants,
   getApplicantMembers as getNewApplicants,
 } from "./applicant";
+
