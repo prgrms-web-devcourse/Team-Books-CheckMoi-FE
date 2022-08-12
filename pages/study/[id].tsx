@@ -46,7 +46,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   });
 
   useEffect(() => {
-    if (user?.id === members[STUDY_OWNER].id) setIsOwner(true);
+    if (user?.id === userList[STUDY_OWNER].id) setIsOwner(true);
     else setIsOwner(false);
   }, [user]);
 
