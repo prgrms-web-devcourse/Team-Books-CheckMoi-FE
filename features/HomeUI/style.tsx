@@ -3,6 +3,18 @@ import styled from "@emotion/styled";
 export const Container = styled.div`
   height: 32rem;
   display: flex;
+  animation-name: appear;
+  animation-duration: 1.5s;
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+      transform: translateY(-2rem);
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 export const HomeUIContent = styled.div`
