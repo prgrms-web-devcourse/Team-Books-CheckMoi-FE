@@ -26,4 +26,7 @@ export {
   getFinishStudy,
 } from "./user";
 
-export { getApplicants } from "./applicant";
+export {
+  getApplicants,
+  getApplicantMembers as getNewApplicants,
+} from "./applicant";

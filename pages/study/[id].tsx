@@ -5,7 +5,10 @@ import type { SyntheticEvent } from "react";
 import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
 import type { ResponsePostType } from "../../types/postType";
-import type { ApplicantsType } from "../../types/applicantType";
+import type {
+  ApplicantsType,
+  ApplicantMemberType,
+} from "../../types/applicantType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { getStudyDetailInfo } from "../../apis/study";
@@ -16,7 +19,7 @@ import * as S from "../../styles/StudyDetailPageStyle";
 import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
-import { getApplicants } from "../../apis";
+import { getApplicants, getNewApplicants } from "../../apis";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -40,6 +43,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const [tabNumber, setTabNumber] = useState(currentTab);
   const [postList, setPostList] = useState<ResponsePostType[]>([]);
   const [applicantList, setApplicantList] = useState<ApplicantsType[]>([]);
+  const [applicantMemberList, setApplicantMemberList] = useState<
+    ApplicantMemberType[]
+  >([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useUserContext();
@@ -70,6 +76,17 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         setApplicantList(getList);
       }
     };
+
+    const getApplicantMemberList = async () => {
+      if (studyId) {
+        const getList = await getNewApplicants({
+          studyId: studyId as string,
+          token,
+        });
+        setApplicantMemberList(getList.member);
+      }
+    };
+
     getPostList();
     getApplicantList();
   }, [studyId]);
@@ -95,6 +112,13 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     // TODO: 수정 페이지
   };
 
+  const onAccepted = (memberId: string) => {
+    console.log("memberId:", memberId);
+  };
+  const onDenied = (memberId: string) => {
+    console.log("memberId:", memberId);
+  };
+
   return user && isStudyMember ? (
     <>
       <StudyDetailCard study={study} members={members} />
@@ -106,7 +130,11 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         <S.ButtonsWrapper>
           {isOwner && (
             <>
-              <ApplicantList applicantList={applicantList} />
+              <ApplicantList
+                applicantList={applicantList}
+                onAccepted={onAccepted}
+                onDenied={onDenied}
+              />
               <Button variant="contained" onClick={handleStudyEditButtonClick}>
                 스터디 정보 수정
               </Button>
