@@ -75,7 +75,7 @@ export const PostForm = ({
           disabled={!isOwner}
         >
           <MenuItem value="NOTICE">공지</MenuItem>
-          <MenuItem value="GENERIC">자유</MenuItem>
+          <MenuItem value="GENERAL">자유</MenuItem>
         </S.StyledSelect>
         <S.StyledTextField
           name="title"
