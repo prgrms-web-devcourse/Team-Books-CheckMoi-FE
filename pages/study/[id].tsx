@@ -62,7 +62,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   useEffect(() => {
     const getPostList = async () => {
       if (studyId) {
-        const getList = await getPosts({ studyId: studyId as string, token });
+        const getList = await getPosts({ studyId: studyId as string });
         setPostList(getList);
       }
     };
