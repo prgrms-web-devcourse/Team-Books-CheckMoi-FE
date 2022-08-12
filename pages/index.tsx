@@ -4,6 +4,7 @@ import { BookCard } from "../components/BookCard";
 import type { BookType } from "../types/bookType";
 import * as S from "../styles/MainPageStyle";
 import { getBooksList } from "../apis";
+import { HomeUI } from "../features/HomeUI";
 
 interface ServerSidePropsType {
   books: {
@@ -22,6 +23,7 @@ const Home = ({ books }: ServerSidePropsType) => {
 
   return (
     <S.MainPageWrapper>
+      <HomeUI />
       <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
       <S.StyledUl>
         {latestBooks.map((book) => (
