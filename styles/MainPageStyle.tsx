@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
+import { BookCard } from "../components";
 
-export const MainPageWrapper = styled("div")`
+export const MainPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -9,7 +10,7 @@ export const MainPageWrapper = styled("div")`
   }
 `;
 
-export const StyledUl = styled("ul")`
+export const StyledUl = styled.ul`
   list-style: none;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -22,14 +23,25 @@ export const StyledUl = styled("ul")`
   }
 `;
 
-export const StyledList = styled("li")`
+export const StyledList = styled.li`
   justify-self: center;
   &:hover {
     transform: scale(1.05) translateY(-10px);
   }
 `;
 
-export const StyledSpan = styled("span")`
+export const StyledSpan = styled.span`
   font-size: 1.5rem;
   font-weight: bold;
+`;
+
+interface BookCardProps {
+  src: string;
+  title: string;
+  size: number;
+  onClick: () => void;
+}
+
+export const BookCardTest = styled(BookCard)<BookCardProps>`
+  border: 1px solid red;
 `;

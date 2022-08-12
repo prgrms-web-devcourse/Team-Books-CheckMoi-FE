@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+
 import { Button, Typography } from "@mui/material";
 
 export const EntierContainer = styled.div`

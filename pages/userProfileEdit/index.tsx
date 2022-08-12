@@ -3,28 +3,25 @@ import { useRouter } from "next/router";
 import { Badge } from "@mui/material";
 import { CameraAlt } from "@mui/icons-material";
 import { postImage, putUser } from "../../apis";
+import {
+  useUserContext,
+  useUserActionContext,
+} from "../../hooks/useUserContext";
+import { getMyInfo } from "../../apis/user";
 import * as S from "../../styles/UserProfileEditStyle";
 
-interface UserProfileProps {
-  id: string;
-  name: string;
-  email: string;
-  profileImageUrl: string;
-}
-
-const UserProfileEditPage = ({
-  id = "7",
-  name = "사용자 이름",
-  email = "1234@naver.com",
-  profileImageUrl = "",
-}: UserProfileProps) => {
-  const [image, setImage] = useState(profileImageUrl);
-  const [imageUrl, setImageUrl] = useState("");
-  const [username, setUserName] = useState(name);
-  const imageRef = useRef<HTMLInputElement>(null);
+const UserProfileEditPage = () => {
   const router = useRouter();
+  const { user } = useUserContext();
+  const { login } = useUserActionContext();
   const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9MT0dJTiIsInVzZXJJZCI6NywiaWF0IjoxNjU5OTM1MjY2LCJleHAiOjE2NTk5Mzg4NjZ9.6jttoMhex-ylHnqF5W4MXLgYy7sU_0vA8FX5Ulf0cSU";
+    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
+
+  const [image, setImage] = useState(user ? user.image : "");
+  const [imageUrl, setImageUrl] = useState("");
+  const [username, setUserName] = useState(user ? user.name : "");
+  const [isUserExist, setIsUserExist] = useState(false);
+  const imageRef = useRef<HTMLInputElement>(null);
 
   const handleChangeImage = async (e: any) => {
     const reader = new FileReader();
@@ -32,7 +29,7 @@ const UserProfileEditPage = ({
     if (file) {
       reader.readAsDataURL(file);
       reader.onload = () => setImage(reader.result as string);
-      const imageData = await postImage({token, file});
+      const imageData = await postImage({ token, file });
       setImageUrl(imageData);
     }
   };
@@ -46,54 +43,76 @@ const UserProfileEditPage = ({
   };
 
   const handleUserInfoUpdate = async () => {
-    await putUser({ id, name: username, image: imageUrl, token });
-    router.push(`/userProfile/${id}`);
+    const { id } = router.query;
+    if (id) {
+      await putUser({
+        id: id.toString(),
+        name: username,
+        image: imageUrl,
+        token,
+      });
+
+      const updateUser = await getMyInfo(token);
+      login(updateUser);
+      router.push(`/userProfile/${id}`);
+    }
   };
 
   useEffect(() => {
     setImageUrl(image);
   }, [image]);
 
+  useEffect(() => {
+    if (user) setIsUserExist(true);
+  }, [user]);
+
   return (
     <S.Container>
-      <input
-        ref={imageRef}
-        type="file"
-        accept="image/*"
-        onChange={handleChangeImage}
-        style={{ display: "none" }}
-      />
-      <S.UserProfileImage onClick={handleClickInput}>
-        <Badge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          badgeContent={
-            <S.SmallAvatar>
-              <CameraAlt />
-            </S.SmallAvatar>
-          }
-        >
-          <S.StyledAvatar src={image} />
-        </Badge>
-      </S.UserProfileImage>
-      <S.StyledTextField
-        value={username}
-        id="fullWidth"
-        label="이름"
-        onChange={handleNameChange}
-      />
-      <S.StyledTextField
-        disabled
-        id="fullWidth"
-        label="이메일"
-        defaultValue={email}
-      />
-      <S.ButtonContainer>
-        <S.StyledButton variant="contained" onClick={handleUserInfoUpdate}>
-          수정하기
-        </S.StyledButton>
-        <S.StyledButton variant="contained">뒤로가기</S.StyledButton>
-      </S.ButtonContainer>
+      {isUserExist ? (
+        <>
+          {" "}
+          <input
+            ref={imageRef}
+            type="file"
+            accept="image/*"
+            onChange={handleChangeImage}
+            style={{ display: "none" }}
+          />
+          <S.UserProfileImage onClick={handleClickInput}>
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              badgeContent={
+                <S.SmallAvatar>
+                  <CameraAlt />
+                </S.SmallAvatar>
+              }
+            >
+              <S.StyledAvatar src={image} />
+            </Badge>
+          </S.UserProfileImage>
+          <S.StyledTextField
+            value={username}
+            id="fullWidth"
+            label="이름"
+            onChange={handleNameChange}
+          />
+          <S.StyledTextField
+            disabled
+            id="fullWidth"
+            label="이메일"
+            defaultValue={user ? user.email : ""}
+          />
+          <S.ButtonContainer>
+            <S.StyledButton variant="contained" onClick={handleUserInfoUpdate}>
+              수정하기
+            </S.StyledButton>
+            <S.StyledButton variant="contained">뒤로가기</S.StyledButton>
+          </S.ButtonContainer>
+        </>
+      ) : (
+        <div>접근 불가한 페이지입니다.</div>
+      )}
     </S.Container>
   );
 };

@@ -1,27 +1,43 @@
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useRouter } from "next/router";
-import { Divider, Tabs, Tab } from "@mui/material";
+import { Divider, Tabs, Tab, Button } from "@mui/material";
 import * as S from "../../styles/PostStyle";
+import { CommentInput } from "../../components/CommentInput";
 
 // TODO api가 완성되면 Type과 api 작업 필요
 const PostPage = () => {
-  // TODO StudyDetail 페이지에서 value 쿼리 전달받아서 저장해야함
-  const [value, setValue] = useState(0);
   const router = useRouter();
+
+  const { studyId, tabNumber } = router.query;
+  const currentTab = tabNumber ? +tabNumber : 0;
+  const [value, setValue] = useState(currentTab);
+
   // TODO api 연결 후 지울 변수
   const DATE = "2022/08/05";
   const [year, month, day] = DATE.split("/");
 
-  const handleClickTab = () => {
-    router.push({ pathname: "/studyDetail", query: { value } });
+  const handleTabChange = (e: SyntheticEvent, newValue: number) => {
+    router.push({
+      pathname: `/study/${studyId}`,
+      query: { tabNumber: newValue },
+    });
+    setValue(newValue);
   };
+
+  // TODO 현재 로그인한 유저와 게시글을 작성한 유저를 비교해서 동일할 경우 삭제, 수정 버튼 보이기
+
   return (
     <>
-      <Tabs value={value}>
-        <Tab label="공지" onClick={handleClickTab} />
-        <Tab label="자유" onClick={handleClickTab} />
-        <Tab label="관리자" disabled onClick={handleClickTab} />
-      </Tabs>
+      <S.TabsContainer>
+        <Tabs value={value} onChange={handleTabChange}>
+          <Tab label="공지" />
+          <Tab label="자유" />
+        </Tabs>
+        <S.ButtonsContainer>
+          <Button variant="contained">수정</Button>
+          <Button variant="contained">삭제</Button>
+        </S.ButtonsContainer>
+      </S.TabsContainer>
       <S.BoardTitle>Legal Abortion Is Not a Polarizing Issue</S.BoardTitle>
       <S.BoardInfo>
         <S.StyledAvatar src="https://i.picsum.photos/id/962/200/300.jpg?hmac=wvuv8EVOoNE5J3sBkBx-1wcVHNbgJ_Z1dS98YhnShjM" />
@@ -130,6 +146,8 @@ const PostPage = () => {
         weeks.
       </S.BoardContent>
       <Divider />
+      <CommentInput />
+      {/* TODO Comment List 출력 */}
     </>
   );
 };
