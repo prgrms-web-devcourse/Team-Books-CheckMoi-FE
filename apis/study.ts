@@ -1,7 +1,6 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
 import type { StudyDetailType, StudyType } from "../types/studyType";
-import { dummyToken } from "../commons/dummy";
 
 interface ResponseStudiesType {
   studiesData: StudyType[];

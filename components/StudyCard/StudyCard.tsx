@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { MouseEventHandler } from "react";
 import { StudyType } from "../../types/studyType";
 import * as S from "./style";
-import { dummyStudy } from "../../commons/dummy";
 
 interface StudyCardProps {
   study: StudyType;
@@ -10,11 +9,7 @@ interface StudyCardProps {
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
-export const StudyCard = ({
-  size = 128,
-  study = dummyStudy,
-  onClick,
-}: StudyCardProps) => {
+export const StudyCard = ({ size = 128, study, onClick }: StudyCardProps) => {
   const {
     thumbnail,
     name,
