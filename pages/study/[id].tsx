@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
-import type { SyntheticEvent } from "react";
-import { Tabs, Tab, Button } from "@mui/material";
-import type { GetServerSideProps } from "next/types";
 import { useRouter } from "next/router";
+import { Tabs, Tab, Button, Typography } from "@mui/material";
+import type { SyntheticEvent } from "react";
+import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
+import type { ResponsePostType } from "../../types/postType";
+import type {
+  ApplicantsType,
+  ApplicantMemberType,
+} from "../../types/applicantType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { getStudyDetailInfo } from "../../apis/study";
@@ -13,6 +18,8 @@ import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "../../styles/StudyDetailPageStyle";
 import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
+import { getPosts } from "../../apis/post";
+import { getApplicants, getNewApplicants } from "../../apis";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -23,16 +30,26 @@ const NOTICE_BOARD_TAB = 0;
 const FREE_BOARD_TAB = 1;
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
+  // TODO 토큰 가져와서 API 요청하기
   const { study, members } = studyData;
 
   const router = useRouter();
   const { id: studyId, tabNumber: tabValue } = router.query;
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
-  const [tabNumber, setTabNumber] = useState(currentTab);
 
+  const token =
+    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
+
+  const [tabNumber, setTabNumber] = useState(currentTab);
+  const [postList, setPostList] = useState<ResponsePostType[]>([]);
+  const [applicantList, setApplicantList] = useState<ApplicantsType[]>([]);
+  const [applicantMemberList, setApplicantMemberList] = useState<
+    ApplicantMemberType[]
+  >([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useUserContext();
+
   const membersIdList = members.map((member) => {
     return member.id;
   });
@@ -41,6 +58,38 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     if (user?.id === members[STUDY_OWNER].id) setIsOwner(true);
     else setIsOwner(false);
   }, [user]);
+
+  useEffect(() => {
+    const getPostList = async () => {
+      if (studyId) {
+        const getList = await getPosts({ studyId: studyId as string });
+        setPostList(getList);
+      }
+    };
+
+    const getApplicantList = async () => {
+      if (studyId) {
+        const getList = await getApplicants({
+          studyId: studyId as string,
+          token,
+        });
+        setApplicantList(getList);
+      }
+    };
+
+    const getApplicantMemberList = async () => {
+      if (studyId) {
+        const getList = await getNewApplicants({
+          studyId: studyId as string,
+          token,
+        });
+        setApplicantMemberList(getList.member);
+      }
+    };
+
+    getPostList();
+    getApplicantList();
+  }, [studyId]);
 
   const isStudyMember = membersIdList.includes(user?.id as string);
 
@@ -60,7 +109,14 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   };
 
   const handleStudyEditButtonClick = () => {
-    // TODO: 수정 페이지
+    router.push(`/studyEdit/${studyId}`);
+  };
+
+  const onAccepted = (memberId: string) => {
+    console.log("memberId:", memberId);
+  };
+  const onDenied = (memberId: string) => {
+    console.log("memberId:", memberId);
   };
 
   return user && isStudyMember ? (
@@ -74,7 +130,11 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         <S.ButtonsWrapper>
           {isOwner && (
             <>
-              <ApplicantList />
+              <ApplicantList
+                applicantList={applicantList}
+                onAccepted={onAccepted}
+                onDenied={onDenied}
+              />
               <Button variant="contained" onClick={handleStudyEditButtonClick}>
                 스터디 정보 수정
               </Button>
@@ -91,18 +151,24 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       </S.TabsContainer>
 
       <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList
-              key={post.id}
-              onClick={() => {
-                handlePostClick(+post.id);
-              }}
-            >
-              <PostCard post={post} />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
+        {postList.length !== 0 ? (
+          <S.StyledUl>
+            {postList?.map((post) => (
+              <S.StyledList
+                key={post.id}
+                onClick={() => {
+                  handlePostClick(+post.id);
+                }}
+              >
+                <PostCard post={post} />
+              </S.StyledList>
+            ))}
+          </S.StyledUl>
+        ) : (
+          <S.NoPost>
+            <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
+          </S.NoPost>
+        )}
       </TabPanel>
       <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
         <S.StyledUl>

@@ -1,6 +1,6 @@
-import type { PostType } from "../types/postType";
+import type { PostPropsType } from "../types/postType";
 
-export const DummyPost: PostType[] = [
+export const DummyPost: PostPropsType[] = [
   {
     id: "1",
     title: "Dummy Post1",

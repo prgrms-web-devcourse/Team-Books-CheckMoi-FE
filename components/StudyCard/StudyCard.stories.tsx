@@ -1,5 +1,5 @@
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { StudyCard } from ".";
+import { StudyCard, StudyCardSkeleton } from ".";
 
 export default {
   title: "Components/StudyCard",
@@ -12,3 +12,8 @@ const Template: ComponentStory<typeof StudyCard> = (args) => {
 };
 
 export const Default = Template.bind({});
+
+const SkeletonTemplate: ComponentStory<typeof StudyCardSkeleton> = (args) => {
+  return <StudyCardSkeleton {...args} />;
+};
+export const Skeleton = SkeletonTemplate.bind({});

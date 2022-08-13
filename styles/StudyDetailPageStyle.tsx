@@ -30,3 +30,9 @@ export const StyledList = styled.li`
     transform: scale(1.05) translateY(-10px);
   }
 `;
+
+export const NoPost = styled.div`
+  width: 100%;
+  margin-top: 5rem;
+  text-align: center;
+`;
