@@ -4,22 +4,16 @@ import { Tabs, Tab, Button, Typography } from "@mui/material";
 import type { SyntheticEvent } from "react";
 import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
-import type { ResponsePostType } from "../../types/postType";
-import type {
-  ApplicantsType,
-  ApplicantMemberType,
-} from "../../types/applicantType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
-import { getStudyDetailInfo } from "../../apis/study";
 import { PostCard } from "../../components/PostCard";
 import { DummyPost } from "../../commons/dummyPost";
 import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "../../styles/StudyDetailPageStyle";
-import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
-import { getApplicants, getNewApplicants } from "../../apis";
+import { PostsType } from "../../types/postType";
+import { getStudyDetailInfo } from "../../apis/study";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -33,62 +27,48 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   // TODO 토큰 가져와서 API 요청하기
   const { study, members } = studyData;
 
+  const userList = members.map((member) => {
+    return member.user;
+  });
+
   const router = useRouter();
   const { id: studyId, tabNumber: tabValue } = router.query;
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
 
-  const token =
-    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
-
   const [tabNumber, setTabNumber] = useState(currentTab);
-  const [postList, setPostList] = useState<ResponsePostType[]>([]);
-  const [applicantList, setApplicantList] = useState<ApplicantsType[]>([]);
-  const [applicantMemberList, setApplicantMemberList] = useState<
-    ApplicantMemberType[]
-  >([]);
+  const [noticePostList, setNoticePostList] = useState<PostsType[]>([]);
+  const [generalPostList, setGeneralPostList] = useState<PostsType[]>([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useUserContext();
 
-  const membersIdList = members.map((member) => {
+  const membersIdList = userList.map((member) => {
     return member.id;
   });
 
   useEffect(() => {
-    if (user?.id === members[STUDY_OWNER].id) setIsOwner(true);
+    if (user?.id === userList[STUDY_OWNER].id) setIsOwner(true);
     else setIsOwner(false);
   }, [user]);
 
   useEffect(() => {
     const getPostList = async () => {
       if (studyId) {
-        const getList = await getPosts({ studyId: studyId as string });
-        setPostList(getList);
-      }
-    };
-
-    const getApplicantList = async () => {
-      if (studyId) {
-        const getList = await getApplicants({
-          studyId: studyId as string,
-          token,
+        const getNoticeList = await getPosts({
+          studyId: Number(studyId),
+          category: "NOTICE",
         });
-        setApplicantList(getList);
-      }
-    };
+        setNoticePostList(getNoticeList.posts);
 
-    const getApplicantMemberList = async () => {
-      if (studyId) {
-        const getList = await getNewApplicants({
-          studyId: studyId as string,
-          token,
+        const getGeneralList = await getPosts({
+          studyId: Number(studyId),
+          category: "GENERAL",
         });
-        setApplicantMemberList(getList.member);
+        setGeneralPostList(getGeneralList.posts);
       }
     };
 
     getPostList();
-    getApplicantList();
   }, [studyId]);
 
   const isStudyMember = membersIdList.includes(user?.id as string);
@@ -105,23 +85,19 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   };
 
   const handleWriteButtonClick = () => {
-    router.push(`/postCreate`, { query: { tabNumber } });
+    router.push({
+      pathname: `/postCreate`,
+      query: { tabNumber, studyId, isOwner },
+    });
   };
 
   const handleStudyEditButtonClick = () => {
     router.push(`/studyEdit/${studyId}`);
   };
 
-  const onAccepted = (memberId: string) => {
-    console.log("memberId:", memberId);
-  };
-  const onDenied = (memberId: string) => {
-    console.log("memberId:", memberId);
-  };
-
   return user && isStudyMember ? (
     <>
-      <StudyDetailCard study={study} members={members} />
+      <StudyDetailCard study={study} members={userList} />
       <S.TabsContainer>
         <Tabs value={tabNumber} onChange={handleTabChange}>
           <Tab label="공지" />
@@ -129,16 +105,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         </Tabs>
         <S.ButtonsWrapper>
           {isOwner && (
-            <>
-              <ApplicantList
-                applicantList={applicantList}
-                onAccepted={onAccepted}
-                onDenied={onDenied}
-              />
-              <Button variant="contained" onClick={handleStudyEditButtonClick}>
-                스터디 정보 수정
-              </Button>
-            </>
+            <Button variant="contained" onClick={handleStudyEditButtonClick}>
+              스터디 정보 수정
+            </Button>
           )}
           {tabNumber === NOTICE_BOARD_TAB && !isOwner ? (
             ""
@@ -151,9 +120,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       </S.TabsContainer>
 
       <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
-        {postList.length !== 0 ? (
+        {noticePostList.length !== 0 ? (
           <S.StyledUl>
-            {postList?.map((post) => (
+            {noticePostList?.map((post) => (
               <S.StyledList
                 key={post.id}
                 onClick={() => {
@@ -171,18 +140,24 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         )}
       </TabPanel>
       <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList
-              key={post.id}
-              onClick={() => {
-                handlePostClick(+post.id);
-              }}
-            >
-              <PostCard post={post} />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
+        {generalPostList.length !== 0 ? (
+          <S.StyledUl>
+            {generalPostList?.map((post) => (
+              <S.StyledList
+                key={post.id}
+                onClick={() => {
+                  handlePostClick(+post.id);
+                }}
+              >
+                <PostCard post={post} />
+              </S.StyledList>
+            ))}
+          </S.StyledUl>
+        ) : (
+          <S.NoPost>
+            <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
+          </S.NoPost>
+        )}
       </TabPanel>
     </>
   ) : user ? (

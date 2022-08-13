@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { getPost } from "../../apis";
 import { PostForm } from "../../features";
 
+// TODO 타입 따로 빼기
 interface PostType {
   id: number;
   title: string;
   content: string;
   category: string;
   studyId: number;
+  writerId: number;
   writer: string;
   writerImage: string;
   commentCount: number;
