@@ -44,6 +44,8 @@ export const Comment = ({
   const handleClick = (e: MouseEvent<HTMLElement>) => {
     setAncorEl(e.currentTarget);
   };
+
+  const [year, month, day] = commentProps.updatedAt.split("/");
   const handleClose = () => {
     setAncorEl(null);
   };
@@ -102,7 +104,12 @@ export const Comment = ({
         <Avatar src={commentProps.userImage} />
       </S.UserWrapper>
       <S.ContentWrapper>
-        <Typography>{commentProps.userName}</Typography>
+        <S.UserInfo>
+          <Typography>{commentProps.userName}</Typography>
+          <span>
+            {year}년 {month}월 {day}일
+          </span>
+        </S.UserInfo>
         {!isEditMode ? (
           <Typography>{currentValue}</Typography>
         ) : (

@@ -30,3 +30,13 @@ export const StyledMenu = styled.div`
   flex-shrink: 1;
   right: 0;
 `;
+
+export const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  span {
+    font-size: 0.5rem;
+    color: #a9a9a9;
+  }
+`;
