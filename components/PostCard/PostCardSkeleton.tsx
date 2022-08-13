@@ -8,7 +8,7 @@ interface PostCardSkeletonProps {
 
 export const PostCardSkeleton = ({ size = 20 }: PostCardSkeletonProps) => {
   return (
-    <S.PostCard size={size}>
+    <S.PostCard>
       <Skeleton variant="rectangular" height="21px" />
       <div style={{ marginTop: "0.5rem", height: "4rem" }}>
         <Skeleton variant="rectangular" height="100%" />
