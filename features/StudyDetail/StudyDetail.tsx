@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Divider,
   CircularProgress as CircularLoading,
+  Box,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import type { StudyType } from "../../types/studyType";
@@ -119,7 +120,15 @@ export const StudyDetail = ({
           </LoginRequestModal.Container>
         </>
       ) : (
-        <CircularLoading />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItem: "center",
+          }}
+        >
+          <CircularLoading />
+        </Box>
       )}
     </div>
   );
