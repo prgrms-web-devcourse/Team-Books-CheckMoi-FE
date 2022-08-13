@@ -1,20 +1,27 @@
 import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import Slider from "react-slick";
 import { BookCard } from "../components/BookCard";
 import type { BookType } from "../types/bookType";
 import * as S from "../styles/MainPageStyle";
-import { getBooksList } from "../apis";
+import { HomeUI } from "../features/HomeUI";
+import { getBooksByLatestStudy, getBooksByMostStudy } from "../apis/book";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import useWindowSize from "../hooks/useWindowSize";
 
 interface ServerSidePropsType {
   books: {
-    latestBooks: BookType[];
     studyLatestBooks: BookType[];
+    mostStudyBooks: BookType[];
   };
 }
 
 const Home = ({ books }: ServerSidePropsType) => {
   const router = useRouter();
-  const { latestBooks, studyLatestBooks } = books;
+  const { studyLatestBooks, mostStudyBooks } = books;
+
+  const { width } = useWindowSize();
 
   const handleBookCardClick = (id: number) => {
     router.push(`/book/${id}`);
@@ -22,33 +29,49 @@ const Home = ({ books }: ServerSidePropsType) => {
 
   return (
     <S.MainPageWrapper>
-      <S.StyledSpan>가장 최근 추가된 책</S.StyledSpan>
-      <S.StyledUl>
-        {latestBooks.map((book) => (
-          <S.StyledList key={book.id}>
-            <BookCard
-              src={book.image}
-              title={book.title}
-              size={10}
-              onClick={() => handleBookCardClick(book.id)}
-            />
-          </S.StyledList>
+      <HomeUI />
+      <S.StyledSpan>가장 많은 스터디가 개설된 책</S.StyledSpan>
+      <Slider
+        dots
+        autoplay
+        infinite
+        pauseOnHover
+        autoplaySpeed={4000}
+        speed={2000}
+        slidesToShow={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
+        slidesToScroll={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
+      >
+        {mostStudyBooks.map((book) => (
+          <BookCard
+            key={book.id}
+            src={book.image}
+            title={book.title}
+            size={10}
+            onClick={() => handleBookCardClick(book.id)}
+          />
         ))}
-      </S.StyledUl>
-
+      </Slider>
       <S.StyledSpan>가장 최근 스터디가 만들어진 책</S.StyledSpan>
-      <S.StyledUl>
+      <Slider
+        dots
+        autoplay
+        infinite
+        pauseOnHover
+        autoplaySpeed={4000}
+        speed={2000}
+        slidesToShow={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
+        slidesToScroll={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
+      >
         {studyLatestBooks.map((book) => (
-          <S.StyledList key={book.id}>
-            <BookCard
-              src={book.image}
-              title={book.title}
-              size={10}
-              onClick={() => handleBookCardClick(book.id)}
-            />
-          </S.StyledList>
+          <BookCard
+            key={book.id}
+            src={book.image}
+            title={book.title}
+            size={10}
+            onClick={() => handleBookCardClick(book.id)}
+          />
         ))}
-      </S.StyledUl>
+      </Slider>
     </S.MainPageWrapper>
   );
 };
@@ -57,14 +80,23 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const books = await getBooksList();
-    return { props: { books } };
+    const { books: studyLatestBooks } = await getBooksByLatestStudy();
+    const { books: mostStudyBooks } = await getBooksByMostStudy();
+
+    return {
+      props: {
+        books: {
+          studyLatestBooks,
+          mostStudyBooks,
+        },
+      },
+    };
   } catch (error) {
     return {
       props: {
         books: {
-          latesBooks: [],
           studyLatestBooks: [],
+          mostStudyBooks: [],
         },
       },
     };

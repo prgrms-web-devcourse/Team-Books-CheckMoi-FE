@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Card } from "@mui/material";
+import { Card, Skeleton } from "@mui/material";
 import Button from "@mui/material/Button";
 
 export const BookDetailCard = styled(Card)`
@@ -79,4 +79,24 @@ export const StyledButton = styled(Button)`
     position: relative;
     margin-bottom: 1rem;
   }
+`;
+
+export const ButtonSkeleton = styled(Skeleton)`
+  height: 2rem;
+  margin-top: 1rem;
+`;
+
+interface TextSkeletonWrapperProps {
+  width: string;
+  height: string;
+}
+
+export const TextSkeletonWrapper = styled.div<TextSkeletonWrapperProps>`
+  padding: 0.5rem;
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+`;
+
+export const FullHeightSkeleton = styled(Skeleton)`
+  height: 100%;
 `;

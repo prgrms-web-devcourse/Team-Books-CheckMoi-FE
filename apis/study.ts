@@ -37,11 +37,40 @@ export interface ICreateStudy {
   token: string;
 }
 
-// TODO: studyType
 export const createStudy = async ({ newStudyInfo, token }: ICreateStudy) => {
   const data = await apiClient.post<number, number>(
     `${END_POINT.studies}`,
     JSON.stringify(newStudyInfo),
+    {
+      headers: {
+        Authorization: `bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  return data;
+};
+
+interface IUpdateStudy {
+  studyId: string;
+  newStudyInfo: {
+    name: string;
+    thumbnail: string;
+    description: string;
+    status: string;
+  };
+  token: string;
+}
+
+export const updateStudy = async ({
+  studyId,
+  newStudyInfo,
+  token,
+}: IUpdateStudy) => {
+  const data = await apiClient.put<number, number>(
+    `${END_POINT.studies}/${studyId}`,
+    { ...newStudyInfo },
     {
       headers: {
         Authorization: `bearer ${token}`,

@@ -50,3 +50,9 @@ export const PostUserWarpper = styled.div`
   align-items: center;
   gap: 0.5rem;
 `;
+
+export const PostCardWriterSkeleton = styled.div`
+  flex-shrink: 0;
+  width: 10rem;
+  height: 19px;
+`;

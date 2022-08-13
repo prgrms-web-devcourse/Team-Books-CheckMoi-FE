@@ -10,6 +10,7 @@ export const END_POINT = {
   isbnBook: "/books/isbn",
   posts: "/posts",
   applicants: "/studies",
+  v2_books: "/v2/books",
 };
 
 export { getNaverBooks } from "./naver";
@@ -27,6 +28,13 @@ export {
   getPartiStudy,
   getFinishStudy,
 } from "./user";
+
+export {
+  getStudies,
+  getStudyDetailInfo,
+  createStudy,
+  updateStudy,
+} from "./study";
 
 export {
   getApplicantMembers,
