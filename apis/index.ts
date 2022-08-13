@@ -30,6 +30,13 @@ export {
 } from "./user";
 
 export {
+  getStudies,
+  getStudyDetailInfo,
+  createStudy,
+  updateStudy,
+} from "./study";
+
+export {
   getApplicants,
   getApplicantMembers as getNewApplicants,
 } from "./applicant";

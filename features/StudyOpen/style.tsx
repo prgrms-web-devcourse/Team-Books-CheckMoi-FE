@@ -42,6 +42,8 @@ export const ThumbnailContainer = styled.div`
 
 export const ThumbnailForm = styled.form`
   width: 524px;
+
+  padding-left: 1rem;
 `;
 
 export const ThumbnailTypo = styled(Typography)`
