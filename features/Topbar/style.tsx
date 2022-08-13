@@ -3,7 +3,7 @@ import { AutoStories } from "@mui/icons-material";
 import styled from "@emotion/styled";
 
 export const StyledAppbar = styled(AppBar)`
-  background-color: green;
+  background-color: #5b9ad9;
 `;
 
 export const LogoIcon = styled(AutoStories)`
