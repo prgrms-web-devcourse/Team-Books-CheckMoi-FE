@@ -20,3 +20,8 @@ export interface NaverBookResponseType {
   start: number;
   total: number;
 }
+
+export interface V2BookType {
+  books: BookType[];
+  totalPage: number;
+}
