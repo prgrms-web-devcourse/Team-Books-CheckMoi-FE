@@ -247,6 +247,10 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     };
   };
 
+  const handleBackClick = () => {
+    router.back();
+  };
+
   if (!user)
     return (
       <NoAccess
@@ -450,6 +454,9 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       </S.LowerContainer>
       <S.StudyOpenButton variant="outlined" onClick={handleOpenClick}>
         {studyId ? "스터디 수정하기" : "스터디 개설하기"}
+      </S.StudyOpenButton>
+      <S.StudyOpenButton variant="outlined" onClick={handleBackClick}>
+        뒤로가기
       </S.StudyOpenButton>
     </S.EntierContainer>
   );
