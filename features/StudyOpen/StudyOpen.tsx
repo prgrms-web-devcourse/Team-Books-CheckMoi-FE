@@ -378,11 +378,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
             <TextField
               select
               fullWidth
-              disabled={
-                !studyId ||
-                studyInfo.status === "inProgress" ||
-                studyInfo.status === "finished"
-              }
+              disabled={!studyId || studyInfo.status !== "recruiting"}
               name="status"
               variant="standard"
               label="스터디 모집 상태"
