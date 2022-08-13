@@ -5,33 +5,28 @@ import { Divider, Tabs, Tab, IconButton, Menu, MenuItem } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import { CommentInput } from "../../components/CommentInput";
 import { Comment } from "../../components/Comment";
-import { postComments, getComments } from "../../apis";
+import { postComments, getComments, getPost } from "../../apis";
 import type { CommentsType } from "../../types/commentType";
+import type { PostsType } from "../../types/postType";
 import { getMyInfo } from "../../apis/user";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
-import { getPost } from "../../apis";
 import { useUserContext } from "../../hooks/useUserContext";
 import { DeleteModal } from "../../features/DeleteModal";
 import { NoAccess } from "../../components/NoAccess";
 import * as S from "../../styles/PostStyle";
 
-
 const PostPage = () => {
   const router = useRouter();
-
   const { id, studyId, tabNumber } = router.query;
   const currentTab = tabNumber ? +tabNumber : 0;
-  const [value, setValue] = useState(currentTab);
   const [commentList, setCommentList] = useState<CommentsType[]>([]);
   const [currentUserId, setCurrentUserId] = useState("");
   const { renderSnackbar } = useOurSnackbar();
   const { user } = useUserContext();
-  // TODO 포스트 상세 정보 가져오기
-
 
   const [TabValue, setTabValue] = useState(currentTab);
 
-  const [post, setPost] = useState({} as PostType);
+  const [post, setPost] = useState({} as PostsType);
   const [postDate, setPostDate] = useState([] as string[]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -61,6 +56,7 @@ const PostPage = () => {
   }, []);
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
+    console.log("newValue", newValue);
     router.push({
       pathname: `/study/${studyId}`,
       query: { tabNumber: newValue },
@@ -83,8 +79,8 @@ const PostPage = () => {
   useEffect(() => {
     const getCurrentUser = async () => {
       const token = document.cookie.split("=")[1];
-      const user = await getMyInfo(token);
-      setCurrentUserId(user.id);
+      const currentUser = await getMyInfo(token);
+      setCurrentUserId(currentUser.id);
     };
     getCurrentUser();
   }, []);
@@ -173,7 +169,7 @@ const PostPage = () => {
             <Divider />
             <S.BoardContent>{post.content}</S.BoardContent>
             <Divider />
-            <CommentInput />
+            <CommentInput onCreateComment={onCreateComment} />
             <DeleteModal
               id={post.id}
               studyId={post.studyId}

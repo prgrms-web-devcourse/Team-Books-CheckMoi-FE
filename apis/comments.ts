@@ -2,8 +2,6 @@ import { apiClient } from "./api";
 import { END_POINT } from ".";
 import { ResponseCommentsType } from "../types/commentType";
 
-const token = document.cookie.split("=")[1];
-
 interface getCommentProps {
   postId: string;
 }
@@ -23,6 +21,7 @@ interface putCommentProps {
 }
 
 export const getComments = async ({ postId }: getCommentProps) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.get<ResponseCommentsType, ResponseCommentsType>(
     `${END_POINT.comments}/?postId=${postId}`,
     {
@@ -36,6 +35,7 @@ export const getComments = async ({ postId }: getCommentProps) => {
 };
 
 export const postComments = async ({ postId, content }: postCommentProps) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.post(
     `${END_POINT.comments}?postId=${postId}`,
     { content },
@@ -50,6 +50,7 @@ export const postComments = async ({ postId, content }: postCommentProps) => {
 };
 
 export const deleteComment = async ({ commentId }: deleteCommentProps) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.delete(`${END_POINT.comments}/${commentId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -60,6 +61,7 @@ export const deleteComment = async ({ commentId }: deleteCommentProps) => {
 };
 
 export const putComment = async ({ commentId, content }: putCommentProps) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.put(
     `${END_POINT.comments}/${commentId}`,
     { content },

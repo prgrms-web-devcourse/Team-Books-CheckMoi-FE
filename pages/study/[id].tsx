@@ -9,19 +9,17 @@ import type { ApplicantMemberType } from "../../types/applicantType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { PostCard } from "../../components/PostCard";
-import { DummyPost } from "../../commons/dummyPost";
 import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "../../styles/StudyDetailPageStyle";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import { getStudyDetailInfo } from "../../apis/study";
+import { ApplicantList } from "../../features/ApplicantList";
 import {
   getApplicantMembers,
   putApplicantAcceptOrDeny,
 } from "../../apis/applicant";
-
-
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -32,12 +30,7 @@ const NOTICE_BOARD_TAB = 0;
 const FREE_BOARD_TAB = 1;
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
-  // TODO 토큰 가져와서 API 요청하기
   const { study, members } = studyData;
-  const userList = members.map((member) => {
-    return member.user;
-  });
-
   const userList = members.map((member) => {
     return member.user;
   });
@@ -47,7 +40,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
 
   const [tabNumber, setTabNumber] = useState(currentTab);
-  const [postList, setPostList] = useState<PostsType[]>([]);
   const [applicantMemberList, setApplicantMemberList] = useState<
     ApplicantMemberType[]
   >([]);
@@ -79,9 +71,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   useEffect(() => {
     const getPostList = async () => {
       if (studyId) {
-        const getList = await getPosts({ studyId: studyId as string });
-        setPostList(getList.posts);
-        
         const getNoticeList = await getPosts({
           studyId: Number(studyId),
           category: "NOTICE",
@@ -103,6 +92,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const isStudyMember = membersIdList.includes(user?.id as string);
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
+    console.log("newValue", newValue);
     setTabNumber(newValue);
   };
 
