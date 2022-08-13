@@ -4,11 +4,11 @@ import { useState } from "react";
 import type { ChangeEvent, KeyboardEvent } from "react";
 
 interface commentInputProp {
-  onCreateComment: (postId: string) => void;
+  onCreateComment: (content: string) => void;
 }
 
 export const CommentInput = ({ onCreateComment }: commentInputProp) => {
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);

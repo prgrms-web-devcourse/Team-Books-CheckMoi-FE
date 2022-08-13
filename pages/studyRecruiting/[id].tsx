@@ -4,12 +4,13 @@ import { StudyDetail } from "../../features/StudyDetail/StudyDetail";
 
 const StudyRecruitingPage = () => {
   const router = useRouter();
-  const [studyId, setStudyId] = useState("");
+  const [studyId, setStudyId] = useState(-1);
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
-    const { id } = router.query;
+    const id = Number(router.query.id as string);
     if (id) {
-      setStudyId(id as string);
+      setStudyId(id);
       setOpen(true);
     }
   }, [router.query]);

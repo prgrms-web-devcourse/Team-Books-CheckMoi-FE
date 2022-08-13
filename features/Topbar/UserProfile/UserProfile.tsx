@@ -21,7 +21,7 @@ export const UserProfile = () => {
     setAnchorEl(null);
   };
 
-  const handleStudyClick = (studyId: string) => {
+  const handleStudyClick = (studyId: number) => {
     router.push(`/study/${studyId}`);
   };
 

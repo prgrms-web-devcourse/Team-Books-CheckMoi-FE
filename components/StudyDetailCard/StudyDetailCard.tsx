@@ -49,7 +49,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
     setAnchorEl(null);
   };
 
-  const handleUserClick = (userId: string) => {
+  const handleUserClick = (userId: number) => {
     router.push(`/userProfile/${userId}`);
   };
 

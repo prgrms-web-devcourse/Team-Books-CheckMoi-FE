@@ -7,14 +7,14 @@ interface ResponseStudiesType {
   totalPage: number;
 }
 
-export const getStudies = async (bookId: string, page = 1) => {
+export const getStudies = async (bookId: number, page = 1) => {
   const data = await apiClient.get<any, any>(
     `${END_POINT.studies}?bookId=${bookId}&size=8&page=${page}`
   );
   return { studiesData: data.studies, totalPage: data.totalPage };
 };
 
-export const getStudyDetailInfo = async (studyId: string) => {
+export const getStudyDetailInfo = async (studyId: number) => {
   const data = await apiClient.get<StudyDetailType, StudyDetailType>(
     `${END_POINT.studies}/${studyId}`
   );
@@ -51,7 +51,7 @@ export const createStudy = async ({ newStudyInfo, token }: ICreateStudy) => {
   return data;
 };
 
-export const joinStudy = async (id: string, token: string) => {
+export const joinStudy = async (id: number, token: string) => {
   const data = await apiClient.put<number>(
     `${END_POINT.studies}/${id}/members`,
     {},
@@ -65,7 +65,7 @@ export const joinStudy = async (id: string, token: string) => {
 };
 
 interface IUpdateStudy {
-  studyId: string;
+  studyId: number;
   newStudyInfo: {
     name: string;
     thumbnail: string;

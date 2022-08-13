@@ -6,8 +6,8 @@ import * as S from "./style";
 
 interface ApplicantListProps {
   applicantList: ApplicantMemberType[];
-  onAccepted: (id: string) => void;
-  onDenied: (id: string) => void;
+  onAccepted: (id: number) => void;
+  onDenied: (id: number) => void;
 }
 
 export const ApplicantList = ({

@@ -36,10 +36,9 @@ const userProfile = () => {
     setTabNumber(newValue);
   };
 
-  // TODO axios 에러처리 논의 필요
   useEffect(() => {
-    const userInfoApi = async (userid: string) => {
-      if (ownerInfo && ownerInfo.id.toString() === userid) {
+    const userInfoApi = async (userid: number) => {
+      if (ownerInfo && ownerInfo.id === userid) {
         setUserInfo(ownerInfo);
         setIsOwner(true);
       } else {
@@ -56,7 +55,7 @@ const userProfile = () => {
       setLoading(false);
     };
 
-    if (token && id) userInfoApi(id as string);
+    if (token && id) userInfoApi(Number(id));
   }, [id]);
 
   return (

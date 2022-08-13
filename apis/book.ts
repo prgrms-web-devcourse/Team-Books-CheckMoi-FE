@@ -26,7 +26,7 @@ export const registerBook = async (
   return data;
 };
 
-export const getBookInfo = async (bookId: string) => {
+export const getBookInfo = async (bookId: number) => {
   const data = await apiClient.get<BookType, BookType>(
     `${END_POINT.book}/${bookId}`
   );

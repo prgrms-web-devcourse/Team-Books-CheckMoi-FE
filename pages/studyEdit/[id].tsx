@@ -11,7 +11,7 @@ const StudyEditPage = () => {
 
   const router = useRouter();
 
-  const studyId = router.query.id as string;
+  const studyId = Number(router.query.id as string);
 
   useEffect(() => {
     const fetchStudyInfo = async () => {
@@ -28,7 +28,7 @@ const StudyEditPage = () => {
 
   return (
     <S.PageContainer>
-      <StudyEdit bookId={`${studyDetailInfo?.book?.id}`} studyId={studyId} />
+      <StudyEdit bookId={studyDetailInfo?.book?.id} studyId={studyId} />
     </S.PageContainer>
   );
 };
