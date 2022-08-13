@@ -49,7 +49,6 @@ export const createPost = async (post: CreatePostType) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(data, "포스트 생성");
   return data;
 };
 
@@ -60,7 +59,6 @@ export const putPost = async (postId: number, post: CreatePostType) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(postId, "포스트 수정");
   return data;
 };
 
@@ -71,6 +69,5 @@ export const delPost = async (postId: number) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(postId, "포스트 삭제");
   return data;
 };
