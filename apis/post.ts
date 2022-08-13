@@ -3,8 +3,6 @@ import { END_POINT } from ".";
 
 import type { ResponsePostType, PostsType } from "../types/postType";
 
-const token =
-  typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
 
 interface getPostType {
   studyId: number;
@@ -12,7 +10,7 @@ interface getPostType {
 }
 
 export const getPosts = async ({ studyId, category }: getPostType) => {
-  console.log(token);
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.get<ResponsePostType, ResponsePostType>(
     `${END_POINT.posts}`,
     {
@@ -26,6 +24,7 @@ export const getPosts = async ({ studyId, category }: getPostType) => {
 };
 
 export const getPost = async (postId: string) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.get<PostsType, PostsType>(
     `${END_POINT.posts}/${postId}`,
     {
@@ -44,6 +43,7 @@ interface CreatePostType {
 }
 
 export const createPost = async (post: CreatePostType) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.post<any, any>(`${END_POINT.posts}`, post, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -54,6 +54,7 @@ export const createPost = async (post: CreatePostType) => {
 };
 
 export const putPost = async (postId: number, post: CreatePostType) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.put(`${END_POINT.posts}/${postId}`, post, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -64,6 +65,7 @@ export const putPost = async (postId: number, post: CreatePostType) => {
 };
 
 export const delPost = async (postId: number) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.delete(`${END_POINT.posts}/${postId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
