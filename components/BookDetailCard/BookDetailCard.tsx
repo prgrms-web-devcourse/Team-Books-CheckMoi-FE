@@ -1,15 +1,16 @@
-import { url } from "inspector";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useUserContext } from "../../hooks/useUserContext";
 import type { BookType } from "../../types/bookType";
 import * as S from "./style";
+import { LoginRequestModal } from "../../features/LoginRequestModal/LoginRequestModal";
 
 interface BookDetailProps {
   size: number;
   book: BookType;
 }
 
-// TODO Image => future Image로 수정해야 함
 export const BookDetail = ({ size = 208, book }: BookDetailProps) => {
   const {
     id: bookId,
@@ -22,9 +23,16 @@ export const BookDetail = ({ size = 208, book }: BookDetailProps) => {
     description,
   } = book;
   const router = useRouter();
+  const [openModal, setOpenModal] = useState(false);
+  const { user } = useUserContext();
 
-  const handleStudyOpenClick = () => {
-    router.push(`/studyOpen/${bookId}`);
+  const handleStudyCreateBtnClick = () => {
+    if (!user) setOpenModal(true);
+    else router.push(`/studyOpen/${bookId}`);
+  };
+
+  const handleOnCloseClick = () => {
+    setOpenModal(false);
   };
 
   return (
@@ -36,7 +44,7 @@ export const BookDetail = ({ size = 208, book }: BookDetailProps) => {
         <S.StyledButton
           variant="contained"
           color="primary"
-          onClick={handleStudyOpenClick}
+          onClick={handleStudyCreateBtnClick}
         >
           스터디 개설하기
         </S.StyledButton>
@@ -54,6 +62,17 @@ export const BookDetail = ({ size = 208, book }: BookDetailProps) => {
           {description}
         </S.BookDescription>
       </S.BookInfoConatiner>
+      <LoginRequestModal.Container
+        open={openModal}
+        onClose={handleOnCloseClick}
+      >
+        <LoginRequestModal.Title>
+          스터디 개설을 위해 로그인이 필요합니다
+        </LoginRequestModal.Title>
+        <LoginRequestModal.Content>
+          로그인을 하시겠습니까?
+        </LoginRequestModal.Content>
+      </LoginRequestModal.Container>
     </S.BookDetailCard>
   );
 };

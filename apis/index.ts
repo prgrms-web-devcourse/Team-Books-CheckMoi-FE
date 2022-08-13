@@ -37,6 +37,7 @@ export {
   getStudyDetailInfo,
   createStudy,
   updateStudy,
+  joinStudy,
 } from "./study";
 
 export {

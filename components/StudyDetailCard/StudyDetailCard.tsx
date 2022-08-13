@@ -7,10 +7,14 @@ import type { UserType } from "../../types/userType";
 import { selectStudyState } from "./helper";
 import type { StudyType } from "../../types/studyType";
 import { BookCard } from "../BookCard";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 interface StudyDetailProps {
   study: StudyType;
-  members: UserType[];
+  members: {
+    id: number;
+    user: UserType;
+  }[];
 }
 
 // TODO Image => future Image로 수정해야 함
@@ -28,6 +32,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
     studyEndDate,
   } = study;
 
+  const { renderSnackbar } = useOurSnackbar();
   const studyState = selectStudyState(
     gatherEndDate,
     studyStartDate,
@@ -52,8 +57,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
     const { origin } = window.location;
     const willCopyUrl = `${origin}/studyRecruiting/${id}`;
     await navigator.clipboard.writeText(willCopyUrl);
-    // TODO 이후 스낵바로 수정
-    alert("스터디 링크가 복사 되었습니다");
+    renderSnackbar("스터디 링크가 복사 되었습니다");
   };
 
   return (
@@ -78,8 +82,8 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
       <S.IconsContainer>
         <S.StyledShareIcon onClick={handleShareClick} />
         <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
-          {members.map((user) => (
-            <Avatar key={`AvatarGroup_${user.id}`} src={user.image} />
+          {members.map((member) => (
+            <Avatar key={`AvatarGroup_${member.id}`} src={member.user.image} />
           ))}
         </S.StyledAvatarGroup>
       </S.IconsContainer>
@@ -89,16 +93,14 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
         open={!!anchorEl}
         onClose={handleAvatarListClose}
       >
-        {members.map((user) => {
+        {members.map((member) => {
           return (
             <S.StyledMenuItem
-              key={`avatar-${user.id}`}
-              onClick={() => {
-                handleUserClick(user.id);
-              }}
+              key={`avatar-${member.id}`}
+              onClick={() => handleUserClick(member.user.id)}
             >
-              <Avatar src={user.image} />
-              <span>{user.name}</span>
+              <Avatar src={member.user.image} />
+              <span>{member.user.name}</span>
             </S.StyledMenuItem>
           );
         })}
