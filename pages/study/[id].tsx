@@ -36,7 +36,8 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
 
   const [tabNumber, setTabNumber] = useState(currentTab);
-  const [postList, setPostList] = useState<PostsType[]>([]);
+  const [noticePostList, setNoticePostList] = useState<PostsType[]>([]);
+  const [generalPostList, setGeneralPostList] = useState<PostsType[]>([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useUserContext();
@@ -53,8 +54,17 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   useEffect(() => {
     const getPostList = async () => {
       if (studyId) {
-        const getList = await getPosts({ studyId: studyId as string });
-        setPostList(getList.posts);
+        const getNoticeList = await getPosts({
+          studyId: Number(studyId),
+          category: "NOTICE",
+        });
+        setNoticePostList(getNoticeList.posts);
+
+        const getGeneralList = await getPosts({
+          studyId: Number(studyId),
+          category: "GENERAL",
+        });
+        setGeneralPostList(getGeneralList.posts);
       }
     };
 
@@ -95,9 +105,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         </Tabs>
         <S.ButtonsWrapper>
           {isOwner && (
-              <Button variant="contained" onClick={handleStudyEditButtonClick}>
-                스터디 정보 수정
-              </Button>
+            <Button variant="contained" onClick={handleStudyEditButtonClick}>
+              스터디 정보 수정
+            </Button>
           )}
           {tabNumber === NOTICE_BOARD_TAB && !isOwner ? (
             ""
@@ -110,9 +120,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       </S.TabsContainer>
 
       <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
-        {postList.length !== 0 ? (
+        {noticePostList.length !== 0 ? (
           <S.StyledUl>
-            {postList?.map((post) => (
+            {noticePostList?.map((post) => (
               <S.StyledList
                 key={post.id}
                 onClick={() => {
@@ -130,18 +140,24 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         )}
       </TabPanel>
       <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList
-              key={post.id}
-              onClick={() => {
-                handlePostClick(+post.id);
-              }}
-            >
-              <PostCard post={post} />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
+        {generalPostList.length !== 0 ? (
+          <S.StyledUl>
+            {generalPostList?.map((post) => (
+              <S.StyledList
+                key={post.id}
+                onClick={() => {
+                  handlePostClick(+post.id);
+                }}
+              >
+                <PostCard post={post} />
+              </S.StyledList>
+            ))}
+          </S.StyledUl>
+        ) : (
+          <S.NoPost>
+            <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
+          </S.NoPost>
+        )}
       </TabPanel>
     </>
   ) : user ? (

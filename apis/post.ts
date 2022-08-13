@@ -7,15 +7,16 @@ const token =
   typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
 
 interface getPostType {
-  studyId: string;
+  studyId: number;
+  category: string;
 }
 
-
-export const getPosts = async ({ studyId }: getPostType) => {
+export const getPosts = async ({ studyId, category }: getPostType) => {
   console.log(token);
   const data = await apiClient.get<ResponsePostType, ResponsePostType>(
-    `${END_POINT.posts}?studyId=${studyId}`,
+    `${END_POINT.posts}`,
     {
+      params: { studyId, category },
       headers: {
         Authorization: `Bearer ${token}`,
       },
