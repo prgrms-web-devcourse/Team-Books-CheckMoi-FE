@@ -10,6 +10,7 @@ export const END_POINT = {
   isbnBook: "/books/isbn",
   posts: "/posts",
   applicants: "/studies",
+  comments: "/comments",
   v2_books: "/v2/books",
 };
 
@@ -19,7 +20,7 @@ export { getBooksList, getBookInfo, registerBook } from "./book";
 
 export { postImage } from "./image";
 
-export { getPost, createPost, putPost, delPost } from "./post";
+export { getPosts, getPost, createPost, putPost, delPost } from "./post";
 
 export {
   getUser,
@@ -28,6 +29,8 @@ export {
   getPartiStudy,
   getFinishStudy,
 } from "./user";
+
+export { getComments, postComments, deleteComment, putComment } from "./comments";
 
 export {
   getStudies,
@@ -40,3 +43,4 @@ export {
   getApplicantMembers,
   putApplicantAcceptOrDeny,
 } from "./applicant";
+

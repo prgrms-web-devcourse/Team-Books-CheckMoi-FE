@@ -1,23 +1,20 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
-import { ResponseApplicantMemberType } from "../types/applicantType";
+import type { ResponseApplicantMemberType } from "../types/applicantType";
 
 interface getApplicantsProps {
   studyId: string;
-  token: string;
 }
 
 interface putApplicantProps {
   studyId: string;
   memberId: string;
-  token: string;
   status: string;
 }
 
-export const getApplicantMembers = async ({
-  studyId,
-  token,
-}: getApplicantsProps) => {
+
+export const getApplicantMembers = async ({ studyId }: getApplicantsProps) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.get<
     ResponseApplicantMemberType,
     ResponseApplicantMemberType
@@ -32,9 +29,9 @@ export const getApplicantMembers = async ({
 export const putApplicantAcceptOrDeny = async ({
   studyId,
   memberId,
-  token,
   status,
 }: putApplicantProps) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.put(
     `${END_POINT.applicants}/${studyId}/members/${memberId}`,
     { status },

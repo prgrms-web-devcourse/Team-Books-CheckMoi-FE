@@ -1,40 +1,32 @@
-import { SyntheticEvent, useEffect, useState, MouseEvent } from "react";
+import { useEffect, useState } from "react";
+import type { SyntheticEvent, MouseEvent } from "react";
 import { useRouter } from "next/router";
 import { Divider, Tabs, Tab, IconButton, Menu, MenuItem } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import { CommentInput } from "../../components/CommentInput";
-import { getPost } from "../../apis";
-import * as S from "../../styles/PostStyle";
+import { Comment } from "../../components/Comment";
+import { postComments, getComments, getPost } from "../../apis";
+import type { CommentsType } from "../../types/commentType";
+import type { PostsType } from "../../types/postType";
+import { getMyInfo } from "../../apis/user";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import { useUserContext } from "../../hooks/useUserContext";
 import { DeleteModal } from "../../features/DeleteModal";
 import { NoAccess } from "../../components/NoAccess";
-
-// TODO 타입 따로 빼기
-interface PostType {
-  id: number;
-  title: string;
-  content: string;
-  category: string;
-  studyId: number;
-  writerId: number;
-  writer: string;
-  writerImage: string;
-  commentCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import * as S from "../../styles/PostStyle";
 
 const PostPage = () => {
   const router = useRouter();
-
-  const { user } = useUserContext();
-
   const { id, studyId, tabNumber } = router.query;
   const currentTab = tabNumber ? +tabNumber : 0;
+  const [commentList, setCommentList] = useState<CommentsType[]>([]);
+  const [currentUserId, setCurrentUserId] = useState("");
+  const { renderSnackbar } = useOurSnackbar();
+  const { user } = useUserContext();
 
   const [TabValue, setTabValue] = useState(currentTab);
 
-  const [post, setPost] = useState({} as PostType);
+  const [post, setPost] = useState({} as PostsType);
   const [postDate, setPostDate] = useState([] as string[]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -64,6 +56,7 @@ const PostPage = () => {
   }, []);
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
+    console.log("newValue", newValue);
     router.push({
       pathname: `/study/${studyId}`,
       query: { tabNumber: newValue },
@@ -73,6 +66,37 @@ const PostPage = () => {
 
   const handleUpdateClick = async () => {
     router.push(`/postUpdate/${id}`);
+  };
+  const getCommentList = async () => {
+    const result = await getComments({ postId: id as string });
+    setCommentList(result.comments);
+  };
+
+  useEffect(() => {
+    getCommentList();
+  }, [id]);
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const token = document.cookie.split("=")[1];
+      const currentUser = await getMyInfo(token);
+      setCurrentUserId(currentUser.id);
+    };
+    getCurrentUser();
+  }, []);
+
+  const onCreateComment = async (content: string) => {
+    try {
+      await postComments({ postId: id as string, content });
+      renderSnackbar("댓글 추가 성공");
+    } catch (error) {
+      renderSnackbar("댓글 추가 실패", "error");
+    }
+    getCommentList();
+  };
+
+  const onReloadComment = async () => {
+    await getCommentList();
   };
 
   const handleDeleteClick = async () => {
@@ -145,7 +169,7 @@ const PostPage = () => {
             <Divider />
             <S.BoardContent>{post.content}</S.BoardContent>
             <Divider />
-            <CommentInput />
+            <CommentInput onCreateComment={onCreateComment} />
             <DeleteModal
               id={post.id}
               studyId={post.studyId}
@@ -156,6 +180,14 @@ const PostPage = () => {
         )
       )}
       {/* TODO Comment List 출력 */}
+      {commentList.map((comment) => (
+        <Comment
+          key={comment.id}
+          commentProps={comment}
+          currentUserId={currentUserId}
+          onReloadComment={onReloadComment}
+        />
+      ))}
     </div>
   );
 };

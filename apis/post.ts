@@ -3,7 +3,6 @@ import { END_POINT } from ".";
 
 import type { ResponsePostType, PostsType } from "../types/postType";
 
-
 interface getPostType {
   studyId: number;
   category: string;
@@ -23,6 +22,14 @@ export const getPosts = async ({ studyId, category }: getPostType) => {
   return data;
 };
 
+
+interface CreatePostType {
+  title: string;
+  content: string;
+  category: string;
+  studyId: number;
+}
+
 export const getPost = async (postId: string) => {
   const token = document.cookie.split("=")[1];
   const data = await apiClient.get<PostsType, PostsType>(
@@ -35,12 +42,6 @@ export const getPost = async (postId: string) => {
   );
   return data;
 };
-interface CreatePostType {
-  title: string;
-  content: string;
-  category: string;
-  studyId: number;
-}
 
 export const createPost = async (post: CreatePostType) => {
   const token = document.cookie.split("=")[1];

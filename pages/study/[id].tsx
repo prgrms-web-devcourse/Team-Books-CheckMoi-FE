@@ -4,16 +4,22 @@ import { Tabs, Tab, Button, Typography } from "@mui/material";
 import type { SyntheticEvent } from "react";
 import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
+import type { PostsType } from "../../types/postType";
+import type { ApplicantMemberType } from "../../types/applicantType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
 import { PostCard } from "../../components/PostCard";
-import { DummyPost } from "../../commons/dummyPost";
 import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "../../styles/StudyDetailPageStyle";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
-import { PostsType } from "../../types/postType";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import { getStudyDetailInfo } from "../../apis/study";
+import { ApplicantList } from "../../features/ApplicantList";
+import {
+  getApplicantMembers,
+  putApplicantAcceptOrDeny,
+} from "../../apis/applicant";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -24,9 +30,7 @@ const NOTICE_BOARD_TAB = 0;
 const FREE_BOARD_TAB = 1;
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
-  // TODO 토큰 가져와서 API 요청하기
   const { study, members } = studyData;
-
   const userList = members.map((member) => {
     return member.user;
   });
@@ -36,15 +40,28 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
 
   const [tabNumber, setTabNumber] = useState(currentTab);
+  const [applicantMemberList, setApplicantMemberList] = useState<
+    ApplicantMemberType[]
+  >([]);
   const [noticePostList, setNoticePostList] = useState<PostsType[]>([]);
   const [generalPostList, setGeneralPostList] = useState<PostsType[]>([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useUserContext();
+  const { renderSnackbar } = useOurSnackbar();
 
   const membersIdList = userList.map((member) => {
     return member.id;
   });
+
+  const getApplicantMemberList = async () => {
+    if (studyId) {
+      const getList = await getApplicantMembers({
+        studyId: studyId as string,
+      });
+      setApplicantMemberList(getList);
+    }
+  };
 
   useEffect(() => {
     if (user?.id === userList[STUDY_OWNER].id) setIsOwner(true);
@@ -69,11 +86,13 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     };
 
     getPostList();
+    getApplicantMemberList();
   }, [studyId]);
 
   const isStudyMember = membersIdList.includes(user?.id as string);
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
+    console.log("newValue", newValue);
     setTabNumber(newValue);
   };
 
@@ -95,6 +114,34 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     router.push(`/studyEdit/${studyId}`);
   };
 
+  const onAccepted = async (memberId: string) => {
+    try {
+      await putApplicantAcceptOrDeny({
+        studyId: studyId as string,
+        memberId,
+        status: "ACCEPTED",
+      });
+      renderSnackbar("승인 성공");
+    } catch (error) {
+      renderSnackbar("승인 실패", "error");
+    }
+    getApplicantMemberList();
+  };
+
+  const onDenied = async (memberId: string) => {
+    try {
+      await putApplicantAcceptOrDeny({
+        studyId: studyId as string,
+        memberId,
+        status: "DENIED",
+      });
+      renderSnackbar("거절 성공 ");
+    } catch (error) {
+      renderSnackbar("거절 실패", "error");
+    }
+    getApplicantMemberList();
+  };
+
   return user && isStudyMember ? (
     <>
       <StudyDetailCard study={study} members={userList} />
@@ -105,9 +152,16 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         </Tabs>
         <S.ButtonsWrapper>
           {isOwner && (
-            <Button variant="contained" onClick={handleStudyEditButtonClick}>
-              스터디 정보 수정
-            </Button>
+            <>
+              <ApplicantList
+                applicantList={applicantMemberList}
+                onAccepted={onAccepted}
+                onDenied={onDenied}
+              />
+              <Button variant="contained" onClick={handleStudyEditButtonClick}>
+                스터디 정보 수정
+              </Button>
+            </>
           )}
           {tabNumber === NOTICE_BOARD_TAB && !isOwner ? (
             ""

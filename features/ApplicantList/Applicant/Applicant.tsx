@@ -2,7 +2,7 @@ import { Avatar, Badge, Button, Typography } from "@mui/material";
 import * as S from "./style";
 
 interface ApplicantProps {
-  id: number;
+  id: number; // memberID, not userID
   name: string;
   image: string;
   temperature: number;

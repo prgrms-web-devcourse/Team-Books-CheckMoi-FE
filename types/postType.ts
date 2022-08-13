@@ -18,17 +18,6 @@ export interface ResponsePostType {
   posts: PostsType[];
 }
 
-export interface PostPropsType {
-  id: number;
-  title: string;
-  content: string;
-  category: string;
-  studyId: number;
-  writerId: number;
-  writer: string;
-  writerImage: string;
-  commentCount: number;
-  createdAt: string;
-  updatedAt: string;
+export interface PostPropsType extends PostsType {
   onClick?: MouseEventHandler<HTMLElement>;
 }
