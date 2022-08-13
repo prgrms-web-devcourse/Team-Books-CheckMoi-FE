@@ -1,7 +1,11 @@
 import { Divider } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { BookDetail } from "../../components";
+import {
+  BookDetail,
+  BookDetailSkeleton,
+  StudyCardSkeleton,
+} from "../../components";
 import type { BookType } from "../../types/bookType";
 import type { StudyType } from "../../types/studyType";
 import { StudyCardList } from "../../features";
@@ -51,10 +55,23 @@ const Book = () => {
 
   return (
     <div>
-      <BookDetail size={200} book={bookInfo} />
-      <Divider color="black" />
-      <StudyCardList studies={studies} />
-      {pageState.pageNumber !== pageState.totalPage ? <div ref={ref} /> : null}
+      {loading ? (
+        <>
+          <BookDetailSkeleton size={208} />
+          <Divider color="black" />
+          <br />
+          <StudyCardSkeleton />
+        </>
+      ) : (
+        <>
+          <BookDetail size={200} book={bookInfo} />
+          <Divider color="black" />
+          <StudyCardList studies={studies} />
+          {pageState.pageNumber !== pageState.totalPage ? (
+            <div ref={ref} />
+          ) : null}
+        </>
+      )}
     </div>
   );
 };
