@@ -413,9 +413,13 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
             <S.ThumbnailTypo>스터디 썸네일</S.ThumbnailTypo>
             <S.ThumbnailLabel htmlFor="fileInput">
               <S.ImageBox>
-                {studyInfo.thumbnail && (
-                  <Image src={studyInfo.thumbnail} width="300" height="450" />
-                )}
+                <Image
+                  src={
+                    studyInfo.thumbnail || "https://via.placeholder.com/300.png"
+                  }
+                  width="300"
+                  height="450"
+                />
               </S.ImageBox>
             </S.ThumbnailLabel>
             <input
