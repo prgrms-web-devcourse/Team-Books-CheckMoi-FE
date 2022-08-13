@@ -21,7 +21,11 @@ export const UserProfile = () => {
     setAnchorEl(null);
   };
 
-  const handleStudyClick = (studyId: string) => {
+  const handleAvatarClick = () => {
+    router.push(`/userProfile/${user?.id}`);
+  };
+
+  const handleStudyClick = (studyId: number) => {
     router.push(`/study/${studyId}`);
   };
 
@@ -46,7 +50,7 @@ export const UserProfile = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <S.AvatarWrapper>
+        <S.AvatarWrapper onClick={handleAvatarClick}>
           <Avatar src={user?.image} />
           <S.StyledUserInfo>
             <span>{user?.name}</span>

@@ -15,6 +15,11 @@ export const AvatarWrapper = styled("div")`
   gap: 1rem;
   width: fit-content;
   font-size: 1.2rem;
+
+  cursor: pointer;
+  &:hover {
+    background-color: #f2f2f2;
+  }
 `;
 
 export const StyledUserInfo = styled("div")`

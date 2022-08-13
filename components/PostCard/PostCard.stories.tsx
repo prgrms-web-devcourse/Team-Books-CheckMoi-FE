@@ -13,23 +13,18 @@ const Template: ComponentStory<typeof PostCard> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   post: {
-    id: "1",
+    id: 1,
     title: "This is Title!!~",
     content:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae voluptatem, error optio atque sed eaque possimus nihil, delectus incidunt minus porro iusto laboriosam illum est rem enim dolore suscipit rerum?",
+    category: "GENERAL",
+    studyId: 1,
+    writerId: 1,
+    writer: "test",
+    writerImage: "https://via.placeholder.com/300.png",
+    commentCount: 3,
     createdAt: "2022/08/05",
-    comments: 10,
-    size: 20,
-    user: {
-      id: "asdasdsa@naver.com",
-      name: "김민기",
-      email: "asdasdsa@naver.com",
-      image: "https://picsum.photos/200",
-      temperature: 36.5,
-    },
-    onClick: () => {
-      console.log("Move PostDetail Page");
-    },
+    updatedAt: "2022/08/10",
   },
 };
 

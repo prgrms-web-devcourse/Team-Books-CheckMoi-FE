@@ -20,7 +20,7 @@ const PostPage = () => {
   const { id, studyId, tabNumber } = router.query;
   const currentTab = tabNumber ? +tabNumber : 0;
   const [commentList, setCommentList] = useState<CommentsType[]>([]);
-  const [currentUserId, setCurrentUserId] = useState("");
+  const [currentUserId, setCurrentUserId] = useState(-1);
   const { renderSnackbar } = useOurSnackbar();
   const { user } = useUserContext();
 
@@ -47,16 +47,15 @@ const PostPage = () => {
   };
 
   useEffect(() => {
-    const getPostApi = async (postId: string) => {
+    const getPostApi = async (postId: number) => {
       const postData = await getPost(postId);
       setPost(postData);
       setPostDate(postData.createdAt.split("/"));
     };
-    if (id) getPostApi(id as string);
+    if (id) getPostApi(Number(id));
   }, []);
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
-    console.log("newValue", newValue);
     router.push({
       pathname: `/study/${studyId}`,
       query: { tabNumber: newValue },
@@ -68,7 +67,7 @@ const PostPage = () => {
     router.push(`/postUpdate/${id}`);
   };
   const getCommentList = async () => {
-    const result = await getComments({ postId: id as string });
+    const result = await getComments({ postId: Number(id) });
     setCommentList(result.comments);
   };
 
@@ -87,7 +86,7 @@ const PostPage = () => {
 
   const onCreateComment = async (content: string) => {
     try {
-      await postComments({ postId: id as string, content });
+      await postComments({ postId: Number(id), content });
       renderSnackbar("댓글 추가 성공");
     } catch (error) {
       renderSnackbar("댓글 추가 실패", "error");

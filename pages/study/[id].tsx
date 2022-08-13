@@ -36,7 +36,8 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   });
 
   const router = useRouter();
-  const { id: studyId, tabNumber: tabValue } = router.query;
+  const { tabNumber: tabValue } = router.query;
+  const studyId = Number(router.query.id as string);
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
 
   const [tabNumber, setTabNumber] = useState(currentTab);
@@ -57,7 +58,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const getApplicantMemberList = async () => {
     if (studyId) {
       const getList = await getApplicantMembers({
-        studyId: studyId as string,
+        studyId,
       });
       setApplicantMemberList(getList);
     }
@@ -89,10 +90,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     getApplicantMemberList();
   }, [studyId]);
 
-  const isStudyMember = membersIdList.includes(user?.id as string);
+  const isStudyMember = user && membersIdList.includes(user.id);
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
-    console.log("newValue", newValue);
     setTabNumber(newValue);
   };
 
@@ -114,10 +114,10 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     router.push(`/studyEdit/${studyId}`);
   };
 
-  const onAccepted = async (memberId: string) => {
+  const onAccepted = async (memberId: number) => {
     try {
       await putApplicantAcceptOrDeny({
-        studyId: studyId as string,
+        studyId,
         memberId,
         status: "ACCEPTED",
       });
@@ -128,10 +128,10 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     getApplicantMemberList();
   };
 
-  const onDenied = async (memberId: string) => {
+  const onDenied = async (memberId: number) => {
     try {
       await putApplicantAcceptOrDeny({
-        studyId: studyId as string,
+        studyId,
         memberId,
         status: "DENIED",
       });
@@ -144,7 +144,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 
   return user && isStudyMember ? (
     <>
-      <StudyDetailCard study={study} members={userList} />
+      <StudyDetailCard study={study} members={members} />
       <S.TabsContainer>
         <Tabs value={tabNumber} onChange={handleTabChange}>
           <Tab label="공지" />
@@ -230,7 +230,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 export default StudyDetailPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const studyID = context.query.id as string;
+  const studyID = Number(context.query.id);
   const studyData = await getStudyDetailInfo(studyID);
   return { props: { studyData } };
 };

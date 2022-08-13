@@ -16,8 +16,8 @@ import type { StudyStatusType } from "../../types/studyType";
 import * as S from "./style";
 
 interface StudyOpenProps {
-  bookId: string;
-  studyId?: string;
+  bookId: number;
+  studyId?: number;
 }
 
 interface IStudyInfo {
@@ -102,7 +102,8 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     };
 
     const fetchStudyInfo = async () => {
-      const { study, book, members } = await getStudyDetailInfo(studyId || "");
+      if (!studyId) return;
+      const { study, book, members } = await getStudyDetailInfo(studyId);
       const {
         name,
         thumbnail,

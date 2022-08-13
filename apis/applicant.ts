@@ -3,15 +3,14 @@ import { END_POINT } from ".";
 import type { ResponseApplicantMemberType } from "../types/applicantType";
 
 interface getApplicantsProps {
-  studyId: string;
+  studyId: number;
 }
 
 interface putApplicantProps {
-  studyId: string;
-  memberId: string;
+  studyId: number;
+  memberId: number;
   status: string;
 }
-
 
 export const getApplicantMembers = async ({ studyId }: getApplicantsProps) => {
   const token = document.cookie.split("=")[1];

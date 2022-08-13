@@ -6,8 +6,8 @@ interface ApplicantProps {
   name: string;
   image: string;
   temperature: number;
-  onAccepted: (id: string) => void;
-  onDenied: (id: string) => void;
+  onAccepted: (id: number) => void;
+  onDenied: (id: number) => void;
 }
 
 export const Applicant = ({
@@ -20,11 +20,11 @@ export const Applicant = ({
 }: ApplicantProps) => {
   // TODO 필요한 것,현재 스터디 ID, 방장 토큰, 승낙/거절 유저 ID
   const handleAcceptButtonClick = () => {
-    onAccepted(id.toString());
+    onAccepted(id);
   };
 
   const handleDeniedButtonClick = () => {
-    onDenied(id.toString());
+    onDenied(id);
   };
 
   return (

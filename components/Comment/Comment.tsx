@@ -25,7 +25,7 @@ interface CommentProps {
     userName: string;
     content: string;
   };
-  currentUserId: string;
+  currentUserId: number;
   onReloadComment: () => void;
 }
 
@@ -54,7 +54,7 @@ export const Comment = ({
   const handleDeleteButtonClick = async () => {
     try {
       await deleteComment({
-        commentId: commentProps.id.toString(),
+        commentId: commentProps.id,
       });
       renderSnackbar("댓글 삭제 성공");
     } catch (error) {
@@ -67,7 +67,7 @@ export const Comment = ({
   const updateComment = async () => {
     try {
       await putComment({
-        commentId: commentProps.id.toString(),
+        commentId: commentProps.id,
         content: editValue,
       });
       renderSnackbar("댓글 수정 성공");

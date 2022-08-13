@@ -5,7 +5,7 @@ import * as S from "../../styles/StudyOpenPageStyle";
 
 const StudyOpenPage = () => {
   const router = useRouter();
-  const bookId = router.query.id as string;
+  const bookId = Number(router.query.id as string);
 
   return (
     <S.PageContainer>

@@ -20,15 +20,15 @@ interface PostType {
 
 const postUpdatePage = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const id = Number(router.query.id as string);
   const [post, setPost] = useState({} as PostType);
 
   useEffect(() => {
-    const getPostApi = async (postId: string) => {
+    const getPostApi = async (postId: number) => {
       const postData = await getPost(postId);
       setPost(postData);
     };
-    if (id) getPostApi(id as string);
+    if (id) getPostApi(id);
   }, [id, post]);
 
   return (

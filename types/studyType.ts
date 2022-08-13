@@ -9,7 +9,7 @@ export type StudyStatusType =
   | "finished";
 
 export interface StudyType {
-  id: string;
+  id: number;
   name: string;
   thumbnail: string;
   currentParticipant: number;

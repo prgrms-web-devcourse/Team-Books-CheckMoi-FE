@@ -34,7 +34,7 @@ export const logout = async (token: string) => {
 
 // TODO 추후 타입 추가
 export interface PutUserType {
-  id: string;
+  id: number;
   name: string;
   image: string;
   token: string;
@@ -58,7 +58,7 @@ export const putUser = async ({ id, name, image, token }: PutUserType) => {
 
 // TODO 추후 타입 추가
 export interface getUserType {
-  id: string;
+  id: number;
   token: string;
 }
 

@@ -46,7 +46,7 @@ const UserProfileEditPage = () => {
     const { id } = router.query;
     if (id) {
       await putUser({
-        id: id.toString(),
+        id: Number(id),
         name: username,
         image: imageUrl,
         token,

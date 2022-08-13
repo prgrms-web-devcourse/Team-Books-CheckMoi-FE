@@ -1,5 +1,5 @@
 export interface UserType {
-  id: string;
+  id: number;
   name: string;
   email: string;
   image: string;
@@ -7,7 +7,7 @@ export interface UserType {
 }
 
 interface SimpleStudyType {
-  id: string;
+  id: number;
   name: string;
   thumbnail: string;
 }

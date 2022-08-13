@@ -17,21 +17,21 @@ const Book = () => {
   const [pageState, setPageState] = useState({ pageNumber: 1, totalPage: 2 });
   const [loading, setLoading] = useState(false);
 
+  const id = Number(router.query.id as string);
+
   useEffect(() => {
-    const bookInfoFetch = async (id: string) => {
+    const bookInfoFetch = async () => {
       setLoading(true);
       const bookData = await getBookInfo(id);
       setBookinfo(bookData);
       setLoading(false);
     };
 
-    const { id } = router.query;
-
-    if (id && typeof id === "string") bookInfoFetch(id);
+    if (id) bookInfoFetch();
   }, [router.query]);
 
   useEffect(() => {
-    const studiesFetch = async (id: string, page = 1) => {
+    const studiesFetch = async (page = 1) => {
       setLoading(true);
       const data = await getStudies(id, page);
       const { studiesData, totalPage } = data;
@@ -40,8 +40,7 @@ const Book = () => {
       setLoading(false);
     };
 
-    const { id } = router.query;
-    if (id && typeof id === "string") studiesFetch(id, pageState.pageNumber);
+    if (id) studiesFetch(pageState.pageNumber);
   }, [router.query, pageState.pageNumber]);
 
   useEffect(() => {

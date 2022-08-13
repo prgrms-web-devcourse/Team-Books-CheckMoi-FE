@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import type { FormEvent } from "react";
 import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -13,7 +13,11 @@ import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 const SEARCH_URL = "/search";
 const SEARCH_URL_SIZE = 6;
 
-export const Topbar = () => {
+interface TopbarProps {
+  message: string;
+}
+
+export const Topbar = ({ message }: TopbarProps) => {
   const router = useRouter();
   const { user } = useUserContext();
 
@@ -53,6 +57,10 @@ export const Topbar = () => {
       },
     });
   };
+
+  useEffect(() => {
+    if (message) renderSnackbar(message, "error");
+  }, [message]);
 
   return (
     <S.StyledAppbar position="fixed">

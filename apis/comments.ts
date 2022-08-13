@@ -3,20 +3,20 @@ import { END_POINT } from ".";
 import { ResponseCommentsType } from "../types/commentType";
 
 interface getCommentProps {
-  postId: string;
+  postId: number;
 }
 
 interface postCommentProps {
-  postId: string;
+  postId: number;
   content: string;
 }
 
 interface deleteCommentProps {
-  commentId: string;
+  commentId: number;
 }
 
 interface putCommentProps {
-  commentId: string;
+  commentId: number;
   content: string;
 }
 

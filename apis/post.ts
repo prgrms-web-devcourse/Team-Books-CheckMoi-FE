@@ -22,7 +22,6 @@ export const getPosts = async ({ studyId, category }: getPostType) => {
   return data;
 };
 
-
 interface CreatePostType {
   title: string;
   content: string;
@@ -30,7 +29,7 @@ interface CreatePostType {
   studyId: number;
 }
 
-export const getPost = async (postId: string) => {
+export const getPost = async (postId: number) => {
   const token = document.cookie.split("=")[1];
   const data = await apiClient.get<PostsType, PostsType>(
     `${END_POINT.posts}/${postId}`,

@@ -7,7 +7,7 @@ export default {
 } as ComponentMeta<typeof ApplicantList>;
 
 const Template: ComponentStory<typeof ApplicantList> = (args) => (
-  <ApplicantList />
+  <ApplicantList {...args} />
 );
 
 export const Default = Template.bind({});

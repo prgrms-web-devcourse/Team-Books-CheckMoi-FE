@@ -10,10 +10,10 @@ export interface StudyCardListProps {
 }
 
 export const StudyCardList = ({ studies }: StudyCardListProps) => {
-  const [selectedId, setSelectedId] = useState("");
+  const [selectedId, setSelectedId] = useState(-1);
   const [open, setOpen] = useState(false);
 
-  const handleStudyClick = (id: string) => {
+  const handleStudyClick = (id: number) => {
     setSelectedId(id);
     setOpen(!open);
   };

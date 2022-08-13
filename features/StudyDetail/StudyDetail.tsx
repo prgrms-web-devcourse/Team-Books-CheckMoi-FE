@@ -12,7 +12,7 @@ import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import { LoginRequestModal } from "../LoginRequestModal";
 
 interface StudyDetailProps {
-  id: string;
+  id: number;
   open: boolean;
   isPage?: boolean;
 }
@@ -41,7 +41,7 @@ export const StudyDetail = ({
   } as Test);
 
   const enterStudy = async (
-    studyId: string,
+    studyId: number,
     inputUser: TopbarUserType | null
   ) => {
     if (!inputUser) {
@@ -60,7 +60,7 @@ export const StudyDetail = ({
   };
 
   useEffect(() => {
-    const studyInfoFetch = async (studyId: string) => {
+    const studyInfoFetch = async (studyId: number) => {
       const { study, members, book } = await getStudyDetailInfo(studyId);
       if (members.filter((member) => member.user.id === user?.id).length > 0)
         setIsMember(true);
