@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { Divider } from "@mui/material";
+import {
+  Divider,
+  CircularProgress as CircularLoading,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import type { StudyType } from "../../types/studyType";
 import { StudyContent } from "../../components/StudyContent";
@@ -89,26 +92,35 @@ export const StudyDetail = ({
 
   return (
     <div>
-      <StudyDetailCard study={studyInfo.study} members={studyInfo.members} />
-      <Divider color="grey" />
-      <StudyContent
-        description={studyInfo.study.description}
-        isMember={isMember}
-        joinOnClick={handleStudyJoinClick}
-        goStudyOnClick={handleGoStudyClick}
-        height={isPage ? "40vh" : 10}
-      />
-      <LoginRequestModal.Container
-        open={openModal}
-        onClose={handleOnCloseClick}
-      >
-        <LoginRequestModal.Title>
-          스터디 참여하기 위해서 로그인이 필요합니다
-        </LoginRequestModal.Title>
-        <LoginRequestModal.Content>
-          로그인을 하시겠습니까?
-        </LoginRequestModal.Content>
-      </LoginRequestModal.Container>
+      {studyInfo.study.id ? (
+        <>
+          <StudyDetailCard
+            study={studyInfo.study}
+            members={studyInfo.members}
+          />
+          <Divider color="grey" />
+          <StudyContent
+            description={studyInfo.study.description}
+            isMember={isMember}
+            joinOnClick={handleStudyJoinClick}
+            goStudyOnClick={handleGoStudyClick}
+            height={isPage ? "40vh" : 10}
+          />
+          <LoginRequestModal.Container
+            open={openModal}
+            onClose={handleOnCloseClick}
+          >
+            <LoginRequestModal.Title>
+              스터디 참여하기 위해서 로그인이 필요합니다
+            </LoginRequestModal.Title>
+            <LoginRequestModal.Content>
+              로그인을 하시겠습니까?
+            </LoginRequestModal.Content>
+          </LoginRequestModal.Container>
+        </>
+      ) : (
+        <CircularLoading />
+      )}
     </div>
   );
 };
