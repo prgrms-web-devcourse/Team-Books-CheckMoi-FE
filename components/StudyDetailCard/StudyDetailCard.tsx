@@ -11,7 +11,10 @@ import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 interface StudyDetailProps {
   study: StudyType;
-  members: UserType[];
+  members: {
+    id: number;
+    user: UserType;
+  }[];
 }
 
 // TODO Image => future Image로 수정해야 함
@@ -79,8 +82,8 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
       <S.IconsContainer>
         <S.StyledShareIcon onClick={handleShareClick} />
         <S.StyledAvatarGroup max={2} onClick={handleAvatarListClick}>
-          {members.map((user) => (
-            <Avatar key={`AvatarGroup_${user.id}`} src={user.image} />
+          {members.map((member) => (
+            <Avatar key={`AvatarGroup_${member.id}`} src={member.user.image} />
           ))}
         </S.StyledAvatarGroup>
       </S.IconsContainer>
@@ -90,16 +93,14 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
         open={!!anchorEl}
         onClose={handleAvatarListClose}
       >
-        {members.map((user) => {
+        {members.map((member) => {
           return (
             <S.StyledMenuItem
-              key={`avatar-${user.id}`}
-              onClick={() => {
-                handleUserClick(user.id);
-              }}
+              key={`avatar-${member.id}`}
+              onClick={() => handleUserClick(member.user.id)}
             >
-              <Avatar src={user.image} />
-              <span>{user.name}</span>
+              <Avatar src={member.user.image} />
+              <span>{member.user.name}</span>
             </S.StyledMenuItem>
           );
         })}

@@ -26,7 +26,7 @@ export interface StudyType {
 export interface StudyDetailType {
   study: StudyType;
   members: {
-    id: string;
+    id: number;
     user: UserType;
   }[];
   book: BookType;

@@ -19,7 +19,10 @@ interface StudyDetailProps {
 
 interface Test {
   study: StudyType;
-  members: UserType[];
+  members: {
+    id: number;
+    user: UserType;
+  }[];
   book: BookType;
 }
 
@@ -59,7 +62,7 @@ export const StudyDetail = ({
   useEffect(() => {
     const studyInfoFetch = async (studyId: string) => {
       const { study, members, book } = await getStudyDetailInfo(studyId);
-      if (members.filter((member) => member.id === user?.id).length > 0)
+      if (members.filter((member) => member.user.id === user?.id).length > 0)
         setIsMember(true);
 
       setStudyInfo({

@@ -1,4 +1,3 @@
-import { url } from "inspector";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -8,16 +7,9 @@ import * as S from "./style";
 import { LoginRequestModal } from "../../features/LoginRequestModal/LoginRequestModal";
 
 interface BookDetailProps {
-  id: number;
   size: number;
   book: BookType;
 }
-
-// TODO Image => future Image로 수정해야 함
-
-
-
-
 
 export const BookDetail = ({ size = 208, book }: BookDetailProps) => {
   const {
@@ -36,16 +28,12 @@ export const BookDetail = ({ size = 208, book }: BookDetailProps) => {
 
   const handleStudyCreateBtnClick = () => {
     if (!user) setOpenModal(true);
-    else router.push(`/studyOpen/${id}`);
+    else router.push(`/studyOpen/${bookId}`);
   };
 
-  const handleStudyOpenClick = () => {
-    router.push(`/studyOpen/${bookId}`);
-    
-  };
   const handleOnCloseClick = () => {
     setOpenModal(false);
-}
+  };
 
   return (
     <S.BookDetailCard>
