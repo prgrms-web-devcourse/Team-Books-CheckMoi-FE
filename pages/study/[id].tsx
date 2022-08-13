@@ -8,19 +8,20 @@ import type { PostsType } from "../../types/postType";
 import type { ApplicantMemberType } from "../../types/applicantType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
-import { getStudyDetailInfo } from "../../apis/study";
 import { PostCard } from "../../components/PostCard";
 import { DummyPost } from "../../commons/dummyPost";
 import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "../../styles/StudyDetailPageStyle";
-import { ApplicantList } from "../../features/ApplicantList";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
+import { getStudyDetailInfo } from "../../apis/study";
 import {
   getApplicantMembers,
   putApplicantAcceptOrDeny,
 } from "../../apis/applicant";
-import { useOurSnackbar } from "../../hooks/useOurSnackbar";
+
+
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -37,6 +38,10 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     return member.user;
   });
 
+  const userList = members.map((member) => {
+    return member.user;
+  });
+
   const router = useRouter();
   const { id: studyId, tabNumber: tabValue } = router.query;
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
@@ -46,6 +51,8 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const [applicantMemberList, setApplicantMemberList] = useState<
     ApplicantMemberType[]
   >([]);
+  const [noticePostList, setNoticePostList] = useState<PostsType[]>([]);
+  const [generalPostList, setGeneralPostList] = useState<PostsType[]>([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useUserContext();
@@ -74,6 +81,18 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       if (studyId) {
         const getList = await getPosts({ studyId: studyId as string });
         setPostList(getList.posts);
+        
+        const getNoticeList = await getPosts({
+          studyId: Number(studyId),
+          category: "NOTICE",
+        });
+        setNoticePostList(getNoticeList.posts);
+
+        const getGeneralList = await getPosts({
+          studyId: Number(studyId),
+          category: "GENERAL",
+        });
+        setGeneralPostList(getGeneralList.posts);
       }
     };
 
@@ -95,7 +114,10 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   };
 
   const handleWriteButtonClick = () => {
-    router.push(`/postCreate`, { query: { tabNumber } });
+    router.push({
+      pathname: `/postCreate`,
+      query: { tabNumber, studyId, isOwner },
+    });
   };
 
   const handleStudyEditButtonClick = () => {
@@ -162,9 +184,9 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       </S.TabsContainer>
 
       <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
-        {postList.length !== 0 ? (
+        {noticePostList.length !== 0 ? (
           <S.StyledUl>
-            {postList?.map((post) => (
+            {noticePostList?.map((post) => (
               <S.StyledList
                 key={post.id}
                 onClick={() => {
@@ -182,18 +204,24 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
         )}
       </TabPanel>
       <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList
-              key={post.id}
-              onClick={() => {
-                handlePostClick(+post.id);
-              }}
-            >
-              <PostCard post={post} />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
+        {generalPostList.length !== 0 ? (
+          <S.StyledUl>
+            {generalPostList?.map((post) => (
+              <S.StyledList
+                key={post.id}
+                onClick={() => {
+                  handlePostClick(+post.id);
+                }}
+              >
+                <PostCard post={post} />
+              </S.StyledList>
+            ))}
+          </S.StyledUl>
+        ) : (
+          <S.NoPost>
+            <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
+          </S.NoPost>
+        )}
       </TabPanel>
     </>
   ) : user ? (

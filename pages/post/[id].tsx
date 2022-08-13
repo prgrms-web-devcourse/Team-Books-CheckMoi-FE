@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { SyntheticEvent } from "react";
+import type { SyntheticEvent, MouseEvent } from "react";
 import { useRouter } from "next/router";
 import { Divider, Tabs, Tab, IconButton, Menu, MenuItem } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
@@ -9,30 +9,67 @@ import { postComments, getComments } from "../../apis";
 import type { CommentsType } from "../../types/commentType";
 import { getMyInfo } from "../../apis/user";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
+import { getPost } from "../../apis";
+import { useUserContext } from "../../hooks/useUserContext";
+import { DeleteModal } from "../../features/DeleteModal";
+import { NoAccess } from "../../components/NoAccess";
 import * as S from "../../styles/PostStyle";
 
-// TODO api가 완성되면 Type과 api 작업 필요
+
 const PostPage = () => {
   const router = useRouter();
+
   const { id, studyId, tabNumber } = router.query;
   const currentTab = tabNumber ? +tabNumber : 0;
   const [value, setValue] = useState(currentTab);
   const [commentList, setCommentList] = useState<CommentsType[]>([]);
   const [currentUserId, setCurrentUserId] = useState("");
   const { renderSnackbar } = useOurSnackbar();
-
+  const { user } = useUserContext();
   // TODO 포스트 상세 정보 가져오기
 
-  // TODO api 연결 후 지울 변수
-  const DATE = "2022/08/05";
-  const [year, month, day] = DATE.split("/");
+
+  const [TabValue, setTabValue] = useState(currentTab);
+
+  const [post, setPost] = useState({} as PostType);
+  const [postDate, setPostDate] = useState([] as string[]);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    const getPostApi = async (postId: string) => {
+      const postData = await getPost(postId);
+      setPost(postData);
+      setPostDate(postData.createdAt.split("/"));
+    };
+    if (id) getPostApi(id as string);
+  }, []);
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
     router.push({
       pathname: `/study/${studyId}`,
       query: { tabNumber: newValue },
     });
-    setValue(newValue);
+    setTabValue(newValue);
+  };
+
+  const handleUpdateClick = async () => {
+    router.push(`/postUpdate/${id}`);
   };
   const getCommentList = async () => {
     const result = await getComments({ postId: id as string });
@@ -66,129 +103,86 @@ const PostPage = () => {
     await getCommentList();
   };
 
-  // TODO 현재 로그인한 유저와 게시글을 작성한 유저를 비교해서 동일할 경우 삭제, 수정 버튼 보이기
+  const handleDeleteClick = async () => {
+    setIsModalOpen(true);
+  };
 
   return (
-    <>
-      <S.TabsContainer>
-        <Tabs value={value} onChange={handleTabChange}>
-          <Tab label="공지" />
-          <Tab label="자유" />
-        </Tabs>
-        <S.ButtonsContainer>
-          <Button variant="contained">수정</Button>
-          <Button variant="contained">삭제</Button>
-        </S.ButtonsContainer>
-      </S.TabsContainer>
-      <S.BoardTitle>Legal Abortion Is Not a Polarizing Issue</S.BoardTitle>
-      <S.BoardInfo>
-        <S.StyledAvatar src="https://i.picsum.photos/id/962/200/300.jpg?hmac=wvuv8EVOoNE5J3sBkBx-1wcVHNbgJ_Z1dS98YhnShjM" />
-        <S.AvatarName>박인화</S.AvatarName>
-        <div>·</div>
-        <S.BoardCreateDate>
-          {year}년 {month}월 {day}일
-        </S.BoardCreateDate>
-      </S.BoardInfo>
-      <Divider />
-      <S.BoardContent>
-        It has become an axiom of political and sociological thought that we are
-        a divided country. Blue states, red states, 50–50, two sides that
-        absolutely cannot understand what the other side could possibly be
-        thinking — we can’t come together on anything. It is my experience,
-        walking around the earth (rather than staring at social media or
-        watching cable news all day), that this is not the case. There are
-        people with whom I fundamentally disagree on some issues that I
-        completely agree with on others. There are people I am mostly aligned
-        with politically who are assholes; there are people on the opposite
-        sides of every issue from me that are truly kind, good-hearted people.
-        This is not a difficult concept to understand for any human except those
-        overly invested in social media, an institution that seems specifically
-        designed to dehumanize anyone who doesn’t share your precise life
-        experience. Life is a rich pageant, and every person is complicated.
-        Nothing is split down the middle. Nothing, and no one, is purely good,
-        or purely bad. If you find someone who claims they are, they are
-        pretending. They are lying to themselves.
-        <br />
-        <br />
-        But this sense that our country is somehow 50–50 persists, particularly
-        among those so entrenched in their own all-or-nothing mindsets that
-        accepting otherwise would require them to re-analyze their worldview in
-        a way that could prove psychologically challenging. And I’m not sure
-        this is any more true than in the issue of abortion. Abortion,
-        essentially my entire life, has always been seen as a bit of a third
-        rail: You always have to be careful whom you bring it up around. The
-        accepted wisdom — particularly among corporations and public figures
-        looking not to alienate a large percentage of their customers and
-        followers — was that whatever side you came down on on the abortion
-        debate, you’d infuriate half the country. Half the people were
-        pro-choice, half were pro-life, neither would ever back down from their
-        position, there was no winning over anybody. Best just to stay out of
-        it.
-        <br />
-        <br />
-        But this is not true, and may never have been true. Much of this may
-        come down to the way these “debates” have been framed. Being “pro-life”
-        is not, in fact, the opposite of being “pro-choice.” Someone can believe
-        that an abortion is tragic, or even that it’s inherently against their
-        religion, and still believe a woman should have the right to have one.
-        Someone can believe abortion is health care and still be wary of a
-        third-trimester abortion (an extremely rare procedure that’s mostly used
-        as a rhetorical scare tactic) that doesn’t directly affect the health of
-        the mother. Someone can fight any sort of stigma being involved with
-        abortion and still struggle emotionally with their own history with it.
-        The world is big and complicated. Nothing is simply black or white.
-        <br />
-        <br />
-        But one thing is increasingly clear, now that Roe v. Wade has been
-        overturned: This country is not polarized, or split, about whether or
-        not abortion should be legal. This country believes it should be. By a
-        large margin.
-        <br />
-        <br />
-        Polls have shown for years that between 62–70 percent of Americans
-        believe abortion should be legal in all or most cases, but those are
-        polls: The last few years of American political discourse, and its
-        result, have given everyone a healthy suspicion of polls. And many of
-        those polls were conducted before the Supreme Court struck down Roe v.
-        Wade, something that many Americans believed would never actually
-        happen. Now that it has, though: The numbers are looking even more
-        stark. One need look no farther than Kansas.
-        <br />
-        <br />
-        Last night, Kansas — a state that has not voted for a Democratic
-        Presidential nominee since LBJ, and before him, FDR — became the first
-        state to put an actual amendment on the ballot for voters, asking them
-        whether or not there should be an amendment that removed the right to
-        abortion from the state constitution. States that have taken away
-        abortion rights, in the wake of Roe v. Wade, have generally done so via
-        extremist state legislatures, where a bunch of old white guys get
-        together to vote and say crazy-ass things like this:
-        <br />
-        <br />
-        But this was an actual vote, with actual citizens, with actual
-        consequences. In Kansas. And by a 59–41 margin — in Kansas! — the
-        amendment was shot down. This is a state that voted for Trump over Biden
-        56–42. It is one of the reddest states in the union. And it wants
-        abortion to be legal … by a huge, huge amount. From The New York Times
-        story:
-        <br />
-        <br />
-        Registered Republicans far outnumber Democrats in Kansas — and abortion
-        rights activists made explicit appeals to unaffiliated voters and
-        center-right voters. In interviews last week in populous Johnson County,
-        Kan., a number of voters said they were registered Republicans but
-        opposed the amendment — a dynamic that almost certainly played out
-        across the state, given the margin.
-        <br />
-        <br />
-        “We’re watching the votes come in, we’re seeing the changes of some of
-        the counties where Donald Trump had a huge percentage of the vote, and
-        we’re seeing that just decimated,” said Jo Dee Adelung, 63, a Democrat
-        from Merriam, Kan., who knocked on doors and called voters in recent
-        weeks.
-      </S.BoardContent>
-      <Divider />
-      <CommentInput onCreateComment={onCreateComment} />
+    <div>
+      {!user ? (
+        <NoAccess
+          title="이 페이지는 로그인한 사용자만 이용할 수 있습니다."
+          description="책모이에 로그인하시면 다양한 서비스를 이용하실 수 있습니다."
+        />
+      ) : (
+        post.id && (
+          <>
+            <S.TabsContainer>
+              <Tabs value={TabValue} onChange={handleTabChange}>
+                <Tab label="공지" />
+                <Tab label="자유" />
+              </Tabs>
+            </S.TabsContainer>
+            <S.BoardTitleContainer>
+              <S.BoardTitle>{post.title}</S.BoardTitle>
+              <S.ButtonsContainer>
+                {Number(user?.id) === post.writerId && (
+                  <>
+                    <IconButton
+                      aria-label="more"
+                      id="long-button"
+                      aria-controls={open ? "long-menu" : undefined}
+                      aria-expanded={open ? "true" : undefined}
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                    >
+                      <MoreVert />
+                    </IconButton>
+                    <Menu
+                      id="long-menu"
+                      sx={{ textAlign: "center" }}
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                    >
+                      <MenuItem
+                        sx={{ width: "5rem", justifyContent: "center" }}
+                        onClick={handleUpdateClick}
+                      >
+                        수정
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ width: "5rem", justifyContent: "center" }}
+                        onClick={handleDeleteClick}
+                      >
+                        삭제
+                      </MenuItem>
+                    </Menu>
+                  </>
+                )}
+              </S.ButtonsContainer>
+            </S.BoardTitleContainer>
+            <S.BoardInfo>
+              <S.StyledAvatar src={post.writerImage} />
+              <S.AvatarName>{post.writer}</S.AvatarName>
+              <div>·</div>
+              <S.BoardCreateDate>
+                {postDate[0]}년 {postDate[1]}월 {postDate[2]}일
+              </S.BoardCreateDate>
+            </S.BoardInfo>
+            <Divider />
+            <S.BoardContent>{post.content}</S.BoardContent>
+            <Divider />
+            <CommentInput />
+            <DeleteModal
+              id={post.id}
+              studyId={post.studyId}
+              open={isModalOpen}
+              onClose={handleCloseModal}
+            />
+          </>
+        )
+      )}
       {/* TODO Comment List 출력 */}
       {commentList.map((comment) => (
         <Comment
@@ -198,7 +192,7 @@ const PostPage = () => {
           onReloadComment={onReloadComment}
         />
       ))}
-    </>
+    </div>
   );
 };
 

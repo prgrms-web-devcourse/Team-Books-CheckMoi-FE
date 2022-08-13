@@ -4,7 +4,7 @@ import { END_POINT } from ".";
 import type { ResponsePostType, PostsType } from "../types/postType";
 
 interface getPostType {
-  studyId: string;
+  studyId: number;
   category: string;
 }
 
@@ -21,6 +21,7 @@ export const getPosts = async ({ studyId, category }: getPostType) => {
   );
   return data;
 };
+
 
 interface CreatePostType {
   title: string;
@@ -55,6 +56,16 @@ export const createPost = async (post: CreatePostType) => {
 export const putPost = async (postId: number, post: CreatePostType) => {
   const token = document.cookie.split("=")[1];
   const data = await apiClient.put(`${END_POINT.posts}/${postId}`, post, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+};
+
+export const delPost = async (postId: number) => {
+  const token = document.cookie.split("=")[1];
+  const data = await apiClient.delete(`${END_POINT.posts}/${postId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

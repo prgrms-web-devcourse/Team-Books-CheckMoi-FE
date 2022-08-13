@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Skeleton } from "@mui/material";
 
 export const CommentContainer = styled.div`
   display: flex;
@@ -39,4 +40,19 @@ export const UserInfo = styled.div`
     font-size: 0.5rem;
     color: #a9a9a9;
   }
+`;
+
+interface SkeletonProps {
+  size: string;
+}
+
+export const CommentWriterSkeleton = styled(Skeleton)<SkeletonProps>`
+  width: 100%;
+  height: ${({ size }) => size};
+`;
+
+export const CommentContentSkeleton = styled.div<SkeletonProps>`
+  margin: ${({ size }) => `${size} ${size} 0 0`};
+  width: 100%;
+  height: 67px;
 `;

@@ -11,6 +11,7 @@ export const END_POINT = {
   posts: "/posts",
   applicants: "/studies",
   comments: "/comments",
+  v2_books: "/v2/books",
 };
 
 export { getNaverBooks } from "./naver";
@@ -19,7 +20,7 @@ export { getBooksList, getBookInfo, registerBook } from "./book";
 
 export { postImage } from "./image";
 
-export { getPosts, getPost, createPost, putPost } from "./post";
+export { getPosts, getPost, createPost, putPost, delPost } from "./post";
 
 export {
   getUser,
@@ -29,6 +30,17 @@ export {
   getFinishStudy,
 } from "./user";
 
-export { getApplicantMembers, putApplicantAcceptOrDeny } from "./applicant";
+export { getComments, postComments, deleteComment, putComment } from "./comments";
 
-export { getComments, postComments, deleteComment } from "./comments";
+export {
+  getStudies,
+  getStudyDetailInfo,
+  createStudy,
+  updateStudy,
+} from "./study";
+
+export {
+  getApplicantMembers,
+  putApplicantAcceptOrDeny,
+} from "./applicant";
+

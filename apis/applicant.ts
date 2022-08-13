@@ -12,6 +12,7 @@ interface putApplicantProps {
   status: string;
 }
 
+
 export const getApplicantMembers = async ({ studyId }: getApplicantsProps) => {
   const token = document.cookie.split("=")[1];
   const data = await apiClient.get<

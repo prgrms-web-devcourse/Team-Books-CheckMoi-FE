@@ -103,7 +103,7 @@ export const getFinishStudy = async ({ id, token }: getUserType) => {
   const data = await apiClient.get<any, any>(`${END_POINT.v2_studies}`, {
     params: {
       userId: id,
-      studyStatus: "FINISHED",
+      studyStatus: "finished",
     },
     headers: {
       Authorization: `Bearer ${token}`,

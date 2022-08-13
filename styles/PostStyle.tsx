@@ -9,7 +9,13 @@ export const TabsContainer = styled.div`
 export const ButtonsContainer = styled.div`
   display: flex;
   height: 2rem;
+  margin-top: 1rem;
+  margin-left: auto;
   gap: 1rem;
+`;
+
+export const BoardTitleContainer = styled.div`
+  display: flex;
 `;
 
 export const BoardTitle = styled.div`

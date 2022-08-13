@@ -70,3 +70,23 @@ export const ResponsiveText = styled.div<ResponsiveTextProps>`
   padding: 0.5rem;
   font-size: ${({ fontSize }) => `${fontSize}rem`};
 `;
+
+export const StudyInfoContainerSkeleton = styled.div`
+  width: 609px;
+  padding: 1rem;
+  padding-top: 0;
+`;
+
+export const StudyTypographSkeleton = styled.div`
+  height: 8rem;
+`;
+
+export const StudyText = styled.div`
+  width: 16rem;
+  height: 19px;
+  padding: 0.5rem 0;
+`;
+
+export const AvartarGroupContainerSkeleton = styled.div`
+  flex-grow: 1;
+`;
