@@ -34,8 +34,10 @@ const Home = ({ books }: ServerSidePropsType) => {
       <Slider
         dots
         autoplay
+        infinite
         pauseOnHover
-        speed={500}
+        autoplaySpeed={4000}
+        speed={2000}
         slidesToShow={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
         slidesToScroll={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
       >
@@ -53,8 +55,10 @@ const Home = ({ books }: ServerSidePropsType) => {
       <Slider
         dots
         autoplay
+        infinite
         pauseOnHover
-        speed={500}
+        autoplaySpeed={4000}
+        speed={2000}
         slidesToShow={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
         slidesToScroll={width <= 768 ? (width <= 512 ? 2 : 3) : 5}
       >
