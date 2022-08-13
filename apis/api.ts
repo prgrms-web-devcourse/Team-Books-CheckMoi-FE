@@ -27,6 +27,10 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     console.log("Error", error.response.data.errors);
+    if (error.response.status === 401) {
+      document.cookie = "token=; path=/; max-age=0;";
+      window.location.href = "/?error=1";
+    }
 
     return Promise.reject(error);
   }

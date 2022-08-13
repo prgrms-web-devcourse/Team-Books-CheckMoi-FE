@@ -10,13 +10,14 @@ import { getMyInfo } from "../apis/user";
 
 interface MyAppProps extends AppProps {
   user: TopbarUserType | null;
+  message: string;
 }
 
-const MyApp = ({ Component, pageProps, user }: MyAppProps) => {
+const MyApp = ({ Component, pageProps, user, message }: MyAppProps) => {
   return (
     <SnackbarProvider maxSnack={3}>
       <UserContextProvider initialUser={user}>
-        <Topbar />
+        <Topbar message={message} />
         <S.ContentContainer>
           <Component {...pageProps} />
         </S.ContentContainer>
@@ -26,6 +27,8 @@ const MyApp = ({ Component, pageProps, user }: MyAppProps) => {
 };
 
 MyApp.getInitialProps = async (context: AppContext) => {
+  const flag = context.ctx.asPath?.split("error=")[1];
+  const message = flag ? "로그인 시간이 만료됨" : "";
   const cookie = context.ctx.req?.headers.cookie;
 
   if (cookie) {
@@ -33,13 +36,22 @@ MyApp.getInitialProps = async (context: AppContext) => {
 
     try {
       const user = await getMyInfo(token);
-      return { user };
+      return {
+        user,
+        message,
+      };
     } catch (error) {
-      return { user: null };
+      return {
+        user: null,
+        message,
+      };
     }
   }
 
-  return { user: null };
+  return {
+    user: null,
+    message,
+  };
 };
 
 export default MyApp;
