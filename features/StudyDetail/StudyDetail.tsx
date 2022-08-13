@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import type { StudyType } from "../../types/studyType";
 import { StudyContent } from "../../components/StudyContent";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
-import { getStudyDetailInfo, joinStudy } from "../../apis/study";
+import { getStudyDetailInfo, joinStudy } from "../../apis";
 import type { TopbarUserType, UserType } from "../../types/userType";
 import type { BookType } from "../../types/bookType";
 import { useUserContext } from "../../hooks/useUserContext";

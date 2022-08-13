@@ -16,3 +16,5 @@ export { getBooksList, getBookInfo, registerBook } from "./book";
 export { postImage } from "./image";
 
 export { getUser, putUser } from "./user";
+
+export { joinStudy, getStudyDetailInfo } from "./study";
