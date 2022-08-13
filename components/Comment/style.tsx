@@ -22,7 +22,7 @@ export const ContentWrapper = styled.div`
   padding: 0.5rem 0;
   flex-shrink: 2;
   width: 100%;
-  overflow: scroll;
+  overflow: auto;
   gap: 0.5rem;
 `;
 

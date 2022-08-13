@@ -1,25 +1,24 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
 
-import type { ResponsePostType, PostPropsType } from "../types/postType";
-
-const token =
-  typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
+import type { ResponsePostType, PostsType } from "../types/postType";
 
 interface getPostType {
   studyId: string;
+  category: string;
 }
 
-export const getPosts = async ({ studyId }: getPostType) => {
+export const getPosts = async ({ studyId, category }: getPostType) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.get<ResponsePostType, ResponsePostType>(
-    `${END_POINT.posts}?studyId=${studyId}`,
+    `${END_POINT.posts}`,
     {
+      params: { studyId, category },
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }
   );
-  console.log("data", data);
   return data;
 };
 
@@ -31,33 +30,34 @@ interface CreatePostType {
 }
 
 export const getPost = async (postId: string) => {
-  const data = await apiClient.get<
-    Omit<PostPropsType, "onClick">,
-    Omit<PostPropsType, "onClick">
-  >(`${END_POINT.posts}/${postId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const token = document.cookie.split("=")[1];
+  const data = await apiClient.get<PostsType, PostsType>(
+    `${END_POINT.posts}/${postId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return data;
 };
 
 export const createPost = async (post: CreatePostType) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.post<any, any>(`${END_POINT.posts}`, post, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(data, "포스트 생성");
   return data;
 };
 
 export const putPost = async (postId: number, post: CreatePostType) => {
+  const token = document.cookie.split("=")[1];
   const data = await apiClient.put(`${END_POINT.posts}/${postId}`, post, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(postId, "포스트 수정");
   return data;
 };

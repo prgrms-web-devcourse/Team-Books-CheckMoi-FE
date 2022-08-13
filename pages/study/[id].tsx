@@ -41,9 +41,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const { id: studyId, tabNumber: tabValue } = router.query;
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
 
-  const token =
-    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
-
   const [tabNumber, setTabNumber] = useState(currentTab);
   const [postList, setPostList] = useState<PostsType[]>([]);
   const [applicantMemberList, setApplicantMemberList] = useState<
@@ -62,7 +59,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     if (studyId) {
       const getList = await getApplicantMembers({
         studyId: studyId as string,
-        token,
       });
       setApplicantMemberList(getList);
     }
@@ -111,7 +107,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       await putApplicantAcceptOrDeny({
         studyId: studyId as string,
         memberId,
-        token,
         status: "ACCEPTED",
       });
       renderSnackbar("승인 성공");
@@ -126,7 +121,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
       await putApplicantAcceptOrDeny({
         studyId: studyId as string,
         memberId,
-        token,
         status: "DENIED",
       });
       renderSnackbar("거절 성공 ");

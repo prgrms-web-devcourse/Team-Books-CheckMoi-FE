@@ -1,6 +1,6 @@
 import { Button, Divider, Modal, Typography } from "@mui/material";
 import { useState } from "react";
-import { ApplicantMemberType } from "../../types/applicantType";
+import type { ApplicantMemberType } from "../../types/applicantType";
 import { Applicant } from "./Applicant/Applicant";
 import * as S from "./style";
 

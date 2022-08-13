@@ -2,8 +2,7 @@ import { apiClient } from "./api";
 import { END_POINT } from ".";
 import { ResponseCommentsType } from "../types/commentType";
 
-const token =
-  typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
+const token = document.cookie.split("=")[1];
 
 interface getCommentProps {
   postId: string;

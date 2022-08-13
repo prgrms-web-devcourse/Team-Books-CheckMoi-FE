@@ -1,19 +1,19 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import type { SyntheticEvent } from "react";
 import { useRouter } from "next/router";
-import { Divider, Tabs, Tab, Button } from "@mui/material";
-import * as S from "../../styles/PostStyle";
+import { Divider, Tabs, Tab, IconButton, Menu, MenuItem } from "@mui/material";
+import { MoreVert } from "@mui/icons-material";
 import { CommentInput } from "../../components/CommentInput";
 import { Comment } from "../../components/Comment";
 import { postComments, getComments } from "../../apis";
 import type { CommentsType } from "../../types/commentType";
 import { getMyInfo } from "../../apis/user";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
+import * as S from "../../styles/PostStyle";
 
 // TODO api가 완성되면 Type과 api 작업 필요
 const PostPage = () => {
   const router = useRouter();
-  const token =
-    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
   const { id, studyId, tabNumber } = router.query;
   const currentTab = tabNumber ? +tabNumber : 0;
   const [value, setValue] = useState(currentTab);
@@ -45,6 +45,7 @@ const PostPage = () => {
 
   useEffect(() => {
     const getCurrentUser = async () => {
+      const token = document.cookie.split("=")[1];
       const user = await getMyInfo(token);
       setCurrentUserId(user.id);
     };
