@@ -385,7 +385,12 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
               value={studyInfo.status}
               onChange={handleStudyInfoChange}
               error={!!inputError.status}
-              helperText={inputError.status}
+              helperText={
+                inputError.status ||
+                (studyId &&
+                  studyInfo.status === "recruiting" &&
+                  "모집 완료로 변경 시 다시 모집 중으로 되돌릴 수 없습니다.")
+              }
             >
               <MenuItem key="status-recruiting" value="recruiting">
                 {STATUS.recruiting}
