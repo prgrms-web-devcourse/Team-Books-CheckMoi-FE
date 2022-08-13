@@ -51,17 +51,7 @@ const Book = () => {
 
   return (
     <div>
-      <BookDetail
-        size={200}
-        src={bookInfo.image}
-        title={bookInfo.title}
-        author={bookInfo.author}
-        publisher={bookInfo.publisher}
-        pubdate={bookInfo.pubdate}
-        description={bookInfo.description}
-        isbn={bookInfo.isbn}
-      />
-
+      <BookDetail size={200} book={bookInfo} />
       <Divider color="black" />
       <StudyCardList studies={studies} />
       {pageState.pageNumber !== pageState.totalPage ? <div ref={ref} /> : null}
