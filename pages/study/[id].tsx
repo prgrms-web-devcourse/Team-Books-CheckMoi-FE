@@ -93,7 +93,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const isStudyMember = user && membersIdList.includes(user.id);
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
-    console.log("newValue", newValue);
     setTabNumber(newValue);
   };
 

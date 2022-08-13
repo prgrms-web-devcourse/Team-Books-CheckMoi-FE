@@ -56,7 +56,6 @@ const PostPage = () => {
   }, []);
 
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
-    console.log("newValue", newValue);
     router.push({
       pathname: `/study/${studyId}`,
       query: { tabNumber: newValue },
