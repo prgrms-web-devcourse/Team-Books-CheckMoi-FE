@@ -45,12 +45,12 @@ export const getBooksByLatestStudy = async () => {
   const data = await apiClient.get<V2BookType, V2BookType>(
     `${END_POINT.v2_books}?latestStudy=true&size=10`
   );
-  return data.books;
+  return data;
 };
 
 export const getBooksByMostStudy = async () => {
   const data = await apiClient.get<V2BookType, V2BookType>(
     `${END_POINT.v2_books}?mostStudy=true&size=10`
   );
-  return data.books;
+  return data;
 };

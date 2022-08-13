@@ -80,8 +80,8 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const studyLatestBooks = await getBooksByLatestStudy();
-    const mostStudyBooks = await getBooksByMostStudy();
+    const { books: studyLatestBooks } = await getBooksByLatestStudy();
+    const { books: mostStudyBooks } = await getBooksByMostStudy();
 
     return {
       props: {
