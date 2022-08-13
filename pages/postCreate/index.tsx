@@ -1,42 +1,19 @@
-import { useState } from "react";
-import { MenuItem, TextField, SelectChangeEvent } from "@mui/material";
-import * as S from "../../styles/PostCreatePageStyle";
+import { useRouter } from "next/router";
+import { PostForm } from "../../features";
 
 const PostCreatePage = () => {
-  const [selectValue, setSelectValue] = useState("NOTION");
-  const handleChange = (event: SelectChangeEvent<unknown>) => {
-    setSelectValue(event.target.value as string);
-  };
+  const router = useRouter();
+  const { tabNumber, studyId, isOwner } = router.query;
+
   return (
-    <S.Container>
-      <S.Title>
-        <S.StyledSelect
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={selectValue}
-          onChange={handleChange}
-        >
-          <MenuItem value="NOTION">공지</MenuItem>
-          <MenuItem value="FREE">자유</MenuItem>
-        </S.StyledSelect>
-        <S.StyledTextField
-          name="title"
-          variant="standard"
-          placeholder="제목을 입력해주세요"
-          margin="dense"
-          fullWidth
-        />
-      </S.Title>
-      <TextField
-        name="content"
-        variant="outlined"
-        placeholder="내용을 입력해주세요"
-        multiline
-        minRows={15}
-        margin="dense"
-      />
-      <S.StyledButton variant="contained">게시하기</S.StyledButton>
-    </S.Container>
+    <PostForm
+      state="POST"
+      selectValue={tabNumber === "1" ? "GENERAL" : "NOTICE"}
+      title=""
+      content=""
+      studyId={Number(studyId)}
+      isOwner={isOwner === "true"}
+    />
   );
 };
 

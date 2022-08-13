@@ -1,141 +1,229 @@
 import { useEffect, useState } from "react";
-import type { SyntheticEvent } from "react";
-import { Tabs, Tab, Button } from "@mui/material";
-import type { GetServerSideProps } from "next/types";
 import { useRouter } from "next/router";
+import { Tabs, Tab, Button, Typography } from "@mui/material";
+import type { SyntheticEvent } from "react";
+import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
+import type { PostsType } from "../../types/postType";
+import type { ApplicantMemberType } from "../../types/applicantType";
 import { TabPanel } from "../../components";
 import { StudyDetailCard } from "../../components/StudyDetailCard";
-import { getStudyDetailInfo } from "../../apis/study";
 import { PostCard } from "../../components/PostCard";
-import { DummyPost } from "../../commons/dummyPost";
 import { useUserContext } from "../../hooks/useUserContext";
 import * as S from "../../styles/StudyDetailPageStyle";
+import { NoAccess } from "../../components/NoAccess";
+import { getPosts } from "../../apis/post";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
+import { getStudyDetailInfo } from "../../apis/study";
+import { ApplicantList } from "../../features/ApplicantList";
+import {
+  getApplicantMembers,
+  putApplicantAcceptOrDeny,
+} from "../../apis/applicant";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
 }
 
-// TODO ContextAPI로 User 정보 가져오기
-// TODO studyID로 Study 정보 요청하기
-// TODO 게시글 작성 버튼
-// TODO User가 스터디장일 경우와 아닐 경우 탭, 버튼 권한 부여
-
 const STUDY_OWNER = 0;
-
-const writeButton = (
-  tabNumber: number,
-  isOwner: boolean,
-  onButtonClick: () => void
-) => {
-  if (tabNumber !== 2)
-    if (tabNumber === 0) {
-      if (isOwner)
-        return (
-          <Button variant="contained" onClick={onButtonClick}>
-            글 작성
-          </Button>
-        );
-    } else
-      return (
-        <Button variant="contained" onClick={onButtonClick}>
-          글 작성
-        </Button>
-      );
-
-  return "";
-};
+const NOTICE_BOARD_TAB = 0;
+const FREE_BOARD_TAB = 1;
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const { study, members } = studyData;
+  const userList = members.map((member) => {
+    return member.user;
+  });
 
   const router = useRouter();
-  const { value: tabValue } = router.query;
+  const { id: studyId, tabNumber: tabValue } = router.query;
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
-  const [tabNumber, setTabNumber] = useState(currentTab);
 
+  const [tabNumber, setTabNumber] = useState(currentTab);
+  const [applicantMemberList, setApplicantMemberList] = useState<
+    ApplicantMemberType[]
+  >([]);
+  const [noticePostList, setNoticePostList] = useState<PostsType[]>([]);
+  const [generalPostList, setGeneralPostList] = useState<PostsType[]>([]);
   const [isOwner, setIsOwner] = useState(false);
 
   const { user } = useUserContext();
+  const { renderSnackbar } = useOurSnackbar();
+
+  const membersIdList = userList.map((member) => {
+    return member.id;
+  });
+
+  const getApplicantMemberList = async () => {
+    if (studyId) {
+      const getList = await getApplicantMembers({
+        studyId: studyId as string,
+      });
+      setApplicantMemberList(getList);
+    }
+  };
 
   useEffect(() => {
-    if (user?.id === members[STUDY_OWNER].id) setIsOwner(true);
+    if (user?.id === userList[STUDY_OWNER].id) setIsOwner(true);
     else setIsOwner(false);
   }, [user]);
 
+  useEffect(() => {
+    const getPostList = async () => {
+      if (studyId) {
+        const getNoticeList = await getPosts({
+          studyId: Number(studyId),
+          category: "NOTICE",
+        });
+        setNoticePostList(getNoticeList.posts);
+
+        const getGeneralList = await getPosts({
+          studyId: Number(studyId),
+          category: "GENERAL",
+        });
+        setGeneralPostList(getGeneralList.posts);
+      }
+    };
+
+    getPostList();
+    getApplicantMemberList();
+  }, [studyId]);
+
+  const isStudyMember = membersIdList.includes(user?.id as string);
+
   const handleTabChange = (e: SyntheticEvent, newValue: number) => {
+    console.log("newValue", newValue);
     setTabNumber(newValue);
   };
 
   const handlePostClick = (id: number) => {
     router.push({
       pathname: `/post/${id}`,
-      query: { tabNumber },
+      query: { tabNumber, studyId },
     });
   };
 
-  const handleButtonClick = () => {
+  const handleWriteButtonClick = () => {
     router.push({
       pathname: `/postCreate`,
-      query: { tabNumber },
+      query: { tabNumber, studyId, isOwner },
     });
   };
 
-  return (
+  const handleStudyEditButtonClick = () => {
+    router.push(`/studyEdit/${studyId}`);
+  };
+
+  const onAccepted = async (memberId: string) => {
+    try {
+      await putApplicantAcceptOrDeny({
+        studyId: studyId as string,
+        memberId,
+        status: "ACCEPTED",
+      });
+      renderSnackbar("승인 성공");
+    } catch (error) {
+      renderSnackbar("승인 실패", "error");
+    }
+    getApplicantMemberList();
+  };
+
+  const onDenied = async (memberId: string) => {
+    try {
+      await putApplicantAcceptOrDeny({
+        studyId: studyId as string,
+        memberId,
+        status: "DENIED",
+      });
+      renderSnackbar("거절 성공 ");
+    } catch (error) {
+      renderSnackbar("거절 실패", "error");
+    }
+    getApplicantMemberList();
+  };
+
+  return user && isStudyMember ? (
     <>
-      <StudyDetailCard study={study} members={members} />
-      <S.TabsWrapper>
+      <StudyDetailCard study={study} members={userList} />
+      <S.TabsContainer>
         <Tabs value={tabNumber} onChange={handleTabChange}>
           <Tab label="공지" />
           <Tab label="자유" />
-          {isOwner && <Tab label="관리자" />}
         </Tabs>
-        {writeButton(tabNumber, isOwner, handleButtonClick)}
-      </S.TabsWrapper>
-      {/* TODO 더미 데이터 사용중 교체 예정 */}
-      <TabPanel value={tabNumber} index={0}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList
-              key={post.id}
-              onClick={() => {
-                handlePostClick(+post.id);
-              }}
-            >
-              <PostCard post={post} />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
+        <S.ButtonsWrapper>
+          {isOwner && (
+            <>
+              <ApplicantList
+                applicantList={applicantMemberList}
+                onAccepted={onAccepted}
+                onDenied={onDenied}
+              />
+              <Button variant="contained" onClick={handleStudyEditButtonClick}>
+                스터디 정보 수정
+              </Button>
+            </>
+          )}
+          {tabNumber === NOTICE_BOARD_TAB && !isOwner ? (
+            ""
+          ) : (
+            <Button variant="contained" onClick={handleWriteButtonClick}>
+              글 작성
+            </Button>
+          )}
+        </S.ButtonsWrapper>
+      </S.TabsContainer>
+
+      <TabPanel value={tabNumber} index={NOTICE_BOARD_TAB}>
+        {noticePostList.length !== 0 ? (
+          <S.StyledUl>
+            {noticePostList?.map((post) => (
+              <S.StyledList
+                key={post.id}
+                onClick={() => {
+                  handlePostClick(+post.id);
+                }}
+              >
+                <PostCard post={post} />
+              </S.StyledList>
+            ))}
+          </S.StyledUl>
+        ) : (
+          <S.NoPost>
+            <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
+          </S.NoPost>
+        )}
       </TabPanel>
-      <TabPanel value={tabNumber} index={1}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList
-              key={post.id}
-              onClick={() => {
-                handlePostClick(+post.id);
-              }}
-            >
-              <PostCard post={post} />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
-      </TabPanel>
-      <TabPanel value={tabNumber} index={2}>
-        <S.StyledUl>
-          {DummyPost.map((post) => (
-            <S.StyledList
-              key={post.id}
-              onClick={() => {
-                handlePostClick(+post.id);
-              }}
-            >
-              <PostCard post={post} />
-            </S.StyledList>
-          ))}
-        </S.StyledUl>
+      <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
+        {generalPostList.length !== 0 ? (
+          <S.StyledUl>
+            {generalPostList?.map((post) => (
+              <S.StyledList
+                key={post.id}
+                onClick={() => {
+                  handlePostClick(+post.id);
+                }}
+              >
+                <PostCard post={post} />
+              </S.StyledList>
+            ))}
+          </S.StyledUl>
+        ) : (
+          <S.NoPost>
+            <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
+          </S.NoPost>
+        )}
       </TabPanel>
     </>
+  ) : user ? (
+    <NoAccess
+      title="이 페이지는 스터디에 참여한 사용자만 이용할 수 있습니다."
+      description="스터디에 참가 신청을 하시기 바랍니다."
+    />
+  ) : (
+    <NoAccess
+      title="이 페이지는 로그인한 사용자만 이용할 수 있습니다."
+      description="책모이에 로그인하시면 다양한 서비스를 이용하실 수 있습니다."
+    />
   );
 };
 

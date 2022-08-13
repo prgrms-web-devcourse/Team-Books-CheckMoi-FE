@@ -56,11 +56,59 @@ export const putUser = async ({ id, name, image, token }: PutUserType) => {
   return data;
 };
 
-export const getUser = async (id: string, token: string) => {
+// TODO 추후 타입 추가
+export interface getUserType {
+  id: string;
+  token: string;
+}
+
+export const getUser = async ({ id, token }: getUserType) => {
   const data = await apiClient.get<any, any>(`${END_POINT.user}/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  return data;
+};
+
+export const getOpenStudy = async ({ id, token }: getUserType) => {
+  const data = await apiClient.get<any, any>(`${END_POINT.v2_studies}`, {
+    params: {
+      userId: id,
+      memberStatus: "OWNED",
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return data;
+};
+
+export const getPartiStudy = async ({ id, token }: getUserType) => {
+  const data = await apiClient.get<any, any>(`${END_POINT.v2_studies}`, {
+    params: {
+      userId: id,
+      isMember: true,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return data;
+};
+
+export const getFinishStudy = async ({ id, token }: getUserType) => {
+  const data = await apiClient.get<any, any>(`${END_POINT.v2_studies}`, {
+    params: {
+      userId: id,
+      studyStatus: "finished",
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
   return data;
 };

@@ -1,6 +1,23 @@
 import styled from "@emotion/styled";
 import { Avatar } from "@mui/material";
 
+export const TabsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+  height: 2rem;
+  margin-top: 1rem;
+  margin-left: auto;
+  gap: 1rem;
+`;
+
+export const BoardTitleContainer = styled.div`
+  display: flex;
+`;
+
 export const BoardTitle = styled.div`
   margin: 1rem 0;
   font-size: 2rem;

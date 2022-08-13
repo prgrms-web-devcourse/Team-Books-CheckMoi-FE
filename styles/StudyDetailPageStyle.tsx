@@ -1,9 +1,14 @@
 import styled from "@emotion/styled";
 
-export const TabsWrapper = styled.div`
+export const TabsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 1rem;
+`;
+
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
 `;
 
 export const StyledUl = styled.ul`
@@ -24,4 +29,10 @@ export const StyledList = styled.li`
   &:hover {
     transform: scale(1.05) translateY(-10px);
   }
+`;
+
+export const NoPost = styled.div`
+  width: 100%;
+  margin-top: 5rem;
+  text-align: center;
 `;

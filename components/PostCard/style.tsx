@@ -1,12 +1,8 @@
 import styled from "@emotion/styled";
 import { Badge } from "@mui/material";
 
-interface PostCardProps {
-  size: number;
-}
-
-export const PostCard = styled.div<PostCardProps>`
-  width: ${({ size }) => `${size}rem`};
+export const PostCard = styled.div`
+  width: 20rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -53,4 +49,10 @@ export const PostUserWarpper = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+`;
+
+export const PostCardWriterSkeleton = styled.div`
+  flex-shrink: 0;
+  width: 10rem;
+  height: 19px;
 `;

@@ -1,52 +1,57 @@
+import { url } from "inspector";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useUserContext } from "../../hooks/useUserContext";
+import type { BookType } from "../../types/bookType";
 import * as S from "./style";
 import { LoginRequestModal } from "../../features/LoginRequestModal/LoginRequestModal";
 
 interface BookDetailProps {
   id: number;
   size: number;
-  src: string;
-  title: string;
-  author: string;
-  publisher: string;
-  pubdate: string;
-  isbn: string;
-  description: string;
+  book: BookType;
 }
 
 // TODO Image => future Image로 수정해야 함
-export const BookDetail = ({
-  id = 0,
-  size = 208,
-  src = "",
-  title = "",
-  author = "",
-  publisher = "",
-  pubdate = "",
-  isbn = "",
-  description = "",
-}: BookDetailProps) => {
-  const { user } = useUserContext();
+
+
+
+
+
+export const BookDetail = ({ size = 208, book }: BookDetailProps) => {
+  const {
+    id: bookId,
+    image,
+    title,
+    author,
+    publisher,
+    pubdate,
+    isbn,
+    description,
+  } = book;
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
+  const { user } = useUserContext();
 
   const handleStudyCreateBtnClick = () => {
     if (!user) setOpenModal(true);
     else router.push(`/studyOpen/${id}`);
   };
 
+  const handleStudyOpenClick = () => {
+    router.push(`/studyOpen/${bookId}`);
+    
+  };
   const handleOnCloseClick = () => {
     setOpenModal(false);
-  };
+}
 
   return (
     <S.BookDetailCard>
       <S.ImageContainer>
         <S.ImageWrapper>
-          <Image width={size} height={size * 1.5} src={src} />
+          <Image width={size} height={size * 1.5} src={image} />
         </S.ImageWrapper>
         <S.StyledButton
           variant="contained"

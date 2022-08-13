@@ -1,6 +1,7 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
 import type { StudyDetailType, StudyType } from "../types/studyType";
+import { dummyToken } from "../commons/dummy";
 
 interface ResponseStudiesType {
   studiesData: StudyType[];
@@ -36,7 +37,6 @@ export interface ICreateStudy {
   token: string;
 }
 
-// TODO: studyType
 export const createStudy = async ({ newStudyInfo, token }: ICreateStudy) => {
   const data = await apiClient.post<number, number>(
     `${END_POINT.studies}`,
@@ -59,6 +59,35 @@ export const joinStudy = async (id: string, token: string) => {
     {
       headers: {
         Authorization: `bearer ${token}`,
+              },
+    }
+  );
+  return data;
+};
+
+interface IUpdateStudy {
+  studyId: string;
+  newStudyInfo: {
+    name: string;
+    thumbnail: string;
+    description: string;
+    status: string;
+  };
+  token: string;
+}
+
+export const updateStudy = async ({
+  studyId,
+  newStudyInfo,
+  token,
+}: IUpdateStudy) => {
+  const data = await apiClient.put<number, number>(
+    `${END_POINT.studies}/${studyId}`,
+    { ...newStudyInfo },
+    {
+      headers: {
+        Authorization: `bearer ${token}`,
+        "Content-Type": "application/json",
       },
     }
   );

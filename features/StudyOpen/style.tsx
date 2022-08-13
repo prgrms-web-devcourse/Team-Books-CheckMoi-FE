@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+
 import { Button, Typography } from "@mui/material";
 
 export const EntierContainer = styled.div`
@@ -41,6 +42,8 @@ export const ThumbnailContainer = styled.div`
 
 export const ThumbnailForm = styled.form`
   width: 524px;
+
+  padding-left: 1rem;
 `;
 
 export const ThumbnailTypo = styled(Typography)`

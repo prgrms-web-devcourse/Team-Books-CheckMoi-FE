@@ -14,3 +14,8 @@ export const StyledBox = styled(Box)`
 export const StudyCardContainer = styled.div`
   overflow: auto;
 `;
+
+export const NotStudy = styled.div`
+  margin: 3rem;
+  text-align: center;
+`;

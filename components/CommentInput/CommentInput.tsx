@@ -3,7 +3,11 @@ import SendIcon from "@mui/icons-material/Send";
 import { useState } from "react";
 import type { ChangeEvent, KeyboardEvent } from "react";
 
-export const CommentInput = () => {
+interface commentInputProp {
+  onCreateComment: (postId: string) => void;
+}
+
+export const CommentInput = ({ onCreateComment }: commentInputProp) => {
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -11,7 +15,7 @@ export const CommentInput = () => {
   };
 
   const handleSendButtonClick = () => {
-    // TODO 게시글 API
+    onCreateComment(inputValue);
     setInputValue("");
   };
 
@@ -20,7 +24,7 @@ export const CommentInput = () => {
     if (e.key === "Enter") {
       if (e.shiftKey) return;
       e.preventDefault();
-      // TODO 게시글 API
+      onCreateComment(inputValue);
       setInputValue("");
     }
   };
