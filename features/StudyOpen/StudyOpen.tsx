@@ -12,7 +12,7 @@ import {
 import { NoAccess } from "../../components/NoAccess";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import { useUserContext } from "../../hooks/useUserContext";
-import { StudyStatusType } from "../../types/studyType";
+import type { StudyStatusType } from "../../types/studyType";
 import * as S from "./style";
 
 interface StudyOpenProps {
@@ -261,8 +261,6 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
         description="스터디장을 제외한 참여 인원은 사용하실 수 없습니다."
       />
     );
-
-  console.log(studyInfo.status);
 
   return (
     <S.EntierContainer>

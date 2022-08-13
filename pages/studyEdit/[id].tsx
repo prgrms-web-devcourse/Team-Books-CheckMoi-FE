@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import * as S from "../../styles/StudyOpenPageStyle";
 import { StudyOpen as StudyEdit } from "../../features";
 import { getStudyDetailInfo } from "../../apis/study";
-import { StudyDetailType } from "../../types/studyType";
+import type { StudyDetailType } from "../../types/studyType";
 
 const StudyEditPage = () => {
   const [studyDetailInfo, setStudyDetailInfo] = useState({} as StudyDetailType);
