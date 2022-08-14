@@ -21,7 +21,7 @@ export const PostTitle = styled.div`
   white-space: nowrap;
 `;
 
-export const PostContent = styled.div`
+export const PostContent = styled.pre`
   padding-top: 0.5rem;
   text-overflow: ellipsis;
   display: -webkit-box;
