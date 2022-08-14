@@ -1,7 +1,8 @@
+import type { StudyStatusType } from "../../../types/studyType";
 import * as S from "./style";
 
 interface StudyStateProps {
-  studyState: string;
+  studyState: StudyStatusType | null;
 }
 
 export const StudyState = ({ studyState }: StudyStateProps) => {
@@ -11,18 +12,26 @@ export const StudyState = ({ studyState }: StudyStateProps) => {
 
   const studyStateColor: studyStateTypes = {
     recruiting: "green",
+    recruitingFinished: "red",
     inProgress: "orange",
     finished: "red",
   };
 
   const studyStateText: studyStateTypes = {
     recruiting: "모집중",
+    recruitingFinished: "모집완료",
     inProgress: "진행중",
-    finished: "모집완료",
+    finished: "진행완료",
   };
   return (
-    <S.StudyState color={studyStateColor[studyState]}>
-      {studyStateText[studyState]}
-    </S.StudyState>
+    <>
+      {studyState ? (
+        <S.StudyState color={studyStateColor[studyState]}>
+          {studyStateText[studyState]}
+        </S.StudyState>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };

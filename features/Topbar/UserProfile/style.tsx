@@ -13,7 +13,7 @@ export const AvatarWrapper = styled("div")`
   padding: 0.5rem 1rem;
   align-items: center;
   gap: 1rem;
-  width: fit-content;
+  width: 100%;
   font-size: 1.2rem;
 
   cursor: pointer;

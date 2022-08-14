@@ -12,7 +12,8 @@ export const StyledBox = styled(Box)`
 `;
 
 export const StudyCardContainer = styled.div`
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 export const NotStudy = styled.div`

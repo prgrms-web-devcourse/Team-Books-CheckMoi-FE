@@ -1,17 +1,19 @@
-import { Typography, InputBase, AppBar } from "@mui/material";
-import { AutoStories } from "@mui/icons-material";
+import { Box, Typography, InputBase, AppBar } from "@mui/material";
 import styled from "@emotion/styled";
 
 export const StyledAppbar = styled(AppBar)`
-  background-color: green;
+  background-color: #5b9ad9;
 `;
 
-export const LogoIcon = styled(AutoStories)`
-  margin-right: 0.5rem;
+export const LogoContainer = styled(Box)`
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
 
 export const LogoText = styled(Typography)`
-  margin-right: 0.5rem;
+  margin: 0 0.5rem;
   display: flex;
   font-family: monospace;
   font-weight: 700;

@@ -46,6 +46,6 @@ export const BoardCreateDate = styled.div`
   font-size: 0.85rem;
 `;
 
-export const BoardContent = styled.div`
+export const BoardContent = styled.pre`
   padding: 1rem 0;
 `;
