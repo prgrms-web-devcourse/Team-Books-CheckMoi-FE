@@ -14,7 +14,6 @@ export const ButtonsWrapper = styled.div`
 export const StyledUl = styled.ul`
   list-style: none;
   display: grid;
-  border: 1px solid red;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1rem;
   align-items: start;
