@@ -57,9 +57,10 @@ apiClient.interceptors.response.use(
         >("/tokens");
         document.cookie = `token=${accessToken}; path=/; max-age=3600`;
         err.config.headers = {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         };
-        const originalResponse = await axios.request(error.config);
+        const originalResponse = await axios.request(err.config);
         return originalResponse.data.data;
       }
 
