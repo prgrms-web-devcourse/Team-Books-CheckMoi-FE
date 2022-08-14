@@ -21,11 +21,10 @@ interface putCommentProps {
   content: string;
 }
 
-
-export const getComments = async ({ postId }: getCommentProps) => {
+export const getComments = async ({ postId, page }: getCommentProps) => {
   const data = await apiClient.get<ResponseCommentsType, ResponseCommentsType>(
-    `${END_POINT.comments}/?postId=${postId}`,
-  )
+    `${END_POINT.comments}/?postId=${postId}&page=${page}`
+  );
   return data;
 };
 
