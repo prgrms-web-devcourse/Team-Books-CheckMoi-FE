@@ -239,7 +239,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
           </S.StyledUl>
         ) : (
           <S.NoPost>
-            <Typography>게시글이 없습 니다. 게시글을 작성해주세요</Typography>
+            <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
           </S.NoPost>
         )}
         <S.PaginationWrapper>

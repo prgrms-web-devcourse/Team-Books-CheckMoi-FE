@@ -1,7 +1,8 @@
 import { MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { ChangeEvent, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import type { ChangeEvent, MouseEvent } from "react";
 import {
   getBookInfo,
   createStudy,
@@ -90,7 +91,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
   });
   const [isOwner, setIsOwner] = useState(true);
 
-  const initStatusRef = useRef<StudyStatusType | null | undefined>();
+  const initStatusRef = useRef<StudyStatusType>();
 
   const { user } = useUserContext();
   const { login } = useUserActionContext();
@@ -156,7 +157,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     });
   };
 
-  const handleOpenClick = async () => {
+  const handleOpenClick = async (e: MouseEvent<HTMLButtonElement>) => {
     const newError: IInputError = {
       name: "",
       maxParticipant: "",
@@ -167,7 +168,6 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       description: "",
       status: "",
     };
-
     const LIMIT_PARTICIPANT = 10;
     const LIMIT_NAME = 20;
 
@@ -215,6 +215,9 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       thumbnail: studyInfo.thumbnail,
     };
 
+    const { currentTarget } = e;
+    currentTarget.disabled = true;
+
     try {
       if (!studyId) {
         const newStudyId = await createStudy({ newStudyInfo });
@@ -232,6 +235,8 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
         });
       }
     } catch (error) {
+      currentTarget.disabled = false;
+
       if (!studyId) renderSnackbar("스터디 개설에 실패했습니다.", "error");
       else renderSnackbar("스터디 수정에 실패했습니다.", "error");
     }
