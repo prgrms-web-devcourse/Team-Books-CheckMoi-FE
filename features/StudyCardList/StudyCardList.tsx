@@ -20,7 +20,6 @@ export const StudyCardList = ({ studies }: StudyCardListProps) => {
 
   const handleCloseClick = () => setOpen(false);
 
-  // TODO 추후 Skeleton 추가
   return (
     <>
       <S.StudyCardContainer>
