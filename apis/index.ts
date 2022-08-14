@@ -4,7 +4,6 @@ export const END_POINT = {
   v2_studies: "/v2/studies",
   image: "/images",
   user: "/users",
-  fakeLogin: "/tokens/7",
   getMyInfo: "/me",
   logout: "/logout",
   isbnBook: "/books/isbn",
@@ -30,7 +29,12 @@ export {
   getFinishStudy,
 } from "./user";
 
-export { getComments, postComments, deleteComment, putComment } from "./comments";
+export {
+  getComments,
+  postComments,
+  deleteComment,
+  putComment,
+} from "./comments";
 
 export {
   getStudies,
@@ -40,8 +44,4 @@ export {
   joinStudy,
 } from "./study";
 
-export {
-  getApplicantMembers,
-  putApplicantAcceptOrDeny,
-} from "./applicant";
-
+export { getApplicantMembers, putApplicantAcceptOrDeny } from "./applicant";

@@ -7,8 +7,9 @@ export const HomeUI = () => {
   return (
     <S.Container>
       <S.HomeUITextContainer>
-        <h1>책은 마음의 양식이다</h1>
-        <h1>혼자 독서 공부가 어려운 당신에게 스터디를</h1>
+        <h1>책을 모이삼아 살아가는</h1>
+        <h1>CheckMoi와 함께</h1>
+        <h1>스터디를 개설해보세요</h1>
       </S.HomeUITextContainer>
       <S.HomeUIContent>
         <S.HomeUIBook1 src="/images/main_book_1.jpeg" alt="" />
