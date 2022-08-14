@@ -30,7 +30,7 @@ const NOTICE_BOARD_TAB = 0;
 const FREE_BOARD_TAB = 1;
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
-  const { study, members } = studyData;
+  const { study, members, book } = studyData;
   const userList = members.map((member) => {
     return member.user;
   });
@@ -144,7 +144,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 
   return user && isStudyMember ? (
     <>
-      <StudyDetailCard study={study} members={members} />
+      <StudyDetailCard study={study} members={members} bookTitle={book.title} />
       <S.TabsContainer>
         <Tabs value={tabNumber} onChange={handleTabChange}>
           <Tab label="공지" />

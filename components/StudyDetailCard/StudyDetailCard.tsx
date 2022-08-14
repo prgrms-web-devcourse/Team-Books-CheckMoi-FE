@@ -15,10 +15,15 @@ interface StudyDetailProps {
     id: number;
     user: UserType;
   }[];
+  bookTitle?: string;
 }
 
 // TODO Image => future Image로 수정해야 함
-export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
+export const StudyDetailCard = ({
+  study,
+  members = [],
+  bookTitle,
+}: StudyDetailProps) => {
   const router = useRouter();
   const {
     id,
@@ -67,6 +72,7 @@ export const StudyDetailCard = ({ study, members = [] }: StudyDetailProps) => {
       </S.ImageWrapper>
       <S.StudyInfoContainer>
         <S.StyledTypograph>{name}</S.StyledTypograph>
+        <S.ResponsiveText>책 제목 : {bookTitle}</S.ResponsiveText>
         {studyState === "recruiting" && (
           <S.ResponsiveText>
             모집 인원 : {currentParticipant}/{maxParticipant}
