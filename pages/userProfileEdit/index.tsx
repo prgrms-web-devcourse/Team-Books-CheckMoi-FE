@@ -9,6 +9,7 @@ import {
 } from "../../hooks/useUserContext";
 import { getMyInfo } from "../../apis/user";
 import * as S from "../../styles/UserProfileEditStyle";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 const UserProfileEditPage = () => {
   const router = useRouter();
@@ -22,15 +23,25 @@ const UserProfileEditPage = () => {
   const [username, setUserName] = useState(user ? user.name : "");
   const [isUserExist, setIsUserExist] = useState(false);
   const imageRef = useRef<HTMLInputElement>(null);
+  const { renderSnackbar } = useOurSnackbar();
 
   const handleChangeImage = async (e: any) => {
     const reader = new FileReader();
     const [file] = e.target.files;
+
+    const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
+    if (file.size >= MAX_FILE_SIZE) {
+      renderSnackbar("업로드할 수 있는 파일 크기는 최대 1MB입니다.", "error");
+      e.target.value = "";
+      return;
+    }
+
     if (file) {
       reader.readAsDataURL(file);
       reader.onload = () => setImage(reader.result as string);
       const imageData = await postImage({ token, file });
       setImageUrl(imageData);
+      e.target.value = "";
     }
   };
 

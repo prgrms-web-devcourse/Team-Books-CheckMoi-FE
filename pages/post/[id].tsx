@@ -169,6 +169,14 @@ const PostPage = () => {
             <S.BoardContent>{post.content}</S.BoardContent>
             <Divider />
             <CommentInput onCreateComment={onCreateComment} />
+            {commentList.map((comment) => (
+              <Comment
+                key={comment.id}
+                commentProps={comment}
+                currentUserId={currentUserId}
+                onReloadComment={onReloadComment}
+              />
+            ))}
             <DeleteModal
               id={post.id}
               studyId={post.studyId}
@@ -178,15 +186,6 @@ const PostPage = () => {
           </>
         )
       )}
-      {/* TODO Comment List 출력 */}
-      {commentList.map((comment) => (
-        <Comment
-          key={comment.id}
-          commentProps={comment}
-          currentUserId={currentUserId}
-          onReloadComment={onReloadComment}
-        />
-      ))}
     </div>
   );
 };

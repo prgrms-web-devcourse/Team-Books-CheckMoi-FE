@@ -22,7 +22,7 @@ export const TitleWrapper = styled.div`
 
 export const ApplicantList = styled.div`
   height: 25rem;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 export const NoApplicant = styled.div`
