@@ -4,7 +4,7 @@ interface ErrorType {
   message: string;
 }
 
-interface ErrorDataType {
+export interface ErrorDataType {
   errors: ErrorType[];
 }
 

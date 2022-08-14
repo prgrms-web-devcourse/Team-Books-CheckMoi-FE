@@ -1,13 +1,28 @@
 import axios from "axios";
+import type { AxiosError, AxiosRequestHeaders } from "axios";
+import type { ErrorDataType } from "../types/errorTypes";
+
+const refreshTokenExpiredMessage = "만료된 리프레쉬 토큰입니다";
 
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_END_POINT,
   timeout: 10000,
 });
 
+interface HeaderType extends AxiosRequestHeaders {
+  ["Content-Type"]: string;
+  Authorization: string;
+}
+
 // interceptor
 apiClient.interceptors.request.use(
   (config) => {
+    const headers = config.headers as HeaderType;
+    const [_, token] = document.cookie.split("token=");
+    if (token) {
+      headers["Content-Type"] = "application/json";
+      headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
@@ -15,6 +30,10 @@ apiClient.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+interface RefreshedTokenType {
+  accessToken: string;
+}
 
 apiClient.interceptors.response.use(
   (res) => {
@@ -25,11 +44,27 @@ apiClient.interceptors.response.use(
 
     return res.data.data;
   },
-  (error) => {
-    console.log("Error", error.response.data.errors);
-    if (error.response.status === 401) {
-      document.cookie = "token=; path=/; max-age=0;";
-      window.location.href = "/?error=1";
+  async (error) => {
+    const err = error as AxiosError;
+
+    if (err.response?.status === 401) {
+      const data = err.response.data as ErrorDataType;
+
+      if (data.errors[0].message === refreshTokenExpiredMessage) {
+        const { accessToken } = await apiClient.get<
+          RefreshedTokenType,
+          RefreshedTokenType
+        >("/tokens");
+        document.cookie = `token=${accessToken}; path=/; max-age=3600`;
+        err.config.headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+        const originalResponse = await axios.request(error.config);
+        return originalResponse.data.data;
+      }
+
+      document.cookie = `token=; path=/; max-age=0`;
+      window.location.href = "/";
     }
 
     return Promise.reject(error);
