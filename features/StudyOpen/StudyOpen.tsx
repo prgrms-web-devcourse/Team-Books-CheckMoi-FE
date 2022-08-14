@@ -145,6 +145,15 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
   const handleStudyInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
 
+    if (inputName === "name") {
+      setStudyInfo({
+        ...studyInfo,
+        name: value.trim(),
+      });
+
+      return;
+    }
+
     setStudyInfo({
       ...studyInfo,
       [inputName]: value,
@@ -164,11 +173,11 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     };
 
     const LIMIT_PARTICIPANT = 10;
-    const LIMIT_NAME = 30;
+    const LIMIT_NAME = 20;
 
     if (!studyInfo.name) newError.name = "스터디 이름을 입력해주세요";
     else if (studyInfo.name.length > LIMIT_NAME)
-      newError.name = "스터디 이름은 최대 30자입니다.";
+      newError.name = `스터디 이름은 최대 ${LIMIT_NAME}자입니다.`;
 
     if (!studyId) {
       if (!studyInfo.maxParticipant)
@@ -299,7 +308,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
               fullWidth
               name="name"
               variant="standard"
-              label="스터디 이름 (최대 30자)"
+              label="스터디 이름 (최대 20자)"
               value={studyInfo.name}
               onChange={handleStudyInfoChange}
               error={!!inputError.name}
