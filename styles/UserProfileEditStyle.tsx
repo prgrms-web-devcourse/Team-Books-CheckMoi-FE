@@ -15,6 +15,8 @@ export const UserProfileImage = styled.div`
 export const StyledAvatar = styled(Avatar)`
   width: 10rem;
   height: 10rem;
+  border: 1px solid #F2F2F2;
+  box-shadow: 12px 21px 15px -3px rgba(0, 0, 0, 0.1);
 `;
 export const SmallAvatar = styled(Avatar)`
   width: "2.5rem";

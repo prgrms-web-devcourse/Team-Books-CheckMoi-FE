@@ -1,6 +1,6 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
-import type { BookType } from "../types/bookType";
+import type { BookType, NaverBookType } from "../types/bookType";
 
 export const getBooksList = async () => {
   const data = await apiClient.get(`${END_POINT.book}`);
@@ -8,19 +8,26 @@ export const getBooksList = async () => {
   return data;
 };
 
-export const registerBook = async (book: BookType, accessToken: string) => {
-  const data = await apiClient.put(`${END_POINT.book}`, JSON.stringify(book), {
-    headers: {
-      Authorization: `bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    },
-  });
+export const registerBook = async (book: NaverBookType) => {
+  const data = await apiClient.post<number, number>(
+    `${END_POINT.book}`,
+    JSON.stringify(book)
+  );
 
   return data;
 };
 
-export const getBookInfo = async (bookId: string) => {
-  const data = await apiClient.get(`${END_POINT.book}/${bookId}`);
+export const getBookInfo = async (bookId: number) => {
+  const data = await apiClient.get<BookType, BookType>(
+    `${END_POINT.book}/${bookId}`
+  );
 
+  return data;
+};
+
+export const getBookInfoByISBN = async (isbn: string) => {
+  const data = await apiClient.get<BookType, BookType>(
+    `${END_POINT.isbnBook}/${isbn}`
+  );
   return data;
 };

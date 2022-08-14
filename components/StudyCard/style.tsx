@@ -4,6 +4,10 @@ import { Card } from "@mui/material";
 export const StudyCard = styled(Card)`
   display: flex;
   padding: 1rem;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.01) translateY(-10px);
+  }
 `;
 
 export const ImageWrapper = styled.div`
@@ -37,4 +41,25 @@ export const ResponsiveText = styled.div<ResponsiveTextProps>`
   @media (max-width: 320px) {
     font-size: 0.8rem;
   }
+`;
+
+interface StudyThumbnailSkeletonProps {
+  width: number;
+  height: number;
+}
+
+export const StudyThumbnailSkeleton = styled.div<StudyThumbnailSkeletonProps>`
+  width: ${({ width }) => `${width}px`};
+  height: ${({ height }) => `${height}px`};
+`;
+
+interface StudyInfoSkeletonProps {
+  width: string;
+  height: string;
+}
+
+export const StudyInfoSkeleton = styled.div<StudyInfoSkeletonProps>`
+  padding: 0.5rem;
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
 `;

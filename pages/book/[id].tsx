@@ -1,97 +1,76 @@
-import { Divider, Modal } from "@mui/material";
+import { Divider } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { BookDetail } from "../../components/BookDetailCard";
-import { StudyCard } from "../../components/StudyCard";
+import {
+  BookDetail,
+  BookDetailSkeleton,
+  StudyCardSkeleton,
+} from "../../components";
 import type { BookType } from "../../types/bookType";
 import type { StudyType } from "../../types/studyType";
-import { StudyDetail } from "../../features/StudyDetail";
-import * as S from "../../styles/bookPageStyle";
+import { StudyCardList } from "../../features";
+import { getBookInfo } from "../../apis";
+import { getStudies } from "../../apis/study";
+import { useInView } from "../../hooks/useInView";
 
 const Book = () => {
   const router = useRouter();
-  const [bookInfo, setBookinfo] = useState<BookType>({} as BookType);
+  const [bookInfo, setBookinfo] = useState({} as BookType);
   const [studies, setStudies] = useState<StudyType[]>([]);
-  const [selectedId, setSelectedId] = useState("");
-  // TODO 쿠키에서 jwt 토큰 가져와서 user 정보 가져오기, 해당 데이터로 스터디원 인지 검증 로직 필요
+  const [ref, inView] = useInView();
+  const [pageState, setPageState] = useState({ pageNumber: 1, totalPage: 2 });
+  const [loading, setLoading] = useState(false);
 
-  const [open, setOpen] = useState(false);
-
-  const handleCloseClick = () => setOpen(false);
+  const id = Number(router.query.id as string);
 
   useEffect(() => {
-    const bookInfoFetch = async (id: string) => {
-      const serverData = await fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/books/${id}`
-      );
-      const { data } = await serverData.json();
-
-      setBookinfo(data);
+    const bookInfoFetch = async () => {
+      setLoading(true);
+      const bookData = await getBookInfo(id);
+      setBookinfo(bookData);
+      setLoading(false);
     };
 
-    const studiesFetch = async (id: string, page = 1) => {
-      const serverData = await fetch(
-        `${process.env.NEXT_PUBLIC_API_END_POINT}/studies?bookId=${id}&size=8&page=${page}`
-      );
-      const { data } = await serverData.json();
-      setStudies(data.studies.content);
-    };
-
-    const { id } = router.query;
-
-    if (id && typeof id === "string") {
-      // TODO api 붙이기 작업
-
-      bookInfoFetch(id);
-      studiesFetch(id, 1);
-    }
+    if (id) bookInfoFetch();
   }, [router.query]);
 
-  const handleStudyClick = (id: string | undefined) => {
-    setSelectedId(id as string);
-    setOpen(!open);
-  };
+  useEffect(() => {
+    const studiesFetch = async (page = 1) => {
+      setLoading(true);
+      const data = await getStudies(id, page);
+      const { studiesData, totalPage } = data;
+      setStudies([...studies, ...studiesData]);
+      setPageState({ ...pageState, totalPage });
+      setLoading(false);
+    };
+
+    if (id) studiesFetch(pageState.pageNumber);
+  }, [router.query, pageState.pageNumber]);
+
+  useEffect(() => {
+    if (inView && !loading)
+      setPageState({ ...pageState, pageNumber: pageState.pageNumber + 1 });
+  }, [inView]);
 
   return (
     <div>
-      <BookDetail
-        size={200}
-        src={bookInfo.image}
-        title={bookInfo.title}
-        author={bookInfo.author}
-        publisher={bookInfo.publisher}
-        pubdate={bookInfo.pubdate}
-        description={bookInfo.description}
-        isbn={bookInfo.isbn}
-      />
-
-      <Divider color="black" />
-      <S.StudyCardContainer>
-        {studies.map((study) => {
-          return (
-            <StudyCard
-              key={study.id}
-              onClick={() => {
-                handleStudyClick(study.id);
-              }}
-              study={study}
-              size={128}
-            />
-          );
-        })}
-      </S.StudyCardContainer>
-
-      <Modal
-        open={open}
-        onClose={handleCloseClick}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        disableEnforceFocus
-      >
-        <S.StyledBox>
-          <StudyDetail open={open} id={selectedId} />
-        </S.StyledBox>
-      </Modal>
+      {loading ? (
+        <>
+          <BookDetailSkeleton size={208} />
+          <Divider color="black" />
+          <br />
+          <StudyCardSkeleton />
+        </>
+      ) : (
+        <>
+          <BookDetail size={200} book={bookInfo} />
+          <Divider color="black" />
+          <StudyCardList studies={studies} />
+          {pageState.pageNumber !== pageState.totalPage ? (
+            <div ref={ref} />
+          ) : null}
+        </>
+      )}
     </div>
   );
 };

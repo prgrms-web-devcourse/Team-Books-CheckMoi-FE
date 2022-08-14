@@ -1,5 +1,7 @@
-import styled from '@emotion/styled';
-import { Card, MenuItem, AvatarGroup, Typography } from '@mui/material';
+import styled from "@emotion/styled";
+import { Card, MenuItem, AvatarGroup, Typography } from "@mui/material";
+import ShareIcon from "@mui/icons-material/Share";
+import { BookCard } from "../BookCard";
 
 export const StudyDetailCard = styled(Card)`
   display: flex;
@@ -27,6 +29,10 @@ export const ImageWrapper = styled.div`
   }
 `;
 
+export const StudyThumbnail = styled(BookCard)`
+  cursor: none;
+`;
+
 export const StudyInfoContainer = styled.div`
   width: 100%;
   padding: 1rem;
@@ -34,12 +40,21 @@ export const StudyInfoContainer = styled.div`
 `;
 
 export const StyledAvatarGroup = styled(AvatarGroup)`
-  height: 100%;
-
   @media (max-width: 512px) {
     width: 100%;
     justify-content: flex-end;
   }
+`;
+
+export const IconsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 0.5rem;
+`;
+
+export const StyledShareIcon = styled(ShareIcon)`
+  cursor: pointer;
 `;
 
 export const StyledMenuItem = styled(MenuItem)`
@@ -59,4 +74,32 @@ interface ResponsiveTextProps {
 export const ResponsiveText = styled.div<ResponsiveTextProps>`
   padding: 0.5rem;
   font-size: ${({ fontSize }) => `${fontSize}rem`};
+`;
+
+export const BookTitleText = styled(ResponsiveText)`
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+`;
+
+export const StudyInfoContainerSkeleton = styled.div`
+  width: 609px;
+  padding: 1rem;
+  padding-top: 0;
+`;
+
+export const StudyTypographSkeleton = styled.div`
+  height: 8rem;
+`;
+
+export const StudyText = styled.div`
+  width: 16rem;
+  height: 19px;
+  padding: 0.5rem 0;
+`;
+
+export const AvartarGroupContainerSkeleton = styled.div`
+  flex-grow: 1;
 `;

@@ -1,30 +1,36 @@
-import { useRef, useState } from "react";
+import { useRef, useEffect } from "react";
 import type { FormEvent } from "react";
 import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import Image from "next/image";
 import * as S from "./style";
 import { UserProfile } from "./UserProfile";
 import { LoginButton } from "./LoginButton";
+import { useUserContext } from "../../hooks/useUserContext";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
-// TODO 사용자 정보 불러오기
+const SEARCH_URL = "/search";
+const SEARCH_URL_SIZE = 6;
+const LOGO_SIZE = 40;
 
-const FAKE_URL = "/layoutTest";
-const FAKE_QUERY_SIZE = 6;
+interface TopbarProps {
+  message: string;
+}
 
-export const Topbar = () => {
+export const Topbar = ({ message }: TopbarProps) => {
   const router = useRouter();
+  const { user } = useUserContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputDefaultValue = useRef("");
   const isClientWindow = typeof window !== "undefined";
 
   if (isClientWindow)
-    if (window.location.pathname === FAKE_URL) {
-      // TODO FAKE_URL 수정 시 FAKE_QUERY_SIZE 수정
+    if (window.location.pathname === SEARCH_URL) {
       const urlWord = window.location.search
-        .slice(FAKE_QUERY_SIZE)
+        ?.split("&")[0]
+        ?.slice(SEARCH_URL_SIZE)
         .replaceAll("+", " ")
         .trim();
       inputDefaultValue.current = decodeURIComponent(urlWord);
@@ -32,11 +38,7 @@ export const Topbar = () => {
         inputRef.current.value = decodeURIComponent(urlWord);
     } else if (inputRef.current) inputRef.current.value = "";
 
-  const [isLogin, setIsLogin] = useState(false);
-
-  const handleLogoutButtonClick = () => {
-    setIsLogin(false);
-  };
+  const { renderSnackbar } = useOurSnackbar();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,27 +46,35 @@ export const Topbar = () => {
     const word = target.querySelector("input")?.value.trim();
 
     if (!word) {
-      // TODO alert 통일해서 추가하기
-      alert("검색 값을 입력해주세요");
+      renderSnackbar("찾으려는 책을 입력해주세요", "warning");
       return;
     }
 
     router.push({
-      pathname: `/layoutTest`,
-      query: { word },
+      pathname: SEARCH_URL,
+      query: {
+        word,
+        page: 1,
+      },
     });
   };
+
+  useEffect(() => {
+    if (message) {
+      renderSnackbar(message, "error");
+      document.cookie = "expired=; path=/";
+    }
+  }, [message]);
 
   return (
     <S.StyledAppbar position="fixed">
       <Toolbar>
-        {/* TODO 로고가 정해지면 로고 바꾸기 */}
-        <S.LogoIcon />
-        <S.LogoText variant="h6" noWrap>
-          <Link href="/">
-            <a href="{() => false}">책모이</a>
-          </Link>
-        </S.LogoText>
+        <S.LogoContainer onClick={() => router.push("/")}>
+          <Image src="/images/logo.png" width={LOGO_SIZE} height={LOGO_SIZE} />
+          <S.LogoText variant="h6" noWrap>
+            책모이
+          </S.LogoText>
+        </S.LogoContainer>
         <S.SearchInputContainer>
           <form onSubmit={handleSubmit}>
             <S.SearchInput>
@@ -80,12 +90,7 @@ export const Topbar = () => {
             </S.SearchInput>
           </form>
         </S.SearchInputContainer>
-        {/* TODO 로그인, 로그아웃 처리 필요 */}
-        {isLogin ? (
-          <UserProfile handleLogout={handleLogoutButtonClick} />
-        ) : (
-          <LoginButton />
-        )}
+        {user ? <UserProfile /> : <LoginButton />}
       </Toolbar>
     </S.StyledAppbar>
   );

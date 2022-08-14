@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { MouseEventHandler } from "react";
 import { StudyType } from "../../types/studyType";
 import * as S from "./style";
-import { dummyStudy } from "../../commons/dummy";
 
 interface StudyCardProps {
   study: StudyType;
@@ -10,13 +9,9 @@ interface StudyCardProps {
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
-export const StudyCard = ({
-  size = 128,
-  study = dummyStudy,
-  onClick,
-}: StudyCardProps) => {
+export const StudyCard = ({ size = 128, study, onClick }: StudyCardProps) => {
   const {
-    thumbnailUrl,
+    thumbnail,
     name,
     gatherStartDate,
     gatherEndDate,
@@ -29,7 +24,7 @@ export const StudyCard = ({
   return (
     <S.StudyCard onClick={onClick}>
       <S.ImageWrapper>
-        <Image width={size} height={size * 1.5} src={thumbnailUrl} />
+        <Image width={size} height={size * 1.5} src={thumbnail} />
       </S.ImageWrapper>
       <S.StudyInfoConatiner>
         <S.ResponsiveText fontSize={1.2}>{name}</S.ResponsiveText>

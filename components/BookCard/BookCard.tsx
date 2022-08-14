@@ -1,4 +1,4 @@
-import React from "react";
+import { MouseEventHandler } from "react";
 import Image from "next/image";
 import * as S from "./style";
 
@@ -6,7 +6,7 @@ interface BookCardProps {
   src: string;
   title: string;
   size: number;
-  onClick?: React.MouseEventHandler<HTMLElement>;
+  onClick?: MouseEventHandler<HTMLElement>;
 }
 
 export const BookCard = ({ src, title, size, onClick }: BookCardProps) => {

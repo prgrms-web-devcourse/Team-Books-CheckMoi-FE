@@ -24,7 +24,11 @@ export const ImageWrapper = styled.div<BookCardProps>`
 `;
 
 export const BookTitle = styled.p`
-  margin: 0;
+  margin-top: 1rem;
   padding: 0;
   text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 1.5rem;
 `;

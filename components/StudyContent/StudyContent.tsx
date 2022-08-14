@@ -1,23 +1,33 @@
-import type { MouseEventHandler } from 'react';
-import * as S from './style';
+import type { MouseEventHandler } from "react";
+import * as S from "./style";
 
 interface StudyContentProps {
   description: string;
   isMember: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  joinOnClick: MouseEventHandler<HTMLButtonElement>;
+  goStudyOnClick: MouseEventHandler<HTMLButtonElement>;
+  height?: string | number;
 }
 
 export const StudyContent = ({
   description,
   isMember = false,
-  onClick,
+  joinOnClick,
+  goStudyOnClick,
+  height = 10,
 }: StudyContentProps) => {
   return (
     <S.StudyContentContainer>
-      <S.StudyContent>{description}</S.StudyContent>
-      <S.StyleButton onClick={onClick} variant="contained">
-        {isMember ? '스터디룸으로 이동하기' : '참여하기'}
-      </S.StyleButton>
+      <S.StudyContent height={height}>{description}</S.StudyContent>
+      {isMember ? (
+        <S.StyleButton onClick={goStudyOnClick} variant="contained">
+          스터디룸으로 이동하기
+        </S.StyleButton>
+      ) : (
+        <S.StyleButton onClick={joinOnClick} variant="contained">
+          참여하기
+        </S.StyleButton>
+      )}
     </S.StudyContentContainer>
   );
 };
