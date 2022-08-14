@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { Card, MenuItem, AvatarGroup, Typography } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
+import { BookCard } from "../BookCard";
 
 export const StudyDetailCard = styled(Card)`
   display: flex;
@@ -26,6 +27,10 @@ export const ImageWrapper = styled.div`
     box-shadow: -12px 17px 16px 3px rgba(0, 0, 0, 0.1),
       13px 0px 15px 4px rgba(0, 0, 0, 0.1);
   }
+`;
+
+export const StudyThumbnail = styled(BookCard)`
+  cursor: none;
 `;
 
 export const StudyInfoContainer = styled.div`
@@ -74,7 +79,7 @@ export const ResponsiveText = styled.div<ResponsiveTextProps>`
 export const BookTitleText = styled(ResponsiveText)`
   cursor: pointer;
 
-  &: hover {
+  &:hover {
     transform: scale(1.01);
   }
 `;

@@ -81,7 +81,7 @@ export const StudyDetailCard = ({
   return (
     <S.StudyDetailCard>
       <S.ImageWrapper>
-        <BookCard size={10} src={thumbnail} title="" />
+        <S.StudyThumbnail size={10} src={thumbnail} title="" />
       </S.ImageWrapper>
       <S.StudyInfoContainer>
         <S.StyledTypograph>{name}</S.StyledTypograph>
