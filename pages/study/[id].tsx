@@ -144,7 +144,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
 
   return user && isStudyMember ? (
     <>
-      <StudyDetailCard study={study} members={members} bookTitle={book.title} />
+      <StudyDetailCard study={study} members={members} book={book} />
       <S.TabsContainer>
         <Tabs value={tabNumber} onChange={handleTabChange}>
           <Tab label="공지" />

@@ -71,6 +71,14 @@ export const ResponsiveText = styled.div<ResponsiveTextProps>`
   font-size: ${({ fontSize }) => `${fontSize}rem`};
 `;
 
+export const BookTitleText = styled(ResponsiveText)`
+  cursor: pointer;
+
+  &: hover {
+    transform: scale(1.01);
+  }
+`;
+
 export const StudyInfoContainerSkeleton = styled.div`
   width: 609px;
   padding: 1rem;

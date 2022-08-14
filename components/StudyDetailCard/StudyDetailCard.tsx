@@ -8,6 +8,7 @@ import { selectStudyState } from "./helper";
 import type { StudyType } from "../../types/studyType";
 import { BookCard } from "../BookCard";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
+import type { BookType } from "../../types/bookType";
 
 interface StudyDetailProps {
   study: StudyType;
@@ -15,14 +16,14 @@ interface StudyDetailProps {
     id: number;
     user: UserType;
   }[];
-  bookTitle?: string;
+  book?: BookType;
 }
 
 // TODO Image => future Image로 수정해야 함
 export const StudyDetailCard = ({
   study,
   members = [],
-  bookTitle,
+  book,
 }: StudyDetailProps) => {
   const router = useRouter();
   const {
@@ -65,6 +66,18 @@ export const StudyDetailCard = ({
     renderSnackbar("스터디 링크가 복사 되었습니다");
   };
 
+  const handleBookTitleClick = () => {
+    const word = book?.isbn.trim();
+
+    router.push({
+      pathname: "/search",
+      query: {
+        word,
+        page: 1,
+      },
+    });
+  };
+
   return (
     <S.StudyDetailCard>
       <S.ImageWrapper>
@@ -72,7 +85,9 @@ export const StudyDetailCard = ({
       </S.ImageWrapper>
       <S.StudyInfoContainer>
         <S.StyledTypograph>{name}</S.StyledTypograph>
-        <S.ResponsiveText>책 제목 : {bookTitle}</S.ResponsiveText>
+        <S.BookTitleText onClick={handleBookTitleClick}>
+          책 제목 : {book?.title}
+        </S.BookTitleText>
         {studyState === "recruiting" && (
           <S.ResponsiveText>
             모집 인원 : {currentParticipant}/{maxParticipant}
