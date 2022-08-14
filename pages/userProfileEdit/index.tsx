@@ -32,7 +32,7 @@ const UserProfileEditPage = () => {
     const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
     if (file.size >= MAX_FILE_SIZE) {
       renderSnackbar("업로드할 수 있는 파일 크기는 최대 1MB입니다.", "error");
-
+      e.target.value = "";
       return;
     }
 
@@ -41,6 +41,7 @@ const UserProfileEditPage = () => {
       reader.onload = () => setImage(reader.result as string);
       const imageData = await postImage({ token, file });
       setImageUrl(imageData);
+      e.target.value = "";
     }
   };
 
