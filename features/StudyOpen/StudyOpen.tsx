@@ -1,13 +1,8 @@
 import { MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, {
-  ChangeEvent,
-  MouseEvent,
-  useEffect,
-  useState,
-  useRef,
-} from "react";
+import React, { useEffect, useState, useRef } from "react";
+import type { ChangeEvent, MouseEvent } from "react";
 import {
   getBookInfo,
   createStudy,
