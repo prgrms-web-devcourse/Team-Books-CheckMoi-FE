@@ -1,17 +1,21 @@
 import { MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState, useRef } from "react";
 import {
   getBookInfo,
   createStudy,
   getStudyDetailInfo,
   updateStudy,
   postImage,
+  getMyInfo,
 } from "../../apis";
 import { NoAccess } from "../../components/NoAccess";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
-import { useUserContext } from "../../hooks/useUserContext";
+import {
+  useUserActionContext,
+  useUserContext,
+} from "../../hooks/useUserContext";
 import type { StudyStatusType } from "../../types/studyType";
 import * as S from "./style";
 
@@ -85,10 +89,11 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     status: "",
   });
   const [isOwner, setIsOwner] = useState(true);
-  const [initStatus, setInitStatus] = useState<
-    StudyStatusType | null | undefined
-  >();
+
+  const initStatusRef = useRef<StudyStatusType | null | undefined>();
+
   const { user } = useUserContext();
+  const { login } = useUserActionContext();
 
   const router = useRouter();
   const { renderSnackbar } = useOurSnackbar();
@@ -121,7 +126,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       const { title: bookTitle } = book;
 
       setIsOwner(user?.id === members[0].user.id || false);
-      setInitStatus(status);
+      initStatusRef.current = status;
 
       setStudyInfo({
         ...studyInfo,
@@ -145,6 +150,15 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
   const handleStudyInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
 
+    if (inputName === "name") {
+      setStudyInfo({
+        ...studyInfo,
+        name: value.trim(),
+      });
+
+      return;
+    }
+
     setStudyInfo({
       ...studyInfo,
       [inputName]: value,
@@ -164,11 +178,11 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     };
 
     const LIMIT_PARTICIPANT = 10;
-    const LIMIT_NAME = 30;
+    const LIMIT_NAME = 20;
 
     if (!studyInfo.name) newError.name = "스터디 이름을 입력해주세요";
     else if (studyInfo.name.length > LIMIT_NAME)
-      newError.name = "스터디 이름은 최대 30자입니다.";
+      newError.name = `스터디 이름은 최대 ${LIMIT_NAME}자입니다.`;
 
     if (!studyId) {
       if (!studyInfo.maxParticipant)
@@ -214,6 +228,8 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
 
       if (!studyId) {
         const newStudyId = await createStudy({ newStudyInfo, token });
+        const updateUser = await getMyInfo(token);
+        login(updateUser);
 
         router.push({
           pathname: `/study/${newStudyId}`,
@@ -236,6 +252,14 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
 
+    const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
+    if (file.size >= MAX_FILE_SIZE) {
+      renderSnackbar("업로드할 수 있는 파일 크기는 최대 1MB입니다.", "error");
+
+      e.target.value = "";
+      return;
+    }
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
@@ -247,6 +271,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
         });
 
         setStudyInfo({ ...studyInfo, thumbnail: newImageUrl });
+        e.target.value = "";
       })();
     };
   };
@@ -290,7 +315,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
               fullWidth
               name="name"
               variant="standard"
-              label="스터디 이름 (최대 30자)"
+              label="스터디 이름 (최대 20자)"
               value={studyInfo.name}
               onChange={handleStudyInfoChange}
               error={!!inputError.name}
@@ -311,6 +336,12 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
               helperText={inputError.maxParticipant}
               InputLabelProps={{
                 shrink: true,
+              }}
+              InputProps={{
+                inputProps: {
+                  max: 10,
+                  min: 1,
+                },
               }}
             />
           </S.TextFieldWrapper>
@@ -386,7 +417,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
             <TextField
               select
               fullWidth
-              disabled={!studyId || initStatus !== "recruiting"}
+              disabled={!studyId || initStatusRef.current !== "recruiting"}
               name="status"
               variant="standard"
               label="스터디 모집 상태"

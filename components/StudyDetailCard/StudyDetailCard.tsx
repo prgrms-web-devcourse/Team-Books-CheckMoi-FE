@@ -4,8 +4,7 @@ import { useRouter } from "next/router";
 import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { UserType } from "../../types/userType";
-import { selectStudyState } from "./helper";
-import type { StudyType } from "../../types/studyType";
+import type { StudyStatusType, StudyType } from "../../types/studyType";
 import { BookCard } from "../BookCard";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import type { BookType } from "../../types/bookType";
@@ -36,14 +35,10 @@ export const StudyDetailCard = ({
     gatherEndDate,
     studyStartDate,
     studyEndDate,
+    status,
   } = study;
 
   const { renderSnackbar } = useOurSnackbar();
-  const studyState = selectStudyState(
-    gatherEndDate,
-    studyStartDate,
-    studyEndDate
-  );
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -88,7 +83,7 @@ export const StudyDetailCard = ({
         <S.BookTitleText onClick={handleBookTitleClick}>
           책 제목 : {book?.title}
         </S.BookTitleText>
-        {studyState === "recruiting" && (
+        {status === "recruiting" && (
           <S.ResponsiveText>
             모집 인원 : {currentParticipant}/{maxParticipant}
           </S.ResponsiveText>
@@ -126,7 +121,7 @@ export const StudyDetailCard = ({
           );
         })}
       </Menu>
-      {studyState !== "done" && <StudyState studyState={studyState} />}
+      <StudyState studyState={status as StudyStatusType} />
     </S.StudyDetailCard>
   );
 };

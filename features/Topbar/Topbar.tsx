@@ -12,7 +12,7 @@ import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 const SEARCH_URL = "/search";
 const SEARCH_URL_SIZE = 6;
-const LOGO_SIZE = 64;
+const LOGO_SIZE = 40;
 
 interface TopbarProps {
   message: string;

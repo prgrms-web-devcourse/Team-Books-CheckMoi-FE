@@ -4,6 +4,10 @@ import { Card } from "@mui/material";
 export const StudyCard = styled(Card)`
   display: flex;
   padding: 1rem;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.01) translateY(-10px);
+  }
 `;
 
 export const ImageWrapper = styled.div`
