@@ -40,17 +40,3 @@ export const getBookInfoByISBN = async (isbn: string) => {
   );
   return data;
 };
-
-export const getBooksByLatestStudy = async () => {
-  const data = await apiClient.get<V2BookType, V2BookType>(
-    `${END_POINT.v2_books}?latestStudy=true&size=10`
-  );
-  return data;
-};
-
-export const getBooksByMostStudy = async () => {
-  const data = await apiClient.get<V2BookType, V2BookType>(
-    `${END_POINT.v2_books}?mostStudy=true&size=10`
-  );
-  return data;
-};

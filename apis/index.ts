@@ -30,7 +30,12 @@ export {
   getFinishStudy,
 } from "./user";
 
-export { getComments, postComments, deleteComment, putComment } from "./comments";
+export {
+  getComments,
+  postComments,
+  deleteComment,
+  putComment,
+} from "./comments";
 
 export {
   getStudies,
@@ -40,8 +45,6 @@ export {
   joinStudy,
 } from "./study";
 
-export {
-  getApplicantMembers,
-  putApplicantAcceptOrDeny,
-} from "./applicant";
+export { getApplicantMembers, putApplicantAcceptOrDeny } from "./applicant";
 
+export { apiSSR } from "./ssrApi/ssrApi";
