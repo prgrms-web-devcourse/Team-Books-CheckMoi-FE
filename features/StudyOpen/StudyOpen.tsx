@@ -220,9 +220,8 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       if (!studyId) {
         const newStudyId = await createStudy({ newStudyInfo, token });
         const updateUser = await getMyInfo(token);
-        console.log(updateUser.studies);
         login(updateUser);
-        
+
         router.push({
           pathname: `/study/${newStudyId}`,
         });
