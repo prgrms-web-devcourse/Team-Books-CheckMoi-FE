@@ -58,6 +58,10 @@ const UserProfileEditPage = () => {
     }
   };
 
+  const handleBackClick = () => {
+    router.back();
+  };
+
   useEffect(() => {
     setImageUrl(image);
   }, [image]);
@@ -107,7 +111,9 @@ const UserProfileEditPage = () => {
             <S.StyledButton variant="contained" onClick={handleUserInfoUpdate}>
               수정하기
             </S.StyledButton>
-            <S.StyledButton variant="contained">뒤로가기</S.StyledButton>
+            <S.StyledButton variant="contained" onClick={handleBackClick}>
+              뒤로가기
+            </S.StyledButton>
           </S.ButtonContainer>
         </>
       ) : (
