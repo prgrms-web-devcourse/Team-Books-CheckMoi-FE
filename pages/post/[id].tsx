@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { SyntheticEvent, MouseEvent } from "react";
+import type { MouseEvent } from "react";
 import { useRouter } from "next/router";
 import { Divider, Tabs, Tab, IconButton, Menu, MenuItem } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
@@ -14,6 +14,7 @@ import { useUserContext } from "../../hooks/useUserContext";
 import { DeleteModal } from "../../features/DeleteModal";
 import { NoAccess } from "../../components/NoAccess";
 import * as S from "../../styles/PostStyle";
+import { useInView } from "../../hooks/useInView";
 
 const PostPage = () => {
   const router = useRouter();
@@ -24,8 +25,6 @@ const PostPage = () => {
   const { renderSnackbar } = useOurSnackbar();
   const { user } = useUserContext();
 
-  const [TabValue, setTabValue] = useState(currentTab);
-
   const [post, setPost] = useState({} as PostsType);
   const [postDate, setPostDate] = useState([] as string[]);
 
@@ -33,6 +32,10 @@ const PostPage = () => {
   const open = Boolean(anchorEl);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [ref, inView] = useInView();
+  const [pageState, setPageState] = useState({ pageNumber: 1, totalPage: 2 });
+  const [loading, setLoading] = useState(false);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -55,25 +58,39 @@ const PostPage = () => {
     if (id) getPostApi(Number(id));
   }, []);
 
-  const handleTabChange = (e: SyntheticEvent, newValue: number) => {
-    router.push({
-      pathname: `/study/${studyId}`,
-      query: { tabNumber: newValue },
-    });
-    setTabValue(newValue);
-  };
-
   const handleUpdateClick = async () => {
     router.push(`/postUpdate/${id}`);
   };
-  const getCommentList = async () => {
-    const result = await getComments({ postId: Number(id) });
-    setCommentList(result.comments);
+
+  const getAllCommentList = async (page = -1) => {
+    const correctPage = page > 0 ? page : pageState.totalPage;
+    const result = await getComments({
+      postId: Number(id),
+      page: correctPage,
+    });
+
+    setCommentList([
+      ...commentList,
+      result.comments[result.comments.length - 1],
+    ]);
   };
 
   useEffect(() => {
-    getCommentList();
-  }, [id]);
+    const getCommentList = async (page = 1) => {
+      setLoading(true);
+      const data = await getComments({ postId: Number(id), page });
+      const { comments, totalPage } = data;
+      setCommentList([...commentList, ...comments]);
+      setPageState({ ...pageState, totalPage });
+      setLoading(false);
+    };
+    getCommentList(pageState.pageNumber);
+  }, [pageState.pageNumber]);
+
+  useEffect(() => {
+    if (inView && !loading)
+      setPageState({ ...pageState, pageNumber: pageState.pageNumber + 1 });
+  }, [inView]);
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -86,20 +103,50 @@ const PostPage = () => {
 
   const onCreateComment = async (content: string) => {
     try {
-      await postComments({ postId: Number(id), content });
+      const newCommentId = await postComments({ postId: Number(id), content });
+      if (newCommentId)
+        if (
+          pageState.pageNumber === pageState.totalPage ||
+          pageState.totalPage === 0
+        ) {
+          const pageNum = Math.floor((commentList.length + 1) / 10);
+          const remainder = (commentList.length + 1) % 10;
+          if (pageNum >= pageState.totalPage && remainder >= 1)
+            getAllCommentList(pageNum + 1);
+          else if (pageNum > pageState.totalPage && remainder === 0)
+            getAllCommentList(pageNum);
+          else getAllCommentList();
+        }
+
       renderSnackbar("댓글 추가 성공");
     } catch (error) {
       renderSnackbar("댓글 추가 실패", "error");
     }
-    getCommentList();
   };
 
-  const onReloadComment = async () => {
-    await getCommentList();
+  const onDeleteComment = (commentId: number) => {
+    const updateComment = commentList.filter(
+      (comment) => comment.id !== commentId
+    );
+    setCommentList(updateComment);
   };
 
   const handleDeleteClick = async () => {
     setIsModalOpen(true);
+  };
+
+  const handleNoticeTabClick = () => {
+    router.push({
+      pathname: `/study/${studyId}`,
+      query: { tabNumber: 0 },
+    });
+  };
+
+  const handleGeneralTabClick = () => {
+    router.push({
+      pathname: `/study/${studyId}`,
+      query: { tabNumber: 1 },
+    });
   };
 
   return (
@@ -113,9 +160,9 @@ const PostPage = () => {
         post.id && (
           <>
             <S.TabsContainer>
-              <Tabs value={TabValue} onChange={handleTabChange}>
-                <Tab label="공지" />
-                <Tab label="자유" />
+              <Tabs value={currentTab}>
+                <Tab label="공지" onClick={handleNoticeTabClick} />
+                <Tab label="자유" onClick={handleGeneralTabClick} />
               </Tabs>
             </S.TabsContainer>
             <S.BoardTitleContainer>
@@ -183,9 +230,18 @@ const PostPage = () => {
               open={isModalOpen}
               onClose={handleCloseModal}
             />
+            {commentList.map((comment) => (
+              <Comment
+                key={comment.id}
+                commentProps={comment}
+                currentUserId={currentUserId}
+                onDeleteComment={onDeleteComment}
+              />
+            ))}
           </>
         )
       )}
+      {pageState.pageNumber < pageState.totalPage ? <div ref={ref} /> : null}
     </div>
   );
 };

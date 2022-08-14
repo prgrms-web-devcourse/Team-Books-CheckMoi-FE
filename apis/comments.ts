@@ -4,6 +4,7 @@ import { ResponseCommentsType } from "../types/commentType";
 
 interface getCommentProps {
   postId: number;
+  page?: number;
 }
 
 interface postCommentProps {
@@ -20,10 +21,10 @@ interface putCommentProps {
   content: string;
 }
 
-export const getComments = async ({ postId }: getCommentProps) => {
+export const getComments = async ({ postId, page }: getCommentProps) => {
   const token = document.cookie.split("=")[1];
   const data = await apiClient.get<ResponseCommentsType, ResponseCommentsType>(
-    `${END_POINT.comments}/?postId=${postId}`,
+    `${END_POINT.comments}/?postId=${postId}&page=${page}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
