@@ -236,6 +236,12 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
 
+    const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
+    if (file.size >= MAX_FILE_SIZE) {
+      renderSnackbar("업로드할 수 있는 파일 크기는 최대 1MB입니다.", "error");
+      return;
+    }
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
