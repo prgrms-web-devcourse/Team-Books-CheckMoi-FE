@@ -22,6 +22,7 @@ export { postImage } from "./image";
 export { getPosts, getPost, createPost, putPost, delPost } from "./post";
 
 export {
+  getMyInfo,
   getUser,
   putUser,
   getOpenStudy,

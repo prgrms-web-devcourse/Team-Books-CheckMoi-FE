@@ -8,10 +8,14 @@ import {
   getStudyDetailInfo,
   updateStudy,
   postImage,
+  getMyInfo,
 } from "../../apis";
 import { NoAccess } from "../../components/NoAccess";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
-import { useUserContext } from "../../hooks/useUserContext";
+import {
+  useUserActionContext,
+  useUserContext,
+} from "../../hooks/useUserContext";
 import type { StudyStatusType } from "../../types/studyType";
 import * as S from "./style";
 
@@ -89,6 +93,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
   const initStatusRef = useRef<StudyStatusType | null | undefined>();
 
   const { user } = useUserContext();
+  const { login } = useUserActionContext();
 
   const router = useRouter();
   const { renderSnackbar } = useOurSnackbar();
@@ -223,6 +228,8 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
 
       if (!studyId) {
         const newStudyId = await createStudy({ newStudyInfo, token });
+        const updateUser = await getMyInfo(token);
+        login(updateUser);
 
         router.push({
           pathname: `/study/${newStudyId}`,
