@@ -111,7 +111,9 @@ export const Comment = ({
           </span>
         </S.UserInfo>
         {!isEditMode ? (
-          <Typography>{currentValue}</Typography>
+          <Typography style={{ whiteSpace: "pre-line" }}>
+            {currentValue}
+          </Typography>
         ) : (
           <TextField
             className="textField"
