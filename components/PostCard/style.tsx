@@ -7,6 +7,8 @@ export const PostCard = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem;
+  margin: 1rem 0;
+  border: 0.5px solid #f9f9f9;
   box-shadow: 12px 21px 15px -3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 `;
@@ -14,16 +16,20 @@ export const PostCard = styled.div`
 export const PostTitle = styled.div`
   font-weight: bold;
   font-size: large;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const PostContent = styled.div`
   padding-top: 0.5rem;
   text-overflow: ellipsis;
-  overflow: hidden;
   display: -webkit-box;
+  overflow: hidden;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  height: 4rem;
+  line-height: 1.5rem;
+  height: 5rem;
 `;
 
 export const PostCreatedAt = styled.div`
