@@ -6,7 +6,7 @@ import { Topbar } from "../features/Topbar";
 import * as S from "../styles/LayoutStyle";
 import UserContextProvider from "../contexts/UserContextProvider";
 import type { TopbarUserType } from "../types/userType";
-import { getMyInfo } from "../apis/user";
+import { apiSSR, END_POINT } from "../apis";
 
 interface MyAppProps extends AppProps {
   user: TopbarUserType | null;
@@ -35,7 +35,15 @@ MyApp.getInitialProps = async (context: AppContext) => {
     const [_, token] = cookie.split("token=");
 
     try {
-      const user = await getMyInfo(token);
+      const user = await apiSSR.get<TopbarUserType, TopbarUserType>(
+        `${END_POINT.getMyInfo}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       return {
         user,
         message,

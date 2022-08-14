@@ -33,33 +33,20 @@ export interface ICreateStudy {
     studyStartDate: string;
     studyEndDate: string;
   };
-  token: string;
 }
 
-export const createStudy = async ({ newStudyInfo, token }: ICreateStudy) => {
+export const createStudy = async ({ newStudyInfo }: ICreateStudy) => {
   const data = await apiClient.post<number, number>(
     `${END_POINT.studies}`,
-    JSON.stringify(newStudyInfo),
-    {
-      headers: {
-        Authorization: `bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
+    JSON.stringify(newStudyInfo)
   );
 
   return data;
 };
 
-export const joinStudy = async (id: number, token: string) => {
+export const joinStudy = async (id: number) => {
   const data = await apiClient.put<number>(
-    `${END_POINT.studies}/${id}/members`,
-    {},
-    {
-      headers: {
-        Authorization: `bearer ${token}`,
-      },
-    }
+    `${END_POINT.studies}/${id}/members`
   );
   return data;
 };
@@ -72,23 +59,12 @@ interface IUpdateStudy {
     description: string;
     status: string;
   };
-  token: string;
 }
 
-export const updateStudy = async ({
-  studyId,
-  newStudyInfo,
-  token,
-}: IUpdateStudy) => {
+export const updateStudy = async ({ studyId, newStudyInfo }: IUpdateStudy) => {
   const data = await apiClient.put<number, number>(
     `${END_POINT.studies}/${studyId}`,
-    { ...newStudyInfo },
-    {
-      headers: {
-        Authorization: `bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
+    { ...newStudyInfo }
   );
 
   return data;

@@ -14,12 +14,12 @@ import * as S from "../../styles/StudyDetailPageStyle";
 import { NoAccess } from "../../components/NoAccess";
 import { getPosts } from "../../apis/post";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
-import { getStudyDetailInfo } from "../../apis/study";
 import { ApplicantList } from "../../features/ApplicantList";
 import {
   getApplicantMembers,
   putApplicantAcceptOrDeny,
 } from "../../apis/applicant";
+import { apiSSR, END_POINT } from "../../apis";
 
 interface ServerSidePropType {
   studyData: StudyDetailType;
@@ -302,6 +302,8 @@ export default StudyDetailPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const studyID = Number(context.query.id);
-  const studyData = await getStudyDetailInfo(studyID);
+  const studyData = await apiSSR.get<StudyDetailType, StudyDetailType>(
+    `${END_POINT.studies}/${studyID}`
+  );
   return { props: { studyData } };
 };

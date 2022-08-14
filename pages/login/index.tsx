@@ -16,7 +16,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (token) {
       document.cookie = `token=${token}; path=/; max-age=3600;`;
-      const userInfo = getMyInfo(token as string);
+      const userInfo = getMyInfo();
       userInfo
         .then((responseUser) => {
           login(responseUser);

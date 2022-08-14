@@ -39,8 +39,7 @@ const SearchPage = () => {
     }
 
     try {
-      const [_, token] = document.cookie.split("token=");
-      const registeredBookId = await registerBook(book, token);
+      const registeredBookId = await registerBook(book);
       router.push(`/book/${registeredBookId}`);
     } catch (error) {
       renderSnackbar("책 등록에 실패했습니다", "error");

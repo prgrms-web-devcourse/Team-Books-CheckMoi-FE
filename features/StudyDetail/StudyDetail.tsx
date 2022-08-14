@@ -54,8 +54,7 @@ export const StudyDetail = ({
     }
 
     try {
-      const [_, token] = document.cookie.split("token=");
-      await joinStudy(studyId, token);
+      await joinStudy(studyId);
       renderSnackbar("스터디 신청이 완료 되었습니다");
     } catch (error: any) {
       const { message } = error.response.data.errors[0];

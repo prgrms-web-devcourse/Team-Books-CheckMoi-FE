@@ -94,8 +94,7 @@ const PostPage = () => {
 
   useEffect(() => {
     const getCurrentUser = async () => {
-      const token = document.cookie.split("=")[1];
-      const currentUser = await getMyInfo(token);
+      const currentUser = await getMyInfo();
       setCurrentUserId(currentUser.id);
     };
     getCurrentUser();

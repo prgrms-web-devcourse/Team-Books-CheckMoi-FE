@@ -224,18 +224,16 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     };
 
     try {
-      const [, token] = document.cookie.split("token=");
-
       if (!studyId) {
-        const newStudyId = await createStudy({ newStudyInfo, token });
-        const updateUser = await getMyInfo(token);
+        const newStudyId = await createStudy({ newStudyInfo });
+        const updateUser = await getMyInfo();
         login(updateUser);
 
         router.push({
           pathname: `/study/${newStudyId}`,
         });
       } else {
-        await updateStudy({ studyId, newStudyInfo, token });
+        await updateStudy({ studyId, newStudyInfo });
 
         router.push({
           pathname: `/study/${studyId}`,
@@ -267,7 +265,6 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       (async () => {
         const newImageUrl = await postImage({
           file,
-          token: document.cookie.split("token=")[1],
         });
 
         setStudyInfo({ ...studyInfo, thumbnail: newImageUrl });

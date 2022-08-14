@@ -46,3 +46,5 @@ export {
 } from "./study";
 
 export { getApplicantMembers, putApplicantAcceptOrDeny } from "./applicant";
+
+export { apiSSR } from "./ssrApi/ssrApi";

@@ -2,13 +2,13 @@ import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Slider from "react-slick";
 import { BookCard } from "../components/BookCard";
-import type { BookType } from "../types/bookType";
+import type { BookType, V2BookType } from "../types/bookType";
 import * as S from "../styles/MainPageStyle";
 import { HomeUI } from "../features/HomeUI";
-import { getBooksByLatestStudy, getBooksByMostStudy } from "../apis/book";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import useWindowSize from "../hooks/useWindowSize";
+import { apiSSR, END_POINT } from "../apis";
 
 interface ServerSidePropsType {
   books: {
@@ -80,8 +80,13 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const { books: studyLatestBooks } = await getBooksByLatestStudy();
-    const { books: mostStudyBooks } = await getBooksByMostStudy();
+    const { books: studyLatestBooks } = await apiSSR.get<
+      V2BookType,
+      V2BookType
+    >(`${END_POINT.v2_books}?latestStudy=true&size=10`);
+    const { books: mostStudyBooks } = await apiSSR.get<V2BookType, V2BookType>(
+      `${END_POINT.v2_books}?mostStudy=true&size=10`
+    );
 
     return {
       props: {
