@@ -215,14 +215,6 @@ const PostPage = () => {
             <S.BoardContent>{post.content}</S.BoardContent>
             <Divider />
             <CommentInput onCreateComment={onCreateComment} />
-            {commentList.map((comment) => (
-              <Comment
-                key={comment.id}
-                commentProps={comment}
-                currentUserId={currentUserId}
-                onDeleteComment={onDeleteComment}
-              />
-            ))}
             <DeleteModal
               id={post.id}
               studyId={post.studyId}
