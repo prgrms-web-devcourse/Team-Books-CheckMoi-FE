@@ -1,12 +1,19 @@
 import styled from "@emotion/styled";
 import { Skeleton } from "@mui/material";
 
-export const CommentContainer = styled.div`
+interface CommentContainerProps {
+  isOwner: boolean;
+}
+
+export const CommentContainer = styled.div<CommentContainerProps>`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   /* box-shadow: 12px 21px 15px -3px rgba(0, 0, 0, 0.1); */
-  border: 1px solid #d7d7d7;
+
+  border: ${(props) =>
+    !props.isOwner ? " 1px solid #d7d7d7" : "2px solid #1976D2"};
+
   border-radius: 1rem;
   margin-bottom: 0.5rem;
 `;
