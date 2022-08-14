@@ -150,15 +150,6 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
   const handleStudyInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
 
-    if (inputName === "name") {
-      setStudyInfo({
-        ...studyInfo,
-        name: value.trim(),
-      });
-
-      return;
-    }
-
     setStudyInfo({
       ...studyInfo,
       [inputName]: value,
@@ -213,6 +204,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
 
     const newStudyInfo = {
       ...studyInfo,
+      name: studyInfo.name.trim(),
       bookId: Number(bookId),
       maxParticipant: Number(studyInfo.maxParticipant),
       currentParticipant: 1,
