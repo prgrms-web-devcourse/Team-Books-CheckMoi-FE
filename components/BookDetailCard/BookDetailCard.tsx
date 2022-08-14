@@ -39,7 +39,7 @@ export const BookDetail = ({ size = 208, book }: BookDetailProps) => {
     <S.BookDetailCard>
       <S.ImageContainer>
         <S.ImageWrapper>
-          <Image width={size} height={size * 1.5} src={image} />
+          {image && <Image width={size} height={size * 1.5} src={image} />}
         </S.ImageWrapper>
         <S.StyledButton
           variant="contained"
