@@ -85,6 +85,9 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     status: "",
   });
   const [isOwner, setIsOwner] = useState(true);
+  const [initStatus, setInitStatus] = useState<
+    StudyStatusType | null | undefined
+  >();
   const { user } = useUserContext();
 
   const router = useRouter();
@@ -118,6 +121,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       const { title: bookTitle } = book;
 
       setIsOwner(user?.id === members[0].user.id || false);
+      setInitStatus(status);
 
       setStudyInfo({
         ...studyInfo,
@@ -382,7 +386,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
             <TextField
               select
               fullWidth
-              disabled={!studyId || studyInfo.status !== "recruiting"}
+              disabled={!studyId || initStatus !== "recruiting"}
               name="status"
               variant="standard"
               label="스터디 모집 상태"
@@ -392,7 +396,6 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
               helperText={
                 inputError.status ||
                 (studyId &&
-                  studyInfo.status === "recruiting" &&
                   "모집 완료로 변경 시 다시 모집 중으로 되돌릴 수 없습니다.")
               }
             >
