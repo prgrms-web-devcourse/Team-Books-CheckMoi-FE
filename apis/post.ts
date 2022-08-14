@@ -6,13 +6,20 @@ import type { ResponsePostType, PostsType } from "../types/postType";
 interface getPostType {
   studyId: number;
   category: string;
+  page: number;
+  size?: string;
 }
 
-export const getPosts = async ({ studyId, category }: getPostType) => {
+export const getPosts = async ({
+  studyId,
+  category,
+  page,
+  size = "12",
+}: getPostType) => {
   const data = await apiClient.get<ResponsePostType, ResponsePostType>(
-    `${END_POINT.posts}`,
+    `${END_POINT.posts}?page=${page}`,
     {
-      params: { studyId, category },
+      params: { studyId, category, size },
     }
   );
   return data;

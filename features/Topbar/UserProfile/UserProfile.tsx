@@ -23,10 +23,12 @@ export const UserProfile = () => {
 
   const handleAvatarClick = () => {
     router.push(`/userProfile/${user?.id}`);
+    setAnchorEl(null);
   };
 
   const handleStudyClick = (studyId: number) => {
     router.push(`/study/${studyId}`);
+    setAnchorEl(null);
   };
 
   const handleLogoutModalOpen = () => {

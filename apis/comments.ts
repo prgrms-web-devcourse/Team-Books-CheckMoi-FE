@@ -4,6 +4,7 @@ import type { ResponseCommentsType } from "../types/commentType";
 
 interface getCommentProps {
   postId: number;
+  page?: number;
 }
 
 interface postCommentProps {
@@ -20,11 +21,11 @@ interface putCommentProps {
   content: string;
 }
 
+
 export const getComments = async ({ postId }: getCommentProps) => {
   const data = await apiClient.get<ResponseCommentsType, ResponseCommentsType>(
-    `${END_POINT.comments}/?postId=${postId}`
-  );
-
+    `${END_POINT.comments}/?postId=${postId}`,
+  )
   return data;
 };
 

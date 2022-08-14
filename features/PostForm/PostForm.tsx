@@ -16,6 +16,11 @@ interface PostFormProp {
   isOwner?: boolean;
 }
 
+interface PostErrorProp {
+  title: string;
+  content: string;
+}
+
 export const PostForm = ({
   state,
   selectValue,
@@ -28,6 +33,15 @@ export const PostForm = ({
   const [postSelectValue, setPostSelectValue] = useState(selectValue);
   const [postTitle, setPostTitle] = useState(title);
   const [postContent, setPostContent] = useState(content);
+  const [InputError, setInputError] = useState({
+    title: "",
+    content: "",
+  } as PostErrorProp);
+
+  const postError: PostErrorProp = {
+    title: "",
+    content: "",
+  };
 
   const router = useRouter();
   const { user } = useUserContext();
@@ -45,12 +59,24 @@ export const PostForm = ({
   };
 
   const handleOnClick = async () => {
+    if (postTitle.length === 0) postError.title = "제목을 입력해주세요";
+    else if (postTitle.length > 50)
+      postError.title = "제목은 50자 이내로 입력해주세요";
+
+    if (postContent.length === 0) postError.content = "내용을 입력해주세요";
+    else if (postContent.length > 1500)
+      postError.content = "내용은 1500자 이내로 입력해주세요";
+
+    setInputError({ ...postError });
+    if (!Object.values(postError).every((errorVal) => errorVal === "")) return;
+
     const postObject = {
       title: postTitle,
       content: postContent,
       category: postSelectValue,
       studyId,
     };
+
     if (state === "POST") {
       const getPostId = await createPost(postObject);
       if (getPostId)
@@ -90,6 +116,8 @@ export const PostForm = ({
               margin="dense"
               fullWidth
               onChange={handleTitleChange}
+              error={!!InputError.title}
+              helperText={InputError.title}
             />
           </S.Title>
           <TextField
@@ -101,6 +129,8 @@ export const PostForm = ({
             minRows={15}
             margin="dense"
             onChange={handleContentChange}
+            error={!!InputError.content}
+            helperText={InputError.content}
           />
           <S.StyledButton variant="contained" onClick={handleOnClick}>
             {state === "POST" ? "게시하기" : "수정하기"}

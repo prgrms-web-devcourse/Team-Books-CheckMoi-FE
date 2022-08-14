@@ -11,4 +11,5 @@ export interface CommentsType {
 
 export interface ResponseCommentsType {
   comments: CommentsType[];
+  totalPage: number;
 }

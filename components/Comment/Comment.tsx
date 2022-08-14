@@ -13,6 +13,7 @@ import * as S from "./style";
 import { deleteComment } from "../../apis";
 import { putComment } from "../../apis/comments";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
+import { useUserContext } from "../../hooks/useUserContext";
 
 interface CommentProps {
   commentProps: {
@@ -26,13 +27,15 @@ interface CommentProps {
     content: string;
   };
   currentUserId: number;
-  onReloadComment: () => void;
+  onDeleteComment: (commentId: number) => void;
 }
 
 export const Comment = ({
   commentProps,
   currentUserId,
-  onReloadComment,
+  onDeleteComment,
+  isOwner = false,
+
 }: CommentProps) => {
   const [anchorEl, setAncorEl] = useState<null | HTMLElement>(null);
   const [currentValue, setCurrentValue] = useState<string>(
@@ -50,6 +53,7 @@ export const Comment = ({
     setAncorEl(null);
   };
   const { renderSnackbar } = useOurSnackbar();
+  const { user } = useUserContext();
 
   const handleDeleteButtonClick = async () => {
     try {
@@ -57,10 +61,10 @@ export const Comment = ({
         commentId: commentProps.id,
       });
       renderSnackbar("댓글 삭제 성공");
+      onDeleteComment(commentProps.id);
     } catch (error) {
       renderSnackbar("댓글 삭제 실패", "error");
     }
-    onReloadComment();
     handleClose();
   };
 
@@ -74,7 +78,6 @@ export const Comment = ({
     } catch (error) {
       renderSnackbar("댓글 수정 실패", "error");
     }
-    onReloadComment();
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -98,8 +101,9 @@ export const Comment = ({
     setIsEditMode(true);
     handleClose();
   };
+
   return (
-    <S.CommentContainer>
+    <S.CommentContainer isOwner={commentProps.userId === user?.id}>
       <S.UserWrapper>
         <Avatar src={commentProps.userImage} />
       </S.UserWrapper>
@@ -111,7 +115,9 @@ export const Comment = ({
           </span>
         </S.UserInfo>
         {!isEditMode ? (
-          <Typography>{currentValue}</Typography>
+          <Typography style={{ whiteSpace: "pre-line" }}>
+            {currentValue}
+          </Typography>
         ) : (
           <TextField
             className="textField"

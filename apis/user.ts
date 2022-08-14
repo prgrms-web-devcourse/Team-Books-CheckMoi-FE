@@ -1,17 +1,9 @@
-import axios from "axios";
 import { apiClient } from "./api";
 import { END_POINT } from ".";
 import { TopbarUserType } from "../types/userType";
 
-export const fakeLogin = async () => {
-  const data = await axios.get<string>(
-    `${process.env.NEXT_PUBLIC_API_END_POINT}${END_POINT.fakeLogin}`
-  );
 
-  return data.data;
-};
-
-export const getMyInfo = async () => {
+export const getMyInfo = async (token: string) => {
   const data = await apiClient.get<TopbarUserType, TopbarUserType>(
     `${END_POINT.getMyInfo}`
   );

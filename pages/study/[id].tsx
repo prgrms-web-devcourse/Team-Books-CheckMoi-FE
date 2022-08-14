@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Tabs, Tab, Button, Typography } from "@mui/material";
-import type { SyntheticEvent } from "react";
+import { Tabs, Tab, Button, Typography, Pagination } from "@mui/material";
+import type { SyntheticEvent, ChangeEvent } from "react";
 import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
 import type { PostsType } from "../../types/postType";
@@ -30,7 +30,7 @@ const NOTICE_BOARD_TAB = 0;
 const FREE_BOARD_TAB = 1;
 
 const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
-  const { study, members } = studyData;
+  const { study, members, book } = studyData;
   const userList = members.map((member) => {
     return member.user;
   });
@@ -39,6 +39,15 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const { tabNumber: tabValue } = router.query;
   const studyId = Number(router.query.id as string);
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
+
+  const [noticePageState, setNoticePageState] = useState({
+    pageNumber: 1,
+    totalPage: 2,
+  });
+  const [generalPageState, setGeneralPageState] = useState({
+    pageNumber: 1,
+    totalPage: 2,
+  });
 
   const [tabNumber, setTabNumber] = useState(currentTab);
   const [applicantMemberList, setApplicantMemberList] = useState<
@@ -65,30 +74,51 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   };
 
   useEffect(() => {
+    getApplicantMemberList();
+  }, []);
+
+  useEffect(() => {
     if (user?.id === userList[STUDY_OWNER].id) setIsOwner(true);
     else setIsOwner(false);
   }, [user]);
 
   useEffect(() => {
-    const getPostList = async () => {
+    const getNoticePageList = async (page = 1) => {
       if (studyId) {
         const getNoticeList = await getPosts({
           studyId: Number(studyId),
           category: "NOTICE",
+          page,
         });
+        const { totalPage } = getNoticeList;
         setNoticePostList(getNoticeList.posts);
+        setNoticePageState({
+          ...noticePageState,
+          totalPage,
+        });
+      }
+    };
+    getNoticePageList(noticePageState.pageNumber);
+  }, [studyId, noticePageState.pageNumber]);
 
+  useEffect(() => {
+    const getGeneralPageList = async (page = 1) => {
+      if (studyId) {
         const getGeneralList = await getPosts({
           studyId: Number(studyId),
           category: "GENERAL",
+          page,
         });
+        const { totalPage } = getGeneralList;
         setGeneralPostList(getGeneralList.posts);
+        setGeneralPageState({
+          ...generalPageState,
+          totalPage,
+        });
       }
     };
-
-    getPostList();
-    getApplicantMemberList();
-  }, [studyId]);
+    getGeneralPageList(generalPageState.pageNumber);
+  }, [studyId, generalPageState.pageNumber]);
 
   const isStudyMember = user && membersIdList.includes(user.id);
 
@@ -142,9 +172,29 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     getApplicantMemberList();
   };
 
+  const handleNoticePageChange = (
+    _: ChangeEvent<unknown>,
+    newValue: number
+  ) => {
+    setNoticePageState({
+      ...noticePageState,
+      pageNumber: newValue,
+    });
+  };
+
+  const handleGeneralPageChange = (
+    _: ChangeEvent<unknown>,
+    newValue: number
+  ) => {
+    setGeneralPageState({
+      ...generalPageState,
+      pageNumber: newValue,
+    });
+  };
+
   return user && isStudyMember ? (
     <>
-      <StudyDetailCard study={study} members={members} />
+      <StudyDetailCard study={study} members={members} book={book} />
       <S.TabsContainer>
         <Tabs value={tabNumber} onChange={handleTabChange}>
           <Tab label="공지" />
@@ -189,10 +239,21 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
           </S.StyledUl>
         ) : (
           <S.NoPost>
-            <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
+            <Typography>게시글이 없습 니다. 게시글을 작성해주세요</Typography>
           </S.NoPost>
         )}
+        <S.PaginationWrapper>
+          <Pagination
+            count={noticePageState.totalPage}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+            page={noticePageState.pageNumber}
+            onChange={handleNoticePageChange}
+          />
+        </S.PaginationWrapper>
       </TabPanel>
+
       <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
         {generalPostList.length !== 0 ? (
           <S.StyledUl>
@@ -212,6 +273,16 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
             <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
           </S.NoPost>
         )}
+        <S.PaginationWrapper>
+          <Pagination
+            count={generalPageState.totalPage}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+            page={generalPageState.pageNumber}
+            onChange={handleGeneralPageChange}
+          />
+        </S.PaginationWrapper>
       </TabPanel>
     </>
   ) : user ? (

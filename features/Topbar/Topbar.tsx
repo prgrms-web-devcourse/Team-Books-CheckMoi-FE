@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import Image from "next/image";
 import * as S from "./style";
 import { UserProfile } from "./UserProfile";
 import { LoginButton } from "./LoginButton";
@@ -12,6 +12,7 @@ import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 const SEARCH_URL = "/search";
 const SEARCH_URL_SIZE = 6;
+const LOGO_SIZE = 40;
 
 interface TopbarProps {
   message: string;
@@ -65,13 +66,12 @@ export const Topbar = ({ message }: TopbarProps) => {
   return (
     <S.StyledAppbar position="fixed">
       <Toolbar>
-        {/* TODO 로고가 정해지면 로고 바꾸기 */}
-        <S.LogoIcon />
-        <S.LogoText variant="h6" noWrap>
-          <Link href="/">
-            <a href="{() => false}">책모이</a>
-          </Link>
-        </S.LogoText>
+        <S.LogoContainer onClick={() => router.push("/")}>
+          <Image src="/images/logo.png" width={LOGO_SIZE} height={LOGO_SIZE} />
+          <S.LogoText variant="h6" noWrap>
+            책모이
+          </S.LogoText>
+        </S.LogoContainer>
         <S.SearchInputContainer>
           <form onSubmit={handleSubmit}>
             <S.SearchInput>

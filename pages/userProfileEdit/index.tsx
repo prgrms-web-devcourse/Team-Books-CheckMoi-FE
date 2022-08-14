@@ -9,6 +9,7 @@ import {
 } from "../../hooks/useUserContext";
 import { getMyInfo } from "../../apis/user";
 import * as S from "../../styles/UserProfileEditStyle";
+import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 
 const UserProfileEditPage = () => {
   const router = useRouter();
@@ -20,15 +21,25 @@ const UserProfileEditPage = () => {
   const [username, setUserName] = useState(user ? user.name : "");
   const [isUserExist, setIsUserExist] = useState(false);
   const imageRef = useRef<HTMLInputElement>(null);
+  const { renderSnackbar } = useOurSnackbar();
 
   const handleChangeImage = async (e: any) => {
     const reader = new FileReader();
     const [file] = e.target.files;
+
+    const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
+    if (file.size >= MAX_FILE_SIZE) {
+      renderSnackbar("업로드할 수 있는 파일 크기는 최대 1MB입니다.", "error");
+      e.target.value = "";
+      return;
+    }
+
     if (file) {
       reader.readAsDataURL(file);
       reader.onload = () => setImage(reader.result as string);
       const imageData = await postImage({ file });
       setImageUrl(imageData);
+      e.target.value = "";
     }
   };
 
@@ -53,6 +64,10 @@ const UserProfileEditPage = () => {
       login(updateUser);
       router.push(`/userProfile/${id}`);
     }
+  };
+
+  const handleBackClick = () => {
+    router.back();
   };
 
   useEffect(() => {
@@ -104,7 +119,9 @@ const UserProfileEditPage = () => {
             <S.StyledButton variant="contained" onClick={handleUserInfoUpdate}>
               수정하기
             </S.StyledButton>
-            <S.StyledButton variant="contained">뒤로가기</S.StyledButton>
+            <S.StyledButton variant="contained" onClick={handleBackClick}>
+              뒤로가기
+            </S.StyledButton>
           </S.ButtonContainer>
         </>
       ) : (

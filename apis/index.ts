@@ -4,7 +4,6 @@ export const END_POINT = {
   v2_studies: "/v2/studies",
   image: "/images",
   user: "/users",
-  fakeLogin: "/tokens/7",
   getMyInfo: "/me",
   logout: "/logout",
   isbnBook: "/books/isbn",
@@ -23,6 +22,7 @@ export { postImage } from "./image";
 export { getPosts, getPost, createPost, putPost, delPost } from "./post";
 
 export {
+  getMyInfo,
   getUser,
   putUser,
   getOpenStudy,
