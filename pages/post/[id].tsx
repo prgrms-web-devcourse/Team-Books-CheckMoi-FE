@@ -222,17 +222,17 @@ const PostPage = () => {
               open={isModalOpen}
               onClose={handleCloseModal}
             />
+            {commentList.map((comment) => (
+              <Comment
+                key={comment.id}
+                commentProps={comment}
+                currentUserId={currentUserId}
+                onDeleteComment={onDeleteComment}
+              />
+            ))}
           </>
         )
       )}
-      {commentList.map((comment) => (
-        <Comment
-          key={comment.id}
-          commentProps={comment}
-          currentUserId={currentUserId}
-          onDeleteComment={onDeleteComment}
-        />
-      ))}
       {pageState.pageNumber < pageState.totalPage ? <div ref={ref} /> : null}
     </div>
   );
