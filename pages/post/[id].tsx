@@ -68,21 +68,46 @@ const PostPage = () => {
     setTabValue(newValue);
   };
 
+  const handleNoticeTabClick = () => {
+    router.push({
+      pathname: `/study/${studyId}`,
+      query: { tabNumber: 0 },
+    });
+  };
+
+  const handleGeneralTabClick = () => {
+    router.push({
+      pathname: `/study/${studyId}`,
+      query: { tabNumber: 1 },
+    });
+  };
+
   const handleUpdateClick = async () => {
     router.push(`/postUpdate/${id}`);
   };
 
-  const getAllCommentList = async () => {
+  const getAllCommentList = async (page = -1) => {
+    const correctPage = page > 0 ? page : pageState.totalPage;
     const result = await getComments({
       postId: Number(id),
-      page: pageState.totalPage,
+      page: correctPage, // 1
     });
-    // console.log("last comment", result.comments[result.comments.length - 1]);
     setCommentList([
       ...commentList,
       result.comments[result.comments.length - 1],
     ]);
-    // setCommentList(result.comments);
+  };
+
+  const getAddCommentList = async () => {
+    const result = await getComments({
+      postId: Number(id),
+      page: pageState.pageNumber,
+    });
+    setCommentList([
+      ...commentList,
+      result.comments[result.comments.length - 1],
+    ]);
+    // }
   };
 
   useEffect(() => {
@@ -113,8 +138,16 @@ const PostPage = () => {
 
   const onCreateComment = async (content: string) => {
     try {
-      await postComments({ postId: Number(id), content });
-      getAllCommentList();
+      const id2 = await postComments({ postId: Number(id), content });
+      const len = commentList.length + 1;
+      // if (id2) getAddCommentList();
+
+      if (id2 && Math.floor(len / 10) + 1 >= pageState.pageNumber) {
+        const pageNum =
+          len % 10 === 1 ? pageState.pageNumber + 1 : pageState.pageNumber;
+        getAllCommentList(pageNum);
+      }
+
       renderSnackbar("댓글 추가 성공");
     } catch (error) {
       renderSnackbar("댓글 추가 실패", "error");
@@ -143,9 +176,9 @@ const PostPage = () => {
         post.id && (
           <>
             <S.TabsContainer>
-              <Tabs value={TabValue} onChange={handleTabChange}>
-                <Tab label="공지" />
-                <Tab label="자유" />
+              <Tabs value={TabValue}>
+                <Tab label="공지" onClick={handleNoticeTabClick} />
+                <Tab label="자유" onClick={handleGeneralTabClick} />
               </Tabs>
             </S.TabsContainer>
             <S.BoardTitleContainer>
@@ -205,19 +238,20 @@ const PostPage = () => {
               open={isModalOpen}
               onClose={handleCloseModal}
             />
+            {commentList.map((comment) => (
+              <Comment
+                key={comment.id}
+                commentProps={comment}
+                currentUserId={currentUserId}
+                onDeleteComment={onDeleteComment}
+              />
+            ))}
+            {pageState.pageNumber !== pageState.totalPage ? (
+              <div ref={ref} />
+            ) : null}
           </>
         )
       )}
-      {/* TODO Comment List 출력 */}
-      {commentList.map((comment) => (
-        <Comment
-          key={comment.id}
-          commentProps={comment}
-          currentUserId={currentUserId}
-          onDeleteComment={onDeleteComment}
-        />
-      ))}
-      {pageState.pageNumber !== pageState.totalPage ? <div ref={ref} /> : null}
     </div>
   );
 };

@@ -14,13 +14,17 @@ export const ButtonsWrapper = styled.div`
 export const StyledUl = styled.ul`
   list-style: none;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  border: 1px solid red;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1rem;
   align-items: start;
   -webkit-padding-start: 0px;
 
   @media (max-width: 512px) {
     grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 1440px) {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 `;
 
@@ -35,4 +39,10 @@ export const NoPost = styled.div`
   width: 100%;
   margin-top: 5rem;
   text-align: center;
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  margin-top: 4.5rem;
+  justify-content: center;
 `;

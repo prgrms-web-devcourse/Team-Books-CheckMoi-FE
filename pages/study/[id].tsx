@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Tabs, Tab, Button, Typography } from "@mui/material";
-import type { SyntheticEvent } from "react";
+import { Tabs, Tab, Button, Typography, Pagination } from "@mui/material";
+import type { SyntheticEvent, ChangeEvent } from "react";
 import type { GetServerSideProps } from "next/types";
 import type { StudyDetailType } from "../../types/studyType";
 import type { PostsType } from "../../types/postType";
@@ -16,7 +16,6 @@ import { getPosts } from "../../apis/post";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import { getStudyDetailInfo } from "../../apis/study";
 import { ApplicantList } from "../../features/ApplicantList";
-import { useInView } from "../../hooks/useInView";
 import {
   getApplicantMembers,
   putApplicantAcceptOrDeny,
@@ -40,7 +39,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   const { tabNumber: tabValue } = router.query;
   const studyId = Number(router.query.id as string);
   const currentTab = tabValue ? parseInt(tabValue as string, 10) : 0;
-  const [ref, inView] = useInView();
+
   const [noticePageState, setNoticePageState] = useState({
     pageNumber: 1,
     totalPage: 2,
@@ -49,7 +48,6 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     pageNumber: 1,
     totalPage: 2,
   });
-  const [loading, setLoading] = useState(false);
 
   const [tabNumber, setTabNumber] = useState(currentTab);
   const [applicantMemberList, setApplicantMemberList] = useState<
@@ -87,19 +85,17 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   useEffect(() => {
     const getNoticePageList = async (page = 1) => {
       if (studyId) {
-        setLoading(true);
         const getNoticeList = await getPosts({
           studyId: Number(studyId),
           category: "NOTICE",
           page,
         });
         const { totalPage } = getNoticeList;
-        setNoticePostList([...noticePostList, ...getNoticeList.posts]);
+        setNoticePostList(getNoticeList.posts);
         setNoticePageState({
           ...noticePageState,
           totalPage,
         });
-        setLoading(false);
       }
     };
     getNoticePageList(noticePageState.pageNumber);
@@ -108,40 +104,21 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
   useEffect(() => {
     const getGeneralPageList = async (page = 1) => {
       if (studyId) {
-        setLoading(true);
         const getGeneralList = await getPosts({
           studyId: Number(studyId),
           category: "GENERAL",
           page,
         });
         const { totalPage } = getGeneralList;
-        setGeneralPostList([...generalPostList, ...getGeneralList.posts]);
+        setGeneralPostList(getGeneralList.posts);
         setGeneralPageState({
           ...generalPageState,
           totalPage,
         });
-        setLoading(false);
       }
     };
     getGeneralPageList(generalPageState.pageNumber);
   }, [studyId, generalPageState.pageNumber]);
-
-  useEffect(() => {
-    if (inView && !loading)
-      if (tabNumber === 0) {
-        console.log("tabNumber 0", tabNumber);
-        setNoticePageState({
-          ...noticePageState,
-          pageNumber: noticePageState.pageNumber + 1,
-        });
-      } else if (tabNumber === 1) {
-        console.log("tabNumber 1", tabNumber);
-        setGeneralPageState({
-          ...generalPageState,
-          pageNumber: generalPageState.pageNumber + 1,
-        });
-      }
-  }, [inView, tabNumber]);
 
   const isStudyMember = user && membersIdList.includes(user.id);
 
@@ -195,6 +172,26 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
     getApplicantMemberList();
   };
 
+  const handleNoticePageChange = (
+    _: ChangeEvent<unknown>,
+    newValue: number
+  ) => {
+    setNoticePageState({
+      ...noticePageState,
+      pageNumber: newValue,
+    });
+  };
+
+  const handleGeneralPageChange = (
+    _: ChangeEvent<unknown>,
+    newValue: number
+  ) => {
+    setGeneralPageState({
+      ...generalPageState,
+      pageNumber: newValue,
+    });
+  };
+
   return user && isStudyMember ? (
     <>
       <StudyDetailCard study={study} members={members} />
@@ -242,13 +239,21 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
           </S.StyledUl>
         ) : (
           <S.NoPost>
-            <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
+            <Typography>게시글이 없습 니다. 게시글을 작성해주세요</Typography>
           </S.NoPost>
         )}
-        {noticePageState.pageNumber !== noticePageState.totalPage ? (
-          <div ref={ref} />
-        ) : null}
+        <S.PaginationWrapper>
+          <Pagination
+            count={noticePageState.totalPage}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+            page={noticePageState.pageNumber}
+            onChange={handleNoticePageChange}
+          />
+        </S.PaginationWrapper>
       </TabPanel>
+
       <TabPanel value={tabNumber} index={FREE_BOARD_TAB}>
         {generalPostList.length !== 0 ? (
           <S.StyledUl>
@@ -268,9 +273,16 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
             <Typography>게시글이 없습니다. 게시글을 작성해주세요</Typography>
           </S.NoPost>
         )}
-        {generalPageState.pageNumber !== generalPageState.totalPage ? (
-          <div ref={ref} />
-        ) : null}
+        <S.PaginationWrapper>
+          <Pagination
+            count={generalPageState.totalPage}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+            page={generalPageState.pageNumber}
+            onChange={handleGeneralPageChange}
+          />
+        </S.PaginationWrapper>
       </TabPanel>
     </>
   ) : user ? (
