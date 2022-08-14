@@ -13,15 +13,10 @@ interface putApplicantProps {
 }
 
 export const getApplicantMembers = async ({ studyId }: getApplicantsProps) => {
-  const token = document.cookie.split("=")[1];
   const data = await apiClient.get<
     ResponseApplicantMemberType,
     ResponseApplicantMemberType
-  >(`${END_POINT.applicants}/${studyId}/members`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  >(`${END_POINT.applicants}/${studyId}/members`);
   return data.members;
 };
 
@@ -30,15 +25,9 @@ export const putApplicantAcceptOrDeny = async ({
   memberId,
   status,
 }: putApplicantProps) => {
-  const token = document.cookie.split("=")[1];
   const data = await apiClient.put(
     `${END_POINT.applicants}/${studyId}/members/${memberId}`,
-    { status },
-    {
-      headers: {
-        Authorization: `bearer ${token}`,
-      },
-    }
+    { status }
   );
   return data;
 };

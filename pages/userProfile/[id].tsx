@@ -27,8 +27,6 @@ const userProfile = () => {
   const { user } = useUserContext();
 
   const ownerInfo = user;
-  const token =
-    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
 
   const { id } = router.query;
 
@@ -42,20 +40,20 @@ const userProfile = () => {
         setUserInfo(ownerInfo);
         setIsOwner(true);
       } else {
-        const userData = await getUser({ id: userid, token });
+        const userData = await getUser({ id: userid });
         setUserInfo(userData);
       }
-      const openStudyData = await getOpenStudy({ id: userid, token });
+      const openStudyData = await getOpenStudy({ id: userid });
       if (openStudyData) setOpenStudy(openStudyData.studies);
-      const partiStudyData = await getPartiStudy({ id: userid, token });
+      const partiStudyData = await getPartiStudy({ id: userid });
       if (partiStudyData) setPartiStudy(partiStudyData.studies);
-      const finishStudyData = await getFinishStudy({ id: userid, token });
+      const finishStudyData = await getFinishStudy({ id: userid });
       if (finishStudyData) setFinishStudy(finishStudyData.studies);
 
       setLoading(false);
     };
 
-    if (token && id) userInfoApi(Number(id));
+    if (id) userInfoApi(Number(id));
   }, [id]);
 
   return (

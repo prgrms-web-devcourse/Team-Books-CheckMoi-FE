@@ -15,8 +15,7 @@ const LogoutModal = ({ open, handleModalClose }: LogoutModalProps) => {
 
   const handleLogoutClick = async () => {
     try {
-      const token = document.cookie.split("token=");
-      await logoutApi(token[1]);
+      await logoutApi();
       document.cookie = "token=; path=/; max-age=0;";
       logout();
       renderSnackbar("로그아웃에 성공했습니다");

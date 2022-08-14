@@ -14,8 +14,6 @@ const UserProfileEditPage = () => {
   const router = useRouter();
   const { user } = useUserContext();
   const { login } = useUserActionContext();
-  const token =
-    typeof document !== "undefined" ? document.cookie.split("=")[1] : "";
 
   const [image, setImage] = useState(user ? user.image : "");
   const [imageUrl, setImageUrl] = useState("");
@@ -29,7 +27,7 @@ const UserProfileEditPage = () => {
     if (file) {
       reader.readAsDataURL(file);
       reader.onload = () => setImage(reader.result as string);
-      const imageData = await postImage({ token, file });
+      const imageData = await postImage({ file });
       setImageUrl(imageData);
     }
   };
@@ -49,10 +47,9 @@ const UserProfileEditPage = () => {
         id: Number(id),
         name: username,
         image: imageUrl,
-        token,
       });
 
-      const updateUser = await getMyInfo(token);
+      const updateUser = await getMyInfo();
       login(updateUser);
       router.push(`/userProfile/${id}`);
     }
