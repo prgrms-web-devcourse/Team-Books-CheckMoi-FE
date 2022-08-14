@@ -330,6 +330,12 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
               InputLabelProps={{
                 shrink: true,
               }}
+              InputProps={{
+                inputProps: {
+                  max: 10,
+                  min: 1,
+                },
+              }}
             />
           </S.TextFieldWrapper>
           <S.TextFieldWrapper>
