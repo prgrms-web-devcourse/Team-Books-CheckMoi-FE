@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { SyntheticEvent, MouseEvent } from "react";
+import type { MouseEvent } from "react";
 import { useRouter } from "next/router";
 import { Divider, Tabs, Tab, IconButton, Menu, MenuItem } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
@@ -24,8 +24,6 @@ const PostPage = () => {
   const [currentUserId, setCurrentUserId] = useState(-1);
   const { renderSnackbar } = useOurSnackbar();
   const { user } = useUserContext();
-
-  const [TabValue, setTabValue] = useState(currentTab);
 
   const [post, setPost] = useState({} as PostsType);
   const [postDate, setPostDate] = useState([] as string[]);
@@ -60,28 +58,6 @@ const PostPage = () => {
     if (id) getPostApi(Number(id));
   }, []);
 
-  const handleTabChange = (e: SyntheticEvent, newValue: number) => {
-    router.push({
-      pathname: `/study/${studyId}`,
-      query: { tabNumber: newValue },
-    });
-    setTabValue(newValue);
-  };
-
-  const handleNoticeTabClick = () => {
-    router.push({
-      pathname: `/study/${studyId}`,
-      query: { tabNumber: 0 },
-    });
-  };
-
-  const handleGeneralTabClick = () => {
-    router.push({
-      pathname: `/study/${studyId}`,
-      query: { tabNumber: 1 },
-    });
-  };
-
   const handleUpdateClick = async () => {
     router.push(`/postUpdate/${id}`);
   };
@@ -90,24 +66,13 @@ const PostPage = () => {
     const correctPage = page > 0 ? page : pageState.totalPage;
     const result = await getComments({
       postId: Number(id),
-      page: correctPage, // 1
+      page: correctPage,
     });
-    setCommentList([
-      ...commentList,
-      result.comments[result.comments.length - 1],
-    ]);
-  };
 
-  const getAddCommentList = async () => {
-    const result = await getComments({
-      postId: Number(id),
-      page: pageState.pageNumber,
-    });
     setCommentList([
       ...commentList,
       result.comments[result.comments.length - 1],
     ]);
-    // }
   };
 
   useEffect(() => {
@@ -138,15 +103,20 @@ const PostPage = () => {
 
   const onCreateComment = async (content: string) => {
     try {
-      const id2 = await postComments({ postId: Number(id), content });
-      const len = commentList.length + 1;
-      // if (id2) getAddCommentList();
-
-      if (id2 && Math.floor(len / 10) + 1 >= pageState.pageNumber) {
-        const pageNum =
-          len % 10 === 1 ? pageState.pageNumber + 1 : pageState.pageNumber;
-        getAllCommentList(pageNum);
-      }
+      const newCommentId = await postComments({ postId: Number(id), content });
+      if (newCommentId)
+        if (
+          pageState.pageNumber === pageState.totalPage ||
+          pageState.totalPage === 0
+        ) {
+          const pageNum = Math.floor((commentList.length + 1) / 10);
+          const remainder = (commentList.length + 1) % 10;
+          if (pageNum >= pageState.totalPage && remainder >= 1)
+            getAllCommentList(pageNum + 1);
+          else if (pageNum > pageState.totalPage && remainder === 0)
+            getAllCommentList(pageNum);
+          else getAllCommentList();
+        }
 
       renderSnackbar("댓글 추가 성공");
     } catch (error) {
@@ -165,6 +135,20 @@ const PostPage = () => {
     setIsModalOpen(true);
   };
 
+  const handleNoticeTabClick = () => {
+    router.push({
+      pathname: `/study/${studyId}`,
+      query: { tabNumber: 0 },
+    });
+  };
+
+  const handleGeneralTabClick = () => {
+    router.push({
+      pathname: `/study/${studyId}`,
+      query: { tabNumber: 1 },
+    });
+  };
+
   return (
     <div>
       {!user ? (
@@ -176,7 +160,7 @@ const PostPage = () => {
         post.id && (
           <>
             <S.TabsContainer>
-              <Tabs value={TabValue}>
+              <Tabs value={currentTab}>
                 <Tab label="공지" onClick={handleNoticeTabClick} />
                 <Tab label="자유" onClick={handleGeneralTabClick} />
               </Tabs>
@@ -238,20 +222,18 @@ const PostPage = () => {
               open={isModalOpen}
               onClose={handleCloseModal}
             />
-            {commentList.map((comment) => (
-              <Comment
-                key={comment.id}
-                commentProps={comment}
-                currentUserId={currentUserId}
-                onDeleteComment={onDeleteComment}
-              />
-            ))}
-            {pageState.pageNumber !== pageState.totalPage ? (
-              <div ref={ref} />
-            ) : null}
           </>
         )
       )}
+      {commentList.map((comment) => (
+        <Comment
+          key={comment.id}
+          commentProps={comment}
+          currentUserId={currentUserId}
+          onDeleteComment={onDeleteComment}
+        />
+      ))}
+      {pageState.pageNumber < pageState.totalPage ? <div ref={ref} /> : null}
     </div>
   );
 };
