@@ -28,8 +28,8 @@ Default.args = {
   },
 };
 
-const SkeletonTemplate: ComponentStory<typeof PostCardSkeleton> = (args) => (
-  <PostCardSkeleton {...args} />
+const SkeletonTemplate: ComponentStory<typeof PostCardSkeleton> = () => (
+  <PostCardSkeleton />
 );
 
 export const Skeleton = SkeletonTemplate.bind({});

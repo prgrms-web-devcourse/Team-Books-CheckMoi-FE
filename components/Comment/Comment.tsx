@@ -34,8 +34,6 @@ export const Comment = ({
   commentProps,
   currentUserId,
   onDeleteComment,
-  isOwner = false,
-
 }: CommentProps) => {
   const [anchorEl, setAncorEl] = useState<null | HTMLElement>(null);
   const [currentValue, setCurrentValue] = useState<string>(
@@ -97,7 +95,6 @@ export const Comment = ({
   };
 
   const handleEditButtonClick = () => {
-    // TODO 수정 로직 추가
     setIsEditMode(true);
     handleClose();
   };

@@ -7,7 +7,7 @@ interface CommentSkeletonProps {
 
 export const CommentSkeleton = ({ size = "19px" }: CommentSkeletonProps) => {
   return (
-    <S.CommentContainer>
+    <S.CommentContainer isOwner={false}>
       <S.UserWrapper>
         <Skeleton variant="circular">
           <Avatar />

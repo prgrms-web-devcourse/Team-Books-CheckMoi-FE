@@ -2,8 +2,7 @@ import { apiClient } from "./api";
 import { END_POINT } from ".";
 import { TopbarUserType } from "../types/userType";
 
-
-export const getMyInfo = async (token: string) => {
+export const getMyInfo = async () => {
   const data = await apiClient.get<TopbarUserType, TopbarUserType>(
     `${END_POINT.getMyInfo}`
   );

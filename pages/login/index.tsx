@@ -16,13 +16,18 @@ const LoginPage = () => {
   useEffect(() => {
     if (token) {
       document.cookie = `token=${token}; path=/; max-age=3600;`;
-      const userInfo = getMyInfo();
-      userInfo
-        .then((responseUser) => {
-          login(responseUser);
+
+      const loginLogic = async () => {
+        try {
+          const userInfo = await getMyInfo();
+          login(userInfo);
           setIsLoginDone(true);
-        })
-        .catch((error) => setIsLoginDone(false));
+        } catch (error) {
+          setIsLoginDone(false);
+        }
+      };
+
+      loginLogic();
     }
   }, [token]);
 

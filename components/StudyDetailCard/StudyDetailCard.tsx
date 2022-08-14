@@ -5,7 +5,6 @@ import { StudyState } from "./StudyState";
 import * as S from "./style";
 import type { UserType } from "../../types/userType";
 import type { StudyStatusType, StudyType } from "../../types/studyType";
-import { BookCard } from "../BookCard";
 import { useOurSnackbar } from "../../hooks/useOurSnackbar";
 import type { BookType } from "../../types/bookType";
 
@@ -18,7 +17,6 @@ interface StudyDetailProps {
   book?: BookType;
 }
 
-// TODO Image => future Image로 수정해야 함
 export const StudyDetailCard = ({
   study,
   members = [],

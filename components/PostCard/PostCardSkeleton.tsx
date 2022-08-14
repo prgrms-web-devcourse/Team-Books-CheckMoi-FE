@@ -2,11 +2,7 @@ import { Avatar, Divider, Skeleton } from "@mui/material";
 import { Chat } from "@mui/icons-material";
 import * as S from "./style";
 
-interface PostCardSkeletonProps {
-  size?: number;
-}
-
-export const PostCardSkeleton = ({ size = 20 }: PostCardSkeletonProps) => {
+export const PostCardSkeleton = () => {
   return (
     <S.PostCard>
       <Skeleton variant="rectangular" height="21px" />
