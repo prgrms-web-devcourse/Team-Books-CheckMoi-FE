@@ -2,7 +2,7 @@ import axios from "axios";
 import type { AxiosError, AxiosRequestHeaders } from "axios";
 import type { ErrorDataType } from "../types/errorTypes";
 
-const refreshTokenExpiredMessage = "만료된 리프레쉬 토큰입니다";
+const accessTokenExpiredMessage = "만료된 액세스 토큰입니다";
 
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_END_POINT,
@@ -50,7 +50,7 @@ apiClient.interceptors.response.use(
     if (err.response?.status === 401) {
       const data = err.response.data as ErrorDataType;
 
-      if (data.errors[0].message === refreshTokenExpiredMessage) {
+      if (data.errors[0].message === accessTokenExpiredMessage) {
         const { accessToken } = await apiClient.get<
           RefreshedTokenType,
           RefreshedTokenType
