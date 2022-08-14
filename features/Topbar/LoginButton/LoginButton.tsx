@@ -42,7 +42,7 @@ export const LoginButton = () => {
             책모이 로그인
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2, mb: 2 }}>
-            로그인 방법을 선택해주세요
+            책모이는 카카오 로그인으로 이용할 수 있습니다
           </Typography>
           <a href={process.env.NEXT_PUBLIC_KAKAO_API}>
             <S.KakaoButton src="/images/kakao_login_medium_wide.png" alt="" />
