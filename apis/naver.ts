@@ -20,7 +20,6 @@ export const getNaverBooks = async (query: string, start = 1) => {
 
     throw new Error("getBooksByTitlte error");
   } catch (error) {
-    console.error(error);
     return error;
   }
 };

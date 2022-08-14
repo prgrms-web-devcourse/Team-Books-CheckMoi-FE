@@ -220,7 +220,7 @@ const PostPage = () => {
                 key={comment.id}
                 commentProps={comment}
                 currentUserId={currentUserId}
-                onReloadComment={onReloadComment}
+                onDeleteComment={onDeleteComment}
               />
             ))}
             <DeleteModal

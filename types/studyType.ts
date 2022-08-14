@@ -19,10 +19,9 @@ export interface StudyType {
   studyStartDate: string;
   studyEndDate: string;
   description: string;
-  status?: StudyStatusType | null;
+  status: StudyStatusType;
 }
 
-// TODO: 추후 null 삭제 (백 수정 이후)
 export interface StudyDetailType {
   study: StudyType;
   members: {
@@ -31,5 +30,5 @@ export interface StudyDetailType {
   }[];
   book: BookType;
   description: string;
-  status: StudyStatusType | null;
+  status: StudyStatusType;
 }

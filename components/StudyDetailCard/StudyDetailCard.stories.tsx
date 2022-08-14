@@ -23,6 +23,7 @@ Default.args = {
     studyStartDate: "2023/03/03",
     studyEndDate: "2024/04/04",
     description: "1111",
+    status: "recruiting",
   },
   members: [
     {

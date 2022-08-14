@@ -1,11 +1,6 @@
 import { apiClient } from "./api";
 import { END_POINT } from ".";
-import type { StudyDetailType, StudyType } from "../types/studyType";
-
-interface ResponseStudiesType {
-  studiesData: StudyType[];
-  totalPage: number;
-}
+import type { StudyDetailType } from "../types/studyType";
 
 export const getStudies = async (bookId: number, page = 1) => {
   const data = await apiClient.get<any, any>(

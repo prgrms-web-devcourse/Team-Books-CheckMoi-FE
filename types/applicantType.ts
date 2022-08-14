@@ -14,7 +14,7 @@ export interface ResponseApplicantsType {
 export interface ResponseApplicantMemberType {
   members: {
     id: number;
-    user: UserType; // id, name, email, image, temperature
+    user: UserType;
   }[];
 }
 

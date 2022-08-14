@@ -32,7 +32,7 @@ MyApp.getInitialProps = async (context: AppContext) => {
   const cookie = context.ctx.req?.headers.cookie;
 
   if (cookie) {
-    const [_, token] = cookie.split("token=");
+    const token = cookie.split("token=")[1];
 
     try {
       const user = await apiSSR.get<TopbarUserType, TopbarUserType>(
