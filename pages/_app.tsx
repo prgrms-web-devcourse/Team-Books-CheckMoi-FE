@@ -27,12 +27,18 @@ const MyApp = ({ Component, pageProps, user, message }: MyAppProps) => {
 };
 
 MyApp.getInitialProps = async (context: AppContext) => {
-  const flag = context.ctx.asPath?.split("error=")[1];
-  const message = flag ? "로그인 시간이 만료됨" : "";
   const cookie = context.ctx.req?.headers.cookie;
 
   if (cookie) {
-    const token = cookie.split("token=")[1];
+    const cookies = cookie.split("; ");
+    const token = cookies
+      .find((string) => string.includes("token"))
+      ?.split("token=")[1];
+    const message = cookies
+      .find((string) => string.includes("expired"))
+      ?.split("expired=")[1]
+      ? "로그인이 만료되었습니다"
+      : "";
 
     try {
       const user = await apiSSR.get<TopbarUserType, TopbarUserType>(
@@ -58,7 +64,7 @@ MyApp.getInitialProps = async (context: AppContext) => {
 
   return {
     user: null,
-    message,
+    message: "",
   };
 };
 

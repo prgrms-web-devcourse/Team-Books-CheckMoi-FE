@@ -60,7 +60,10 @@ export const Topbar = ({ message }: TopbarProps) => {
   };
 
   useEffect(() => {
-    if (message) renderSnackbar(message, "error");
+    if (message) {
+      renderSnackbar(message, "error");
+      document.cookie = "expired=; path=/";
+    }
   }, [message]);
 
   return (

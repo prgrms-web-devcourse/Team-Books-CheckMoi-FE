@@ -64,6 +64,7 @@ apiClient.interceptors.response.use(
       }
 
       document.cookie = `token=; path=/; max-age=0`;
+      document.cookie = "expired=true; path=/";
       window.location.href = "/";
     }
 
