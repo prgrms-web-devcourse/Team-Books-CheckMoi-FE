@@ -1,7 +1,7 @@
 import { MenuItem, TextField } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState, useRef } from "react";
 import {
   getBookInfo,
   createStudy,
@@ -85,9 +85,9 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     status: "",
   });
   const [isOwner, setIsOwner] = useState(true);
-  const [initStatus, setInitStatus] = useState<
-    StudyStatusType | null | undefined
-  >();
+
+  const initStatusRef = useRef<StudyStatusType | null | undefined>();
+
   const { user } = useUserContext();
 
   const router = useRouter();
@@ -121,7 +121,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
       const { title: bookTitle } = book;
 
       setIsOwner(user?.id === members[0].user.id || false);
-      setInitStatus(status);
+      initStatusRef.current = status;
 
       setStudyInfo({
         ...studyInfo,
@@ -239,6 +239,8 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
     const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
     if (file.size >= MAX_FILE_SIZE) {
       renderSnackbar("업로드할 수 있는 파일 크기는 최대 1MB입니다.", "error");
+
+      e.target.value = "";
       return;
     }
 
@@ -253,6 +255,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
         });
 
         setStudyInfo({ ...studyInfo, thumbnail: newImageUrl });
+        e.target.value = "";
       })();
     };
   };
@@ -392,7 +395,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
             <TextField
               select
               fullWidth
-              disabled={!studyId || initStatus !== "recruiting"}
+              disabled={!studyId || initStatusRef.current !== "recruiting"}
               name="status"
               variant="standard"
               label="스터디 모집 상태"
