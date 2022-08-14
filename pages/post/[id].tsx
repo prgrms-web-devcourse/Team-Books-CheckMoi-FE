@@ -14,6 +14,7 @@ import { useUserContext } from "../../hooks/useUserContext";
 import { DeleteModal } from "../../features/DeleteModal";
 import { NoAccess } from "../../components/NoAccess";
 import * as S from "../../styles/PostStyle";
+import { useInView } from "../../hooks/useInView";
 
 const PostPage = () => {
   const router = useRouter();
@@ -33,6 +34,10 @@ const PostPage = () => {
   const open = Boolean(anchorEl);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [ref, inView] = useInView();
+  const [pageState, setPageState] = useState({ pageNumber: 1, totalPage: 2 });
+  const [loading, setLoading] = useState(false);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -66,14 +71,36 @@ const PostPage = () => {
   const handleUpdateClick = async () => {
     router.push(`/postUpdate/${id}`);
   };
-  const getCommentList = async () => {
-    const result = await getComments({ postId: Number(id) });
-    setCommentList(result.comments);
+
+  const getAllCommentList = async () => {
+    const result = await getComments({
+      postId: Number(id),
+      page: pageState.totalPage,
+    });
+    // console.log("last comment", result.comments[result.comments.length - 1]);
+    setCommentList([
+      ...commentList,
+      result.comments[result.comments.length - 1],
+    ]);
+    // setCommentList(result.comments);
   };
 
   useEffect(() => {
-    getCommentList();
-  }, [id]);
+    const getCommentList = async (page = 1) => {
+      setLoading(true);
+      const data = await getComments({ postId: Number(id), page });
+      const { comments, totalPage } = data;
+      setCommentList([...commentList, ...comments]);
+      setPageState({ ...pageState, totalPage });
+      setLoading(false);
+    };
+    getCommentList(pageState.pageNumber);
+  }, [pageState.pageNumber]);
+
+  useEffect(() => {
+    if (inView && !loading)
+      setPageState({ ...pageState, pageNumber: pageState.pageNumber + 1 });
+  }, [inView]);
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -87,15 +114,18 @@ const PostPage = () => {
   const onCreateComment = async (content: string) => {
     try {
       await postComments({ postId: Number(id), content });
+      getAllCommentList();
       renderSnackbar("댓글 추가 성공");
     } catch (error) {
       renderSnackbar("댓글 추가 실패", "error");
     }
-    getCommentList();
   };
 
-  const onReloadComment = async () => {
-    await getCommentList();
+  const onDeleteComment = (commentId: number) => {
+    const updateComment = commentList.filter(
+      (comment) => comment.id !== commentId
+    );
+    setCommentList(updateComment);
   };
 
   const handleDeleteClick = async () => {
@@ -184,9 +214,10 @@ const PostPage = () => {
           key={comment.id}
           commentProps={comment}
           currentUserId={currentUserId}
-          onReloadComment={onReloadComment}
+          onDeleteComment={onDeleteComment}
         />
       ))}
+      {pageState.pageNumber !== pageState.totalPage ? <div ref={ref} /> : null}
     </div>
   );
 };

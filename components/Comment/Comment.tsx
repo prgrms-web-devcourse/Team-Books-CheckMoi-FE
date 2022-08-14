@@ -26,13 +26,13 @@ interface CommentProps {
     content: string;
   };
   currentUserId: number;
-  onReloadComment: () => void;
+  onDeleteComment: (commentId: number) => void;
 }
 
 export const Comment = ({
   commentProps,
   currentUserId,
-  onReloadComment,
+  onDeleteComment,
 }: CommentProps) => {
   const [anchorEl, setAncorEl] = useState<null | HTMLElement>(null);
   const [currentValue, setCurrentValue] = useState<string>(
@@ -57,10 +57,10 @@ export const Comment = ({
         commentId: commentProps.id,
       });
       renderSnackbar("댓글 삭제 성공");
+      onDeleteComment(commentProps.id);
     } catch (error) {
       renderSnackbar("댓글 삭제 실패", "error");
     }
-    onReloadComment();
     handleClose();
   };
 
@@ -74,7 +74,6 @@ export const Comment = ({
     } catch (error) {
       renderSnackbar("댓글 수정 실패", "error");
     }
-    onReloadComment();
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

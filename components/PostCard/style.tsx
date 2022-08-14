@@ -19,11 +19,12 @@ export const PostTitle = styled.div`
 export const PostContent = styled.div`
   padding-top: 0.5rem;
   text-overflow: ellipsis;
-  overflow: hidden;
   display: -webkit-box;
+  overflow: hidden;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  height: 4rem;
+  line-height: 1.5rem;
+  height: 5rem;
 `;
 
 export const PostCreatedAt = styled.div`
