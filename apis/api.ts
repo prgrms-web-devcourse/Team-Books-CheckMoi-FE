@@ -18,7 +18,10 @@ interface HeaderType extends AxiosRequestHeaders {
 apiClient.interceptors.request.use(
   (config) => {
     const headers = config.headers as HeaderType;
-    const [_, token] = document.cookie.split("token=");
+    const token = document.cookie
+      ?.split("; ")
+      ?.find((string) => string.includes("token"))
+      ?.split("token=")[1];
     if (token) {
       headers["Content-Type"] = "application/json";
       headers.Authorization = `Bearer ${token}`;
@@ -64,6 +67,7 @@ apiClient.interceptors.response.use(
       }
 
       document.cookie = `token=; path=/; max-age=0`;
+      document.cookie = "expired=true; path=/";
       window.location.href = "/";
     }
 
