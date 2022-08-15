@@ -97,6 +97,7 @@ export const StudyDetail = ({
           <StudyDetailCard
             study={studyInfo.study}
             members={studyInfo.members}
+            book={studyInfo.book}
           />
           <Divider color="grey" />
           <StudyContent
