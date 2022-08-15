@@ -12,7 +12,6 @@ const NotFound = () => {
       <img
         alt="길잃은 북쩍이"
         src="/images/logo.png"
-        layout="fill"
         width="50%"
         height="auto"
       />
