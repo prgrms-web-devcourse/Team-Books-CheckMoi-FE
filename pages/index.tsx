@@ -52,7 +52,6 @@ const Home = ({ books }: ServerSidePropsType) => {
       </Slider>
       <S.StyledSpan>가장 최근 스터디가 만들어진 책</S.StyledSpan>
       <Slider
-        dots
         autoplay
         infinite
         pauseOnHover
