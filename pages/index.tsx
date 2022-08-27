@@ -32,7 +32,6 @@ const Home = ({ books }: ServerSidePropsType) => {
       <HomeUI />
       <S.StyledSpan>가장 많은 스터디가 개설된 책</S.StyledSpan>
       <Slider
-        dots
         autoplay
         infinite
         pauseOnHover
