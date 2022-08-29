@@ -4,7 +4,7 @@ export const TabsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 1rem;
-  @media screen and (max-width: 475px) {
+  @media screen and (max-width: 512px) {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -16,7 +16,7 @@ export const ButtonsWrapper = styled.div`
   gap: 1rem;
   align-self: ${(props) =>
     props.className === "owner" ? "flex-start" : "flex-end"};
-  @media screen and (max-width: 475px) {
+  @media screen and (max-width: 512px) {
     & Button {
       font-size: 0.8rem;
     }
