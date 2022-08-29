@@ -200,7 +200,7 @@ const StudyDetailPage = ({ studyData }: ServerSidePropType) => {
           <Tab label="공지" />
           <Tab label="자유" />
         </Tabs>
-        <S.ButtonsWrapper>
+        <S.ButtonsWrapper className={isOwner ? "owner" : "general"}>
           {isOwner && (
             <>
               <ApplicantList
