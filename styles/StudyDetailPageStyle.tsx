@@ -4,11 +4,23 @@ export const TabsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 1rem;
+  @media screen and (max-width: 512px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 export const ButtonsWrapper = styled.div`
   display: flex;
   gap: 1rem;
+  align-self: ${(props) =>
+    props.className === "owner" ? "flex-start" : "flex-end"};
+  @media screen and (max-width: 512px) {
+    & Button {
+      font-size: 0.8rem;
+    }
+  }
 `;
 
 export const StyledUl = styled.ul`
@@ -19,11 +31,16 @@ export const StyledUl = styled.ul`
   align-items: start;
   -webkit-padding-start: 0px;
 
-  @media (max-width: 512px) {
+  @media screen and (max-width: 1440px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  @media screen and (max-width: 800px) {
     grid-template-columns: 1fr 1fr;
   }
-  @media (max-width: 1440px) {
-    grid-template-columns: 1fr 1fr 1fr;
+
+  @media screen and (max-width: 512px) {
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -35,7 +52,6 @@ export const StyledList = styled.li`
 `;
 
 export const NoPost = styled.div`
-  width: 100%;
   margin-top: 5rem;
   text-align: center;
 `;
