@@ -135,7 +135,7 @@ export const StudyOpen = ({ bookId, studyId }: StudyOpenProps) => {
         name,
         thumbnail,
         description,
-        status: status || "recruiting", // TODO: 에러 핸들링 수정 예정
+        status: status || "recruiting",
         maxParticipant,
         gatherStartDate: gatherStartDate.replaceAll("/", "-"),
         gatherEndDate: gatherEndDate.replaceAll("/", "-"),

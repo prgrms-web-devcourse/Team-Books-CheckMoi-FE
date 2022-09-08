@@ -18,7 +18,6 @@ export const Applicant = ({
   onAccepted,
   onDenied,
 }: ApplicantProps) => {
-  // TODO 필요한 것,현재 스터디 ID, 방장 토큰, 승낙/거절 유저 ID
   const handleAcceptButtonClick = () => {
     onAccepted(id);
   };
