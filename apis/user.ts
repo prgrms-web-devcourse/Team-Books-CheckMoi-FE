@@ -14,7 +14,6 @@ export const logout = async () => {
   await apiClient.delete(`${END_POINT.logout}`);
 };
 
-// TODO 추후 타입 추가
 export interface PutUserType {
   id: number;
   name: string;
@@ -29,7 +28,6 @@ export const putUser = async ({ id, name, image }: PutUserType) => {
   return data;
 };
 
-// TODO 추후 타입 추가
 export interface getUserType {
   id: number;
 }

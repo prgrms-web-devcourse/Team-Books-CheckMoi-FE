@@ -21,7 +21,7 @@ interface StudyDetailProps {
   isPage?: boolean;
 }
 
-interface Test {
+interface StudyInfoType {
   study: StudyType;
   members: {
     id: number;
@@ -42,7 +42,7 @@ export const StudyDetail = ({
   const router = useRouter();
   const [studyInfo, setStudyInfo] = useState({
     study: {},
-  } as Test);
+  } as StudyInfoType);
 
   const enterStudy = async (
     studyId: number,
