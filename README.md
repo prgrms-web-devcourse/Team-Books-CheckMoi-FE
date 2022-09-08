@@ -1,6 +1,6 @@
 # ![logo](https://user-images.githubusercontent.com/50919342/184589926-0e475e24-0e7b-4e9e-a68f-f0d9cc06e6a8.png)  책모이
 
-[책모이 바로가기](https://checkmoi.vercel.app/)
+[책모이 바로가기](https://app.checkmoi.ga/)
 
 ![스크린샷 2022-08-15 오후 4 09 56](https://user-images.githubusercontent.com/50919342/184591672-6dc3e88b-b4f1-4e85-8d4d-2025b2e44fdd.png)
 
